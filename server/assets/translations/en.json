@@ -1,0 +1,32 @@
+{
+  "get_started": {
+    "title": "Get Started",
+    "route_path": "get_started"
+  },
+  "travel": {
+    "title": "Travel",
+    "route_path": "travel"
+  },
+  "home": {
+    "title": "Home",
+    "route_path": "home"
+  },
+  "food": {
+    "title": "Food",
+    "route_path": "food"
+  },
+  "shopping": {
+    "title": "Shopping",
+    "route_path": "shopping"
+  },
+  "footprint": {
+    "title": "Footprint",
+    "route_path": "footprint"
+  },
+  "take_action": {
+    "title": "Take Action",
+    "route_path": "take_action"
+  },
+  "Next": "Next",
+  "Previous": "Previous"
+}

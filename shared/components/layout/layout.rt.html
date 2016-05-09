@@ -1,0 +1,57 @@
+<rt-require dependency="./../get_started/get_started.component" as="GetStarted"/>
+<rt-require dependency="./../travel/travel.component" as="Travel"/>
+<rt-require dependency="./../home/home.component" as="Home"/>
+<rt-require dependency="./../food/food.component" as="Food"/>
+<rt-require dependency="./../shopping/shopping.component" as="Shopping"/>
+<rt-require dependency="./../footprint/footprint.component" as="Footprint"/>
+<rt-require dependency="./../take_action/take_action.component" as="TakeAction"/>
+<rt-require dependency="./../missing/missing.component" as="Missing"/>
+<rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
+<div id="cc_calculator_ui">
+  <div id="cc_nav">
+    <div
+      rt-repeat="route in this.router.main_routes"
+      class="cc-nav__item"
+      key="{route.key}"
+      rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}">
+      <img src="/assets/img/{route.key}.png"/>
+      <span>{this.t(`${route.key}.title`)}</span>
+    </div>
+  </div>
+  <div id="banner"></div>
+  <div>
+    <GetStarted
+      rt-if="this.current_route_name === 'GetStarted'"
+      state_manager="{this.state_manager}"
+    ></GetStarted>
+    <Travel
+      rt-if="this.current_route_name === 'Travel'"
+      state_manager="{this.state_manager}"
+    ></Travel>
+    <Home
+      rt-if="this.current_route_name === 'Home'"
+      state_manager="{this.state_manager}"
+    ></Home>
+    <Food
+      rt-if="this.current_route_name === 'Food'"
+      state_manager="{this.state_manager}"
+    ></Food>
+    <Shopping
+      rt-if="this.current_route_name === 'Shopping'"
+      state_manager="{this.state_manager}"
+    ></Shopping>
+    <Footprint
+      rt-if="this.current_route_name === 'Footprint'"
+      state_manager="{this.state_manager}"
+    ></Footprint>
+    <TakeAction
+      rt-if="this.current_route_name === 'TakeAction'"
+      state_manager="{this.state_manager}"
+    ></TakeAction>
+    <Missing
+      rt-if="this.current_route_name === 'Missing'"
+      state_manager="{this.state_manager}"
+    ></GetStarted>
+  </div>
+  <Graphs state_manager="{this.state_manager}"></Graphs>
+</div>
