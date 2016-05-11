@@ -25,6 +25,10 @@ class ShoppingComponent extends TranslatableComponent {
     return this.t('shopping.title');
   }
 
+  get router(){
+    return this.props.router
+  }
+
   componentDidMount() {
     let shopping = this;
   }

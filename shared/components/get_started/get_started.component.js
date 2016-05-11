@@ -25,6 +25,10 @@ class GetStartedComponent extends TranslatableComponent {
     return this.t('get_started.title');
   }
 
+  get router(){
+    return this.props.router
+  }
+
   componentDidMount() {
     let get_started = this;
   }

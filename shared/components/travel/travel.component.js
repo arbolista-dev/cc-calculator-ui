@@ -25,6 +25,10 @@ class TravelComponent extends TranslatableComponent {
     return this.t('travel.title');
   }
 
+  get router(){
+    return this.props.router
+  }
+
   componentDidMount() {
     let travel = this;
   }

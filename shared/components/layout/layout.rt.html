@@ -13,7 +13,8 @@
       rt-repeat="route in this.router.main_routes"
       class="cc-nav__item"
       key="{route.key}"
-      rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}">
+      rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
+      onClick="{this.goToRoute.bind(this, route)}">
       <img src="/assets/img/{route.key}.png"/>
       <span>{this.t(`${route.key}.title`)}</span>
     </div>
@@ -23,34 +24,42 @@
     <GetStarted
       rt-if="this.current_route_name === 'GetStarted'"
       state_manager="{this.state_manager}"
+      router="{this.router}"
     ></GetStarted>
     <Travel
       rt-if="this.current_route_name === 'Travel'"
       state_manager="{this.state_manager}"
+      router="{this.router}"
     ></Travel>
     <Home
       rt-if="this.current_route_name === 'Home'"
       state_manager="{this.state_manager}"
+      router="{this.router}"
     ></Home>
     <Food
       rt-if="this.current_route_name === 'Food'"
       state_manager="{this.state_manager}"
+      router="{this.router}"
     ></Food>
     <Shopping
       rt-if="this.current_route_name === 'Shopping'"
       state_manager="{this.state_manager}"
+      router="{this.router}"
     ></Shopping>
     <Footprint
       rt-if="this.current_route_name === 'Footprint'"
       state_manager="{this.state_manager}"
+      router="{this.router}"
     ></Footprint>
     <TakeAction
       rt-if="this.current_route_name === 'TakeAction'"
       state_manager="{this.state_manager}"
+      router="{this.router}"
     ></TakeAction>
     <Missing
       rt-if="this.current_route_name === 'Missing'"
       state_manager="{this.state_manager}"
+      router="{this.router}"
     ></GetStarted>
   </div>
   <Graphs state_manager="{this.state_manager}"></Graphs>

@@ -5,6 +5,7 @@ export default class StateManager {
   constructor(){
     var state_manager = this;
     state_manager.state = {};
+    console.log('state_manager')
   }
 
   get params(){

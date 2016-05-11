@@ -14,7 +14,7 @@ class Server {
   constructor(){
     var server = this;
     server.dev_server = new WebpackDevServer(webpack(config), {
-      contentBase: './../build/development',
+      contentBase: './../../../client/build/development',
       publicPath: '/assets/',
       stats: {colors: true}
     });
@@ -27,7 +27,7 @@ class Server {
         app = server.app;
 
     // serve public static files.
-    app.use('/', express.static(__dirname + '/../../../build/development/' + process.env.NODE_ENV.toLowerCase()));
+    //app.use('/', express.static(__dirname + '/../../../build/development/' + process.env.NODE_ENV.toLowerCase()));
     app.use('/assets', express.static(__dirname + '/../../assets'));
 
     app.use(logger('dev'));

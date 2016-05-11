@@ -11,7 +11,7 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   output: {
     filename: '[name].js',
-    path: __dirname + '/../../build/development/assets'
+    path: __dirname + '/../../build/development'
   },
   module: {
     loaders: [

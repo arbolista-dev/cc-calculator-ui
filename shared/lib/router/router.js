@@ -8,6 +8,7 @@ export default class Router {
   constructor(state_manager, i18n) {
     let router = this;
 
+    router.i18n = i18n;
     router.routes = defineRoutes(i18n);
     router.update_in_progress = true;
     router.state_manager = state_manager;
@@ -44,6 +45,28 @@ export default class Router {
   /*
    * Client-only
    */
+
+  next(){
+    let router = this,
+        current_i = router.routes.indexOf(router.current_route),
+        next_route = router.routes[current_i + 1];
+    return router.goToRoute(next_route);
+  }
+
+  previous(){
+    let router = this,
+        current_i = router.routes.indexOf(router.current_route),
+        next_route = router.routes[current_i - 1];
+    return router.goToRoute(next_route);
+  }
+
+  goToRoute(route){
+    let router = this,
+        route_key = route.key,
+        i18n = router.i18n,
+        url = `/${i18n.language}/${i18n.t(route_key + '.route_path')}`
+    return router.history.push(url);
+  }
 
   // should be used on app initialization.
   setLocationToCurrentUrl() {

@@ -25,6 +25,10 @@ class TakeActionComponent extends TranslatableComponent {
     return this.t('take_action.title');
   }
 
+  get router(){
+    return this.props.router
+  }
+
   componentDidMount() {
     let take_action = this;
   }

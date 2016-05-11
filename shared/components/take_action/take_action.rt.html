@@ -7,7 +7,6 @@
   <div class="cc-component__form"></div>
 
   <div class="cc-component__nav">
-    <button rt-if="this.route_key !== 'get_started'" class="btn">{this.t('Previous')}</button>
-    <button rt-if="this.route_key !== 'take_action'" class="btn">{this.t('Next')}</button>
+    <button onClick="{this.router.previous.bind(this.router)}" class="btn">{this.t('Previous')}</button>
   </div>
 </div>

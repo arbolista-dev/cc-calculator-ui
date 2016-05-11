@@ -11,6 +11,7 @@ class FootprintComponent extends TranslatableComponent {
     super(props, context);
     let footprint = this;
     footprint.state = {}
+    console.log('ev')
   }
 
   get state_manager() {
@@ -23,6 +24,10 @@ class FootprintComponent extends TranslatableComponent {
 
   get title() {
     return this.t('footprint.title');
+  }
+
+  get router(){
+    return this.props.router
   }
 
   componentDidMount() {

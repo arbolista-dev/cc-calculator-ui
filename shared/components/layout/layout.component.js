@@ -26,6 +26,11 @@ class LayoutComponent extends TranslatableComponent {
     return this.props.router;
   }
 
+  goToRoute(route, _event){
+    let layout = this;
+    return layout.router.goToRoute(route);
+  }
+
   getChildContext() {
     return {
       i18n: this.context.i18n
@@ -35,7 +40,6 @@ class LayoutComponent extends TranslatableComponent {
   componentDidMount() {
     var layout = this;
     layout.router.initializeHistory(layout);
-    console.log(layout.context)
   }
 
 

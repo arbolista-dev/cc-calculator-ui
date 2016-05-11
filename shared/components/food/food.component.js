@@ -25,6 +25,10 @@ class FoodComponent extends TranslatableComponent {
     return this.t('food.title');
   }
 
+  get router(){
+    return this.props.router
+  }
+
   componentDidMount() {
     let food = this;
   }

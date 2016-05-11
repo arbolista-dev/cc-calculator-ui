@@ -25,6 +25,10 @@ class HomeComponent extends TranslatableComponent {
     return this.t('home.title');
   }
 
+  get router(){
+    return this.props.router
+  }
+
   componentDidMount() {
     let home = this;
   }
