@@ -155,13 +155,14 @@ class GetStartedComponent extends TranslatableComponent {
     });
 
   }
+
   initializeIncomeSlider(){
     let get_started = this;
 
     get_started.income_slider = new SnapSlider({
       container: '#income_slider',
       tick_labels: {
-        1: 'Average',
+        1: get_started.t('Avg'),
         2: '<10k',
         3: '10k',
         4: '20k',

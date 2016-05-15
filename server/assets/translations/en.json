@@ -34,6 +34,7 @@
     "title": "Take Action",
     "route_path": "take_action"
   },
+  "Avg": "Avg",
   "Next": "Next",
   "Previous": "Previous",
   "City": "City",
