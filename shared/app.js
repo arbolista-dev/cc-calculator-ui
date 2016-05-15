@@ -14,9 +14,8 @@ function setTranslations(){
     try {
       let i18n = i18nFactory('', XHR, ()=>{
         let language = Router.locale() || i18n.language;
-
         if (language && language !== i18n.language) {
-          i18n.changeLanguage(language, resolve);
+          i18n.changeLanguage(language, ()=>{ resolve(i18n) });
         } else {
           resolve(i18n);
         }
@@ -49,7 +48,6 @@ export default function(createHistory) {
         createHistory: createHistory,
         i18n: i18n
       }, state_manager.state);
-
       ReactDOM.render(
         React.createElement(ApplicationComponent, initial_props),
         document.getElementById('root'));

@@ -4,7 +4,43 @@
     <span>{this.title}</span>
   </div>
 
-  <div class="cc-component__form"></div>
+  <div class="cc-component__form">
+    <div class="cc-component__question">
+      <div class="btn-group" role="group">
+        <button
+          rt-repeat="mode in this.location_modes"
+          rt-class="{active: this.locationModeActive(mode[0])}"
+          key="location_mode_{mode[0]}"
+          type="button"
+          class="btn btn-default"
+          onClick="{this.setLocationMode.bind(this, mode[0])}" >{this.t(mode[1])}</button>
+      </div>
+    </div>
+
+    <div class="cc-component__question">
+      <input
+        placeholder="{this.t('get_started.location_prompt')}"
+        onChange="{this.setLocationSuggestions.bind(this)}"
+        onBlur="{this.hideLocationSuggestions.bind(this)}"
+        onFocus="{this.showLocationSuggestions.bind(this)}"/>
+      <div id="get_started_location_suggestions">
+        <div
+          rt-repeat="suggestion in this.state.location_suggests"
+          class="get-started__location-suggestion"
+          onClick="{this.setLocation.bind(this, suggestion)}">{suggestion}</div>
+      </div>
+    </div>
+
+    <div class="cc-component__question">
+      <div class="cc-component__question-label">{this.t('get_started.size.label')}</div>
+      <div id="size_slider"></div>
+    </div>
+    <div class="cc-component__question">
+      <div class="cc-component__question-label">{this.t('get_started.income.label')}</div>
+      <div id="income_slider"></div>
+    </div>
+
+  </div>
 
   <div class="cc-component__nav">
     <button onClick="{this.router.next.bind(this.router)}" class="btn">{this.t('Next')}</button>

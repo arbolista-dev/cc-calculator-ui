@@ -1,3 +1,21 @@
 <div class="cc-component" id="graphs">
-  Graphs go here.
+  Graphs to be implemented. In the meantime...
+  <table class="table">
+    <thead>
+      <tr>
+        <th>You</th>
+      </tr>
+      <tr>
+        <th>Regional Average</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        rt-repeat="key in this.state_manager.cool_climate_keys"
+        key="cc_key_{key}">
+        <td>{this.state_manager.state.user_footprint[key]}</td>
+        <td>{this.state_manager.state.average_footprint[key]}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

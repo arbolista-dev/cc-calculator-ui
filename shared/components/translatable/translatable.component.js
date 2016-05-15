@@ -20,7 +20,7 @@ class TranslatableComponent extends React.Component {
       };
     } else {
       // TODO: implement language switching
-      return i18n.getFixedT(i18n.language, 'translation');
+      return i18n.getFixedT(i18n.language, 'translations');
     }
   }
 

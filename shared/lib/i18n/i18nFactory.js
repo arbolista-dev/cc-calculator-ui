@@ -10,8 +10,8 @@ function i18nFactory(directory, provider, callback) {
     lng: 'en',
 
     // have a common namespace used around the full app
-    ns: ['translation'],
-    defaultNS: 'translation',
+    ns: ['translations'],
+    defaultNS: 'translations',
 
     debug: true,
     /* nsSeparator: false,
@@ -23,7 +23,7 @@ function i18nFactory(directory, provider, callback) {
 
     backend: {
       // path where resources get loaded from
-      loadPath: `/assets/translations/{{lng}}.json`,
+      loadPath: `/assets/{{ns}}/{{lng}}.json`,
 
       // your backend server supports multiloading
       // /locales/resources.json?lng=de+en&ns=ns1+ns2

@@ -4,7 +4,11 @@
     <span>{this.title}</span>
   </div>
 
-  <div class="cc-component__form"></div>
+  <div class="cc-component__form">
+    <input data-cc_api_key="calories_per_day"/>
+    <input data-cc_api_key="meat_per_day"/>
+
+  </div>
 
   <div class="cc-component__nav">
     <button onClick="{this.router.previous.bind(this.router)}" class="btn">{this.t('Previous')}</button>

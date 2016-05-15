@@ -1,7 +1,14 @@
 {
   "get_started": {
     "title": "Get Started",
-    "route_path": "get_started"
+    "route_path": "get_started",
+    "location_prompt": "Enter your location",
+    "income": {
+      "label": "What is your gross annual household income?"
+    },
+    "size": {
+      "label": "How many people live in your household?"
+    }
   },
   "travel": {
     "title": "Travel",
@@ -28,5 +35,9 @@
     "route_path": "take_action"
   },
   "Next": "Next",
-  "Previous": "Previous"
+  "Previous": "Previous",
+  "City": "City",
+  "County": "County",
+  "State": "State",
+  "Zipcode": "Zipcode"
 }
