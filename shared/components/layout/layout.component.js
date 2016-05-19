@@ -12,6 +12,7 @@ class LayoutComponent extends TranslatableComponent {
     super(props, context);
     var layout = this;
     layout.state = {};
+    props.state_manager.layout = layout;
   }
 
   get state_manager() {

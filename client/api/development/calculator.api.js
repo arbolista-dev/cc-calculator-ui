@@ -16,10 +16,11 @@ class CalculatorApi {
     return new Promise((fnResolve, fnReject)=>{
       let params = Object.assign({
         op: 'compute_footprint',
-        app_id: KEY_ID,
-        app_key: KEY
-      }, location);
+        internal_state_abbreviation: 'CA'
+      }, inputs);
       superagent.get(`${BASE}/footprint`)
+        .set('app_key', KEY)
+        .set('app_id', KEY_ID)
         .set('Content-Type', 'application/xml')
         .set('Accept', 'application/json')
         .query(params)
@@ -37,12 +38,12 @@ class CalculatorApi {
   // eg: location = {input_location: 06704, input_location_mode: 1, input_income: 1, input_size: 0}
   static getDefaultsAndResults(location){
     let params = Object.assign({
-      op: 'get_defaults_and_results',
-      app_id: KEY_ID,
-      app_key: KEY
+      op: 'get_defaults_and_results'
     }, location);
     return new Promise((fnResolve, fnReject)=>{
       superagent.get(`${BASE}/footprint-defaults`)
+        .set('app_key', KEY)
+        .set('app_id', KEY_ID)
         .set('Content-Type', 'application/xml')
         .query(params)
         .end((err, res)=>{

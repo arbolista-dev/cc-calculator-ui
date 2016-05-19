@@ -5,9 +5,14 @@
   </div>
 
   <div class="cc-component__form">
-    <input data-cc_api_key="calories_per_day"/>
-    <input data-cc_api_key="meat_per_day"/>
-
+    <div class="cc-component__question">
+      <div class="cc-component__question-label">{this.t('food.calories_per_day.label')}</div>
+      <input onChange="{this.updateFootprintInput.bind(this)}" data-cc_api_key="calories_per_day"/>
+    </div>
+    <div class="cc-component__question">
+      <div class="cc-component__question-label">{this.t('food.meat_per_day.label')}</div>
+      <input onChange="{this.updateFootprintInput.bind(this)}" data-cc_api_key="meat_per_day"/>
+    </div>
   </div>
 
   <div class="cc-component__nav">

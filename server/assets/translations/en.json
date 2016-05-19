@@ -12,7 +12,13 @@
   },
   "travel": {
     "title": "Travel",
-    "route_path": "travel"
+    "route_path": "travel",
+    "publictrans": {
+      "label": "Public Transit"
+    },
+    "airtotal": {
+      "label": "Air Travel"
+    }
   },
   "home": {
     "title": "Home",
@@ -20,7 +26,13 @@
   },
   "food": {
     "title": "Food",
-    "route_path": "food"
+    "route_path": "food",
+    "calories_per_day": {
+      "label": "Total calories per day"
+    },
+    "meat_per_day": {
+      "label": "Meat calories per day"
+    }
   },
   "shopping": {
     "title": "Shopping",

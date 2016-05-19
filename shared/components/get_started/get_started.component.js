@@ -1,6 +1,7 @@
 /*global module*/
 
 import React from 'react';
+import SnapSlider from 'd3-object-charts/src/range/snap_slider';
 
 import CalculatorApi from 'api/calculator.api';
 import TranslatableComponent from '../translatable/translatable.component';
@@ -48,24 +49,17 @@ class GetStartedComponent extends TranslatableComponent {
   updateDefaults(default_params){
     let get_started = this;
 
+    default_params.input_location_mode = get_started.state.input_location_mode;
+    get_started.state_manager.updateDefaultParams(default_params)
+
+    // debounce updating defaults by 500ms.
     if (get_started.$update_defaults) {
       clearTimeout(get_started.$update_defaults);
     }
 
-    // debounce updating defaults by 500ms.
     get_started.$update_defaults = setTimeout(()=>{
-      // Ensure any changes to input_location_mode are also
-      // passed to state_manager.
-      Object.assign(default_params, {
-        input_location_mode: get_started.state.input_location_mode
-      });
-      get_started.state_manager.updateDefaultsAndResults(default_params)
-        .then(()=>{
-          get_started.syncFromStateManager();
-        })
-        .catch((err)=>{
-          console.error(err);
-        });
+      // This will also make necessary update to user footprint.
+      get_started.state_manager.updateDefaults();
     }, 500);
   }
 
@@ -102,6 +96,10 @@ class GetStartedComponent extends TranslatableComponent {
           input_location_mode: get_started.state.input_location_mode,
           input_location: event.target.value
         };
+
+    get_started.setLocation(event.target.value);
+
+        /*
     if (get_started.$set_location_suggestions){
       clearTimeout(get_started.$set_location_suggestions);
     }
@@ -114,7 +112,7 @@ class GetStartedComponent extends TranslatableComponent {
             location_suggestions: res.suggestions
           });
         });
-    }, 500);
+    }, 500);*/
   }
 
   showLocationSuggestions(){
@@ -144,6 +142,7 @@ class GetStartedComponent extends TranslatableComponent {
       container: '#size_slider',
       tick_labels: { 1: '1', 2: '3', 3: '3', 4: '4', 5: '5+' },
       onSnap: function(selected_size) {
+        console.log('onSnap', selected_size);
         get_started.updateDefaults({input_size: selected_size});
       }
     });
@@ -175,6 +174,7 @@ class GetStartedComponent extends TranslatableComponent {
         11: '120k+'
       },
       onSnap: function(selected_income) {
+        console.log('onSnap', selected_income);
         get_started.updateDefaults({input_income: selected_income});
       }
     });

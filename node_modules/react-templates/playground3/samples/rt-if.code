@@ -1,9 +1,0 @@
-var <%= name %> = React.createClass({
-    getInitialState: function () {
-        return {open: false};
-    },
-    toggle: function() {
-        this.setState({open: !this.state.open});
-    },
-    render: <%= name %>RT
-});

@@ -15,21 +15,21 @@ function repeatMode1(mode, modeIndex) {
 function repeatSuggestion2(suggestion, suggestionIndex) {
     return React.createElement('div', {
         'className': 'get-started__location-suggestion',
-        'onClick': this.updateDefaults.bind(this, { input_location: suggestion })
+        'onClick': this.setLocation.bind(this, suggestion)
     }, suggestion);
 }
 export default function () {
     return React.createElement('div', {
         'className': 'cc-component',
         'id': 'get_started'
-    }, React.createElement('div', { 'className': 'cc-component__header' }, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('span', {}, this.title)), React.createElement('div', { 'className': 'cc-component__form' }, React.createElement.apply(this, [
+    }, React.createElement('div', { 'className': 'cc-component__header' }, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('span', {}, this.title)), React.createElement('div', { 'className': 'cc-component__form' }, React.createElement('div', { 'className': 'cc-component__question' }, React.createElement.apply(this, [
         'div',
         {
             'className': 'btn-group',
             'role': 'group'
         },
         _.map(this.location_modes, repeatMode1.bind(this))
-    ]), React.createElement('div', {}, React.createElement('input', {
+    ])), React.createElement('div', { 'className': 'cc-component__question' }, React.createElement('input', {
         'placeholder': this.t('get_started.location_prompt'),
         'onChange': this.setLocationSuggestions.bind(this),
         'onBlur': this.hideLocationSuggestions.bind(this),
@@ -38,7 +38,7 @@ export default function () {
         'div',
         { 'id': 'get_started_location_suggestions' },
         _.map(this.state.location_suggests, repeatSuggestion2.bind(this))
-    ]))), React.createElement('div', { 'className': 'cc-component__nav' }, React.createElement('button', {
+    ])), React.createElement('div', { 'className': 'cc-component__question' }, React.createElement('div', { 'className': 'cc-component__question-label' }, this.t('get_started.size.label')), React.createElement('div', { 'id': 'size_slider' })), React.createElement('div', { 'className': 'cc-component__question' }, React.createElement('div', { 'className': 'cc-component__question-label' }, this.t('get_started.income.label')), React.createElement('div', { 'id': 'income_slider' }))), React.createElement('div', { 'className': 'cc-component__nav' }, React.createElement('button', {
         'onClick': this.router.next.bind(this.router),
         'className': 'btn'
     }, this.t('Next'))));

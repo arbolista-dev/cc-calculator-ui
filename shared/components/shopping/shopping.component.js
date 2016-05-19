@@ -1,11 +1,13 @@
 /*global module*/
 
 import React from 'react';
+import mixin from './../../lib/mixin';
 
 import TranslatableComponent from '../translatable/translatable.component';
+import {footprint} from './../../lib/mixins/components/footprint';
 import template from './shopping.rt.html'
 
-class ShoppingComponent extends TranslatableComponent {
+class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
 
   constructor(props, context){
     super(props, context);

@@ -1,3 +1,4 @@
 build/*
 assets/*
 *.rt.js
+node_modules/

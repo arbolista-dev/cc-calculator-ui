@@ -1,11 +1,13 @@
 /*global module*/
 
 import React from 'react';
+import mixin from './../../lib/mixin';
 
 import TranslatableComponent from '../translatable/translatable.component';
+import {footprint} from './../../lib/mixins/components/footprint';
 import template from './travel.rt.html'
 
-class TravelComponent extends TranslatableComponent {
+class TravelComponent extends mixin(TranslatableComponent, footprint) {
 
   constructor(props, context){
     super(props, context);
@@ -30,10 +32,6 @@ class TravelComponent extends TranslatableComponent {
   }
 
   componentDidMount() {
-    let travel = this;
-  }
-
-  updateResults(){
     let travel = this;
   }
 

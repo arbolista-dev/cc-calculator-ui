@@ -4,7 +4,22 @@
     <span>{this.title}</span>
   </div>
 
-  <div class="cc-component__form"></div>
+  <div class="cc-component__form">
+    <div class="cc-component__question">
+      <div class="cc-component__question-label--left">{this.t('travel.publictrans.label')}</div>
+      <input
+        onChange="{this.updateFootprintInput.bind(this)}"
+        data-api_key="input_footprint_transportation_publictrans"
+        class="cc-component__question-input--right"/>
+    </div>
+    <div class="cc-component__question">
+      <div class="cc-component__question-label--left">{this.t('travel.airtotal.label')}</div>
+      <input
+        onChange="{this.updateFootprintInput.bind(this)}"
+        data-api_key="input_footprint_transportation_airtotal"
+        class="cc-component__question-input--right"/>
+    </div>
+  </div>
 
   <div class="cc-component__nav">
     <button onClick="{this.router.previous.bind(this.router)}" class="btn">{this.t('Previous')}</button>

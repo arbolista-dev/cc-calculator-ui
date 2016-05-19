@@ -1,7 +1,0 @@
-<div>
-    <List data="{[1,2,3]}">
-        <Row>
-            <div>{rowData}</div>
-        </Row>
-    </List>
-</div>

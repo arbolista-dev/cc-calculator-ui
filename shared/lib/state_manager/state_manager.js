@@ -20,10 +20,34 @@ export default class StateManager {
   }
 
   get inputs(){
-    return this.state.user_footprint;
+    return Object.keys(this.state.user_footprint).reduce((params, key)=>{
+      if (/^input/.test(key)) params[key] = this.state.user_footprint[key];
+      return params;
+    }, {});
   }
 
-  get location_inputs(){
+  setRoute(route){
+    let state_manager = this;
+    state_manager.state.route = route;
+    return Promise.resolve();
+  }
+
+  getInitialData(){
+    let state_manager = this;
+    // we'll load past user answers and get CC results here.
+    return state_manager.updateDefaults();
+  }
+
+  syncLayout(){
+    let state_manager = this;
+    if (state_manager.layout !== undefined){
+      return state_manager.layout.syncFromStateManager();
+    } else {
+      return undefined;
+    }
+  }
+
+  get default_inputs(){
     let state_manager = this,
         location;
     if (state_manager.state.user_footprint === undefined){
@@ -43,17 +67,16 @@ export default class StateManager {
     return this.state.user_footprint['input_location_mode'];
   }
 
-  setRoute(route){
+  updateDefaultParams(new_location){
     let state_manager = this;
-    state_manager.state.route = route;
-    return Promise.resolve();
+    Object.assign(state_manager.state.average_footprint, new_location);
+    Object.assign(state_manager.state.user_footprint, new_location);
   }
 
-  updateDefaultsAndResults(new_location){
-    let state_manager = this,
-        location_input = Object.assign({}, state_manager.location_inputs, new_location);
+  updateDefaults(){
+    let state_manager = this;
 
-    return CalculatorApi.getDefaultsAndResults(location_input)
+    return CalculatorApi.getDefaultsAndResults(state_manager.default_inputs)
       .then((res)=>{
         state_manager.state.average_footprint = res;
         if (state_manager.state.user_footprint === undefined){
@@ -61,9 +84,17 @@ export default class StateManager {
           return undefined
         } else {
           // If user footprint has been defined, update it with new location.
-          return state_manager.updateFootprint(new_location);
+          return state_manager.updateFootprint(state_manager.inputs);
         }
+      })
+      .then(()=>{
+        return state_manager.syncLayout();
       });
+  }
+
+  updateFootprintParams(params){
+    let state_manager = this;
+    Object.assign(state_manager.state.user_footprint, params);
   }
 
   updateFootprint(new_input){
@@ -75,13 +106,5 @@ export default class StateManager {
         return undefined;
       });
   }
-
-
-  getInitialData(){
-    let state_manager = this;
-    // we'll load past user answers and get CC results here.
-    return state_manager.updateDefaultsAndResults({});
-  }
-
 
 }

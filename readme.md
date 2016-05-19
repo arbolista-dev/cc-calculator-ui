@@ -2,27 +2,12 @@
 
 We will be reimplementing the [Cool Climate Calculator UI](http://coolclimate.berkeley.edu/calculators/household/ui.php).
 
-## Goals
-- Update design.
-- Prioritize mobile design first.
-- Improve code base for robustness, modularity, and speed.
-
-## Architectural Dependencies
-
-- [React](https://facebook.github.io/react/)
-- [React Templates](http://wix.github.io/react-templates/)
-- [ReactJs History](https://github.com/mjackson/history) - JS framework agnostic
-- [Babel with ES2015 support](https://babeljs.io/docs/learn-es2015/)
-- [Bootstrap](http://getbootstrap.com/) and jQuery for UI prototyping.
-- [Webpack](https://webpack.github.io/) - for compiling client assets
-- [Karma](https://karma-runner.github.io/0.13/index.html) and [Jasmine](http://jasmine.github.io/) for testing
+You can view the designs at [Carbon Calculator Design](https://app.box.com/files/0/f/6491312265/Carbon_Calculator_Design).
 
 ## Scripts
 
-Install dependencies
-```
-npm install
-```
+Install dependencies with `npm install`. You may need to sudo.
+
 
 ## Developing
 
@@ -31,6 +16,10 @@ To run the Webpack development server,
 ```sh
 npm run develop
 ```
+
+Go to `localhost:3000` to view app.
+
+Code changes will automatically refresh page. However, to load changes to a particular component template, you must also make a change to the JS component file.
 
 ## Testing
 
@@ -65,14 +54,14 @@ Setup uses gettext type keys - so if key is missing library will fallback on the
 Language detection uses URL, and stores information in `lang` cookie.
 You can change language by appending `lang=LANGUAGE_CODE` to query string of the URL (eg. `lang=bs`).
 
-## License
+## Architecture
 
-The MIT License (MIT)
+Architecture is based on [AnalyticsFire/spike](https://github.com/AnalyticsFire/spike).
 
-Copyright (c) <year> <copyright holders>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice must be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+- [React](https://facebook.github.io/react/)
+- [React Templates](http://wix.github.io/react-templates/)
+- [ReactJs History](https://github.com/mjackson/history) - JS framework agnostic
+- [Babel with ES2015 support](https://babeljs.io/docs/learn-es2015/)
+- [Bootstrap](http://getbootstrap.com/) and jQuery for UI prototyping.
+- [Webpack](https://webpack.github.io/) - for compiling client assets
+- [Karma](https://karma-runner.github.io/0.13/index.html) and [Jasmine](http://jasmine.github.io/) for testing
