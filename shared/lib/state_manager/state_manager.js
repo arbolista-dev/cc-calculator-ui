@@ -16,6 +16,14 @@ export default class StateManager {
     return this.state.route.params;
   }
 
+  get user_footprint(){
+    return this.state.user_footprint;
+  }
+
+  get average_footprint(){
+    return this.state.average_footprint;
+  }
+
   get cool_climate_keys(){
     return Object.keys(this.state.user_footprint)
   }

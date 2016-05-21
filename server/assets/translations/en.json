@@ -41,12 +41,38 @@
   },
   "food": {
     "title": "Food",
+    "byline": "How much do you consume of each of the following?",
     "route_path": "food",
+    "calories": "calories",
     "calories_per_day": {
       "label": "Total calories per day"
     },
-    "meat_per_day": {
-      "label": "Meat calories per day"
+    "cereals": {
+      "label": "Grains & baked goods"
+    },
+    "dairy": {
+      "label": "Dairy"
+    },
+    "fruitvegetables": {
+      "label": "Fruits & vegetables"
+    },
+    "otherfood": {
+      "label": "Snacks, drinks, etc..."
+    },
+    "meat_beefpork": {
+      "label": "Beef, pork, lamb, veal"
+    },
+    "meat_fish": {
+      "label": "Fish & seafood"
+    },
+    "meat_other": {
+      "label": "Other meat (processed, nuts, etc...)"
+    },
+    "meat_poultry": {
+      "label": "Poultry & eggs"
+    },
+    "meatfisheggs": {
+      "label": "Meat, fish, eggs"
     }
   },
   "shopping": {
