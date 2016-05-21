@@ -3,6 +3,7 @@
 import CalculatorApi from 'api/calculator.api';
 
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
+const DEFAULT_INPUTS = ['input_size', 'input_income', 'input_location', 'input_location_mode'];
 
 export default class StateManager {
 
@@ -21,7 +22,9 @@ export default class StateManager {
 
   get inputs(){
     return Object.keys(this.state.user_footprint).reduce((params, key)=>{
-      if (/^input/.test(key)) params[key] = this.state.user_footprint[key];
+      if (/^input_footprint/.test(key) || DEFAULT_INPUTS.indexOf(key) >= 0){
+        params[key] = this.state.user_footprint[key];
+      }
       return params;
     }, {});
   }
@@ -80,7 +83,7 @@ export default class StateManager {
       .then((res)=>{
         state_manager.state.average_footprint = res;
         if (state_manager.state.user_footprint === undefined){
-          state_manager.state.user_footprint = res;
+          state_manager.state.user_footprint = Object.assign({}, res);
           return undefined
         } else {
           // If user footprint has been defined, update it with new location.
@@ -99,11 +102,15 @@ export default class StateManager {
 
   updateFootprint(new_input){
     let state_manager = this,
-        input = Object.assign({}, state_manager.inputs, new_input);
+        input = Object.assign({input_changed: 1}, state_manager.inputs, new_input);
+    Object.assign(state_manager.state.user_footprint, {input_changed: 1}, new_input);
     return CalculatorApi.computeFootprint(input)
       .then((res)=>{
-        state_manager.state.user_footprint = res;
+        Object.assign(state_manager.state.user_footprint, res);
         return undefined;
+      })
+      .then(()=>{
+        return state_manager.syncLayout();
       });
   }
 

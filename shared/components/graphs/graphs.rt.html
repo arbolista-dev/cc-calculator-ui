@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <tr
-        rt-repeat="key in this.state_manager.cool_climate_keys"
+        rt-repeat="key in this.state_manager.cool_climate_keys.sort()"
         key="cc_key_{key}">
         <td>{key}</td>
         <td>{this.state_manager.state.user_footprint[key]}</td>

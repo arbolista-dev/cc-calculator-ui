@@ -12,12 +12,27 @@
   },
   "travel": {
     "title": "Travel",
+    "byline": "How do you get around?",
     "route_path": "travel",
+    "add_vehicle": "Add vehicle",
+    "miles_per_year": "miles/year",
+    "miles_per_gallon": "miles per gallon",
+    "gasoline": "Gasoline",
+    "diesel": "Diesel",
     "publictrans": {
-      "label": "Public Transit"
+      "label": "Public Transit",
+      "bus": "Bus",
+      "transit_rail": "Transit Rail (light&heavy)",
+      "commuter_rail": "Commuter Rail",
+      "inter_city_rail": "Inter-city Rail (Amtrak)"
     },
-    "airtotal": {
-      "label": "Air Travel"
+    "air": {
+      "label": "Air Travel",
+      "advanced_sub_label": "Number of one-way flights",
+      "short": "Short (< 400 mi)",
+      "medium": "Medium (400 - 1500 mi)",
+      "long": "long (1500 - 3000 mi)",
+      "extended": "Extended (> 3000 mi)"
     }
   },
   "home": {
@@ -46,11 +61,18 @@
     "title": "Take Action",
     "route_path": "take_action"
   },
+  "component": {
+    "labels": {
+      "simple": "Simple",
+      "advanced": "Advanced"
+    }
+  },
   "Avg": "Avg",
   "Next": "Next",
   "Previous": "Previous",
   "City": "City",
   "County": "County",
+  "Remove": "Remove",
   "State": "State",
   "Zipcode": "Zipcode"
 }

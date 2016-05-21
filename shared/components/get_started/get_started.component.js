@@ -1,7 +1,7 @@
 /*global module*/
 
 import React from 'react';
-import SnapSlider from 'd3-object-charts/src/range/snap_slider';
+import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 
 import CalculatorApi from 'api/calculator.api';
 import TranslatableComponent from '../translatable/translatable.component';
