@@ -77,7 +77,31 @@
   },
   "shopping": {
     "title": "Shopping",
-    "route_path": "shopping"
+    "byline": "How much do you spend on each of the following?",
+    "route_path": "shopping",
+    "dollars_per_month": "$/month",
+    "enter_data_help": "Please enter USD spent per month by category",
+    "services": {
+      "label": "Services"
+    },
+    "goods": {
+      "label": "Goods"
+    },
+    "furnitureappliances": {"label": "Furniture & appliances"},
+    "clothing": {"label": "Clothing"},
+    "other_entertainment": {"label": "Entertainment"},
+    "other_office": {"label": "Paper, office, & reading"},
+    "other_personalcare": {"label": "Personal care & cleaning"},
+    "other_autoparts": {"label": "Auto parts"},
+    "other_medical": {"label": "Medical"},
+    "healthcare": {"label": "Health Care"},
+    "education": {"label": "Information & Communication"},
+    "communications": {"label": "Medical"},
+    "vehicleservices": {"label": "Vehicle services"},
+    "finance": {"label": "Personal business & finance"},
+    "household": {"label": "Household maintenance & repair"},
+    "charity": {"label": "Organizations & Charity"},
+    "miscservices": {"label": "Other services"}
   },
   "footprint": {
     "title": "Footprint",

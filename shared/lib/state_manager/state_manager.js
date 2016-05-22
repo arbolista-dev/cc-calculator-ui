@@ -108,12 +108,13 @@ export default class StateManager {
     Object.assign(state_manager.state.user_footprint, params);
   }
 
-  updateFootprint(new_input){
+  updateFootprint(){
     let state_manager = this,
-        input = Object.assign({input_changed: 1}, state_manager.inputs, new_input);
-    Object.assign(state_manager.state.user_footprint, {input_changed: 1}, new_input);
+        input = Object.assign({input_changed: 1}, state_manager.inputs);
+    Object.assign(state_manager.state.user_footprint, {input_changed: 1});
     return CalculatorApi.computeFootprint(input)
       .then((res)=>{
+        console.log(res)
         Object.assign(state_manager.state.user_footprint, res);
         return undefined;
       })

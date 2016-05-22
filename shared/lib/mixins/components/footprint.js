@@ -9,7 +9,7 @@ export const footprint = {
 
   updateFootprint: function(params){
     let component = this;
-
+    console.log('new params', params)
     component.state_manager.updateFootprintParams(params);
 
     // debounce updating footprint by 500ms.
