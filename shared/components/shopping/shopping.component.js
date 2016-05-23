@@ -24,13 +24,18 @@ class ShoppingComponent extends Panel {
   constructor(props, context){
     super(props, context);
     let shopping = this;
+
     shopping.state = Object.assign({
       simple: true
-    }, shopping.initial_shopping_state);
+    }, shopping.userApiState());
   }
 
   get api_key_base(){
     return 'input_footprint_shopping';
+  }
+
+  get relevant_api_keys(){
+    return GOODS_QUESTIONS.concat(SERVICES_QUESTIONS);
   }
 
   get goods_questions(){
@@ -49,20 +54,6 @@ class ShoppingComponent extends Panel {
     return this.defaultApiValue('input_footprint_shopping_services_total');
   }
 
-  get initial_shopping_state(){
-    let initial_state = {},
-        shopping = this;
-    GOODS_QUESTIONS.forEach((goods_type)=>{
-      let api_key = shopping.apiKey(goods_type);
-      initial_state[goods_type] = shopping.userApiValue(api_key);
-    });
-    SERVICES_QUESTIONS.forEach((services_type)=>{
-      let api_key = shopping.apiKey(services_type);
-      initial_state[services_type] = shopping.userApiValue(api_key);
-    });
-    return initial_state;
-  }
-
   // overriding footprintable method.
   apiKey(type){
     let shopping = this;
@@ -71,10 +62,6 @@ class ShoppingComponent extends Panel {
     } else {
       return `input_footprint_shopping_services_${type}`;
     }
-  }
-
-  displayMonthlyExpenditure(type){
-    return Math.round(this.state[type]);
   }
 
   /*
@@ -91,7 +78,7 @@ class ShoppingComponent extends Panel {
     let shopping = this,
         api_key = event.target.dataset.api_key,
         type = event.target.dataset.type;
-    shopping.setState({[type]: event.target.value});
+    shopping.setState({[api_key]: event.target.value});
     shopping.updateFootprint({[api_key]: event.target.value});
   }
 
@@ -161,17 +148,17 @@ class ShoppingComponent extends Panel {
         5: '5x',
       },
       onChange: (multiplier)=>{
-        let service_state = {},
-          update_params = SERVICES_QUESTIONS.reduce((hash, service_type)=>{
+        let update_params = SERVICES_QUESTIONS.reduce((hash, service_type)=>{
             let api_key = shopping.apiKey(service_type),
                 new_value = multiplier * shopping.expendAverage(service_type);
-            service_state[service_type] = new_value;
             hash[api_key] = new_value;
             return hash;
           }, {}),
-          services_total = multiplier * shopping.average_services_expend;
-        update_params['input_footprint_shopping_services_total'] = services_total;
-        shopping.setState(service_state);
+          total_api_key = 'input_footprint_shopping_services_total',
+          total_services = multiplier * shopping.average_services_expend;
+
+        update_params[total_api_key] = total_services;
+        shopping.setState(update_params);
         shopping.updateFootprint(update_params);
       }
     });
@@ -204,12 +191,14 @@ class ShoppingComponent extends Panel {
             hash[api_key] = new_value;
             return hash;
           }, {}),
-          services_total = multiplier * shopping.average_goods_expend;
-        update_params['input_footprint_shopping_goods_total'] = services_total;
-        shopping.setState(goods_state);
+          total_api_key = 'input_footprint_shopping_goods_total',
+          total_goods = multiplier * shopping.average_goods_expend;
+        update_params[total_api_key] = total_goods;
+        shopping.setState(update_params);
         shopping.updateFootprint(update_params);
       }
     });
+    console.log('hi')
     shopping.services_slider.drawData({
       abs_min: 0,
       abs_max: 5,

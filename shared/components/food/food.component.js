@@ -7,7 +7,7 @@ import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 import Panel from './../../lib/base_classes/panel';
 import template from './food.rt.html'
 
-const FOOD_TYPES = ['meatfisheggs', 'meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry',
+const RELEVANT_API_KEYS = ['meatfisheggs', 'meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry',
                     'cereals', 'dairy', 'fruitvegetables', 'otherfood'],
       MEAT_TYPES = ['meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry'];
 
@@ -19,24 +19,15 @@ class FoodComponent extends Panel {
     food.sliders = [];
     food.state = Object.assign({
       simple: true
-    }, food.initial_meat_state);
+    }, food.userApiState());
   }
 
   get api_key_base(){
     return 'input_footprint_shopping_food';
   }
 
-  get food_types(){
-    return FOOD_TYPES;
-  }
-
-  get initial_meat_state(){
-    let food = this;
-    return FOOD_TYPES.reduce((hash, food_type)=>{
-      let api_key = food.apiKey(food_type);
-      hash[food_type] = food.state_manager.user_footprint[api_key];
-      return hash;
-    }, {});
+  get relevant_api_keys(){
+    return RELEVANT_API_KEYS;
   }
 
   /*
@@ -49,7 +40,7 @@ class FoodComponent extends Panel {
 
   componentDidMount(){
     let food = this;
-    FOOD_TYPES.forEach((food_type)=>{
+    RELEVANT_API_KEYS.forEach((food_type)=>{
       food.initializeSlider(food_type)
     });
   }
@@ -102,12 +93,6 @@ class FoodComponent extends Panel {
    * Food Sliders
    */
 
-  calorieAverage(food_type){
-    let food = this,
-        api_key = food.apiKey(food_type);
-    return food.defaultApiValue(api_key);
-  }
-
   displayUserCalories(food_type){
     let api_key = this.apiKey(food_type);
     return Math.round(this.userApiValue(api_key));
@@ -130,11 +115,11 @@ class FoodComponent extends Panel {
           food.distributeAverageMeatCalories(multiplier);
         } else {
           let api_key = food.apiKey(food_type),
-              calorie_value = food.applyAverageCalorieMultiplier(food_type, multiplier);
-          food.setState({
-            [food_type]: calorie_value
-          });
-          food.updateFootprint({[api_key]: calorie_value});
+              update = {
+                [api_key]: food.applyAverageCalorieMultiplier(food_type, multiplier)
+              }
+          food.setState(update);
+          food.updateFootprint(update);
         }
       }
     });
@@ -147,27 +132,25 @@ class FoodComponent extends Panel {
 
   distributeAverageMeatCalories(multiplier){
     let food = this,
-        meat_state = {},
         update_params = MEAT_TYPES.reduce((hash, meat_type)=>{
           let api_key = food.apiKey(meat_type),
               calories = food.applyAverageCalorieMultiplier(meat_type, multiplier);
           food.sliders[meat_type].setValue(multiplier, {exec_callback: false});
-          meat_state[meat_type] = calories;
           hash[api_key] = calories;
           return hash;
         }, {}),
+        total_api_key = food.apiKey('meatfisheggs'),
         total_meat = food.applyAverageCalorieMultiplier('meatfisheggs', multiplier);
-    update_params[food.apiKey('meatfisheggs')] = total_meat;
-    meat_state['meatfisheggs'] = total_meat;
+    update_params[total_api_key] = total_meat;
 
-    food.setState(meat_state);
+    food.setState(update_params);
     food.updateFootprint(update_params);
   }
 
   applyAverageCalorieMultiplier(food_type, multiplier){
     let food = this,
         api_key = food.apiKey(food_type),
-        calorie_average = food.calorieAverage(food_type);
+        calorie_average = food.defaultApiValue(api_key);
     return multiplier * calorie_average;
   }
 

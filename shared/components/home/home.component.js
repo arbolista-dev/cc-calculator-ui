@@ -74,7 +74,7 @@ class HomeComponent extends Panel {
         api_key = event.target.dataset.api_key,
         update = { [api_key]: event.target.value };
     home.setState(update);
-    home.state_manager.updateFootprintParams(update);
+    home.updateFootprintParams(update);
   }
 
   /*

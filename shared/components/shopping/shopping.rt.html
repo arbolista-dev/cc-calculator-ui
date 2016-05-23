@@ -29,7 +29,7 @@
         <h4 class="cc-component__question-label">{this.t(`shopping.${goods_type}.label`)}</h4>
         <input
           onChange="{this.updateMonthlyExpenditure.bind(this)}"
-          value="{this.displayMonthlyExpenditure.bind(this, goods_type)}"
+          value="{this.displayUserApiStateValue(goods_type)}"
           placeholder="{this.t('units.usd_per_month')}}"
           data-type="{goods_type}"
           data-api_key="{this.apiKey(goods_type)}"
@@ -43,7 +43,7 @@
         <h4 class="cc-component__question-label">{this.t(`shopping.${service_type}.label`)}</h4>
         <input
           onChange="{this.updateMonthlyExpenditure.bind(this)}"
-          value="{this.displayMonthlyExpenditure.bind(this, service_type)}"
+          value="{this.displayUserApiStateValue(service_type)}"
           placeholder="{this.t('units.usd_per_month')}}"
           data-type="{service_type}"
           data-api_key="{this.apiKey(service_type)}"

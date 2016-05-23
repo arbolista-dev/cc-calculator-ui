@@ -6,7 +6,7 @@ function repeatGoods_type1(goods_type, goods_typeIndex) {
         'className': 'cc-component__question'
     }, React.createElement('h4', { 'className': 'cc-component__question-label' }, this.t(`shopping.${ goods_type }.label`)), React.createElement('input', {
         'onChange': this.updateMonthlyExpenditure.bind(this),
-        'value': this.displayMonthlyExpenditure.bind(this, goods_type),
+        'value': this.displayUserApiStateValue(goods_type),
         'placeholder': this.t('units.usd_per_month') + '}',
         'data-type': goods_type,
         'data-api_key': this.apiKey(goods_type),
@@ -19,7 +19,7 @@ function repeatService_type2(service_type, service_typeIndex) {
         'className': 'cc-component__question'
     }, React.createElement('h4', { 'className': 'cc-component__question-label' }, this.t(`shopping.${ service_type }.label`)), React.createElement('input', {
         'onChange': this.updateMonthlyExpenditure.bind(this),
-        'value': this.displayMonthlyExpenditure.bind(this, service_type),
+        'value': this.displayUserApiStateValue(service_type),
         'placeholder': this.t('units.usd_per_month') + '}',
         'data-type': service_type,
         'data-api_key': this.apiKey(service_type),

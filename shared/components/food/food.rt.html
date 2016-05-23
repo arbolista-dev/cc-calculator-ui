@@ -12,12 +12,12 @@
   </div>
 
   <div class="cc-component__form">
-    <div rt-repeat="food_type in this.food_types"
+    <div rt-repeat="food_type in this.relevant_api_keys"
       key="food_question_{food_type}">
       <div class="cc-component__question" rt-class="{hidden: !this.shouldShow(food_type)}">
         <div class="cc-component__question-label">{this.t(`food.${food_type}.label`)}</div>
         <div id="food_average_slider_{food_type}"></div>
-        <div>{this.displayUserCalories(food_type)} <i>{this.t('food.calories')}</i></div>
+        <div>{this.displayUserApiStateValue(food_type)} <i>{this.t('food.calories')}</i></div>
       </div>
     </div>
   </div>

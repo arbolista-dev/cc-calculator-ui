@@ -4,6 +4,11 @@ export let footprintable = {
     return `${this.api_key_base}_${key_end}`;
   },
 
+  displayUserApiStateValue(api_suffix){
+    let api_key = this.apiKey(api_suffix);
+    return Math.round(this.state[api_key]);
+  },
+
   userApiValue: function(api_key){
     return this.state_manager.user_footprint[api_key];
   },
@@ -21,6 +26,10 @@ export let footprintable = {
     }, {});
   },
 
+  updateFootprintParams(params){
+    this.state_manager.updateFootprintParams(params);
+  },
+
   updateFootprintInput: function(event){
     let component = this,
         api_key = event.target.dataset.api_key,
@@ -33,7 +42,7 @@ export let footprintable = {
 
   updateFootprint: function(params){
     let component = this;
-    component.state_manager.updateFootprintParams(params);
+    component.updateFootprintParams(params);
 
     // debounce updating footprint by 500ms.
     if (component.$update_footprint) {

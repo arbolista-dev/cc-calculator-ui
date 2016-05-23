@@ -6,18 +6,22 @@ import Panel from './../../lib/base_classes/panel';
 import template from './travel.rt.html';
 import Vehicle from './vehicle';
 
+
+const RELEVANT_API_KEYS = ['publictrans', 'bus', 'transit', 'commuter', 'intercity',
+    'airtotal', 'airshort', 'airmedium', 'airlong', 'airextended'];
+
 class TravelComponent extends Panel {
 
   constructor(props, context){
     super(props, context);
     let travel = this;
-    travel.state = {
+    travel.state = Object.assign({
       simple: true,
       vehicles: [
         new Vehicle({}, travel),
         new Vehicle({}, travel)
       ]
-    }
+    }, travel.userApiState());
   }
 
   get vehicles(){
@@ -26,6 +30,14 @@ class TravelComponent extends Panel {
 
   get vehicles_maxed(){
     return this.vehicles.length === 10;
+  }
+
+  get api_key_base(){
+    return 'input_footprint_transportation';
+  }
+
+  get relevant_api_keys(){
+    return RELEVANT_API_KEYS;
   }
 
   /*
@@ -73,6 +85,7 @@ class TravelComponent extends Panel {
     travel.setState({
       simple: false
     });
+    console.log(this.state)
     travel.updateFootprintParams({
       input_footprint_transportation_groundtype: 1,
       input_footprint_transportation_airtype: 1
@@ -96,6 +109,7 @@ class TravelComponent extends Panel {
         vehicle_params[`input_footprint_transportation_miles${i}`] = 0;
       }
     }
+    travel.setState({vehiles: travel.state.vehicles});
     travel.updateFootprint(vehicle_params);
   }
 

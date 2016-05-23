@@ -7,7 +7,7 @@ function repeatFood_type1(food_type, food_typeIndex) {
                 res.push(key);
             }
         }, []).join(' ')
-    }, React.createElement('div', { 'className': 'cc-component__question-label' }, this.t(`food.${ food_type }.label`)), React.createElement('div', { 'id': 'food_average_slider_' + food_type }), React.createElement('div', {}, this.displayUserCalories(food_type), ' ', React.createElement('i', {}, this.t('food.calories')))));
+    }, React.createElement('div', { 'className': 'cc-component__question-label' }, this.t(`food.${ food_type }.label`)), React.createElement('div', { 'id': 'food_average_slider_' + food_type }), React.createElement('div', {}, this.displayUserApiStateValue(food_type), ' ', React.createElement('i', {}, this.t('food.calories')))));
 }
 export default function () {
     return React.createElement('div', {
@@ -22,7 +22,7 @@ export default function () {
     }, this.t('component.labels.advanced')))), React.createElement.apply(this, [
         'div',
         { 'className': 'cc-component__form' },
-        _.map(this.food_types, repeatFood_type1.bind(this))
+        _.map(this.relevant_api_keys, repeatFood_type1.bind(this))
     ]), React.createElement('div', { 'className': 'cc-component__nav' }, React.createElement('button', {
         'onClick': this.router.previous.bind(this.router),
         'className': 'btn'

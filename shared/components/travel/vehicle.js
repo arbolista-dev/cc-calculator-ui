@@ -22,6 +22,14 @@ export default class Vehicle {
     return `vehicle_mpg_${vehicle.id}`;
   }
 
+  get display_miles(){
+    return Math.round(this.miles);
+  }
+
+  get display_mpg(){
+    return Math.round(this.mpg);
+  }
+
   cc_inputs(index){
     let vehicle = this;
     return {
