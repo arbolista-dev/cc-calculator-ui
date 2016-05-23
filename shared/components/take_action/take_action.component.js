@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import TranslatableComponent from '../translatable/translatable.component';
+import Panel from './../../lib/base_classes/panel';
 import template from './take_action.rt.html'
 
-class TakeActionComponent extends TranslatableComponent {
+class TakeActionComponent extends Panel {
 
   constructor(props, context){
     super(props, context);

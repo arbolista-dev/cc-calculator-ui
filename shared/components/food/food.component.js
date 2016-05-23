@@ -4,15 +4,14 @@ import React from 'react';
 import mixin from './../../lib/mixin';
 import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
-import TranslatableComponent from '../translatable/translatable.component';
-import {footprint} from './../../lib/mixins/components/footprint';
+import Panel from './../../lib/base_classes/panel';
 import template from './food.rt.html'
 
 const FOOD_TYPES = ['meatfisheggs', 'meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry',
                     'cereals', 'dairy', 'fruitvegetables', 'otherfood'],
       MEAT_TYPES = ['meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry'];
 
-class FoodComponent extends mixin(TranslatableComponent, footprint) {
+class FoodComponent extends Panel {
 
   constructor(props, context){
     super(props, context);
@@ -23,20 +22,8 @@ class FoodComponent extends mixin(TranslatableComponent, footprint) {
     }, food.initial_meat_state);
   }
 
-  get state_manager() {
-    return this.props.state_manager;
-  }
-
-  get route_key() {
-    return this.state_manager.state.route.key;
-  }
-
-  get title() {
-    return this.t('food.title');
-  }
-
-  get router(){
-    return this.props.router
+  get api_key_base(){
+    return 'input_footprint_shopping_food';
   }
 
   get food_types(){
@@ -52,13 +39,13 @@ class FoodComponent extends mixin(TranslatableComponent, footprint) {
     }, {});
   }
 
+  /*
+   * React Events
+   */
+
   render(){
     return template.call(this);
   }
-
-  /*
-   * Callbacks
-   */
 
   componentDidMount(){
     let food = this;
@@ -75,6 +62,10 @@ class FoodComponent extends mixin(TranslatableComponent, footprint) {
     return this.state.simple;
   }
 
+  get advanced(){
+    return !this.simple
+  }
+
   shouldShow(food_type){
     let food = this;
     if (food.simple){
@@ -87,20 +78,22 @@ class FoodComponent extends mixin(TranslatableComponent, footprint) {
 
   setSimple(){
     let food = this;
+    if (food.simple) return true;
     food.setState({
       simple: true
     });
-    food.state_manager.updateFootprint({
+    food.updateFootprintParams({
       input_footprint_shopping_food_meattype: 0
     });
   }
 
   setAdvanced(){
     let food = this;
+    if (food.advanced) return true;
     food.setState({
       simple: false
     });
-    food.state_manager.updateFootprint({
+    food.updateFootprintParams({
       input_footprint_shopping_food_meattype: 1
     });
   }
@@ -109,19 +102,15 @@ class FoodComponent extends mixin(TranslatableComponent, footprint) {
    * Food Sliders
    */
 
-  apiKey(food_type){
-    return `input_footprint_shopping_food_${food_type}`;
-  }
-
   calorieAverage(food_type){
     let food = this,
-        api_default_key = `input_footprint_shopping_food_${food_type}_default`;
-    return food.state_manager.user_footprint[api_default_key];
+        api_key = food.apiKey(food_type);
+    return food.defaultApiValue(api_key);
   }
 
   displayUserCalories(food_type){
     let api_key = this.apiKey(food_type);
-    return Math.round(this.state_manager.user_footprint[api_key]);
+    return Math.round(this.userApiValue(api_key));
   }
 
   initializeSlider(food_type){
@@ -153,7 +142,7 @@ class FoodComponent extends mixin(TranslatableComponent, footprint) {
       abs_min: 0,
       abs_max: 5,
       current_value: 1
-    })
+    });
   }
 
   distributeAverageMeatCalories(multiplier){
@@ -184,12 +173,7 @@ class FoodComponent extends mixin(TranslatableComponent, footprint) {
 
 }
 
-FoodComponent.propTypes = {
-
-};
-FoodComponent.contextTypes = {
-  i18n: React.PropTypes.any
-}
+FoodComponent.propTypes = {};
 
 FoodComponent.NAME = 'Food';
 

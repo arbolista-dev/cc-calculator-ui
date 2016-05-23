@@ -37,7 +37,15 @@
   },
   "home": {
     "title": "Home",
-    "route_path": "home"
+    "route_path": "home",
+    "byline": "How much do you use in your home?",
+    "electricity": {"label": "Electricity"},
+    "cleanpercent": {"label": "Percent purchased from a clean energy program"},
+    "naturalgas": {"label": "Natural Gas"},
+    "heatingoil": {"label": "Heating Oil & Other Fuels"},
+    "squarefeet": {"label": "Square ft. of living space"},
+    "watersewage": {"label": "Water Usage"}
+
   },
   "food": {
     "title": "Food",
@@ -111,12 +119,21 @@
     "title": "Take Action",
     "route_path": "take_action"
   },
+  "units": {
+    "usd_per_year": "$/year",
+    "usd_per_month": "$/month",
+    "kwh_per_year": "kWh/year",
+    "therms_per_year": "therms/year",
+    "cuft_per_year": "cuft/year",
+    "gallons_per_year": "gallons/month"
+  },
   "component": {
     "labels": {
       "simple": "Simple",
       "advanced": "Advanced"
     }
   },
+  "route_doesnt_exist": "The route you requested does not exist!",
   "Avg": "Avg",
   "Next": "Next",
   "Previous": "Previous",
@@ -125,4 +142,5 @@
   "Remove": "Remove",
   "State": "State",
   "Zipcode": "Zipcode"
+
 }

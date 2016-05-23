@@ -1,14 +1,12 @@
 /*global module*/
 
 import React from 'react';
-import mixin from './../../lib/mixin';
 
-import TranslatableComponent from '../translatable/translatable.component';
-import {footprint} from './../../lib/mixins/components/footprint';
+import Panel from './../../lib/base_classes/panel';
 import template from './travel.rt.html';
 import Vehicle from './vehicle';
 
-class TravelComponent extends mixin(TranslatableComponent, footprint) {
+class TravelComponent extends Panel {
 
   constructor(props, context){
     super(props, context);
@@ -20,22 +18,6 @@ class TravelComponent extends mixin(TranslatableComponent, footprint) {
         new Vehicle({}, travel)
       ]
     }
-    travel.state_manager.updateFootprintParams({
-      input_footprint_transportation_groundtype: 0,
-      input_footprint_transportation_airtype: 0
-    });
-  }
-
-  get state_manager() {
-    return this.props.state_manager;
-  }
-
-  get route_key() {
-    return this.state_manager.state.route.key;
-  }
-
-  get router(){
-    return this.props.router
   }
 
   get vehicles(){
@@ -46,11 +28,19 @@ class TravelComponent extends mixin(TranslatableComponent, footprint) {
     return this.vehicles.length === 10;
   }
 
+  /*
+   * React Events
+   */
+
   componentDidMount(){
     let travel = this;
     travel.vehicles.forEach((vehicle)=>{
       vehicle.initializeMpgSlider();
     });
+  }
+
+  render(){
+    return template.call(this);
   }
 
   /*
@@ -61,12 +51,17 @@ class TravelComponent extends mixin(TranslatableComponent, footprint) {
     return this.state.simple;
   }
 
+  get advanced(){
+    return !this.state.simple;
+  }
+
   setSimple(){
     let travel = this;
+    if (travel.simple) return true;
     travel.setState({
       simple: true
     });
-    travel.state_manager.updateFootprintParams({
+    travel.updateFootprintParams({
       input_footprint_transportation_groundtype: 0,
       input_footprint_transportation_airtype: 0
     });
@@ -74,10 +69,11 @@ class TravelComponent extends mixin(TranslatableComponent, footprint) {
 
   setAdvanced(){
     let travel = this;
+    if (travel.advanced) return true;
     travel.setState({
       simple: false
     });
-    travel.state_manager.updateFootprintParams({
+    travel.updateFootprintParams({
       input_footprint_transportation_groundtype: 1,
       input_footprint_transportation_airtype: 1
     })
@@ -135,15 +131,9 @@ class TravelComponent extends mixin(TranslatableComponent, footprint) {
     travel.updateVehicleFootprint();
   }
 
-  render(){
-    return template.call(this);
-  }
-
 }
 
-TravelComponent.propTypes = {
-
-};
+TravelComponent.propTypes = {};
 
 TravelComponent.NAME = 'Travel';
 

@@ -1,11 +1,9 @@
 /*global module*/
 
 import React from 'react';
-import mixin from './../../lib/mixin';
 import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
-import TranslatableComponent from '../translatable/translatable.component';
-import {footprint} from './../../lib/mixins/components/footprint';
+import Panel from './../../lib/base_classes/panel';
 import template from './shopping.rt.html'
 
 // We are ignoring goods_other_total - if advanced selected,
@@ -21,7 +19,7 @@ const GOODS_QUESTIONS = [
     ];
 
 
-class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
+class ShoppingComponent extends Panel {
 
   constructor(props, context){
     super(props, context);
@@ -31,20 +29,8 @@ class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
     }, shopping.initial_shopping_state);
   }
 
-  get state_manager() {
-    return this.props.state_manager;
-  }
-
-  get route_key() {
-    return this.state_manager.state.route.key;
-  }
-
-  get title() {
-    return this.t('shopping.title');
-  }
-
-  get router(){
-    return this.props.router
+  get api_key_base(){
+    return 'input_footprint_shopping';
   }
 
   get goods_questions(){
@@ -52,7 +38,7 @@ class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
   }
 
   get average_goods_expend(){
-    return this.state_manager.average_footprint['input_footprint_shopping_goods_total'];
+    return this.defaultApiValue('input_footprint_shopping_goods_total');
   }
 
   get services_questions(){
@@ -60,7 +46,7 @@ class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
   }
 
   get average_services_expend(){
-    return this.state_manager.average_footprint['input_footprint_shopping_services_total'];
+    return this.defaultApiValue('input_footprint_shopping_services_total');
   }
 
   get initial_shopping_state(){
@@ -68,15 +54,16 @@ class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
         shopping = this;
     GOODS_QUESTIONS.forEach((goods_type)=>{
       let api_key = shopping.apiKey(goods_type);
-      initial_state[goods_type] = shopping.state_manager.user_footprint[api_key];
+      initial_state[goods_type] = shopping.userApiValue(api_key);
     });
     SERVICES_QUESTIONS.forEach((services_type)=>{
       let api_key = shopping.apiKey(services_type);
-      initial_state[services_type] = shopping.state_manager.user_footprint[api_key];
+      initial_state[services_type] = shopping.userApiValue(api_key);
     });
     return initial_state;
   }
 
+  // overriding footprintable method.
   apiKey(type){
     let shopping = this;
     if (GOODS_QUESTIONS.indexOf(type) >= 0){
@@ -126,7 +113,7 @@ class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
     shopping.setState({
       simple: true
     });
-    shopping.updateFootprint({
+    shopping.updateFootprintParams({
       input_footprint_shopping_goods_type: 0,
       input_footprint_shopping_goods_other_type: 1,
       input_footprint_shopping_services_type: 0
@@ -139,7 +126,7 @@ class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
     shopping.setState({
       simple: false
     });
-    shopping.updateFootprint({
+    shopping.updateFootprintParams({
       input_footprint_shopping_goods_type: 1,
       input_footprint_shopping_goods_other_type: 1,
       input_footprint_shopping_services_type: 1
@@ -157,7 +144,7 @@ class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
   expendAverage(type){
     let shopping = this,
         api_key = shopping.apiKey(type);
-    return shopping.state_manager.average_footprint[api_key];
+    return shopping.defaultApiValue(api_key);
   }
 
   initializeServicesSlider(){
@@ -232,12 +219,7 @@ class ShoppingComponent extends mixin(TranslatableComponent, footprint) {
 
 }
 
-ShoppingComponent.propTypes = {
-
-};
-ShoppingComponent.contextTypes = {
-  i18n: React.PropTypes.any
-}
+ShoppingComponent.propTypes = {};
 
 ShoppingComponent.NAME = 'Shopping';
 

@@ -2,27 +2,15 @@
 
 import React from 'react';
 
-import TranslatableComponent from '../translatable/translatable.component';
+import Translatable from './../../lib/base_classes/translatable';
 import template from './graphs.rt.html'
 
-class GraphsComponent extends TranslatableComponent {
+class GraphsComponent extends Translatable {
 
   constructor(props, context){
     super(props, context);
     let graphs = this;
     graphs.state = {};
-  }
-
-  get state_manager() {
-    return this.props.state_manager;
-  }
-
-  get route_key() {
-    return this.state_manager.state.route.key;
-  }
-
-  get title() {
-    return this.t('graphs.title');
   }
 
   componentDidMount() {
@@ -42,9 +30,6 @@ class GraphsComponent extends TranslatableComponent {
 GraphsComponent.propTypes = {
 
 };
-GraphsComponent.contextTypes = {
-  i18n: React.PropTypes.any
-}
 
 GraphsComponent.NAME = 'Graphs';
 

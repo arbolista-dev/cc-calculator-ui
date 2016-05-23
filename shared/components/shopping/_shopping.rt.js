@@ -6,8 +6,8 @@ function repeatGoods_type1(goods_type, goods_typeIndex) {
         'className': 'cc-component__question'
     }, React.createElement('h4', { 'className': 'cc-component__question-label' }, this.t(`shopping.${ goods_type }.label`)), React.createElement('input', {
         'onChange': this.updateMonthlyExpenditure.bind(this),
-        'value': this.displayMonthlyExpenditure(goods_type),
-        'placeholder': this.t('shopping.dollars_per_month') + '}',
+        'value': this.displayMonthlyExpenditure.bind(this, goods_type),
+        'placeholder': this.t('units.usd_per_month') + '}',
         'data-type': goods_type,
         'data-api_key': this.apiKey(goods_type),
         'className': 'cc-component__question-input'
@@ -19,8 +19,8 @@ function repeatService_type2(service_type, service_typeIndex) {
         'className': 'cc-component__question'
     }, React.createElement('h4', { 'className': 'cc-component__question-label' }, this.t(`shopping.${ service_type }.label`)), React.createElement('input', {
         'onChange': this.updateMonthlyExpenditure.bind(this),
-        'value': this.displayMonthlyExpenditure(service_type),
-        'placeholder': this.t('shopping.dollars_per_month') + '}',
+        'value': this.displayMonthlyExpenditure.bind(this, service_type),
+        'placeholder': this.t('units.usd_per_month') + '}',
         'data-type': service_type,
         'data-api_key': this.apiKey(service_type),
         'className': 'cc-component__question-input'
@@ -30,7 +30,7 @@ export default function () {
     return React.createElement('div', {
         'className': 'cc-component',
         'id': 'shopping'
-    }, React.createElement('div', { 'className': 'cc-component__header' }, React.createElement('div', {}, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('span', {}, this.title)), React.createElement('span', { 'className': 'cc-component__byline' }, this.t('food.byline')), React.createElement('div', {}, React.createElement('span', {
+    }, React.createElement('div', { 'className': 'cc-component__header' }, React.createElement('div', {}, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('span', {}, this.t('shopping.title'))), React.createElement('span', { 'className': 'cc-component__byline' }, this.t('shopping.byline')), React.createElement('div', {}, React.createElement('span', {
         'className': 'cc-component__simple-toggle',
         'onClick': this.setSimple.bind(this)
     }, this.t('component.labels.simple')), ' |\n      ', React.createElement('span', {

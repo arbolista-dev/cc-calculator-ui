@@ -2,16 +2,15 @@
 
 import React from 'react';
 
-import TranslatableComponent from '../translatable/translatable.component';
+import Panel from './../../lib/base_classes/panel';
 import template from './footprint.rt.html'
 
-class FootprintComponent extends TranslatableComponent {
+class FootprintComponent extends Panel {
 
   constructor(props, context){
     super(props, context);
     let footprint = this;
     footprint.state = {}
-    console.log('ev')
   }
 
   get state_manager() {
@@ -47,9 +46,6 @@ class FootprintComponent extends TranslatableComponent {
 FootprintComponent.propTypes = {
 
 };
-FootprintComponent.contextTypes = {
-  i18n: React.PropTypes.any
-}
 
 FootprintComponent.NAME = 'Footprint';
 

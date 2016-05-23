@@ -114,7 +114,6 @@ export default class StateManager {
     Object.assign(state_manager.state.user_footprint, {input_changed: 1});
     return CalculatorApi.computeFootprint(input)
       .then((res)=>{
-        console.log(res)
         Object.assign(state_manager.state.user_footprint, res);
         return undefined;
       })

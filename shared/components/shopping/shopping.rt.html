@@ -2,9 +2,9 @@
   <div class="cc-component__header">
     <div>
       <img src="/assets/img/{this.route_key}.png"/>
-      <span>{this.title}</span>
+      <span>{this.t('shopping.title')}</span>
     </div>
-    <span class="cc-component__byline">{this.t('food.byline')}</span>
+    <span class="cc-component__byline">{this.t('shopping.byline')}</span>
   <div>
       <span class="cc-component__simple-toggle"
         onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
@@ -29,8 +29,8 @@
         <h4 class="cc-component__question-label">{this.t(`shopping.${goods_type}.label`)}</h4>
         <input
           onChange="{this.updateMonthlyExpenditure.bind(this)}"
-          value="{this.displayMonthlyExpenditure(goods_type)}"
-          placeholder="{this.t('shopping.dollars_per_month')}}"
+          value="{this.displayMonthlyExpenditure.bind(this, goods_type)}"
+          placeholder="{this.t('units.usd_per_month')}}"
           data-type="{goods_type}"
           data-api_key="{this.apiKey(goods_type)}"
           class="cc-component__question-input"/>
@@ -43,8 +43,8 @@
         <h4 class="cc-component__question-label">{this.t(`shopping.${service_type}.label`)}</h4>
         <input
           onChange="{this.updateMonthlyExpenditure.bind(this)}"
-          value="{this.displayMonthlyExpenditure(service_type)}"
-          placeholder="{this.t('shopping.dollars_per_month')}}"
+          value="{this.displayMonthlyExpenditure.bind(this, service_type)}"
+          placeholder="{this.t('units.usd_per_month')}}"
           data-type="{service_type}"
           data-api_key="{this.apiKey(service_type)}"
           class="cc-component__question-input"/>
