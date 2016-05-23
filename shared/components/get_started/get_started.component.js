@@ -15,7 +15,7 @@ class GetStartedComponent extends Panel {
     let get_started = this;
     get_started.state = {
       location_suggestions: [],
-      input_location_mode: props.state_manager.input_location_mode
+      input_location_mode: get_started.state_manager.input_location_mode
     }
   }
 

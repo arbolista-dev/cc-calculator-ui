@@ -26,7 +26,7 @@ function repeatVehicle2(vehicle, vehicleIndex) {
     }), React.createElement('div', { 'id': vehicle.slider_id }), React.createElement('div', { 'className': 'question--vehicle__mpg-label' }, vehicle.display_mpg, ' ', React.createElement('i', {}, this.t('travel.miles_per_gallon'))), React.createElement('span', {
         'className': 'label label-danger',
         'onClick': this.removeVehicle.bind(this, vehicle)
-    }, this.t('Remove'), React.createElement('i', { 'className': 'fa-minus' })));
+    }, this.t('Remove'), React.createElement('i', { 'className': 'fa fa-minus' })));
 }
 export default function () {
     return React.createElement('div', {
@@ -44,7 +44,7 @@ export default function () {
         React.createElement('div', { 'id': 'travel_add_vehicle' }, React.createElement('button', mergeProps({
             'className': 'btn btn-default',
             'onClick': this.addVehicle.bind(this)
-        }, { disabled: this.vehicles_maxed }), React.createElement('i', { 'className': 'fa-minus' })), '\n      ', this.t('travel.add_vehicle'), '\n    '),
+        }, { disabled: this.vehicles_maxed }), React.createElement('i', { 'className': 'fa fa-minus' })), '\n      ', this.t('travel.add_vehicle'), '\n    '),
         _.map(this.vehicles, repeatVehicle2.bind(this)),
         this.simple ? React.createElement('div', {}, React.createElement('div', { 'className': 'cc-component__question' }, React.createElement('h3', { 'className': 'cc-component__question-label' }, this.t('travel.publictrans.label')), React.createElement('input', {
             'onChange': this.updateFootprintInput.bind(this),

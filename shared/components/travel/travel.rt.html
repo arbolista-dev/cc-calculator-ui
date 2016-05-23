@@ -19,7 +19,7 @@
       <button class="btn btn-default"
         onClick="{this.addVehicle.bind(this)}"
         rt-props="{disabled: this.vehicles_maxed}">
-        <i class="fa-minus"></i>
+        <i class="fa fa-plus"></i>
       </button>
       {this.t('travel.add_vehicle')}
     </div>
@@ -38,7 +38,7 @@
       <div id="{vehicle.slider_id}"></div>
       <div class="question--vehicle__mpg-label">{vehicle.display_mpg} <i>{this.t('travel.miles_per_gallon')}</i></div>
       <span class="label label-danger"
-        onClick="{this.removeVehicle.bind(this, vehicle)}">{this.t('Remove')}<i class="fa-minus"></i></span>
+        onClick="{this.removeVehicle.bind(this, vehicle)}"><i class="fa fa-minus"></i></span>
     </div>
 
     <div rt-if="this.simple">
