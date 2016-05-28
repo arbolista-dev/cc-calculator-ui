@@ -10,6 +10,6 @@ export default function () {
     }, '\n  Graphs to be implemented. In the meantime...\n  ', React.createElement('table', { 'className': 'table' }, React.createElement('thead', {}, React.createElement('tr', {}, React.createElement('th', {}), React.createElement('th', {}, 'You'), React.createElement('th', {}, 'Regional Average'))), React.createElement.apply(this, [
         'tbody',
         {},
-        _.map(this.state_manager.cool_climate_keys, repeatKey1.bind(this))
+        _.map(this.state_manager.cool_climate_keys.sort(), repeatKey1.bind(this))
     ])));
 }

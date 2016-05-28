@@ -1,27 +1,26 @@
 /*global module*/
 
 import React from 'react';
-import SnapSlider from 'd3-object-charts/src/range/snap_slider';
+import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 
-import CalculatorApi from 'api/calculator.api';
-import TranslatableComponent from '../translatable/translatable.component';
+import Panel from './../../lib/base_classes/panel';
 import template from './get_started.rt.html'
 
 const LOCATION_MODES = [[1, 'Zipcode'], [2, 'City'], [3, 'County'], [4, 'State']];
 
-class GetStartedComponent extends TranslatableComponent {
+class GetStartedComponent extends Panel {
 
   constructor(props, context){
     super(props, context);
     let get_started = this;
     get_started.state = {
       location_suggestions: [],
-      input_location_mode: props.state_manager.input_location_mode
+      input_location_mode: get_started.state_manager.input_location_mode
     }
   }
 
   /*
-   * React Life Cyle
+   * React Events
    */
 
   componentDidMount(){
@@ -30,20 +29,16 @@ class GetStartedComponent extends TranslatableComponent {
     get_started.initializeIncomeSlider();
   }
 
-  get state_manager() {
-    return this.props.state_manager;
+  render(){
+    return template.call(this);
   }
 
-  get route_key() {
-    return this.state_manager.state.route.key;
-  }
+  /*
+   * Location UI
+   */
 
-  get title() {
-    return this.t('get_started.title');
-  }
-
-  get router(){
-    return this.props.router;
+  get location_modes(){
+    return LOCATION_MODES;
   }
 
   updateDefaults(default_params){
@@ -61,14 +56,6 @@ class GetStartedComponent extends TranslatableComponent {
       // This will also make necessary update to user footprint.
       get_started.state_manager.updateDefaults();
     }, 500);
-  }
-
-  /*
-   * Location UI
-   */
-
-  get location_modes(){
-    return LOCATION_MODES;
   }
 
   locationModeActive(mode){
@@ -187,17 +174,6 @@ class GetStartedComponent extends TranslatableComponent {
 
   }
 
-  render(){
-    return template.call(this);
-  }
-
-}
-
-GetStartedComponent.propTypes = {
-
-};
-GetStartedComponent.contextTypes = {
-  i18n: React.PropTypes.any
 }
 
 GetStartedComponent.NAME = 'GetStarted';

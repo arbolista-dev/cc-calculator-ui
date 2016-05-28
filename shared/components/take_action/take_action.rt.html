@@ -4,7 +4,35 @@
     <span>{this.title}</span>
   </div>
 
-  <div class="cc-component__form"></div>
+  <div class="cc-component__form">
+
+  <table class="table">
+    <tbody rt-repeat="action in this.actions"
+      key="{action.key}">
+      <tr>
+        <td onClick="{this.toggleAction.bind(this, action)}">
+          <i class="fa" rt-class="{'fa-square': !action.taken, 'fa-check-square': action.taken}"></i>
+        </td>
+        <td colspan="2">
+          <h4>
+            {action.display_name}
+            <button class="take-action__detail-toggle btn btn-default btn-xs"
+              onClick="{this.toggleActionDetails.bind(this, action)}">
+              <i rt-class="{'fa-expand': !action.detailed, 'fa-compress': action.detailed}" class="fa"></i>
+            </button>
+          </h4>
+        </td>
+      </tr>
+      <tr rt-class="{hidden: !action.detailed}">
+        <td>{action.tons_saved}</td>
+        <td>${action.dollars_saved}</td>
+        <td>${action.upfront_cost}</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+  </div>
 
   <div class="cc-component__nav">
     <button onClick="{this.router.previous.bind(this.router)}" class="btn">{this.t('Previous')}</button>

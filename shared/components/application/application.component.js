@@ -1,7 +1,9 @@
 /*global module */
-import 'babel-polyfill';
 import React from 'react';
+
 import LayoutComponent from '../layout/layout.component';
+import StateManager from './../../lib/state_manager/state_manager';
+import Router from './../../lib/router/router';
 
 class ApplicationComponent extends React.Component {
 
@@ -11,6 +13,8 @@ class ApplicationComponent extends React.Component {
 
   getChildContext() {
     return {
+      state_manager: this.props.state_manager,
+      router: this.props.router,
       i18n: this.props.i18n
     };
   }
@@ -21,12 +25,18 @@ class ApplicationComponent extends React.Component {
 
 }
 
-ApplicationComponent.propTypes =  Object.assign({}, LayoutComponent.propTypes,{
-  i18n: React.PropTypes.any
-});
+ApplicationComponent.propTypes = {
+  state_manager: React.PropTypes.instanceOf(StateManager).isRequired,
+  router: React.PropTypes.instanceOf(Router).isRequired,
+  i18n: React.PropTypes.object.isRequired,
+  // only required in browser
+  createHistory: React.PropTypes.func
+};
 
 ApplicationComponent.childContextTypes = {
-  i18n: React.PropTypes.any
+  state_manager: React.PropTypes.instanceOf(StateManager).isRequired,
+  router: React.PropTypes.instanceOf(Router).isRequired,
+  i18n: React.PropTypes.object.isRequired
 }
 
 

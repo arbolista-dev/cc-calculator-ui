@@ -1,14 +1,8 @@
 /*global module*/
 
-import React from 'react';
+import ContextableComponent from './contextable';
 
-class TranslatableComponent extends React.Component {
-
-  constructor(props, context) {
-    super(props, context);
-    // TODO: implement this as abstract class
-    // once new.target starts working
-  }
+export default class TranslatableComponent extends ContextableComponent {
 
   get t() {
     var i18n = this.context.i18n;
@@ -29,10 +23,4 @@ class TranslatableComponent extends React.Component {
   }
 }
 
-TranslatableComponent.contextTypes = {
-  i18n: React.PropTypes.any
-};
-
 TranslatableComponent.NAME = 'Translatable';
-
-module.exports = TranslatableComponent;

@@ -29,6 +29,7 @@ class Server {
     // serve public static files.
     //app.use('/', express.static(__dirname + '/../../../build/development/' + process.env.NODE_ENV.toLowerCase()));
     app.use('/assets', express.static(__dirname + '/../../assets'));
+    app.use('/assets/font-awesome', express.static(__dirname + '/../../../node_modules/font-awesome'));
 
     app.use(logger('dev'));
 

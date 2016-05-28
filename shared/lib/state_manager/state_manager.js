@@ -3,25 +3,78 @@
 import CalculatorApi from 'api/calculator.api';
 
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
+const DEFAULT_INPUTS = ['input_size', 'input_income', 'input_location', 'input_location_mode'];
+const TAKEACTION_INPUTS = ['input_footprint_household_adults', 'input_footprint_household_children'];
 
 export default class StateManager {
 
   constructor(){
     var state_manager = this;
-    state_manager.state = {average_footprint: undefined, user_footprint: undefined};
+    state_manager.state = {average_footprint: {}, user_footprint: {}};
   }
 
   get params(){
     return this.state.route.params;
   }
 
+  get user_footprint(){
+    return this.state.user_footprint;
+  }
+
+  get average_footprint(){
+    return this.state.average_footprint;
+  }
+
   get cool_climate_keys(){
     return Object.keys(this.state.user_footprint)
   }
 
+  get user_footprint_set(){
+    let state_manager = this;
+    return Object.keys(state_manager.state.user_footprint).length !== 0
+  }
+
+  get default_inputs(){
+    let state_manager = this,
+        location;
+    if (!state_manager.user_footprint_set){
+      location = DEFAULT_LOCATION;
+    } else {
+      location = {
+        input_location_mode: state_manager.input_location_mode,
+        input_location: state_manager.state.user_footprint['input_location'],
+        input_income: state_manager.state.user_footprint['input_income'],
+        input_size: state_manager.state.user_footprint['input_size']
+      };
+    }
+    return location;
+  }
+
+  get input_location_mode(){
+    return this.state.user_footprint['input_location_mode'];
+  }
+
+  get actions_not_updated(){
+    return this.result_takeaction_pounds === undefined;
+  }
+
+  get result_takeaction_pounds(){
+    return this.state['result_takeaction_pounds']
+  }
+
+  get result_takeaction_dollars(){
+    return this.state['result_takeaction_dollars']
+  }
+
+  get result_takeaction_net10yr(){
+    return this.state['result_takeaction_net10yr']
+  }
+
   get inputs(){
     return Object.keys(this.state.user_footprint).reduce((params, key)=>{
-      if (/^input/.test(key)) params[key] = this.state.user_footprint[key];
+      if (/^input_/.test(key) || DEFAULT_INPUTS.indexOf(key) >= 0){
+        params[key] = this.state.user_footprint[key];
+      }
       return params;
     }, {});
   }
@@ -47,26 +100,6 @@ export default class StateManager {
     }
   }
 
-  get default_inputs(){
-    let state_manager = this,
-        location;
-    if (state_manager.state.user_footprint === undefined){
-      location = DEFAULT_LOCATION;
-    } else {
-      location = {
-        input_location_mode: state_manager.input_location_mode,
-        input_location: state_manager.state.user_footprint['input_location'],
-        input_income: state_manager.state.user_footprint['input_income'],
-        input_size: state_manager.state.user_footprint['input_size']
-      };
-    }
-    return location;
-  }
-
-  get input_location_mode(){
-    return this.state.user_footprint['input_location_mode'];
-  }
-
   updateDefaultParams(new_location){
     let state_manager = this;
     Object.assign(state_manager.state.average_footprint, new_location);
@@ -79,8 +112,8 @@ export default class StateManager {
     return CalculatorApi.getDefaultsAndResults(state_manager.default_inputs)
       .then((res)=>{
         state_manager.state.average_footprint = res;
-        if (state_manager.state.user_footprint === undefined){
-          state_manager.state.user_footprint = res;
+        if (!state_manager.user_footprint_set){
+          state_manager.parseFootrintResult(res);
           return undefined
         } else {
           // If user footprint has been defined, update it with new location.
@@ -92,19 +125,70 @@ export default class StateManager {
       });
   }
 
+  // This should be called to update input parameters that don't
+  // impact resulting footprint (eg input type).
   updateFootprintParams(params){
     let state_manager = this;
-    Object.assign(state_manager.state.user_footprint, params);
+    state_manager.user_footprint['input_changed'] = 1;
+    Object.assign(state_manager.user_footprint, params);
   }
 
-  updateFootprint(new_input){
-    let state_manager = this,
-        input = Object.assign({}, state_manager.inputs, new_input);
-    return CalculatorApi.computeFootprint(input)
+  updateFootprint(){
+    let state_manager = this;
+
+    return CalculatorApi.computeFootprint(state_manager.inputs)
       .then((res)=>{
-        state_manager.state.user_footprint = res;
+        state_manager.parseFootrintResult(res);
         return undefined;
+      })
+      .then(()=>{
+        return state_manager.syncLayout();
       });
+  }
+
+  parseFootrintResult(result){
+    // compute footprint and default calls will 0 out take action inputs/results.
+    // do not override those values for user_footprint.
+    let state_manager = this;
+
+    if (state_manager.actions_not_updated){
+      state_manager.parseTakeactionResult(result);
+    } else {
+      result = Object.keys(result).reduce((hash, api_key)=>{
+        if (!/^(result|input)_takeaction/.test(api_key)){
+          hash[api_key] = result[api_key]
+        }
+        return hash;
+      }, {});
+      Object.assign(state_manager.state.user_footprint, result);
+    }
+
+  }
+
+  /*
+   * Takeaction Results
+   */
+
+  updateTakeactionResults(){
+    let state_manager = this;
+
+    return CalculatorApi.computeTakeactionResults(state_manager.user_footprint)
+      .then((res)=>{
+        state_manager.parseTakeactionResult(res);
+        return undefined;
+      })
+      .then(()=>{
+        return state_manager.syncLayout();
+      });
+  }
+
+  parseTakeactionResult(result){
+    let state_manager = this;
+    Object.assign(state_manager.state.user_footprint, result);
+
+    state_manager.state['result_takeaction_pounds'] = JSON.parse(result['result_takeaction_pounds']);
+    state_manager.state['result_takeaction_dollars'] = JSON.parse(result['result_takeaction_dollars']);
+    state_manager.state['result_takeaction_net10yr'] = JSON.parse(result['result_takeaction_net10yr']);
   }
 
 }

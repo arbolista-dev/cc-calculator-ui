@@ -1,10 +1,56 @@
 <div class="cc-component" id="shopping">
   <div class="cc-component__header">
-    <img src="/assets/img/{this.route_key}.png"/>
-    <span>{this.title}</span>
+    <div>
+      <img src="/assets/img/{this.route_key}.png"/>
+      <span>{this.t('shopping.title')}</span>
+    </div>
+    <span class="cc-component__byline">{this.t('shopping.byline')}</span>
+  <div>
+      <span class="cc-component__simple-toggle"
+        onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
+      <span class="cc-component__simple-toggle"
+        onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
+    </div>
   </div>
 
-  <div class="cc-component__form"></div>
+  <div class="cc-component__form">
+    <div rt-class="{hidden: this.advanced}">
+      <h3>{this.t('shopping.goods.label')}</h3>
+      <div id="shopping_goods_slider"></div>
+      <h3>{this.t('shopping.services.label')}</h3>
+      <div id="shopping_services_slider"></div>
+    </div>
+    <div rt-class="{hidden: this.simple}">
+      <h4>{this.t('shopping.goods.label')}</h4>
+      <p>{this.t('shopping.enter_data_help')}</p>
+      <div rt-repeat="goods_type in this.goods_questions"
+        key="shopping_question_{goods_type}"
+        class="cc-component__question">
+        <h4 class="cc-component__question-label">{this.t(`shopping.${goods_type}.label`)}</h4>
+        <input
+          onChange="{this.updateMonthlyExpenditure.bind(this)}"
+          value="{this.displayUserApiStateValue(goods_type)}"
+          placeholder="{this.t('units.usd_per_month')}}"
+          data-type="{goods_type}"
+          data-api_key="{this.apiKey(goods_type)}"
+          class="cc-component__question-input"/>
+      </div>
+      <h4>{this.t('shopping.services.label')}</h4>
+      <p>{this.t('shopping.enter_data_help')}</p>
+      <div rt-repeat="service_type in this.services_questions"
+        key="shopping_question_{service_type}"
+        class="cc-component__question">
+        <h4 class="cc-component__question-label">{this.t(`shopping.${service_type}.label`)}</h4>
+        <input
+          onChange="{this.updateMonthlyExpenditure.bind(this)}"
+          value="{this.displayUserApiStateValue(service_type)}"
+          placeholder="{this.t('units.usd_per_month')}}"
+          data-type="{service_type}"
+          data-api_key="{this.apiKey(service_type)}"
+          class="cc-component__question-input"/>
+      </div>
+    </div>
+  </div>
 
   <div class="cc-component__nav">
     <button onClick="{this.router.previous.bind(this.router)}" class="btn">{this.t('Previous')}</button>

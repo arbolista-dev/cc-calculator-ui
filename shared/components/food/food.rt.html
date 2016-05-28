@@ -2,16 +2,23 @@
   <div class="cc-component__header">
     <img src="/assets/img/{this.route_key}.png"/>
     <span>{this.title}</span>
+    <span class="cc-component__byline">{this.t('food.byline')}</span>
+    <div>
+      <span class="cc-component__simple-toggle"
+        onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
+      <span class="cc-component__simple-toggle"
+        onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
+    </div>
   </div>
 
   <div class="cc-component__form">
-    <div class="cc-component__question">
-      <div class="cc-component__question-label">{this.t('food.calories_per_day.label')}</div>
-      <input onChange="{this.updateFootprintInput.bind(this)}" data-cc_api_key="calories_per_day"/>
-    </div>
-    <div class="cc-component__question">
-      <div class="cc-component__question-label">{this.t('food.meat_per_day.label')}</div>
-      <input onChange="{this.updateFootprintInput.bind(this)}" data-cc_api_key="meat_per_day"/>
+    <div rt-repeat="food_type in this.relevant_api_keys"
+      key="food_question_{food_type}">
+      <div class="cc-component__question" rt-class="{hidden: !this.shouldShow(food_type)}">
+        <div class="cc-component__question-label">{this.t(`food.${food_type}.label`)}</div>
+        <div id="food_average_slider_{food_type}"></div>
+        <div>{this.displayUserApiStateValue(food_type)} <i>{this.t('food.calories')}</i></div>
+      </div>
     </div>
   </div>
 
