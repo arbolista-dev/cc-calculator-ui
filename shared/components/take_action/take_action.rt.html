@@ -4,7 +4,30 @@
     <span>{this.title}</span>
   </div>
 
-  <div class="cc-component__form"></div>
+  <div class="cc-component__form">
+
+  <table class="table">
+    <tbody rt-repeat="action in this.actions"
+      key="{action.key}">
+      <tr>
+        <td onClick="{this.toggleAction.bind(this, action)}">
+          <i rt-if="action.taken" class="fa fa-check-square"></i>
+          <i rt-if="!action.taken" class="fa fa-square"></i>
+        </td>
+        <td colspan="2">
+          <h4>{action.display_name}</h4>
+        </td>
+      </tr>
+      <tr>
+        <td>{action.tons_saved}</td>
+        <td>${action.dollars_saved}</td>
+        <td>${action.upfront_cost}</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+  </div>
 
   <div class="cc-component__nav">
     <button onClick="{this.router.previous.bind(this.router)}" class="btn">{this.t('Previous')}</button>
