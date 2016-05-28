@@ -11,14 +11,19 @@
       key="{action.key}">
       <tr>
         <td onClick="{this.toggleAction.bind(this, action)}">
-          <i rt-if="action.taken" class="fa fa-check-square"></i>
-          <i rt-if="!action.taken" class="fa fa-square"></i>
+          <i class="fa" rt-class="{'fa-square': !action.taken, 'fa-check-square': action.taken}"></i>
         </td>
         <td colspan="2">
-          <h4>{action.display_name}</h4>
+          <h4>
+            {action.display_name}
+            <button class="take-action__detail-toggle btn btn-default btn-xs"
+              onClick="{this.toggleActionDetails.bind(this, action)}">
+              <i rt-class="{'fa-expand': !action.detailed, 'fa-compress': action.detailed}" class="fa"></i>
+            </button>
+          </h4>
         </td>
       </tr>
-      <tr>
+      <tr rt-class="{hidden: !action.detailed}">
         <td>{action.tons_saved}</td>
         <td>${action.dollars_saved}</td>
         <td>${action.upfront_cost}</td>

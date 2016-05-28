@@ -3,6 +3,7 @@ export default class Action {
     let action = this;
     action.key = action_key;
     action.take_action = take_action;
+    action.detailed = false;
   }
 
   get api_key(){

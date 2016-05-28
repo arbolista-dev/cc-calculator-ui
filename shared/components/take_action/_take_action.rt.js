@@ -1,7 +1,34 @@
 import React from 'react';
 import _ from 'lodash';
 function repeatAction1(action, actionIndex) {
-    return React.createElement('tbody', { 'key': action.key }, React.createElement('tr', {}, React.createElement('td', { 'onClick': this.toggleAction.bind(this, action) }, action.taken ? React.createElement('i', { 'className': 'fa fa-check-square' }) : null, !action.taken ? React.createElement('i', { 'className': 'fa fa-square' }) : null), React.createElement('td', { 'colSpan': '2' }, React.createElement('h4', {}, action.display_name))), React.createElement('tr', {}, React.createElement('td', {}, action.tons_saved), React.createElement('td', {}, '$', action.dollars_saved), React.createElement('td', {}, '$', action.upfront_cost)));
+    return React.createElement('tbody', { 'key': action.key }, React.createElement('tr', {}, React.createElement('td', { 'onClick': this.toggleAction.bind(this, action) }, React.createElement('i', {
+        'className': 'fa' + ' ' + _({
+            'fa-square': !action.taken,
+            'fa-check-square': action.taken
+        }).transform(function (res, value, key) {
+            if (value) {
+                res.push(key);
+            }
+        }, []).join(' ')
+    })), React.createElement('td', { 'colSpan': '2' }, React.createElement('h4', {}, '\n            ', action.display_name, '\n            ', React.createElement('button', {
+        'className': 'take-action__detail-toggle btn btn-default btn-xs',
+        'onClick': this.toggleActionDetails.bind(this, action)
+    }, React.createElement('i', {
+        'className': _({
+            'fa-expand': !action.detailed,
+            'fa-compress': action.detailed
+        }).transform(function (res, value, key) {
+            if (value) {
+                res.push(key);
+            }
+        }, []).join(' ') + ' ' + 'fa'
+    }))))), React.createElement('tr', {
+        'className': _({ hidden: !action.detailed }).transform(function (res, value, key) {
+            if (value) {
+                res.push(key);
+            }
+        }, []).join(' ')
+    }, React.createElement('td', {}, action.tons_saved), React.createElement('td', {}, '$', action.dollars_saved), React.createElement('td', {}, '$', action.upfront_cost)));
 }
 export default function () {
     return React.createElement('div', {

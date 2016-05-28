@@ -13,30 +13,6 @@ class FootprintComponent extends Panel {
     footprint.state = {}
   }
 
-  get state_manager() {
-    return this.props.state_manager;
-  }
-
-  get route_key() {
-    return this.state_manager.state.route.key;
-  }
-
-  get title() {
-    return this.t('footprint.title');
-  }
-
-  get router(){
-    return this.props.router
-  }
-
-  componentDidMount() {
-    let footprint = this;
-  }
-
-  updateResults(){
-    let footprint = this;
-  }
-
   render(){
     return template.call(this);
   }

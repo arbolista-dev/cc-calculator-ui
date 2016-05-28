@@ -13,12 +13,14 @@ class TakeActionComponent extends Panel {
     let take_action = this;
     take_action.action_keys = Object.keys(take_action.result_takeaction_pounds)
       .filter(key=> !/^offset_/.test(key));
+console.log('hi')
     take_action.actions = take_action
       .action_keys
       .map((action_key)=>{
         return new Action(action_key, take_action);
       });
     take_action.state = take_action.userApiState();
+    take_action.state['actions'] = take_action.actions;
   }
 
   get relevant_api_keys(){
@@ -35,6 +37,15 @@ class TakeActionComponent extends Panel {
 
   get result_takeaction_net10yr(){
     return this.state_manager['result_takeaction_net10yr'];
+  }
+
+  toggleActionDetails(action){
+    let take_action = this;
+
+    action.detailed = !action.detailed;
+    take_action.setState({
+      actions: take_action.actions
+    })
   }
 
   toggleAction(action){
