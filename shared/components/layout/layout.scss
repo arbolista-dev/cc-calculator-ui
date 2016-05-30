@@ -1,13 +1,95 @@
+// @import "../../../server/assets/css/variables";
+a { cursor: pointer; }
+
 #cc_calculator_ui {
-  .cc-nav__item {
-    display: inline-block;
-    img {
-      width: 40px;
-    }
-  }
+	.cc-nav__item {
+		cursor: pointer;
+		float: left;
+		padding: 20px 0;
+		text-align: center;
+		width: 14%;
+		img {
+			clear: both !important;
+			margin: 0 auto;
+			height: 75px;
+		}
+		span {
+			clear: both;
+			float: left;
+			width: 100%;
+			text-transform: uppercase;
+		}
+		&:hover {
+			background-color: #EEE;
+			span {
+			// color: $brand-primary !important;
+		}
+	}
+	&.cc-nav__item--active {
+		background: #FFF;
+	}
+}
 }
 
-.get-started__location-suggestion {
-  padding:15px;
-  font-size:18px;
+.container-md {
+	margin: 0 auto;
+	// padding: 0 30px;
+	// max-width: $screen-md-max;
+	max-width: 800px;
+	width: 100%;
+}
+
+.container-sm {
+	margin: 0 auto;
+	// padding: 0 30px;
+	max-width: 500px;
+	width: 100%;
+}
+
+.container-xs {
+	margin: 0 auto;
+	// padding: 0 30px;
+	max-width: 300px;
+	width: 100%;
+}
+
+.d3-chart-handle {
+	background: #CCC;
+	width: 200px;
+}
+
+// .get-started__location-suggestion {
+//   padding:15px;
+//   font-size:18px;
+// }
+
+main > header {
+	text-align: center;
+	img {
+		height: 120px;
+	}
+}
+
+.d3-chart-slider {
+	.d3-chart-handle {
+		border-radius: 0;
+		fill: #0290be;
+	}
+}
+
+.cc-component__nav {
+	float: left;
+	clear: both;
+	margin-bottom: 40px;
+	text-align: center;
+	width: 100%;
+	a {
+		background: #4AAA48;
+		color: #FFF;
+		display: inline-block;
+		padding: 20px;
+		text-transform: uppercase;
+		margin-right: 10px;
+		&:last-child { margin: 0; }
+	}
 }
