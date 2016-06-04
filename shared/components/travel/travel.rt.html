@@ -1,8 +1,8 @@
-<div class="cc-component" id="travel">
-  <div class="cc-component__header">
+<main class="cc-component container container-sm" id="travel">
+  <header class="cc-component__header">
     <div>
       <img src="/assets/img/{this.route_key}.png"/>
-      <span>{this.t('travel.title')}</span>
+      <h2>{this.t('travel.title')}</h2>
     </div>
     <span class="cc-component__byline">{this.t('travel.byline')}</span>
     <div>
@@ -11,7 +11,7 @@
       <span class="cc-component__simple-toggle"
         onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
     </div>
-  </div>
+  </header>
 
   <div class="cc-component__form">
 
@@ -31,7 +31,7 @@
         <option value="1">{this.t('travel.gasoline')}</option>
         <option value="2">{this.t('travel.diesel')}</option>
       </select>
-      <input data-key="miles"
+      <input class="form-control" data-key="miles"
         value="{vehicle.display_miles}"
         placeholder="{this.t('travel.miles_per_year')}"
         onChange="{this.updateVehicle.bind(this, vehicle)}"/>
@@ -44,7 +44,7 @@
     <div rt-if="this.simple">
       <div class="cc-component__question">
         <h3 class="cc-component__question-label">{this.t('travel.publictrans.label')}</h3>
-        <input
+        <input class="form-control"
           onChange="{this.updateFootprintInput.bind(this)}"
           value="{this.displayUserApiStateValue('publictrans')}"
           data-api_key="input_footprint_transportation_publictrans"
@@ -52,7 +52,7 @@
       </div>
       <div class="cc-component__question">
         <h3 class="cc-component__question-label">{this.t('travel.air.label')}</h3>
-        <input
+        <input class="form-control"
           onChange="{this.updateFootprintInput.bind(this)}"
           value="{this.displayUserApiStateValue('airtotal')}"
           data-api_key="input_footprint_transportation_airtotal"
@@ -64,28 +64,28 @@
       <div class="cc-component__question">
         <h3 class="cc-component__question-label">{this.t('travel.publictrans.label')}</h3>
         <div class="cc-component__sub-question">
-          <input
+          <input class="form-control"
             onChange="{this.updateFootprintInput.bind(this)}"
             value="{this.displayUserApiStateValue('bus')}"
             data-api_key="input_footprint_transportation_bus"/>
           <div class="cc-component__sub-question-label">{this.t('travel.publictrans.bus')}</div>
         </div>
         <div class="cc-component__sub-question">
-          <input
+          <input class="form-control"
             onChange="{this.updateFootprintInput.bind(this)}"
             value="{this.displayUserApiStateValue('transit')}"
             data-api_key="input_footprint_transportation_transit"/>
           <div class="cc-component__sub-question-label">{this.t('travel.publictrans.transit_rail')}</div>
         </div>
         <div class="cc-component__sub-question">
-          <input
+          <input class="form-control"
             onChange="{this.updateFootprintInput.bind(this)}"
             value="{this.displayUserApiStateValue('commuter')}"
             data-api_key="input_footprint_transportation_commuter"/>
           <div class="cc-component__sub-question-label">{this.t('travel.publictrans.commuter_rail')}</div>
         </div>
         <div class="cc-component__sub-question">
-          <input
+          <input class="form-control"
             onChange="{this.updateFootprintInput.bind(this)}"
             value="{this.displayUserApiStateValue('intercity')}"
             data-api_key="input_footprint_transportation_intercity"/>
@@ -96,28 +96,28 @@
         <h3 class="cc-component__question-label">{this.t('travel.air.label')}</h3>
         <h4 class="cc-component__question-label">{this.t('travel.air.advanced_sub_label')}</h4>
         <div class="cc-component__sub-question">
-          <input
+          <input class="form-control"
             onChange="{this.updateFootprintInput.bind(this)}"
             value="{this.displayUserApiStateValue('airshort')}"
             data-api_key="input_footprint_transportation_airshort"/>
           <div class="cc-component__sub-question-label">{this.t('travel.air.short')}</div>
         </div>
         <div class="cc-component__sub-question">
-          <input
+          <input class="form-control"
             onChange="{this.updateFootprintInput.bind(this)}"
             value="{this.displayUserApiStateValue('airmedium')}"
             data-api_key="input_footprint_transportation_airmedium"/>
           <div class="cc-component__sub-question-label">{this.t('travel.air.medium')}</div>
         </div>
         <div class="cc-component__sub-question">
-          <input
+          <input class="form-control"
             onChange="{this.updateFootprintInput.bind(this)}"
             value="{this.displayUserApiStateValue('airlong')}"
             data-api_key="input_footprint_transportation_airlong"/>
           <div class="cc-component__sub-question-label">{this.t('travel.air.long')}</div>
         </div>
         <div class="cc-component__sub-question">
-          <input
+          <input class="form-control"
             onChange="{this.updateFootprintInput.bind(this)}"
             value="{this.displayUserApiStateValue('airextended')}"
             data-api_key="input_footprint_transportation_airextended"/>
@@ -128,7 +128,7 @@
   </div>
 
   <div class="cc-component__nav">
-    <button onClick="{this.router.previous.bind(this.router)}" class="btn">{this.t('Previous')}</button>
-    <button onClick="{this.router.next.bind(this.router)}" class="btn">{this.t('Next')}</button>
+    <a onClick="{this.router.previous.bind(this.router)}" >{this.t('Previous')}</a>
+    <a onClick="{this.router.next.bind(this.router)}" >{this.t('Next')}</a>
   </div>
-</div>
+</main>
