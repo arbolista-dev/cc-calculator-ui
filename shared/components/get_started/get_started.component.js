@@ -5,6 +5,7 @@ import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 
 import Panel from './../../lib/base_classes/panel';
 import template from './get_started.rt.html'
+import CalculatorApi from 'api/calculator.api';
 
 const LOCATION_MODES = [[1, 'Zipcode'], [2, 'City'], [3, 'County'], [4, 'State']];
 
@@ -14,7 +15,7 @@ class GetStartedComponent extends Panel {
     super(props, context);
     let get_started = this;
     get_started.state = {
-      location_suggestions: [],
+      locations: {},
       input_location_mode: get_started.state_manager.input_location_mode
     }
   }
@@ -67,7 +68,7 @@ class GetStartedComponent extends Panel {
     get_started.hideLocationSuggestions();
     get_started.setState({
       input_location_mode: location_mode,
-      location_suggestions: []
+      locations: {}
     });
   }
 
@@ -86,7 +87,6 @@ class GetStartedComponent extends Panel {
 
     get_started.setLocation(event.target.value);
 
-        /*
     if (get_started.$set_location_suggestions){
       clearTimeout(get_started.$set_location_suggestions);
     }
@@ -94,12 +94,14 @@ class GetStartedComponent extends Panel {
     // debounce location suggestions by 500ms.
     get_started.$set_location_suggestions = setTimeout(()=>{
       CalculatorApi.getAutoComplete(new_location)
-        .then((res)=>{
+        .then((locations)=>{
           get_started.setState({
-            location_suggestions: res.suggestions
+            locations: locations
+          }, ()=>{
+            get_started.showLocationSuggestions();
           });
         });
-    }, 500);*/
+    }, 500);
   }
 
   showLocationSuggestions(){

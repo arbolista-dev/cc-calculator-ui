@@ -93,9 +93,8 @@ class CalculatorApi {
         .end((err, res)=>{
           if (err) fnReject(err);
           else {
-            let xml = new DOMParser().parseFromString(res.text, 'application/xml'),
-                parsed = CalculatorApi.xmlToJson(xml);
-            fnResolve(parsed.response);
+            let parsed = JSON.parse(res.text);
+            fnResolve(parsed);
           }
         });
     });
