@@ -20,14 +20,13 @@ class CalculatorApi {
   static computeFootprint(inputs){
 
     return new Promise((fnResolve, fnReject)=>{
-      let params = Object.assign({
-        op: 'compute_results',
-        internal_state_abbreviation: 'CA'
-      }, inputs);
-      superagent.get(BASE)
+      let params = { op: 'compute_footprint' };
+      inputs.internal_state_abbreviation = 'CA';
+      superagent.post(BASE)
         .set('X-DEV-TOKEN', APP_TOKEN)
-        .set('Accept', 'application/xml')
+        .set('Accept', 'application/x-www-form-urlencoded; charset=UTF-8')
         .query(params)
+        .send(jQuery.param(inputs))
         .end((err, res)=>{
           if (err) fnReject(err);
           else {
@@ -94,9 +93,8 @@ class CalculatorApi {
         .end((err, res)=>{
           if (err) fnReject(err);
           else {
-            let xml = new DOMParser().parseFromString(res.text, 'application/xml'),
-                parsed = CalculatorApi.xmlToJson(xml);
-            fnResolve(parsed.response);
+            let parsed = JSON.parse(res.text);
+            fnResolve(parsed);
           }
         });
     });

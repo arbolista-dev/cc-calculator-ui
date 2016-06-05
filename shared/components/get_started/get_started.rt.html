@@ -9,10 +9,10 @@
 			<div class="btn-group btn-group-justified" role="group">
 				<a
 				rt-repeat="mode in this.location_modes"
-				rt-class="{active: this.locationModeActive(mode[0])}"
+				rt-class="{'btn-success': this.locationModeActive(mode[0]), 'btn-default': !this.locationModeActive(mode[0])}"
 				key="location_mode_{mode[0]}"
 				type="button"
-				class="btn btn-primary"
+				class="btn"
 				onClick="{this.setLocationMode.bind(this, mode[0])}" >{this.t(mode[1])}</a>
 			</div>
 		</div>
@@ -25,7 +25,9 @@
 			onFocus="{this.showLocationSuggestions.bind(this)}"/>
 			<div id="get_started_location_suggestions">
 				<div
-				rt-repeat="suggestion in this.state.location_suggests"
+				rt-repeat="suggestion in this.state.locations.suggestions"
+				key="{this.state.locations.data[suggestionIndex]}"
+				data-zipcode="{this.state.locations.data[suggestionIndex]}"
 				class="get-started__location-suggestion"
 				onClick="{this.setLocation.bind(this, suggestion)}">{suggestion}</div>
 			</div>
