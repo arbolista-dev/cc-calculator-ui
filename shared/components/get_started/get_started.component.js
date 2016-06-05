@@ -85,8 +85,6 @@ class GetStartedComponent extends Panel {
           input_location: event.target.value
         };
 
-    get_started.setLocation(event.target.value);
-
     if (get_started.$set_location_suggestions){
       clearTimeout(get_started.$set_location_suggestions);
     }
@@ -131,7 +129,6 @@ class GetStartedComponent extends Panel {
       container: '#size_slider',
       tick_labels: { 1: '1', 2: '3', 3: '3', 4: '4', 5: '5+' },
       onSnap: function(selected_size) {
-        console.log('onSnap', selected_size);
         get_started.updateDefaults({input_size: selected_size});
       }
     });

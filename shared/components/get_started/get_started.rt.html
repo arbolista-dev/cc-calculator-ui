@@ -17,11 +17,10 @@
 			</div>
 		</div>
 
-		<div class="cc-component__question">
+		<div id="get_started_location_suggestions_container" class="cc-component__question">
 			<input class="form-control"
 			placeholder="{this.t('get_started.location_prompt')}"
 			onChange="{this.setLocationSuggestions.bind(this)}"
-			onBlur="{this.hideLocationSuggestions.bind(this)}"
 			onFocus="{this.showLocationSuggestions.bind(this)}"/>
 			<div id="get_started_location_suggestions">
 				<div
