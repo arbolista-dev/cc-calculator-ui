@@ -118,6 +118,17 @@
     "title": "Take Action",
     "route_path": "take_action"
   },
+  "graphs": {
+    "your_footprint": "Your footprint",
+    "average_footprint": "Average"
+  },
+  "categories": {
+    "result_transport_total": "Travel",
+    "result_housing_total": "Home",
+    "result_food_total": "Dining",
+    "result_goods_total": "Goods",
+    "result_services_total": "Services"
+  },
   "actions": {
     "more_efficient_vehicle": {"label": "More efficient vehicle"},
     "alternativefuel_vehicle": {"label": "Purchase alternative fuel vehicle"},
