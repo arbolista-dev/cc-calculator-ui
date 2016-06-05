@@ -7,7 +7,7 @@ import Panel from './../../lib/base_classes/panel';
 import template from './get_started.rt.html'
 import CalculatorApi from 'api/calculator.api';
 
-const LOCATION_MODES = [[1, 'Zipcode'], [2, 'City'], [3, 'County'], [4, 'State']];
+const LOCATION_MODES = [[1, 'Zipcode'], [2, 'City'], [3, 'County'], [4, 'State'], [5, 'Country']];
 
 class GetStartedComponent extends Panel {
 
@@ -16,7 +16,9 @@ class GetStartedComponent extends Panel {
     let get_started = this;
     get_started.state = {
       locations: {},
-      input_location_mode: get_started.state_manager.input_location_mode
+      input_location_mode: parseInt(get_started.state_manager.input_location_mode),
+      input_location: get_started.userApiValue('input_location'),
+      show_location_suggestions: false
     }
   }
 
@@ -38,8 +40,25 @@ class GetStartedComponent extends Panel {
    * Location UI
    */
 
+   get country_mode(){
+    return this.state.input_location_mode === 5;
+   }
+
+   get input_location_display(){
+    let get_started = this;
+    if (get_started.country_mode){
+      return get_started.t('get_started.United States')
+    } else {
+      return get_started.state.input_location;
+    }
+   }
+
   get location_modes(){
     return LOCATION_MODES;
+  }
+
+  get show_location_suggestions(){
+    return this.state.show_location_suggestions;
   }
 
   updateDefaults(default_params){
@@ -65,25 +84,36 @@ class GetStartedComponent extends Panel {
 
   setLocationMode(location_mode){
     let get_started = this;
-    get_started.hideLocationSuggestions();
     get_started.setState({
       input_location_mode: location_mode,
-      locations: {}
+      input_location: undefined,
+      locations: {},
+      show_location_suggestions: false
     });
   }
 
-  setLocation(location){
-    let get_started = this;
-    get_started.hideLocationSuggestions();
-    get_started.updateDefaults({input_location: location});
+  setLocation(event){
+    let get_started = this,
+        zipcode = event.target.dataset.zipcode,
+        suggestion = event.target.dataset.suggestion;
+    get_started.setState({
+      input_location: suggestion,
+      show_location_suggestions: false
+    });
+    get_started.updateDefaults({input_location: zipcode});
   }
 
   setLocationSuggestions(event){
+    if (this.country_mode) return false;
     let get_started = this,
         new_location = {
           input_location_mode: get_started.state.input_location_mode,
           input_location: event.target.value
         };
+    get_started.setState({
+      input_location: event.target.value,
+      show_location_suggestions: true
+    });
 
     if (get_started.$set_location_suggestions){
       clearTimeout(get_started.$set_location_suggestions);
@@ -94,20 +124,23 @@ class GetStartedComponent extends Panel {
       CalculatorApi.getAutoComplete(new_location)
         .then((locations)=>{
           get_started.setState({
-            locations: locations
-          }, ()=>{
-            get_started.showLocationSuggestions();
+            locations: locations,
+            show_location_suggestions: true
           });
         });
     }, 500);
   }
 
   showLocationSuggestions(){
-    document.getElementById('get_started_location_suggestions').style.display = 'block';
+    this.setState({
+      show_location_suggestions: true
+    });
   }
 
   hideLocationSuggestions(){
-    document.getElementById('get_started_location_suggestions').style.display = 'none';
+    this.setState({
+      show_location_suggestions: false
+    });
   }
 
   /*

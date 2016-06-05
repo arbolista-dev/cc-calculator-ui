@@ -8,7 +8,8 @@
     },
     "size": {
       "label": "How many people live in your household?"
-    }
+    },
+    "United States": "United States"
   },
   "travel": {
     "title": "Travel",
@@ -184,11 +185,13 @@
     }
   },
   "route_doesnt_exist": "The route you requested does not exist!",
+  "Hide": "Hide",
   "Avg": "Avg",
   "Next": "Next",
   "Previous": "Previous",
   "City": "City",
   "County": "County",
+  "Country": "Country",
   "Remove": "Remove",
   "State": "State",
   "Zipcode": "Zipcode"
