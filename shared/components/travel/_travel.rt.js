@@ -19,6 +19,7 @@ function repeatVehicle2(vehicle, vehicleIndex) {
         'value': vehicle.fuel_type,
         'onChange': this.updateVehicle.bind(this, vehicle)
     }, React.createElement('option', { 'value': '1' }, this.t('travel.gasoline')), React.createElement('option', { 'value': '2' }, this.t('travel.diesel'))), React.createElement('input', {
+        'className': 'form-control',
         'data-key': 'miles',
         'value': vehicle.display_miles,
         'placeholder': this.t('travel.miles_per_year'),
@@ -29,10 +30,10 @@ function repeatVehicle2(vehicle, vehicleIndex) {
     }, React.createElement('i', { 'className': 'fa fa-minus' })));
 }
 export default function () {
-    return React.createElement('div', {
-        'className': 'cc-component',
+    return React.createElement('main', {
+        'className': 'cc-component container container-sm',
         'id': 'travel'
-    }, React.createElement('div', { 'className': 'cc-component__header' }, React.createElement('div', {}, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('span', {}, this.t('travel.title'))), React.createElement('span', { 'className': 'cc-component__byline' }, this.t('travel.byline')), React.createElement('div', {}, React.createElement('span', {
+    }, React.createElement('header', { 'className': 'cc-component__header' }, React.createElement('div', {}, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('h2', {}, this.t('travel.title'))), React.createElement('span', { 'className': 'cc-component__byline' }, this.t('travel.byline')), React.createElement('div', {}, React.createElement('span', {
         'className': 'cc-component__simple-toggle',
         'onClick': this.setSimple.bind(this)
     }, this.t('component.labels.simple')), ' |\n      ', React.createElement('span', {
@@ -47,54 +48,56 @@ export default function () {
         }, { disabled: this.vehicles_maxed }), React.createElement('i', { 'className': 'fa fa-plus' })), '\n      ', this.t('travel.add_vehicle'), '\n    '),
         _.map(this.vehicles, repeatVehicle2.bind(this)),
         this.simple ? React.createElement('div', {}, React.createElement('div', { 'className': 'cc-component__question' }, React.createElement('h3', { 'className': 'cc-component__question-label' }, this.t('travel.publictrans.label')), React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('publictrans'),
-            'data-api_key': 'input_footprint_transportation_publictrans',
-            'className': 'cc-component__question-input--right'
+            'data-api_key': 'input_footprint_transportation_publictrans'
         })), React.createElement('div', { 'className': 'cc-component__question' }, React.createElement('h3', { 'className': 'cc-component__question-label' }, this.t('travel.air.label')), React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('airtotal'),
-            'data-api_key': 'input_footprint_transportation_airtotal',
-            'className': 'cc-component__question-input--right'
+            'data-api_key': 'input_footprint_transportation_airtotal'
         }))) : null,
         !this.simple ? React.createElement('div', {}, React.createElement('div', { 'className': 'cc-component__question' }, React.createElement('h3', { 'className': 'cc-component__question-label' }, this.t('travel.publictrans.label')), React.createElement('div', { 'className': 'cc-component__sub-question' }, React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('bus'),
             'data-api_key': 'input_footprint_transportation_bus'
         }), React.createElement('div', { 'className': 'cc-component__sub-question-label' }, this.t('travel.publictrans.bus'))), React.createElement('div', { 'className': 'cc-component__sub-question' }, React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('transit'),
             'data-api_key': 'input_footprint_transportation_transit'
         }), React.createElement('div', { 'className': 'cc-component__sub-question-label' }, this.t('travel.publictrans.transit_rail'))), React.createElement('div', { 'className': 'cc-component__sub-question' }, React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('commuter'),
             'data-api_key': 'input_footprint_transportation_commuter'
         }), React.createElement('div', { 'className': 'cc-component__sub-question-label' }, this.t('travel.publictrans.commuter_rail'))), React.createElement('div', { 'className': 'cc-component__sub-question' }, React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('intercity'),
             'data-api_key': 'input_footprint_transportation_intercity'
         }), React.createElement('div', { 'className': 'cc-component__sub-question-label' }, this.t('travel.publictrans.inter_city_rail')))), React.createElement('div', { 'className': 'cc-component__question' }, React.createElement('h3', { 'className': 'cc-component__question-label' }, this.t('travel.air.label')), React.createElement('h4', { 'className': 'cc-component__question-label' }, this.t('travel.air.advanced_sub_label')), React.createElement('div', { 'className': 'cc-component__sub-question' }, React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('airshort'),
             'data-api_key': 'input_footprint_transportation_airshort'
         }), React.createElement('div', { 'className': 'cc-component__sub-question-label' }, this.t('travel.air.short'))), React.createElement('div', { 'className': 'cc-component__sub-question' }, React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('airmedium'),
             'data-api_key': 'input_footprint_transportation_airmedium'
         }), React.createElement('div', { 'className': 'cc-component__sub-question-label' }, this.t('travel.air.medium'))), React.createElement('div', { 'className': 'cc-component__sub-question' }, React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('airlong'),
             'data-api_key': 'input_footprint_transportation_airlong'
         }), React.createElement('div', { 'className': 'cc-component__sub-question-label' }, this.t('travel.air.long'))), React.createElement('div', { 'className': 'cc-component__sub-question' }, React.createElement('input', {
+            'className': 'form-control',
             'onChange': this.updateFootprintInput.bind(this),
             'value': this.displayUserApiStateValue('airextended'),
             'data-api_key': 'input_footprint_transportation_airextended'
         }), React.createElement('div', { 'className': 'cc-component__sub-question-label' }, this.t('travel.air.extended'))))) : null
-    ]), React.createElement('div', { 'className': 'cc-component__nav' }, React.createElement('button', {
-        'onClick': this.router.previous.bind(this.router),
-        'className': 'btn'
-    }, this.t('Previous')), React.createElement('button', {
-        'onClick': this.router.next.bind(this.router),
-        'className': 'btn'
-    }, this.t('Next'))));
+    ]), React.createElement('div', { 'className': 'cc-component__nav' }, React.createElement('a', { 'onClick': this.router.previous.bind(this.router) }, this.t('Previous')), React.createElement('a', { 'onClick': this.router.next.bind(this.router) }, this.t('Next'))));
 }

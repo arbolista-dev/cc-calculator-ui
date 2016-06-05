@@ -31,15 +31,12 @@ function repeatAction1(action, actionIndex) {
     }, React.createElement('td', {}, action.tons_saved), React.createElement('td', {}, '$', action.dollars_saved), React.createElement('td', {}, '$', action.upfront_cost)));
 }
 export default function () {
-    return React.createElement('div', {
-        'className': 'cc-component',
+    return React.createElement('main', {
+        'className': 'cc-component container container-sm',
         'id': 'take_action'
-    }, React.createElement('div', { 'className': 'cc-component__header' }, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('span', {}, this.title)), React.createElement('div', { 'className': 'cc-component__form' }, React.createElement.apply(this, [
+    }, React.createElement('header', { 'className': 'cc-component__header' }, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('h2', {}, this.title)), React.createElement('div', { 'className': 'cc-component__form' }, React.createElement.apply(this, [
         'table',
         { 'className': 'table' },
         _.map(this.actions, repeatAction1.bind(this))
-    ])), React.createElement('div', { 'className': 'cc-component__nav' }, React.createElement('button', {
-        'onClick': this.router.previous.bind(this.router),
-        'className': 'btn'
-    }, this.t('Previous'))));
+    ])), React.createElement('div', { 'className': 'cc-component__nav' }, React.createElement('a', { 'onClick': this.router.previous.bind(this.router) }, this.t('Previous'))));
 }

@@ -6,7 +6,7 @@ import OverlapBar from 'd3-object-charts/src/bar/overlap';
 import Panel from '../../lib/base_classes/panel';
 import template from './graphs.rt.html'
 
-const TOTALS = ['result_transport_total', 'result_housing_total',
+const CATEGORIES = ['result_transport_total', 'result_housing_total',
   'result_food_total', 'result_goods_total', 'result_services_total'];
 
 class GraphsComponent extends Panel {
@@ -39,9 +39,9 @@ class GraphsComponent extends Panel {
   }
 
   generateData(footprint){
-    return CATEGORIES.reduce((sum, category)=>{
-      return sum + footprint[category];
-    }, 0);
+    return CATEGORIES.map((category)=>{
+      return footprint[category];
+    });
   }
 
   initializeOverallChart(){

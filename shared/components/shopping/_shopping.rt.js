@@ -27,13 +27,13 @@ function repeatService_type2(service_type, service_typeIndex) {
     }));
 }
 export default function () {
-    return React.createElement('div', {
-        'className': 'cc-component',
+    return React.createElement('main', {
+        'className': 'cc-component container container-sm',
         'id': 'shopping'
-    }, React.createElement('div', { 'className': 'cc-component__header' }, React.createElement('div', {}, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('span', {}, this.t('shopping.title'))), React.createElement('span', { 'className': 'cc-component__byline' }, this.t('shopping.byline')), React.createElement('div', {}, React.createElement('span', {
+    }, React.createElement('header', { 'className': 'cc-component__header' }, React.createElement('div', {}, React.createElement('img', { 'src': '/assets/img/' + this.route_key + '.png' }), React.createElement('h2', {}, this.t('shopping.title'))), React.createElement('span', { 'className': 'cc-component__byline' }, this.t('shopping.byline')), React.createElement('div', {}, React.createElement('span', {
         'className': 'cc-component__simple-toggle',
         'onClick': this.setSimple.bind(this)
-    }, this.t('component.labels.simple')), ' |\n      ', React.createElement('span', {
+    }, this.t('component.labels.simple')), ' |\n\t\t\t', React.createElement('span', {
         'className': 'cc-component__simple-toggle',
         'onClick': this.setAdvanced.bind(this)
     }, this.t('component.labels.advanced')))), React.createElement('div', { 'className': 'cc-component__form' }, React.createElement('div', {
@@ -57,11 +57,5 @@ export default function () {
         React.createElement('h4', {}, this.t('shopping.services.label')),
         React.createElement('p', {}, this.t('shopping.enter_data_help')),
         _.map(this.services_questions, repeatService_type2.bind(this))
-    ])), React.createElement('div', { 'className': 'cc-component__nav' }, React.createElement('button', {
-        'onClick': this.router.previous.bind(this.router),
-        'className': 'btn'
-    }, this.t('Previous')), React.createElement('button', {
-        'onClick': this.router.next.bind(this.router),
-        'className': 'btn'
-    }, this.t('Next'))));
+    ])), React.createElement('div', { 'className': 'cc-component__nav' }, React.createElement('a', { 'onClick': this.router.previous.bind(this.router) }, this.t('Previous')), React.createElement('a', { 'onClick': this.router.next.bind(this.router) }, this.t('Next'))));
 }

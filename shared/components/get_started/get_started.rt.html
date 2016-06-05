@@ -1,48 +1,48 @@
-<div class="cc-component" id="get_started">
-  <div class="cc-component__header">
-    <img src="/assets/img/{this.route_key}.png"/>
-    <span>{this.title}</span>
-  </div>
+<main class="cc-component container container-sm" id="get_started">
+	<header class="cc-component__header">
+		<img src="/assets/img/{this.route_key}.png"/>
+		<h2>{this.title}</h2>
+	</header>
 
-  <div class="cc-component__form">
-    <div class="cc-component__question">
-      <div class="btn-group" role="group">
-        <button
-          rt-repeat="mode in this.location_modes"
-          rt-class="{active: this.locationModeActive(mode[0])}"
-          key="location_mode_{mode[0]}"
-          type="button"
-          class="btn btn-default"
-          onClick="{this.setLocationMode.bind(this, mode[0])}" >{this.t(mode[1])}</button>
-      </div>
-    </div>
+	<div class="cc-component__form">
+		<div class="cc-component__question">
+			<div class="btn-group btn-group-justified" role="group">
+				<a
+				rt-repeat="mode in this.location_modes"
+				rt-class="{active: this.locationModeActive(mode[0])}"
+				key="location_mode_{mode[0]}"
+				type="button"
+				class="btn btn-primary"
+				onClick="{this.setLocationMode.bind(this, mode[0])}" >{this.t(mode[1])}</a>
+			</div>
+		</div>
 
-    <div class="cc-component__question">
-      <input
-        placeholder="{this.t('get_started.location_prompt')}"
-        onChange="{this.setLocationSuggestions.bind(this)}"
-        onBlur="{this.hideLocationSuggestions.bind(this)}"
-        onFocus="{this.showLocationSuggestions.bind(this)}"/>
-      <div id="get_started_location_suggestions">
-        <div
-          rt-repeat="suggestion in this.state.location_suggests"
-          class="get-started__location-suggestion"
-          onClick="{this.setLocation.bind(this, suggestion)}">{suggestion}</div>
-      </div>
-    </div>
+		<div class="cc-component__question">
+			<input class="form-control"
+			placeholder="{this.t('get_started.location_prompt')}"
+			onChange="{this.setLocationSuggestions.bind(this)}"
+			onBlur="{this.hideLocationSuggestions.bind(this)}"
+			onFocus="{this.showLocationSuggestions.bind(this)}"/>
+			<div id="get_started_location_suggestions">
+				<div
+				rt-repeat="suggestion in this.state.location_suggests"
+				class="get-started__location-suggestion"
+				onClick="{this.setLocation.bind(this, suggestion)}">{suggestion}</div>
+			</div>
+		</div>
 
-    <div class="cc-component__question">
-      <div class="cc-component__question-label">{this.t('get_started.size.label')}</div>
-      <div id="size_slider"></div>
-    </div>
-    <div class="cc-component__question">
-      <div class="cc-component__question-label">{this.t('get_started.income.label')}</div>
-      <div id="income_slider"></div>
-    </div>
+		<div class="cc-component__question">
+			<div class="cc-component__question-label">{this.t('get_started.size.label')}</div>
+			<div id="size_slider"></div>
+		</div>
+		<div class="cc-component__question">
+			<div class="cc-component__question-label">{this.t('get_started.income.label')}</div>
+			<div id="income_slider"></div>
+		</div>
 
-  </div>
+	</div>
 
-  <div class="cc-component__nav">
-    <button onClick="{this.router.next.bind(this.router)}" class="btn">{this.t('Next')}</button>
-  </div>
-</div>
+	<div class="cc-component__nav">
+		<a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
+	</div>
+</main>

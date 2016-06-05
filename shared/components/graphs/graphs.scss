@@ -1,10 +1,13 @@
 #graphs {
-  border: 1px solid black;
-
-  table {
-    table-layout:fixed;
-    td {
-      word-wrap:break-word;
-    }
+	rect.your-footprint {
+    fill: #0D793E;
   }
+  rect.average {
+    fill: none;
+    stroke-dasharray:5,5;
+    stroke-width:2;
+    stroke:#A4A4A4;
+  }
+
+
 }
