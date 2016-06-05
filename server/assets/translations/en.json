@@ -9,7 +9,8 @@
     "size": {
       "label": "How many people live in your household?"
     },
-    "United States": "United States"
+    "United States": "United States",
+    "average_household_size": "Avg (2.5)"
   },
   "travel": {
     "title": "Travel",

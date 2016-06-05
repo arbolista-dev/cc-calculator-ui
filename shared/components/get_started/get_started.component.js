@@ -47,7 +47,7 @@ class GetStartedComponent extends Panel {
    get input_location_display(){
     let get_started = this;
     if (get_started.country_mode){
-      return get_started.t('get_started.United States')
+      return get_started.t('get_started.United States');
     } else {
       return get_started.state.input_location;
     }
@@ -92,6 +92,7 @@ class GetStartedComponent extends Panel {
     });
   }
 
+  // called when location suggestion is clicked.
   setLocation(event){
     let get_started = this,
         zipcode = event.target.dataset.zipcode,
@@ -103,6 +104,7 @@ class GetStartedComponent extends Panel {
     get_started.updateDefaults({input_location: zipcode});
   }
 
+  // called when input_location input changed.
   setLocationSuggestions(event){
     if (this.country_mode) return false;
     let get_started = this,
@@ -157,17 +159,19 @@ class GetStartedComponent extends Panel {
 
   initializeSizeSlider(){
     let get_started = this;
-
     get_started.size_slider = new SnapSlider({
       container: '#size_slider',
-      tick_labels: { 1: '1', 2: '3', 3: '3', 4: '4', 5: '5+' },
+      tick_labels: {
+        0: get_started.t('get_started.average_household_size'),
+        1: '1', 2: '2', 3: '3', 4: '4', 5: '5+'
+      },
       onSnap: function(selected_size) {
         get_started.updateDefaults({input_size: selected_size});
       }
     });
 
     get_started.size_slider.drawData({
-      abs_min: 1,
+      abs_min: 0,
       abs_max: 5,
       current_value: get_started.input_size
     });
@@ -193,14 +197,13 @@ class GetStartedComponent extends Panel {
         11: '120k+'
       },
       onSnap: function(selected_income) {
-        console.log('onSnap', selected_income);
         get_started.updateDefaults({input_income: selected_income});
       }
     });
 
     get_started.income_slider.drawData({
-      abs_min: 0,
-      abs_max: 12,
+      abs_min: 1,
+      abs_max: 11,
       current_value: get_started.input_income
     });
 

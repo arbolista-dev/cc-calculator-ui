@@ -54,6 +54,10 @@ export default class StateManager {
     return this.state.user_footprint['input_location_mode'];
   }
 
+  get footprint_not_updated(){
+    return this.user_footprint['input_changed'] != 1;
+  }
+
   get actions_not_updated(){
     return this.result_takeaction_pounds === undefined;
   }
@@ -112,9 +116,9 @@ export default class StateManager {
     return CalculatorApi.getDefaultsAndResults(state_manager.default_inputs)
       .then((res)=>{
         state_manager.state.average_footprint = res;
-        if (!state_manager.user_footprint_set){
+        if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
           state_manager.parseFootrintResult(res);
-          return undefined
+          return undefined;
         } else {
           // If user footprint has been defined, update it with new location.
           return state_manager.updateFootprint(state_manager.inputs);
