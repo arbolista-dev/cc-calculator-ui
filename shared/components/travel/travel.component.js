@@ -18,8 +18,8 @@ class TravelComponent extends Panel {
     travel.state = Object.assign({
       simple: true,
       vehicles: [
-        new Vehicle({}, travel),
-        new Vehicle({}, travel)
+        new Vehicle(travel.newVehicleParams(1), travel),
+        new Vehicle(travel.newVehicleParams(2), travel)
       ]
     }, travel.userApiState());
   }
@@ -85,7 +85,6 @@ class TravelComponent extends Panel {
     travel.setState({
       simple: false
     });
-    console.log(this.state)
     travel.updateFootprintParams({
       input_footprint_transportation_groundtype: 1,
       input_footprint_transportation_airtype: 1
@@ -95,6 +94,15 @@ class TravelComponent extends Panel {
   /*
    * Vehicle Updates
    */
+
+  newVehicleParams(n){
+    let travel = this;
+    return {
+      miles: travel.userApiValue(`input_footprint_transportation_miles${n}`),
+      mpg: travel.userApiValue(`input_footprint_transportation_mpg${n}`),
+      fuel_type: travel.userApiValue(`input_footprint_transportation_fuel${n}`)
+    }
+  }
 
   updateVehicleFootprint(){
     let travel = this,
@@ -125,7 +133,8 @@ class TravelComponent extends Panel {
   addVehicle(){
     let travel = this;
     if (travel.vehicles_maxed) return false;
-    let new_vehicle = new Vehicle({}, travel);
+    let params = travel.newVehicleParams(travel.vehicles.length),
+        new_vehicle = new Vehicle(params, travel);
     travel.vehicles.push(new_vehicle);
     travel.setState({
       vehicles: this.vehicles

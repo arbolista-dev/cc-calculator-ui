@@ -1,11 +1,5 @@
 import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
-const DEFAULTS = {
-  mpg: 22,
-  fuel_type: 1, // gasoline
-  miles: 0
-};
-
 export default class Vehicle {
 
   constructor(values, travel){
@@ -13,7 +7,7 @@ export default class Vehicle {
     vehicle.travel = travel;
     vehicle.id = Vehicle.current_id;
 
-    Object.assign(vehicle, DEFAULTS, values || {});
+    Object.assign(vehicle, values || {});
     Vehicle.current_id += 1;
   }
 
