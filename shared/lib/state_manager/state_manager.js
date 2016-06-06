@@ -41,8 +41,18 @@ export default class StateManager {
     return Object.keys(this.state.user_footprint)
   }
 
+  get footprint_not_updated(){
+    console.log('input changed', this.user_footprint['input_changed'])
+    return this.user_footprint['input_changed'] != 1;
+  }
+
+  get actions_not_updated(){
+    return this.result_takeaction_pounds === undefined;
+  }
+
   get user_footprint_set(){
     let state_manager = this;
+    console.log('user_footprint_set', Object.keys(state_manager.state.user_footprint).length )
     return Object.keys(state_manager.state.user_footprint).length !== 0
   }
 
@@ -64,14 +74,6 @@ export default class StateManager {
 
   get input_location_mode(){
     return this.state.user_footprint['input_location_mode'];
-  }
-
-  get footprint_not_updated(){
-    return this.user_footprint['input_changed'] != 1;
-  }
-
-  get actions_not_updated(){
-    return this.result_takeaction_pounds === undefined;
   }
 
   get result_takeaction_pounds(){
@@ -168,14 +170,17 @@ export default class StateManager {
     let state_manager = this;
 
     if (state_manager.actions_not_updated){
+      console.log('also getting actions results')
       state_manager.parseTakeactionResult(result);
     } else {
+      console.log('no need for action results')
       result = Object.keys(result).reduce((hash, api_key)=>{
         if (!/^(result|input)_takeaction/.test(api_key)){
           hash[api_key] = result[api_key]
         }
         return hash;
       }, {});
+      console.log(result)
       Object.assign(state_manager.state.user_footprint, result);
     }
 
@@ -201,7 +206,7 @@ export default class StateManager {
   parseTakeactionResult(result){
     let state_manager = this;
     Object.assign(state_manager.state.user_footprint, result);
-
+    console.log('footprint set?', state_manager.user_footprint_set)
     state_manager.state['result_takeaction_pounds'] = JSON.parse(result['result_takeaction_pounds']);
     state_manager.state['result_takeaction_dollars'] = JSON.parse(result['result_takeaction_dollars']);
     state_manager.state['result_takeaction_net10yr'] = JSON.parse(result['result_takeaction_net10yr']);

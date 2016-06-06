@@ -122,7 +122,21 @@
   },
   "graphs": {
     "your_footprint": "Your footprint",
-    "average_footprint": "Average"
+    "average_footprint": "Average",
+    "total_home_footprint": "Total Home Footprint",
+    "total_travel_footprint": "Total Home Footprint",
+    "total_shopping_footprint": "Total Home Footprint",
+    "total_food_footprint": "Total Home Footprint",
+    "total_home_footprint": "Total Home Footprint",
+    "better_than_average": "Better than Average",
+    "worse_than_average": "Worse than Average"
+  },
+  "summaries": {
+    "total_footprint": "Total Footprint",
+    "total_travel_footprint": "Total Travel Footprint",
+    "total_home_footprint": "Total Home Footprint",
+    "total_food_footprint": "Total Food Footprint",
+    "total_shopping_footprint": "Total Shopping Footprint"
   },
   "categories": {
     "result_transport_total": "Travel",
@@ -177,7 +191,8 @@
     "kwh_per_year": "kWh/year",
     "therms_per_year": "therms/year",
     "cuft_per_year": "cuft/year",
-    "gallons_per_year": "gallons/month"
+    "gallons_per_year": "gallons/month",
+    "tons_co2_per_year": "tons CO<sub>2</sub>/year"
   },
   "component": {
     "labels": {
@@ -187,6 +202,7 @@
   },
   "route_doesnt_exist": "The route you requested does not exist!",
   "Hide": "Hide",
+  "Total": "Total",
   "Avg": "Avg",
   "Next": "Next",
   "Previous": "Previous",
