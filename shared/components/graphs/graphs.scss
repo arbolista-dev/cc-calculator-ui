@@ -8,6 +8,15 @@
     stroke-width:2;
     stroke:#A4A4A4;
   }
+}
 
+#overview_chart {
+  text-align:center;
+  padding:10px;
 
+  rect.travel { fill: #0D7A3E; }
+  rect.home { fill: #45813C; }
+  rect.dining { fill: #5E893C; }
+  rect.goods { fill: #0B713D; }
+  rect.services { fill: #4AAA48; }
 }

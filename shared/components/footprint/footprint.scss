@@ -1,3 +1,18 @@
 #footprint {
 
 }
+
+#overall_comparative_pie {
+  text-align:center;
+}
+
+.d3-value-arc {
+  text {
+    fill: white;
+    font-weight:bold;
+  }
+  path {
+    stroke: white;
+    stroke-width: 1px;
+  }
+}

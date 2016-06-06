@@ -17,6 +17,10 @@ class LayoutComponent extends mixin(Translatable, routable) {
     context.state_manager.layout = layout;
   }
 
+  render() {
+    return template.call(this);
+  }
+
   get route_key() {
     return this.state_manager.state.route.key;
   }
@@ -47,10 +51,6 @@ class LayoutComponent extends mixin(Translatable, routable) {
     var prerender_data = document.getElementById('prerender_data');
     window.PrerenderData = undefined;
     if (prerender_data) prerender_data.parentNode.removeChild(prerender_data);
-  }
-
-  render() {
-    return template.call(this);
   }
 
 }

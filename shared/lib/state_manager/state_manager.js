@@ -5,12 +5,24 @@ import CalculatorApi from 'api/calculator.api';
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
 const DEFAULT_INPUTS = ['input_size', 'input_income', 'input_location', 'input_location_mode'];
 const TAKEACTION_INPUTS = ['input_footprint_household_adults', 'input_footprint_household_children'];
+const CATEGORY_COLORS = {
+  result_transport_total: '#0D7A3E',
+  result_housing_total: '#45813C',
+  result_food_total: '#5E893C',
+  result_goods_total: '#0B713D',
+  result_services_total: '#4AAA48'
+};
+
 
 export default class StateManager {
 
   constructor(){
     var state_manager = this;
     state_manager.state = {average_footprint: {}, user_footprint: {}};
+  }
+
+  get category_colors(){
+    return CATEGORY_COLORS;
   }
 
   get params(){
