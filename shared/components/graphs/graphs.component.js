@@ -84,6 +84,7 @@ class GraphsComponent extends Panel {
       outer_width: dimensions.outer_width,
       container: '#overview_chart',
       y_ticks: 5,
+      margin:{top: 0, bottom: 30, left: 40, right: 0},
       seriesClass: function(series){
         return series.name.replace(/\s+/g, '-').toLowerCase();
       }

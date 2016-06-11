@@ -2,6 +2,15 @@
 
 }
 
+#overall_comparative_pie_legend {
+  padding:10px;
+  img { height: 30px; }
+  > div {
+    text-align: center;
+    font-style: italic;
+  }
+}
+
 #overall_comparative_pie {
   text-align:center;
 }
@@ -15,4 +24,8 @@
     stroke: white;
     stroke-width: 1px;
   }
+}
+
+.d3-comparative-arc {
+  stroke: darkgrey !important;
 }

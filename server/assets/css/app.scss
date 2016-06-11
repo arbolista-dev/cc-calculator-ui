@@ -1,15 +1,12 @@
-// .cc-component__nav {
-	
-// }
+.cc-component__simple-toggle {
+  cursor:pointer;
+}
 
-// .cc-component__header {
-// 	text-align:center;
-// 	border:1px solid lightgrey;
-// 	img {
-// 		max-width:80px;
-// 	}
-// }
+.d3-simple-slider path.domain, .d3-snap-slider path.domain {
+  stroke-width:2px;
+  stroke:black;
+}
 
-// .cc-component__form {
-// 	border:1px solid lightgrey;
-// }
+.d3-chart-handle {
+  cursor: ew-resize;
+}

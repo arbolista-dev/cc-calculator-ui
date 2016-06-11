@@ -87,12 +87,7 @@ export default class StateManager {
   }
 
   get inputs(){
-    return Object.keys(this.state.user_footprint).reduce((params, key)=>{
-      if (/^input_/.test(key) || DEFAULT_INPUTS.indexOf(key) >= 0){
-        params[key] = this.state.user_footprint[key];
-      }
-      return params;
-    }, {});
+    return Object.assign({}, this.user_footprint)
   }
 
   setRoute(route){
@@ -123,13 +118,18 @@ export default class StateManager {
   }
 
   updateDefaults(){
-    let state_manager = this;
+    let state_manager = this, defaults;
 
     return CalculatorApi.getDefaultsAndResults(state_manager.default_inputs)
-      .then((res)=>{
-        state_manager.state.average_footprint = res;
+      .then((_defaults)=>{
+        defaults = _defaults
+        state_manager.state.average_footprint = defaults;
+        return CalculatorApi.computeFootprint(defaults)
+      })
+      .then((default_footprint)=>{
+        Object.assign(state_manager.state.average_footprint, default_footprint);
         if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
-          state_manager.parseFootrintResult(res);
+          state_manager.parseFootprintResult(defaults);
           return undefined;
         } else {
           // If user footprint has been defined, update it with new location.
@@ -154,7 +154,8 @@ export default class StateManager {
 
     return CalculatorApi.computeFootprint(state_manager.inputs)
       .then((res)=>{
-        state_manager.parseFootrintResult(res);
+        state_manager.logDifferences(state_manager.inputs, res)
+        state_manager.parseFootprintResult(res);
         return undefined;
       })
       .then(()=>{
@@ -162,7 +163,22 @@ export default class StateManager {
       });
   }
 
-  parseFootrintResult(result){
+  logDifferences(input, output){
+    let state_manager = this,
+        keys = Object.keys(input).sort(),
+        differences = [];
+        keys.forEach((key)=>{
+          let in_v = input[key],
+              out_v = output[key];
+          if (in_v !== out_v && out_v){
+            differences.push([key, in_v, out_v])
+          }
+        });
+
+    console.log(JSON.stringify(differences, null, 2))
+  }
+
+  parseFootprintResult(result){
     // compute footprint and default calls will 0 out take action inputs/results.
     // do not override those values for user_footprint.
     let state_manager = this;
@@ -178,7 +194,6 @@ export default class StateManager {
       }, {});
       Object.assign(state_manager.state.user_footprint, result);
     }
-
   }
 
   /*

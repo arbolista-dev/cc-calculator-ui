@@ -4,31 +4,30 @@ a { cursor: pointer; }
 #cc_calculator_ui {
 	.cc-nav__item {
 		cursor: pointer;
-		float: left;
-		padding: 20px 0;
+		padding: 5px 0;
 		text-align: center;
-		width: 14%;
 		img {
 			clear: both !important;
 			margin: 0 auto;
-			height: 75px;
+			height: 40px;
 		}
 		span {
 			clear: both;
-			float: left;
 			width: 100%;
 			text-transform: uppercase;
+			display:block;
 		}
 		&:hover {
 			background-color: #EEE;
 			span {
 			// color: $brand-primary !important;
+			}
 		}
+		&.cc-nav__item--active {}
 	}
-	&.cc-nav__item--active {
-		background: #FFF;
+	.in .cc-nav__item span {
+		display:inline-block;
 	}
-}
 }
 
 .container-md {
@@ -66,7 +65,7 @@ a { cursor: pointer; }
 main > header {
 	text-align: center;
 	img {
-		height: 120px;
+		height: 80px;
 	}
 }
 
@@ -87,9 +86,11 @@ main > header {
 		background: #4AAA48;
 		color: #FFF;
 		display: inline-block;
-		padding: 20px;
+		padding: 10px;
 		text-transform: uppercase;
 		margin-right: 10px;
 		&:last-child { margin: 0; }
 	}
 }
+
+

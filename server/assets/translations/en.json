@@ -1,6 +1,7 @@
 {
   "get_started": {
     "title": "Get Started",
+    "byline": "Start with a quick carbon footprint estimate",
     "route_path": "get_started",
     "location_prompt": "Enter your location",
     "income": {
@@ -114,10 +115,13 @@
   },
   "footprint": {
     "title": "Footprint",
-    "route_path": "footprint"
+    "route_path": "footprint",
+    "your_footprint": "Your household footprint",
+    "average_footprint": "Average household"
   },
   "take_action": {
     "title": "Take Action",
+    "byline": "Offset your impact",
     "route_path": "take_action"
   },
   "graphs": {
