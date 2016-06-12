@@ -40,6 +40,11 @@
   </div>
 
   </div>
+  <div id="take_action_savings">
+    <span class="label label-info">{this.displayTakeactionSavings('result_takeaction_pounds')} {this.t('take_action.tons_saved')}</span><br/>
+    <span class="label label-info">${this.displayTakeactionSavings('result_takeaction_dollars')} {this.t('take_action.dollars_saved')}</span><br/>
+    <span class="label label-info">${this.displayTakeactionSavings('result_takeaction_net10yr')} {this.t('take_action.upfront_cost')}</span><br/>
+  </div>
 
   <div class="cc-component__nav">
     <a onClick="{this.router.previous.bind(this.router)}">{this.t('Previous')}</a>

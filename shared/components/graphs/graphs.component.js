@@ -142,7 +142,7 @@ class GraphsComponent extends Panel {
   get user_category_footprint(){
     let graphs = this;
     if (graphs.current_route_name === 'TakeAction'){
-      return graphs.total_takeaction_savings;
+      return graphs.totalTakeactionSavings('result_takeaction_pounds');
     } else {
       return Math.round(
         graphs.category_keys.reduce((sum, category_key)=>{
@@ -150,19 +150,6 @@ class GraphsComponent extends Panel {
         }, 0)
       );
     }
-  }
-
-  get total_takeaction_savings(){
-    let graphs = this;
-    return Math.round(
-        Object.keys(graphs.state_manager.result_takeaction_pounds)
-        .filter(key=> !/^offset_/.test(key))
-        .reduce((sum, action_key)=>{
-          if (graphs.userApiValue(`input_takeaction_${action_key}`) == 1){
-            sum += graphs.state_manager['result_takeaction_pounds'][action_key];
-          }
-          return sum;
-        }, 0)) || 0;
   }
 
   get average_category_footprint(){

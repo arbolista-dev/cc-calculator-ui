@@ -26,6 +26,27 @@ export let footprintable = {
     }, {});
   },
 
+  totalTakeactionSavings(savings_type){
+    let component = this;
+    return Math.round(
+        Object.keys(component.state_manager.result_takeaction_pounds)
+        .filter(key=> !/^offset_/.test(key))
+        .reduce((sum, action_key)=>{
+          if (component.userApiValue(`input_takeaction_${action_key}`) == 1){
+            sum += component.state_manager[savings_type][action_key];
+          }
+          return sum;
+        }, 0)) || 0;
+  },
+
+  displayTakeactionSavings(savings_type){
+    return this.numberWithCommas(this.totalTakeactionSavings(savings_type));
+  },
+
+  numberWithCommas: function(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  },
+
   updateFootprintParams(params){
     this.state_manager.updateFootprintParams(params);
   },
