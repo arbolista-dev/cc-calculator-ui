@@ -9,31 +9,35 @@
 
   <div class="cc-component__form">
 
-  <table class="table">
-    <tbody rt-repeat="action in this.actions"
+  <div>
+    <div rt-repeat="action in this.actions"
       key="{action.key}">
-      <tr>
-        <td onClick="{this.toggleAction.bind(this, action)}">
-          <i class="fa" rt-class="{'fa-square': !action.taken, 'fa-check-square': action.taken}"></i>
-        </td>
-        <td colspan="2">
-          <h4>
-            {action.display_name}
-            <button class="take-action__detail-toggle btn btn-default btn-xs"
-              onClick="{this.toggleActionDetails.bind(this, action)}">
-              <i rt-class="{'fa-expand': !action.detailed, 'fa-compress': action.detailed}" class="fa"></i>
-            </button>
-          </h4>
-        </td>
-      </tr>
-      <tr rt-class="{hidden: !action.detailed}">
-        <td>{action.tons_saved}</td>
-        <td>${action.dollars_saved}</td>
-        <td>${action.upfront_cost}</td>
-      </tr>
-    </tbody>
+      <div class="take-action__action-heading"
+        rt-class="{'take-action__action-heading--taken': action.taken}"
+        onClick="{this.toggleActionDetails.bind(this, action)}">
+        <h5>{action.display_name}</h5>
+      </div>
+      <div class="take-action__action-body" rt-class="{hidden: !action.detailed}">
+        <div>
+          <div class="take-action__savings-amount">{action.tons_saved}</div>
+          <div class="take-action__savings-label">{this.t('take_action.tons_saved')}</div>
+        </div>
+        <div>
+          <div class="take-action__savings-amount">${action.dollars_saved}</div>
+          <div class="take-action__savings-label">{this.t('take_action.dollars_saved')}</div>
+        </div>
+        <div>
+          <div class="take-action__savings-amount">${action.upfront_cost}</div>
+          <div class="take-action__savings-label">{this.t('take_action.upfront_cost')}</div>
+        </div>
+        <button class="btn btn-default"
+          onClick="{this.toggleAction.bind(this, action)}">
+          <i class="fa" rt-class="{'fa-square-o': !action.taken, 'fa-check-square': action.taken}"></i>
+        </button>
+      </div>
+    </div>
 
-  </table>
+  </div>
 
   </div>
 

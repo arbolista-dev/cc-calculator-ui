@@ -141,12 +141,28 @@ class GraphsComponent extends Panel {
 
   get user_category_footprint(){
     let graphs = this;
+    if (graphs.current_route_name === 'TakeAction'){
+      return graphs.total_takeaction_savings;
+    } else {
+      return Math.round(
+        graphs.category_keys.reduce((sum, category_key)=>{
+          return sum + parseInt(graphs.userApiValue(category_key));
+        }, 0)
+      );
+    }
+  }
 
+  get total_takeaction_savings(){
+    let graphs = this;
     return Math.round(
-      graphs.category_keys.reduce((sum, category_key)=>{
-        return sum + parseInt(graphs.userApiValue(category_key));
-      }, 0)
-    )
+        Object.keys(graphs.state_manager.result_takeaction_pounds)
+        .filter(key=> !/^offset_/.test(key))
+        .reduce((sum, action_key)=>{
+          if (graphs.userApiValue(`input_takeaction_${action_key}`) == 1){
+            sum += graphs.state_manager['result_takeaction_pounds'][action_key];
+          }
+          return sum;
+        }, 0)) || 0;
   }
 
   get average_category_footprint(){
@@ -186,6 +202,8 @@ class GraphsComponent extends Panel {
         return graphs.t('summaries.total_food_footprint')
       case 'Shopping':
         return graphs.t('summaries.total_shopping_footprint')
+      case 'TakeAction':
+        return graphs.t('summaries.total_action_savings')
       default:
         return graphs.t('summaries.total_footprint')
     }

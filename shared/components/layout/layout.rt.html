@@ -8,9 +8,8 @@
 <rt-require dependency="./../missing/missing.component" as="Missing"/>
 <rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
 <div id="cc_calculator_ui">
-	<nav id="cc_nav" class="navbar navbar-default">
-		<div id="navbar" >
-			<div class="nav">
+	<nav class="navbar navbar-default">
+			<div id="cc_nav" >
 				<div
 					rt-repeat="route in this.router.main_routes"
 					class="cc-nav__item"
@@ -22,7 +21,6 @@
 					<div>{this.t(`${route.key}.title`)}</div>
 				</div>
 			</div>
-		</div>
 	</nav>
 	<div id="banner"></div>
 	<main>

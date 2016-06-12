@@ -13,7 +13,6 @@ class TakeActionComponent extends Panel {
     let take_action = this;
     take_action.action_keys = Object.keys(take_action.result_takeaction_pounds)
       .filter(key=> !/^offset_/.test(key));
-console.log('hi')
     take_action.actions = take_action
       .action_keys
       .map((action_key)=>{

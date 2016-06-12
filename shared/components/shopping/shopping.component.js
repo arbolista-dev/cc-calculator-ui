@@ -139,6 +139,8 @@ class ShoppingComponent extends Panel {
 
     shopping.services_slider = new SimpleSlider({
       container: '#shopping_services_slider',
+      outer_height: 60,
+      margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
         1: '1x',
@@ -174,6 +176,8 @@ class ShoppingComponent extends Panel {
 
     shopping.services_slider = new SimpleSlider({
       container: '#shopping_goods_slider',
+      outer_height: 60,
+      margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
         1: '1x',

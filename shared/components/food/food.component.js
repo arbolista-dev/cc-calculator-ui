@@ -102,6 +102,8 @@ class FoodComponent extends Panel {
     let food = this;
     food.sliders[food_type] = new SimpleSlider({
       container: '#food_average_slider_' + food_type,
+      outer_height: 60,
+      margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
         1: '1x',

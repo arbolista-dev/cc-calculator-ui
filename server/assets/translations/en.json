@@ -92,7 +92,6 @@
     "byline": "How much do you spend on each of the following?",
     "route_path": "shopping",
     "dollars_per_month": "$/month",
-    "enter_data_help": "Please enter USD spent per month by category",
     "services": {
       "label": "Services"
     },
@@ -116,7 +115,7 @@
     "miscservices": {"label": "Other services"}
   },
   "footprint": {
-    "title": "Footprint",
+    "title": "Your Footprint",
     "route_path": "footprint",
     "your_footprint": "Your household footprint",
     "average_footprint": "Average household"
@@ -124,7 +123,10 @@
   "take_action": {
     "title": "Take Action",
     "byline": "Offset your impact",
-    "route_path": "take_action"
+    "route_path": "take_action",
+    "tons_saved": "Tons saved",
+    "dollars_saved": "Dollars saved",
+    "upfront_cost": "Upfront cost"
   },
   "graphs": {
     "your_footprint": "Your footprint",
@@ -142,7 +144,8 @@
     "total_travel_footprint": "Total Travel Footprint",
     "total_home_footprint": "Total Home Footprint",
     "total_food_footprint": "Total Food Footprint",
-    "total_shopping_footprint": "Total Shopping Footprint"
+    "total_shopping_footprint": "Total Shopping Footprint",
+    "total_action_savings": "Annual Savings"
   },
   "categories": {
     "result_transport_total": "Travel",
