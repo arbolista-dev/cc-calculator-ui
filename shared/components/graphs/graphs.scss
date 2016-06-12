@@ -5,7 +5,7 @@
   rect.average {
     fill: none;
     stroke-dasharray:5,5;
-    stroke-width:2;
+    stroke-width:s;
     stroke:#A4A4A4;
   }
 }
@@ -20,6 +20,8 @@
   rect.your-footprint.goods { fill: #0B713D; }
   rect.your-footprint.services { fill: #4AAA48; }
 }
+
+.d3-overlap-bar { cursor:pointer; }
 
 #graphs_total_summary {
   text-align:center;

@@ -94,6 +94,24 @@ class FootprintComponent extends Panel {
       }
     });
     footprint.drawData();
+    footprint.initializePopovers();
+  }
+
+  initializePopovers(){
+    let footprint = this;
+    window.jQuery('.d3-value-arc text').popover({
+      placement: 'top',
+      html: true,
+      container: 'body',
+      trigger: 'click',
+      content: function(){
+        let category = window.jQuery(this)
+          .closest('.d3-value-arc')
+          .attr('class').split(' ')[1];
+        return footprint.popoverContentForCategory(category)
+      }
+
+    });
   }
 
   drawData(){
@@ -108,6 +126,7 @@ class FootprintComponent extends Panel {
   resize(){
     let footprint = this;
     footprint.chart.redraw(footprint.graph_dimensions);
+    footprint.initializePopovers();
   }
 
 }

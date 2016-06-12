@@ -39,3 +39,12 @@
   font-weight:normal;
   font-size:12px;
 }
+
+.chart-legend {
+  padding:10px;
+  img { height: 30px; }
+  > div {
+    text-align: center;
+    font-style: italic;
+  }
+}

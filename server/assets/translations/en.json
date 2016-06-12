@@ -221,5 +221,6 @@
   "Remove": "Remove",
   "State": "State",
   "Zipcode": "Zipcode",
-  "add": "add"
+  "add": "add",
+  "percent_of_total": "Percent of total"
 }

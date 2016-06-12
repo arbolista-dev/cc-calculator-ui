@@ -20,7 +20,7 @@ export default class Action {
 
   get tons_saved(){
     return this.take_action.numberWithCommas(
-      Math.round(this.take_action.result_takeaction_pounds[this.key])
+      Math.round(this.take_action.result_takeaction_pounds[this.key] * 100) / 100
     );
   }
 

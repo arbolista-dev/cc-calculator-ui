@@ -2,15 +2,6 @@
 
 }
 
-#overall_comparative_pie_legend {
-  padding:10px;
-  img { height: 30px; }
-  > div {
-    text-align: center;
-    font-style: italic;
-  }
-}
-
 #overall_comparative_pie {
   text-align:center;
 }
@@ -19,6 +10,7 @@
   text {
     fill: white;
     font-weight:bold;
+    cursor:pointer;
   }
   path {
     stroke: white;

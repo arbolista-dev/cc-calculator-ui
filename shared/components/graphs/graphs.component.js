@@ -84,7 +84,7 @@ class GraphsComponent extends Panel {
       outer_width: dimensions.outer_width,
       container: '#overview_chart',
       y_ticks: 5,
-      margin:{top: 0, bottom: 30, left: 40, right: 0},
+      margin:{top: 4, bottom: 30, left: 40, right: 0},
       seriesClass: function(series){
         return series.name.replace(/\s+/g, '-').toLowerCase();
       }
@@ -106,11 +106,30 @@ class GraphsComponent extends Panel {
         }
       ]
     });
+    graphs.initializePopovers();
+  }
+
+  initializePopovers(){
+    let footprint = this;
+    window.jQuery('.your-footprint').popover({
+      placement: 'top',
+      html: true,
+      container: 'body',
+      trigger: 'click',
+      content: function(){
+        let klasses = window.jQuery(this)
+          .attr('class').split(' '),
+          category = klasses[klasses.length - 1];
+        return footprint.popoverContentForCategory(category)
+      }
+
+    });
   }
 
   resize(){
     let graphs = this;
     graphs.chart.redraw(graphs.graph_dimensions);
+    graphs.initializePopovers();
   }
 
   /*
@@ -142,7 +161,7 @@ class GraphsComponent extends Panel {
   get user_category_footprint(){
     let graphs = this;
     if (graphs.current_route_name === 'TakeAction'){
-      return graphs.totalTakeactionSavings('result_takeaction_pounds');
+      return graphs.displayTakeactionSavings('result_takeaction_pounds');
     } else {
       return Math.round(
         graphs.category_keys.reduce((sum, category_key)=>{

@@ -5,14 +5,6 @@
       <h4>{this.t('travel.title')}</h4>
     </div>
     <span class="cc-component__byline">{this.t('travel.byline')}</span>
-    <div>
-      <span class="cc-component__simple-toggle"
-        rt-class="{'cc-component__simple-toggle--active': this.state.simple}"
-        onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
-      <span class="cc-component__simple-toggle"
-        rt-class="{'cc-component__simple-toggle--active': !this.state.simple}"
-        onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
-    </div>
   </header>
 
   <div class="cc-component__form">
@@ -61,6 +53,15 @@
       </div>
       <span class="label label-slider">{vehicle.display_mpg} <i>{this.t('travel.miles_per_gallon')}</i></span>
       <div class="vehicle-slider__container" id="{vehicle.slider_id}"></div>
+    </div>
+
+    <div style="text-align:center;">
+      <span class="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': this.state.simple}"
+        onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
+      <span class="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': !this.state.simple}"
+        onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
     </div>
 
     <div rt-if="this.simple">

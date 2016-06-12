@@ -5,7 +5,19 @@
     <div class="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></div>
   </div>
 
-  <div rt-class="{hidden: !this.state.show_chart}" id="overview_chart"></div>
+  <div rt-class="{hidden: !this.state.show_chart}">
+    <div id="overview_chart"></div>
+    <div class="chart-legend">
+      <div>
+        <img src="/assets/img/your-footprint-rect.png"/>
+        {this.t('footprint.your_footprint')}
+      </div>
+      <div>
+        <img src="/assets/img/average-footprint-rect.png"/>
+        {this.t('footprint.average_footprint')}
+      </div>
+    </div>
+  </div>
 
   <div id="graphs_category_stats">
     <div>

@@ -28,19 +28,60 @@ export let footprintable = {
 
   totalTakeactionSavings(savings_type){
     let component = this;
-    return Math.round(
-        Object.keys(component.state_manager.result_takeaction_pounds)
+    return Object.keys(component.state_manager.result_takeaction_pounds)
         .filter(key=> !/^offset_/.test(key))
         .reduce((sum, action_key)=>{
           if (component.userApiValue(`input_takeaction_${action_key}`) == 1){
             sum += component.state_manager[savings_type][action_key];
           }
           return sum;
-        }, 0)) || 0;
+        }, 0) || 0;
+  },
+
+  popoverContentForCategory: function(category){
+    let component = this,
+        key;
+    switch(category){
+      case 'travel':
+        key = 'result_transport_total';
+        break;
+      case 'home':
+        key = 'result_housing_total';
+        break;
+      case 'dining':
+        key = 'result_food_total';
+        break;
+      case 'services':
+        key = 'result_services_total';
+        break;
+      case 'goods':
+        key = 'result_goods_total';
+        break;
+    }
+    let category_value = component.userApiValue(key),
+        total_value = component.userApiValue('result_grand_total'),
+        display_category = component.numberWithCommas(
+          Math.round(category_value)
+        ),
+        display_percent = Math.round(100 * category_value / total_value);
+    return `
+      <dl>
+        <dt>${component.t('categories.' + key)}</dt>
+        <dd>${display_category} ${component.t('units.tons_co2_per_year')}</dd>
+        <dt>${component.t('percent_of_total')}</dt>
+        <dd>${display_percent}%</dd>
+      </dl>
+    `;
   },
 
   displayTakeactionSavings(savings_type){
-    return this.numberWithCommas(this.totalTakeactionSavings(savings_type));
+    let total = this.totalTakeactionSavings(savings_type);
+    if (savings_type === 'result_takeaction_pounds'){
+      total = Math.round(total * 100) / 100;
+    } else {
+      total = Math.round(total);
+    }
+    return this.numberWithCommas(total);
   },
 
   numberWithCommas: function(x) {
