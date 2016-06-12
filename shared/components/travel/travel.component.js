@@ -129,6 +129,17 @@ class TravelComponent extends Panel {
     vehicle[key] = value;
     travel.updateVehicleFootprint();
   }
+  // vehicle input changed.
+  updateVehicleFuelType(vehicle, fuel_type){
+    let travel = this;
+    vehicle['fuel_type'] = fuel_type;
+    travel.updateVehicleFootprint();
+  }
+
+  displayFuelType(vehicle){
+    if (vehicle.fuel_type === '1') return this.t('travel.gasoline');
+    else return this.t('travel.diesel');
+  }
 
   addVehicle(){
     let travel = this;

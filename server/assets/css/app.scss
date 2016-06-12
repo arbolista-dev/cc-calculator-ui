@@ -10,3 +10,32 @@
 .d3-chart-handle {
   cursor: ew-resize;
 }
+
+
+.cc-component__simple-toggle--active {
+  font-weight:bold;
+}
+
+.cc-component__byline {
+  text-transform:uppercase;
+  font-weight:bold;
+  padding:6px;
+  display:inline-block;
+  font-size:0.9em;
+}
+
+.cc-component__header {
+  h4 {
+    margin-top:0px;
+  }
+}
+
+.cc-component__question {
+  padding:4px;
+}
+
+.label-slider {
+  background-color:#0290BE;
+  font-weight:normal;
+  font-size:12px;
+}

@@ -22,10 +22,11 @@ a { cursor: pointer; }
 			// color: $brand-primary !important;
 			}
 		}
-		&.cc-nav__item--active {}
 	}
-	.in .cc-nav__item span {
-	}
+}
+
+#cc_nav {
+	margin-bottom:5px;
 }
 
 #navbar {
@@ -73,7 +74,7 @@ a { cursor: pointer; }
 main > header {
 	text-align: center;
 	img {
-		height: 80px;
+		height: 60px;
 	}
 }
 

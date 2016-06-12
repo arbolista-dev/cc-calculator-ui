@@ -22,8 +22,26 @@ class HomeComponent extends Panel {
     home.state = home.userApiState();
   }
 
+  get display_electricity_units(){
+    if (this.unitsSet('electricity', 0)) return this.t('units.usd_per_year');
+    else return this.t('units.kwh_per_year');
+  }
+  get display_naturalgas_units(){
+    if (this.unitsSet('naturalgas', 0)) return this.t('units.usd_per_year');
+    else if (this.unitsSet('naturalgas', 1)) return this.t('units.therms_per_year');
+    else return this.t('units.cuft_per_year');
+  }
+  get display_heatingoil_units(){
+    if (this.unitsSet('heatingoil', 0)) return this.t('units.usd_per_year');
+    else return this.t('units.gallons_per_year');
+  }
+
   get api_key_base(){
     return 'input_footprint_housing';
+  }
+
+  get display_cleanpercent(){
+    return Math.round(this.state[this.apiKey('cleanpercent')]);
   }
 
   get display_annual_water_dollars(){
@@ -70,11 +88,12 @@ class HomeComponent extends Panel {
   }
 
   setUnits(event){
+    event.preventDefault();
     let home = this,
         api_key = event.target.dataset.api_key,
-        update = { [api_key]: event.target.value };
-    home.setState(update);
+        update = { [api_key]: event.target.dataset.value };
     home.updateFootprintParams(update);
+    home.setState(update);
   }
 
   /*

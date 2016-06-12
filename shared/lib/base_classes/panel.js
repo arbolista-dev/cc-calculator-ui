@@ -14,4 +14,8 @@ export default class Panel extends mixin(Translatable, routable, footprintable, 
     return this.state_manager.state.route.route_name;
   }
 
+  routeComponent(route_name){
+    return route_name === this.constructor.NAME;
+  }
+
 }

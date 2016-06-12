@@ -154,7 +154,6 @@ export default class StateManager {
 
     return CalculatorApi.computeFootprint(state_manager.inputs)
       .then((res)=>{
-        state_manager.logDifferences(state_manager.inputs, res)
         state_manager.parseFootprintResult(res);
         return undefined;
       })

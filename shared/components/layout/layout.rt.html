@@ -17,7 +17,8 @@
 					key="{route.key}"
 					rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
 					onClick="{this.goToRoute.bind(this, route)}">
-					<img src="/assets/img/{route.key}-green.svg"/>
+					<img rt-if="route.route_name !== this.current_route_name" src="/assets/img/{route.key}-green.svg"/>
+					<img rt-if="route.route_name === this.current_route_name" src="/assets/img/{route.key}-blue.svg"/>
 					<div>{this.t(`${route.key}.title`)}</div>
 				</div>
 			</div>
