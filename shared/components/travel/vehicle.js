@@ -36,11 +36,11 @@ export default class Vehicle {
   initializeMpgSlider(){
     let vehicle = this;
     if (vehicle.slider) return false;
-
     vehicle.slider = new SimpleSlider({
       container: '#' + vehicle.slider_id,
       tick_values: [0, 20, 40, 60, 80, 100],
       outer_height: 60,
+      outer_width: vehicle.travel.slider_width,
       margin: {left: 10, right: 15, top: 0, bottom: 10},
       onChange: (new_value)=>{
         vehicle.mpg = new_value;

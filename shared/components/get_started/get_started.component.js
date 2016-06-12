@@ -14,6 +14,7 @@ class GetStartedComponent extends Panel {
   constructor(props, context){
     super(props, context);
     let get_started = this;
+    get_started.initResizeListener();
     get_started.state = {
       locations: {},
       input_location_mode: parseInt(get_started.state_manager.input_location_mode),
@@ -161,6 +162,7 @@ class GetStartedComponent extends Panel {
     let get_started = this;
     get_started.size_slider = new SnapSlider({
       container: '#size_slider',
+      outer_width: get_started.slider_width,
       tick_labels: {
         0: get_started.t('get_started.average_household_size'),
         1: '1', 2: '2', 3: '3', 4: '4', 5: '5+'
@@ -183,6 +185,7 @@ class GetStartedComponent extends Panel {
 
     get_started.income_slider = new SnapSlider({
       container: '#income_slider',
+      outer_width: get_started.slider_width,
       tick_labels: {
         1: get_started.t('Avg'),
         2: '<10k',
@@ -207,6 +210,16 @@ class GetStartedComponent extends Panel {
       current_value: get_started.input_income
     });
 
+  }
+
+  resize(){
+    let get_started = this;
+    get_started.income_slider.redraw({
+      outer_width: get_started.slider_width
+    });
+    get_started.size_slider.redraw({
+      outer_width: get_started.slider_width
+    });
   }
 
 }

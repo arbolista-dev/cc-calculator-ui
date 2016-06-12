@@ -19,6 +19,7 @@ class HomeComponent extends Panel {
     super(props, context);
     let home = this,
         water_api_key = home.apiKey('watersewage');
+    home.initResizeListener();
     home.state = home.userApiState();
   }
 
@@ -105,6 +106,7 @@ class HomeComponent extends Panel {
 
     home.water_slider = new SimpleSlider({
       container: '#home_watersewage_slider',
+      outer_width: home.slider_width,
       tick_labels: {
         0: '0',
         1: '1x',
@@ -130,13 +132,23 @@ class HomeComponent extends Panel {
     });
   }
 
+  resize(){
+    this.water_slider.redraw({
+      outer_width: this.slider_width
+    });
+    this.cleanpercent_slider.redraw({
+      outer_width: this.slider_width
+    });
+  }
+
   initializeCleanPercentSlider(){
     let home = this,
         cleanpercent_api_key = home.apiKey('cleanpercent');
 
-    home.water_slider = new SimpleSlider({
+    home.cleanpercent_slider = new SimpleSlider({
       container: '#home_cleanpercent_slider',
       tick_values: [0, 20, 40, 60, 80, 100],
+      outer_width: home.slider_width,
       onChange: (cleanpercent)=>{
         let api_key = home.apiKey('cleanpercent'),
             update = {
@@ -147,7 +159,7 @@ class HomeComponent extends Panel {
         home.updateFootprint(update);
       }
     });
-    home.water_slider.drawData({
+    home.cleanpercent_slider.drawData({
       abs_min: 0,
       abs_max: 100,
       current_value: home.userApiValue(cleanpercent_api_key)

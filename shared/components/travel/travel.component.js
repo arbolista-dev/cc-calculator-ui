@@ -15,6 +15,7 @@ class TravelComponent extends Panel {
   constructor(props, context){
     super(props, context);
     let travel = this;
+    travel.initResizeListener();
     travel.state = Object.assign({
       simple: true,
       vehicles: [
@@ -163,6 +164,15 @@ class TravelComponent extends Panel {
       vehicles: this.vehicles
     });
     travel.updateVehicleFootprint();
+  }
+
+  resize(){
+    let travel = this;
+    travel.vehicles.forEach((vehicle)=>{
+      vehicle.slider.redraw({
+        outer_width: travel.slider_width
+      });
+    });
   }
 
 }

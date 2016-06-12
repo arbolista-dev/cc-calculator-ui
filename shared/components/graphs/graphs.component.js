@@ -8,7 +8,7 @@ import template from './graphs.rt.html'
 
 const CATEGORIES = ['result_transport_total', 'result_housing_total',
   'result_food_total', 'result_goods_total', 'result_services_total'],
-  MIN_GRAPH_WIDTH = 300,
+  MIN_GRAPH_WIDTH = 250,
   MAX_GRAPH_WIDTH = 800;
 
 class GraphsComponent extends Panel {
@@ -18,7 +18,7 @@ class GraphsComponent extends Panel {
     let graphs = this;
     graphs.initResizeListener();
     graphs.state = {
-      show_chart: true
+      show_chart: false
     };
   }
 
