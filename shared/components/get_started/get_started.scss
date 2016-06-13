@@ -13,3 +13,17 @@
   cursor:pointer;
   &:hover { background-color: #E6E6E6; }
 }
+
+#location_mode_btn_group_container {
+  text-align:center;
+}
+
+#location_mode_btn_group {
+  white-space:nowrap;
+  max-width:100%;
+  overflow-x:scroll;
+  a {
+    float:none;
+    width:80px;
+  }
+}

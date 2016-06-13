@@ -17,10 +17,24 @@
 
 	<div class="cc-component__form">
 		<div rt-class="{hidden: this.advanced}">
-			<h4>{this.t('shopping.goods.label')}</h4>
-			<div id="shopping_goods_slider"></div>
-			<h4>{this.t('shopping.services.label')}</h4>
-			<div id="shopping_services_slider"></div>
+			<div class="panel panel-default">
+				<div class="panel-heading">{this.t('shopping.goods.label')}</div>
+				<div class="panel-body">
+					<span class="label label-slider">
+						${this.display_goods_monthly_spending} / {this.t('month')}
+					</span>
+					<div id="shopping_goods_slider"></div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">{this.t('shopping.services.label')}</div>
+				<div class="panel-body">
+					<span class="label label-slider">
+						${this.display_services_monthly_spending} / {this.t('month')}
+					</span>
+					<div id="shopping_services_slider"></div>
+				</div>
+			</div>
 		</div>
 		<div rt-class="{hidden: this.simple}">
 			<div class="panel panel-default">

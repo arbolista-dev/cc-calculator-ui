@@ -104,6 +104,8 @@ export let footprintable = {
 
   updateFootprint: function(params){
     let component = this;
+
+    component.state_manager.update_in_progress = true;
     component.updateFootprintParams(params);
 
     // debounce updating footprint by 500ms.
@@ -115,8 +117,13 @@ export let footprintable = {
       // This will also make necessary update to user footprint.
       component.state_manager.updateFootprint()
         .then(()=>{
+          component.state_manager.syncLayout();
+        })
+        .then(()=>{
           let user_api_state = component.userApiState();
-          component.setState(user_api_state)
+          component.setState(user_api_state, ()=>{
+            component.state_manager.update_in_progress = false;
+          })
         });
     }, 500);
   }

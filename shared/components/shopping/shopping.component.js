@@ -28,6 +28,8 @@ class ShoppingComponent extends Panel {
     shopping.state = Object.assign({
       simple: true
     }, shopping.userApiState());
+    shopping.state['input_footprint_shopping_goods_total'] = shopping.userApiValue('input_footprint_shopping_goods_total')
+    shopping.state['input_footprint_shopping_services_total'] = shopping.userApiValue('input_footprint_shopping_services_total')
     shopping.initResizeListener();
   }
 
@@ -135,6 +137,12 @@ class ShoppingComponent extends Panel {
     return shopping.defaultApiValue(api_key);
   }
 
+  get display_services_monthly_spending(){
+    return this.numberWithCommas(
+      Math.round(this.state['input_footprint_shopping_services_total'])
+    )
+  }
+
   initializeServicesSlider(){
     let shopping = this;
 
@@ -171,6 +179,12 @@ class ShoppingComponent extends Panel {
       abs_max: 5,
       current_value: 1
     });
+  }
+
+  get display_goods_monthly_spending(){
+    return this.numberWithCommas(
+      Math.round(this.state['input_footprint_shopping_goods_total'])
+    )
   }
 
   initializeGoodsSlider(){

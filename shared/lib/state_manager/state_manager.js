@@ -105,8 +105,12 @@ export default class StateManager {
   syncLayout(){
     let state_manager = this;
     if (state_manager.layout !== undefined){
-      return state_manager.layout.syncFromStateManager();
+      return state_manager.layout.syncFromStateManager()
+                .then(()=>{
+                  state_manager.update_in_progress = false;
+                });
     } else {
+      state_manager.update_in_progress = false;
       return undefined;
     }
   }
@@ -135,9 +139,6 @@ export default class StateManager {
           // If user footprint has been defined, update it with new location.
           return state_manager.updateFootprint(state_manager.inputs);
         }
-      })
-      .then(()=>{
-        return state_manager.syncLayout();
       });
   }
 
@@ -151,14 +152,10 @@ export default class StateManager {
 
   updateFootprint(){
     let state_manager = this;
-
     return CalculatorApi.computeFootprint(state_manager.inputs)
       .then((res)=>{
         state_manager.parseFootprintResult(res);
         return undefined;
-      })
-      .then(()=>{
-        return state_manager.syncLayout();
       });
   }
 

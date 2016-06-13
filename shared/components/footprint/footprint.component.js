@@ -8,7 +8,7 @@ import template from './footprint.rt.html'
 
 const CATEGORIES = ['result_transport_total', 'result_housing_total',
   'result_food_total', 'result_goods_total', 'result_services_total'],
-  MIN_GRAPH_WIDTH = 300,
+  MIN_GRAPH_WIDTH = 250,
   MAX_GRAPH_WIDTH = 800;
 
 class FootprintComponent extends Panel {
@@ -89,6 +89,7 @@ class FootprintComponent extends Panel {
       container: '#overall_comparative_pie',
       outer_width: dimensions.outer_width,
       outer_height: dimensions.outer_height,
+      label_r: 15,
       fnColor: (category)=>{
         return colors[category];
       }

@@ -145,7 +145,7 @@ class TravelComponent extends Panel {
   addVehicle(){
     let travel = this;
     if (travel.vehicles_maxed) return false;
-    let params = travel.newVehicleParams(travel.vehicles.length),
+    let params = travel.newVehicleParams(travel.vehicles.length + 1),
         new_vehicle = new Vehicle(params, travel);
     travel.vehicles.push(new_vehicle);
     travel.setState({

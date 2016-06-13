@@ -8,8 +8,8 @@
 	</header>
 
 	<div class="cc-component__form">
-		<div class="cc-component__question">
-			<div class="btn-group btn-group-justified" role="group">
+		<div id="location_mode_btn_group_container" class="cc-component__question">
+			<div id="location_mode_btn_group" class="btn-group" role="group">
 				<a rt-repeat="mode in this.location_modes"
 					rt-class="{'btn-success': this.locationModeActive(mode[0]), 'btn-default': !this.locationModeActive(mode[0])}"
 					key="location_mode_{mode[0]}"
@@ -39,11 +39,11 @@
 
 		<div class="cc-component__question">
 			<h4>{this.t('get_started.size.label')}</h4>
-			<div id="size_slider"></div>
+			<div class="cc-slider-container" id="size_slider"></div>
 		</div>
 		<div class="cc-component__question">
 			<h4>{this.t('get_started.income.label')}</h4>
-			<div id="income_slider"></div>
+			<div  class="cc-slider-container" id="income_slider"></div>
 		</div>
 
 	</div>

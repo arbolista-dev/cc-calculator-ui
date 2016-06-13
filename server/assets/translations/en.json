@@ -33,7 +33,6 @@
     },
     "air": {
       "label": "Air Travel",
-      "advanced_sub_label": "Number of one-way flights",
       "short": "Short (< 400 mi)",
       "medium": "Medium (400 - 1500 mi)",
       "long": "long (1500 - 3000 mi)",
@@ -222,5 +221,6 @@
   "State": "State",
   "Zipcode": "Zipcode",
   "add": "add",
-  "percent_of_total": "Percent of total"
+  "percent_of_total": "Percent of total",
+  "month": "month"
 }

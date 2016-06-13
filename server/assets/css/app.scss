@@ -1,5 +1,13 @@
+.cc-simple-advanced-container {
+  text-align:center;
+}
+
 .cc-component__simple-toggle {
   cursor:pointer;
+}
+
+.cc-component__simple-toggle--active {
+  font-weight:bold;
 }
 
 .d3-simple-slider path.domain, .d3-snap-slider path.domain {
@@ -9,11 +17,6 @@
 
 .d3-chart-handle {
   cursor: ew-resize;
-}
-
-
-.cc-component__simple-toggle--active {
-  font-weight:bold;
 }
 
 .cc-component__byline {
@@ -48,3 +51,22 @@
     font-style: italic;
   }
 }
+
+.cc-slider-container {
+  text-align:center;
+}
+
+@media (max-width: 400px) {
+  .d3-snap-slider .tick text {
+    font-size:0.8em;
+  }
+  .container {
+    padding-left:5px;
+    padding-right:5px;
+  }
+  .panel-body {
+    padding:3px;
+  }
+}
+
+

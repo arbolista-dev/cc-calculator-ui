@@ -7,7 +7,7 @@ import Panel from './../../lib/base_classes/panel';
 import template from './get_started.rt.html'
 import CalculatorApi from 'api/calculator.api';
 
-const LOCATION_MODES = [[1, 'Zipcode'], [2, 'City'], [3, 'County'], [4, 'State'], [5, 'Country']];
+const LOCATION_MODES = [[5, 'Country'], [1, 'Zipcode'], [4, 'State'], [2, 'City'], [3, 'County']];
 
 class GetStartedComponent extends Panel {
 
@@ -20,7 +20,7 @@ class GetStartedComponent extends Panel {
       input_location_mode: parseInt(get_started.state_manager.input_location_mode),
       input_location: get_started.userApiValue('input_location'),
       show_location_suggestions: false
-    }
+    };
   }
 
   /*
@@ -65,6 +65,7 @@ class GetStartedComponent extends Panel {
   updateDefaults(default_params){
     let get_started = this;
 
+    get_started.state_manager.update_in_progress = true;
     default_params.input_location_mode = get_started.state.input_location_mode;
     get_started.state_manager.updateDefaultParams(default_params)
 
@@ -75,7 +76,13 @@ class GetStartedComponent extends Panel {
 
     get_started.$update_defaults = setTimeout(()=>{
       // This will also make necessary update to user footprint.
-      get_started.state_manager.updateDefaults();
+      get_started.state_manager.updateDefaults()
+        .then(()=>{
+          get_started.state_manager.syncLayout();
+        })
+        .then(()=>{
+          get_started.state_manager.update_in_progress = false;
+        });
     }, 500);
   }
 
@@ -180,13 +187,25 @@ class GetStartedComponent extends Panel {
 
   }
 
-  initializeIncomeSlider(){
-    let get_started = this;
-
-    get_started.income_slider = new SnapSlider({
-      container: '#income_slider',
-      outer_width: get_started.slider_width,
-      tick_labels: {
+  get income_tick_labels(){
+    let get_started = this,
+        width = window.outerWidth;
+    if (width < 400){
+      return {
+        1: get_started.t('Avg'),
+        2: '|',
+        3: '10k',
+        4: '|',
+        5: '30k',
+        6: '|',
+        7: '50k',
+        8: '|',
+        9: '80k',
+        10: '|',
+        11: '120k+'
+      }
+    } else {
+      return {
         1: get_started.t('Avg'),
         2: '<10k',
         3: '10k',
@@ -198,7 +217,17 @@ class GetStartedComponent extends Panel {
         9: '80k',
         10: '100k',
         11: '120k+'
-      },
+      }
+    }
+  }
+
+  initializeIncomeSlider(){
+    let get_started = this;
+
+    get_started.income_slider = new SnapSlider({
+      container: '#income_slider',
+      outer_width: get_started.slider_width,
+      tick_labels: get_started.income_tick_labels,
       onSnap: function(selected_income) {
         get_started.updateDefaults({input_income: selected_income});
       }
