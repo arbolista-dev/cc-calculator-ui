@@ -27,7 +27,7 @@
     "cheerio": "0.20.x",
     "css-loader": "^0.23.1",
     "d3": "^3.5.15",
-    "d3-object-charts": "1.2.2",
+    "d3-object-charts": "1.2.5",
     "ejs": "2.4.x",
     "eslint": "2.7.x",
     "eslint-plugin-react": "4.3.x",

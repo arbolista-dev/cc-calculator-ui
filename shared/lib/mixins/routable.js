@@ -5,8 +5,9 @@ export let routable = {
   },
 
   goToRoute: function(route, _event){
-    let layout = this;
-    return layout.router.goToRoute(route);
+    let component = this;
+    if (component.state_manager.update_in_progress) return false;
+    return component.router.goToRoute(route);
   }
 
 };

@@ -7,17 +7,20 @@ import Panel from './../../lib/base_classes/panel';
 import template from './get_started.rt.html'
 import CalculatorApi from 'api/calculator.api';
 
-const LOCATION_MODES = [[1, 'Zipcode'], [2, 'City'], [3, 'County'], [4, 'State']];
+const LOCATION_MODES = [[5, 'Country'], [1, 'Zipcode'], [4, 'State'], [2, 'City'], [3, 'County']];
 
 class GetStartedComponent extends Panel {
 
   constructor(props, context){
     super(props, context);
     let get_started = this;
+    get_started.initResizeListener();
     get_started.state = {
       locations: {},
-      input_location_mode: get_started.state_manager.input_location_mode
-    }
+      input_location_mode: parseInt(get_started.state_manager.input_location_mode),
+      input_location: get_started.userApiValue('input_location'),
+      show_location_suggestions: false
+    };
   }
 
   /*
@@ -38,13 +41,31 @@ class GetStartedComponent extends Panel {
    * Location UI
    */
 
+   get country_mode(){
+    return this.state.input_location_mode === 5;
+   }
+
+   get input_location_display(){
+    let get_started = this;
+    if (get_started.country_mode){
+      return get_started.t('get_started.United States');
+    } else {
+      return get_started.state.input_location;
+    }
+   }
+
   get location_modes(){
     return LOCATION_MODES;
+  }
+
+  get show_location_suggestions(){
+    return this.state.show_location_suggestions;
   }
 
   updateDefaults(default_params){
     let get_started = this;
 
+    get_started.state_manager.update_in_progress = true;
     default_params.input_location_mode = get_started.state.input_location_mode;
     get_started.state_manager.updateDefaultParams(default_params)
 
@@ -55,7 +76,13 @@ class GetStartedComponent extends Panel {
 
     get_started.$update_defaults = setTimeout(()=>{
       // This will also make necessary update to user footprint.
-      get_started.state_manager.updateDefaults();
+      get_started.state_manager.updateDefaults()
+        .then(()=>{
+          get_started.state_manager.syncLayout();
+        })
+        .then(()=>{
+          get_started.state_manager.update_in_progress = false;
+        });
     }, 500);
   }
 
@@ -65,27 +92,38 @@ class GetStartedComponent extends Panel {
 
   setLocationMode(location_mode){
     let get_started = this;
-    get_started.hideLocationSuggestions();
     get_started.setState({
       input_location_mode: location_mode,
-      locations: {}
+      input_location: undefined,
+      locations: {},
+      show_location_suggestions: false
     });
   }
 
-  setLocation(location){
-    let get_started = this;
-    get_started.hideLocationSuggestions();
-    get_started.updateDefaults({input_location: location});
+  // called when location suggestion is clicked.
+  setLocation(event){
+    let get_started = this,
+        zipcode = event.target.dataset.zipcode,
+        suggestion = event.target.dataset.suggestion;
+    get_started.setState({
+      input_location: suggestion,
+      show_location_suggestions: false
+    });
+    get_started.updateDefaults({input_location: zipcode});
   }
 
+  // called when input_location input changed.
   setLocationSuggestions(event){
+    if (this.country_mode) return false;
     let get_started = this,
         new_location = {
           input_location_mode: get_started.state.input_location_mode,
           input_location: event.target.value
         };
-
-    get_started.setLocation(event.target.value);
+    get_started.setState({
+      input_location: event.target.value,
+      show_location_suggestions: true
+    });
 
     if (get_started.$set_location_suggestions){
       clearTimeout(get_started.$set_location_suggestions);
@@ -96,20 +134,23 @@ class GetStartedComponent extends Panel {
       CalculatorApi.getAutoComplete(new_location)
         .then((locations)=>{
           get_started.setState({
-            locations: locations
-          }, ()=>{
-            get_started.showLocationSuggestions();
+            locations: locations,
+            show_location_suggestions: true
           });
         });
     }, 500);
   }
 
   showLocationSuggestions(){
-    document.getElementById('get_started_location_suggestions').style.display = 'block';
+    this.setState({
+      show_location_suggestions: true
+    });
   }
 
   hideLocationSuggestions(){
-    document.getElementById('get_started_location_suggestions').style.display = 'none';
+    this.setState({
+      show_location_suggestions: false
+    });
   }
 
   /*
@@ -126,30 +167,45 @@ class GetStartedComponent extends Panel {
 
   initializeSizeSlider(){
     let get_started = this;
-
     get_started.size_slider = new SnapSlider({
       container: '#size_slider',
-      tick_labels: { 1: '1', 2: '3', 3: '3', 4: '4', 5: '5+' },
+      outer_width: get_started.slider_width,
+      tick_labels: {
+        0: get_started.t('get_started.average_household_size'),
+        1: '1', 2: '2', 3: '3', 4: '4', 5: '5+'
+      },
       onSnap: function(selected_size) {
-        console.log('onSnap', selected_size);
         get_started.updateDefaults({input_size: selected_size});
       }
     });
 
     get_started.size_slider.drawData({
-      abs_min: 1,
+      abs_min: 0,
       abs_max: 5,
       current_value: get_started.input_size
     });
 
   }
 
-  initializeIncomeSlider(){
-    let get_started = this;
-
-    get_started.income_slider = new SnapSlider({
-      container: '#income_slider',
-      tick_labels: {
+  get income_tick_labels(){
+    let get_started = this,
+        width = window.outerWidth;
+    if (width < 400){
+      return {
+        1: get_started.t('Avg'),
+        2: '|',
+        3: '10k',
+        4: '|',
+        5: '30k',
+        6: '|',
+        7: '50k',
+        8: '|',
+        9: '80k',
+        10: '|',
+        11: '120k+'
+      }
+    } else {
+      return {
         1: get_started.t('Avg'),
         2: '<10k',
         3: '10k',
@@ -161,19 +217,38 @@ class GetStartedComponent extends Panel {
         9: '80k',
         10: '100k',
         11: '120k+'
-      },
+      }
+    }
+  }
+
+  initializeIncomeSlider(){
+    let get_started = this;
+
+    get_started.income_slider = new SnapSlider({
+      container: '#income_slider',
+      outer_width: get_started.slider_width,
+      tick_labels: get_started.income_tick_labels,
       onSnap: function(selected_income) {
-        console.log('onSnap', selected_income);
         get_started.updateDefaults({input_income: selected_income});
       }
     });
 
     get_started.income_slider.drawData({
-      abs_min: 0,
-      abs_max: 12,
+      abs_min: 1,
+      abs_max: 11,
       current_value: get_started.input_income
     });
 
+  }
+
+  resize(){
+    let get_started = this;
+    get_started.income_slider.redraw({
+      outer_width: get_started.slider_width
+    });
+    get_started.size_slider.redraw({
+      outer_width: get_started.slider_width
+    });
   }
 
 }

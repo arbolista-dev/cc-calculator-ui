@@ -17,6 +17,7 @@ class FoodComponent extends Panel {
     super(props, context);
     let food = this;
     food.sliders = [];
+    food.initResizeListener();
     food.state = Object.assign({
       simple: true
     }, food.userApiState());
@@ -102,6 +103,9 @@ class FoodComponent extends Panel {
     let food = this;
     food.sliders[food_type] = new SimpleSlider({
       container: '#food_average_slider_' + food_type,
+      outer_height: 60,
+      outer_width: food.slider_width,
+      margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
         1: '1x',
@@ -127,6 +131,16 @@ class FoodComponent extends Panel {
       abs_min: 0,
       abs_max: 5,
       current_value: 1
+    });
+  }
+
+  resize(){
+    let food = this;
+    Object.keys(food.sliders).forEach((food_type)=>{
+      let slider = food.sliders[food_type];
+      slider.redraw({
+        outer_width: food.slider_width
+      });
     });
   }
 

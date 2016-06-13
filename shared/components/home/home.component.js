@@ -19,11 +19,30 @@ class HomeComponent extends Panel {
     super(props, context);
     let home = this,
         water_api_key = home.apiKey('watersewage');
+    home.initResizeListener();
     home.state = home.userApiState();
+  }
+
+  get display_electricity_units(){
+    if (this.unitsSet('electricity', 0)) return this.t('units.usd_per_year');
+    else return this.t('units.kwh_per_year');
+  }
+  get display_naturalgas_units(){
+    if (this.unitsSet('naturalgas', 0)) return this.t('units.usd_per_year');
+    else if (this.unitsSet('naturalgas', 1)) return this.t('units.therms_per_year');
+    else return this.t('units.cuft_per_year');
+  }
+  get display_heatingoil_units(){
+    if (this.unitsSet('heatingoil', 0)) return this.t('units.usd_per_year');
+    else return this.t('units.gallons_per_year');
   }
 
   get api_key_base(){
     return 'input_footprint_housing';
+  }
+
+  get display_cleanpercent(){
+    return Math.round(this.state[this.apiKey('cleanpercent')]);
   }
 
   get display_annual_water_dollars(){
@@ -70,11 +89,12 @@ class HomeComponent extends Panel {
   }
 
   setUnits(event){
+    event.preventDefault();
     let home = this,
         api_key = event.target.dataset.api_key,
-        update = { [api_key]: event.target.value };
-    home.setState(update);
+        update = { [api_key]: event.target.dataset.value };
     home.updateFootprintParams(update);
+    home.setState(update);
   }
 
   /*
@@ -86,6 +106,7 @@ class HomeComponent extends Panel {
 
     home.water_slider = new SimpleSlider({
       container: '#home_watersewage_slider',
+      outer_width: home.slider_width,
       tick_labels: {
         0: '0',
         1: '1x',
@@ -111,13 +132,23 @@ class HomeComponent extends Panel {
     });
   }
 
+  resize(){
+    this.water_slider.redraw({
+      outer_width: this.slider_width
+    });
+    this.cleanpercent_slider.redraw({
+      outer_width: this.slider_width
+    });
+  }
+
   initializeCleanPercentSlider(){
     let home = this,
         cleanpercent_api_key = home.apiKey('cleanpercent');
 
-    home.water_slider = new SimpleSlider({
+    home.cleanpercent_slider = new SimpleSlider({
       container: '#home_cleanpercent_slider',
       tick_values: [0, 20, 40, 60, 80, 100],
+      outer_width: home.slider_width,
       onChange: (cleanpercent)=>{
         let api_key = home.apiKey('cleanpercent'),
             update = {
@@ -128,7 +159,7 @@ class HomeComponent extends Panel {
         home.updateFootprint(update);
       }
     });
-    home.water_slider.drawData({
+    home.cleanpercent_slider.drawData({
       abs_min: 0,
       abs_max: 100,
       current_value: home.userApiValue(cleanpercent_api_key)

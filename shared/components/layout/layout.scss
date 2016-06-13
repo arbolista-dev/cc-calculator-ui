@@ -4,18 +4,15 @@ a { cursor: pointer; }
 #cc_calculator_ui {
 	.cc-nav__item {
 		cursor: pointer;
-		float: left;
-		padding: 20px 0;
+		padding: 5px 0;
 		text-align: center;
-		width: 14%;
+		display:inline-block;
+		width:100px;
 		img {
-			clear: both !important;
 			margin: 0 auto;
-			height: 75px;
+			height: 40px;
 		}
 		span {
-			clear: both;
-			float: left;
 			width: 100%;
 			text-transform: uppercase;
 		}
@@ -23,13 +20,26 @@ a { cursor: pointer; }
 			background-color: #EEE;
 			span {
 			// color: $brand-primary !important;
+			}
 		}
 	}
-	&.cc-nav__item--active {
-		background: #FFF;
-	}
 }
+
+#cc_nav {
+	margin-bottom:5px;
+	text-align: center;
+	max-width:100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin: 0 auto;
+  white-space: nowrap;
+  .nav {
+  	width: 1000px;
+  }
 }
+
+
+
 
 .container-md {
 	margin: 0 auto;
@@ -66,7 +76,7 @@ a { cursor: pointer; }
 main > header {
 	text-align: center;
 	img {
-		height: 120px;
+		height: 60px;
 	}
 }
 
@@ -78,7 +88,6 @@ main > header {
 }
 
 .cc-component__nav {
-	float: left;
 	clear: both;
 	margin-bottom: 40px;
 	text-align: center;
@@ -87,9 +96,11 @@ main > header {
 		background: #4AAA48;
 		color: #FFF;
 		display: inline-block;
-		padding: 20px;
+		padding: 10px;
 		text-transform: uppercase;
 		margin-right: 10px;
 		&:last-child { margin: 0; }
 	}
 }
+
+

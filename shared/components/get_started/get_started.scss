@@ -1,0 +1,29 @@
+#get_started_location_suggestions_container {
+  position:relative;
+}
+
+#get_started_location_suggestions {
+  position:absolute;
+  background-color:white;
+  width:100%;
+  border:1px solid darkgrey;
+}
+
+.get-started__location-suggestion {
+  cursor:pointer;
+  &:hover { background-color: #E6E6E6; }
+}
+
+#location_mode_btn_group_container {
+  text-align:center;
+}
+
+#location_mode_btn_group {
+  white-space:nowrap;
+  max-width:100%;
+  overflow-x:scroll;
+  a {
+    float:none;
+    width:80px;
+  }
+}

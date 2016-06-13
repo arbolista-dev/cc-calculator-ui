@@ -15,11 +15,12 @@ class TravelComponent extends Panel {
   constructor(props, context){
     super(props, context);
     let travel = this;
+    travel.initResizeListener();
     travel.state = Object.assign({
       simple: true,
       vehicles: [
-        new Vehicle({}, travel),
-        new Vehicle({}, travel)
+        new Vehicle(travel.newVehicleParams(1), travel),
+        new Vehicle(travel.newVehicleParams(2), travel)
       ]
     }, travel.userApiState());
   }
@@ -85,7 +86,6 @@ class TravelComponent extends Panel {
     travel.setState({
       simple: false
     });
-    console.log(this.state)
     travel.updateFootprintParams({
       input_footprint_transportation_groundtype: 1,
       input_footprint_transportation_airtype: 1
@@ -95,6 +95,15 @@ class TravelComponent extends Panel {
   /*
    * Vehicle Updates
    */
+
+  newVehicleParams(n){
+    let travel = this;
+    return {
+      miles: travel.userApiValue(`input_footprint_transportation_miles${n}`),
+      mpg: travel.userApiValue(`input_footprint_transportation_mpg${n}`),
+      fuel_type: travel.userApiValue(`input_footprint_transportation_fuel${n}`)
+    }
+  }
 
   updateVehicleFootprint(){
     let travel = this,
@@ -121,11 +130,23 @@ class TravelComponent extends Panel {
     vehicle[key] = value;
     travel.updateVehicleFootprint();
   }
+  // vehicle input changed.
+  updateVehicleFuelType(vehicle, fuel_type){
+    let travel = this;
+    vehicle['fuel_type'] = fuel_type;
+    travel.updateVehicleFootprint();
+  }
+
+  displayFuelType(vehicle){
+    if (vehicle.fuel_type === '1') return this.t('travel.gasoline');
+    else return this.t('travel.diesel');
+  }
 
   addVehicle(){
     let travel = this;
     if (travel.vehicles_maxed) return false;
-    let new_vehicle = new Vehicle({}, travel);
+    let params = travel.newVehicleParams(travel.vehicles.length + 1),
+        new_vehicle = new Vehicle(params, travel);
     travel.vehicles.push(new_vehicle);
     travel.setState({
       vehicles: this.vehicles
@@ -143,6 +164,15 @@ class TravelComponent extends Panel {
       vehicles: this.vehicles
     });
     travel.updateVehicleFootprint();
+  }
+
+  resize(){
+    let travel = this;
+    travel.vehicles.forEach((vehicle)=>{
+      vehicle.slider.redraw({
+        outer_width: travel.slider_width
+      });
+    });
   }
 
 }

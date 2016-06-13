@@ -1,55 +1,84 @@
-<main class="cc-component container container-sm" id="shopping">
+<main class="cc-component container container-md" id="shopping">
 	<header class="cc-component__header">
 		<div>
-			<img src="/assets/img/{this.route_key}.png"/>
-			<h2>{this.t('shopping.title')}</h2>
+			<img src="/assets/img/{this.route_key}-black.svg"/>
+			<h4>{this.t('shopping.title')}</h4>
 		</div>
 		<span class="cc-component__byline">{this.t('shopping.byline')}</span>
 		<div>
 			<span class="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': this.state.simple}"
 			onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
 			<span class="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': !this.state.simple}"
 			onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
 		</div>
 	</header>
 
 	<div class="cc-component__form">
 		<div rt-class="{hidden: this.advanced}">
-			<h3>{this.t('shopping.goods.label')}</h3>
-			<div id="shopping_goods_slider"></div>
-			<h3>{this.t('shopping.services.label')}</h3>
-			<div id="shopping_services_slider"></div>
+			<div class="panel panel-default">
+				<div class="panel-heading">{this.t('shopping.goods.label')}</div>
+				<div class="panel-body">
+					<span class="label label-slider">
+						${this.display_goods_monthly_spending} / {this.t('month')}
+					</span>
+					<div id="shopping_goods_slider"></div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">{this.t('shopping.services.label')}</div>
+				<div class="panel-body">
+					<span class="label label-slider">
+						${this.display_services_monthly_spending} / {this.t('month')}
+					</span>
+					<div id="shopping_services_slider"></div>
+				</div>
+			</div>
 		</div>
 		<div rt-class="{hidden: this.simple}">
-			<h4>{this.t('shopping.goods.label')}</h4>
-			<p>{this.t('shopping.enter_data_help')}</p>
-			<div rt-repeat="goods_type in this.goods_questions"
-			key="shopping_question_{goods_type}"
-			class="cc-component__question">
-			<h4 class="cc-component__question-label">{this.t(`shopping.${goods_type}.label`)}</h4>
-			<input
-			onChange="{this.updateMonthlyExpenditure.bind(this)}"
-			value="{this.displayUserApiStateValue(goods_type)}"
-			placeholder="{this.t('units.usd_per_month')}}"
-			data-type="{goods_type}"
-			data-api_key="{this.apiKey(goods_type)}"
-			class="cc-component__question-input"/>
+			<div class="panel panel-default">
+				<div class="panel-heading">{this.t('shopping.goods.label')}</div>
+				<div class="panel-body">
+					<div rt-repeat="goods_type in this.goods_questions"
+					key="shopping_question_{goods_type}"
+					class="cc-component__question">
+					<h4 class="cc-component__question-label">{this.t(`shopping.${goods_type}.label`)}</h4>
+					<div class="input-group">
+						<input
+						onChange="{this.updateMonthlyExpenditure.bind(this)}"
+						value="{this.displayUserApiStateValue(goods_type)}"
+						placeholder="{this.t('units.usd_per_month')}}"
+						data-type="{goods_type}"
+						data-api_key="{this.apiKey(goods_type)}"
+						class="form-control"/>
+		        <span class="input-group-addon">{this.t('units.usd_per_month')}</span>
+					</div>
+				</div>
+			</div>
 		</div>
-		<h4>{this.t('shopping.services.label')}</h4>
-		<p>{this.t('shopping.enter_data_help')}</p>
-		<div rt-repeat="service_type in this.services_questions"
-		key="shopping_question_{service_type}"
-		class="cc-component__question">
-		<h4 class="cc-component__question-label">{this.t(`shopping.${service_type}.label`)}</h4>
-		<input
-		onChange="{this.updateMonthlyExpenditure.bind(this)}"
-		value="{this.displayUserApiStateValue(service_type)}"
-		placeholder="{this.t('units.usd_per_month')}}"
-		data-type="{service_type}"
-		data-api_key="{this.apiKey(service_type)}"
-		class="cc-component__question-input"/>
+			<div class="panel panel-default">
+				<div class="panel-heading">{this.t('shopping.services.label')}</div>
+				<div class="panel-body">
+					<div rt-repeat="service_type in this.services_questions"
+					key="shopping_question_{service_type}"
+					class="cc-component__question">
+						<h4 class="cc-component__question-label">{this.t(`shopping.${service_type}.label`)}</h4>
+						<div class="input-group">
+							<input
+							onChange="{this.updateMonthlyExpenditure.bind(this)}"
+							value="{this.displayUserApiStateValue(service_type)}"
+							placeholder="{this.t('units.usd_per_month')}}"
+							data-type="{service_type}"
+							data-api_key="{this.apiKey(service_type)}"
+							class="form-control"/>
+	        		<span class="input-group-addon">{this.t('units.usd_per_month')}</span>
+	        	</div>
+      		</div>
+    		</div>
+			</div>
+		</div>
 	</div>
-</div>
 </div>
 
 <div class="cc-component__nav">

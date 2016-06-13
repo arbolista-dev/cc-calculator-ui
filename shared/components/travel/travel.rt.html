@@ -1,127 +1,195 @@
-<main class="cc-component container container-sm" id="travel">
+<main class="cc-component container container-md" id="travel">
   <header class="cc-component__header">
     <div>
-      <img src="/assets/img/{this.route_key}.png"/>
-      <h2>{this.t('travel.title')}</h2>
+      <img src="/assets/img/{this.route_key}-black.svg"/>
+      <h4>{this.t('travel.title')}</h4>
     </div>
     <span class="cc-component__byline">{this.t('travel.byline')}</span>
-    <div>
-      <span class="cc-component__simple-toggle"
-        onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
-      <span class="cc-component__simple-toggle"
-        onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
-    </div>
   </header>
 
   <div class="cc-component__form">
-
-    <div id="travel_add_vehicle">
-      <button class="btn btn-default"
-        onClick="{this.addVehicle.bind(this)}"
-        rt-props="{disabled: this.vehicles_maxed}">
-        <i class="fa fa-plus"></i>
-      </button>
-      {this.t('travel.add_vehicle')}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {this.t('travel.your_vehicles')}
+        <button class="btn btn-default btn-xs"
+          onClick="{this.addVehicle.bind(this)}"
+          rt-props="{disabled: this.vehicles_maxed}">
+          <i class="fa fa-plus"></i>.
+          {this.t('add')}
+        </button>
+      </div>
+      <div class="panel panel-body">
+        <div rt-repeat="vehicle in this.vehicles"
+             class="cc-component__question cc-component__question--vehicle"
+             key="{vehicle.id}">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                {this.displayFuelType(vehicle)} <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#" onClick="{this.updateVehicleFuelType.bind(this, vehicle, '1')}">
+                    {this.t('travel.gasoline')}
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onClick="{this.updateVehicleFuelType.bind(this, vehicle, '2')}">
+                  {this.t('travel.diesel')}
+                  </a>
+                </li>
+              </ul>
+            </div><!-- /btn-group -->
+            <input class="form-control" data-key="miles"
+              value="{vehicle.display_miles}"
+              placeholder="{this.t('travel.miles_per_year')}"
+              onChange="{this.updateVehicle.bind(this, vehicle)}"/>
+            <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+            <span class="input-group-btn">
+              <button type="button"
+                class="btn btn-danger"
+                onClick="{this.removeVehicle.bind(this, vehicle)}">X</button>
+            </span>
+          </div>
+          <span class="label label-slider">{vehicle.display_mpg} <i>{this.t('travel.miles_per_gallon')}</i></span>
+          <div class="vehicle-slider__container" id="{vehicle.slider_id}"></div>
+        </div>
+      </div>
     </div>
 
-    <div rt-repeat="vehicle in this.vehicles"
-         class="cc-component__question cc-component__question--vehicle"
-         key="{vehicle.id}">
-      <select data-key="fuel_type" value="{vehicle.fuel_type}" onChange="{this.updateVehicle.bind(this, vehicle)}">
-        <option value="1">{this.t('travel.gasoline')}</option>
-        <option value="2">{this.t('travel.diesel')}</option>
-      </select>
-      <input class="form-control" data-key="miles"
-        value="{vehicle.display_miles}"
-        placeholder="{this.t('travel.miles_per_year')}"
-        onChange="{this.updateVehicle.bind(this, vehicle)}"/>
-      <div id="{vehicle.slider_id}"></div>
-      <div class="question--vehicle__mpg-label">{vehicle.display_mpg} <i>{this.t('travel.miles_per_gallon')}</i></div>
-      <span class="label label-danger"
-        onClick="{this.removeVehicle.bind(this, vehicle)}"><i class="fa fa-minus"></i></span>
+    <div class="cc-simple-advanced-container">
+      <span class="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': this.state.simple}"
+        onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
+      <span class="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': !this.state.simple}"
+        onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
     </div>
 
     <div rt-if="this.simple">
-      <div class="cc-component__question">
-        <h3 class="cc-component__question-label">{this.t('travel.publictrans.label')}</h3>
-        <input class="form-control"
-          onChange="{this.updateFootprintInput.bind(this)}"
-          value="{this.displayUserApiStateValue('publictrans')}"
-          data-api_key="input_footprint_transportation_publictrans"
-          class="cc-component__question-input--right"/>
+      <div class="panel panel-default">
+        <div class="panel-heading">{this.t('travel.publictrans.label')}</div>
+        <div class="panel-body">
+          <div class="input-group">
+            <input class="form-control"
+              onChange="{this.updateFootprintInput.bind(this)}"
+              value="{this.displayUserApiStateValue('publictrans')}"
+              data-api_key="input_footprint_transportation_publictrans"
+              class="cc-component__question-input--right"/>
+            <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+          </div>
+        </div>
       </div>
-      <div class="cc-component__question">
-        <h3 class="cc-component__question-label">{this.t('travel.air.label')}</h3>
-        <input class="form-control"
-          onChange="{this.updateFootprintInput.bind(this)}"
-          value="{this.displayUserApiStateValue('airtotal')}"
-          data-api_key="input_footprint_transportation_airtotal"
-          class="cc-component__question-input--right"/>
+      <div class="panel panel-default">
+        <div class="panel-heading">{this.t('travel.air.label')}</div>
+        <div class="panel-body">
+          <div class="input-group">
+            <input class="form-control"
+              onChange="{this.updateFootprintInput.bind(this)}"
+              value="{this.displayUserApiStateValue('airtotal')}"
+              data-api_key="input_footprint_transportation_airtotal"
+              class="cc-component__question-input--right"/>
+            <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <div rt-if="!this.simple">
-      <div class="cc-component__question">
-        <h3 class="cc-component__question-label">{this.t('travel.publictrans.label')}</h3>
-        <div class="cc-component__sub-question">
-          <input class="form-control"
-            onChange="{this.updateFootprintInput.bind(this)}"
-            value="{this.displayUserApiStateValue('bus')}"
-            data-api_key="input_footprint_transportation_bus"/>
-          <div class="cc-component__sub-question-label">{this.t('travel.publictrans.bus')}</div>
-        </div>
-        <div class="cc-component__sub-question">
-          <input class="form-control"
-            onChange="{this.updateFootprintInput.bind(this)}"
-            value="{this.displayUserApiStateValue('transit')}"
-            data-api_key="input_footprint_transportation_transit"/>
-          <div class="cc-component__sub-question-label">{this.t('travel.publictrans.transit_rail')}</div>
-        </div>
-        <div class="cc-component__sub-question">
-          <input class="form-control"
-            onChange="{this.updateFootprintInput.bind(this)}"
-            value="{this.displayUserApiStateValue('commuter')}"
-            data-api_key="input_footprint_transportation_commuter"/>
-          <div class="cc-component__sub-question-label">{this.t('travel.publictrans.commuter_rail')}</div>
-        </div>
-        <div class="cc-component__sub-question">
-          <input class="form-control"
-            onChange="{this.updateFootprintInput.bind(this)}"
-            value="{this.displayUserApiStateValue('intercity')}"
-            data-api_key="input_footprint_transportation_intercity"/>
-          <div class="cc-component__sub-question-label">{this.t('travel.publictrans.inter_city_rail')}</div>
+      <div class="panel panel-default">
+        <div class="panel-heading">{this.t('travel.publictrans.label')}</div>
+        <div class="panel-body">
+          <div class="cc-component__question">
+            <h5>{this.t('travel.publictrans.bus')}</h5>
+            <div class="input-group">
+              <input class="form-control"
+                onChange="{this.updateFootprintInput.bind(this)}"
+                value="{this.displayUserApiStateValue('bus')}"
+                data-api_key="input_footprint_transportation_bus"/>
+              <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+            </div>
+          </div>
+
+          <div class="cc-component__question">
+            <h5>{this.t('travel.publictrans.transit_rail')}</h5>
+            <div class="input-group">
+              <input class="form-control"
+                onChange="{this.updateFootprintInput.bind(this)}"
+                value="{this.displayUserApiStateValue('transit')}"
+                data-api_key="input_footprint_transportation_transit"/>
+              <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+            </div>
+          </div>
+
+          <div class="cc-component__question">
+            <h5>{this.t('travel.publictrans.commuter_rail')}</h5>
+            <div class="input-group">
+              <input class="form-control"
+                onChange="{this.updateFootprintInput.bind(this)}"
+                value="{this.displayUserApiStateValue('commuter')}"
+                data-api_key="input_footprint_transportation_commuter"/>
+              <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+            </div>
+          </div>
+
+          <div class="cc-component__question">
+            <h5>{this.t('travel.publictrans.inter_city_rail')}</h5>
+            <div class="input-group">
+              <input class="form-control"
+                onChange="{this.updateFootprintInput.bind(this)}"
+                value="{this.displayUserApiStateValue('intercity')}"
+                data-api_key="input_footprint_transportation_intercity"/>
+              <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="cc-component__question">
-        <h3 class="cc-component__question-label">{this.t('travel.air.label')}</h3>
-        <h4 class="cc-component__question-label">{this.t('travel.air.advanced_sub_label')}</h4>
-        <div class="cc-component__sub-question">
-          <input class="form-control"
-            onChange="{this.updateFootprintInput.bind(this)}"
-            value="{this.displayUserApiStateValue('airshort')}"
-            data-api_key="input_footprint_transportation_airshort"/>
-          <div class="cc-component__sub-question-label">{this.t('travel.air.short')}</div>
-        </div>
-        <div class="cc-component__sub-question">
-          <input class="form-control"
-            onChange="{this.updateFootprintInput.bind(this)}"
-            value="{this.displayUserApiStateValue('airmedium')}"
-            data-api_key="input_footprint_transportation_airmedium"/>
-          <div class="cc-component__sub-question-label">{this.t('travel.air.medium')}</div>
-        </div>
-        <div class="cc-component__sub-question">
-          <input class="form-control"
-            onChange="{this.updateFootprintInput.bind(this)}"
-            value="{this.displayUserApiStateValue('airlong')}"
-            data-api_key="input_footprint_transportation_airlong"/>
-          <div class="cc-component__sub-question-label">{this.t('travel.air.long')}</div>
-        </div>
-        <div class="cc-component__sub-question">
-          <input class="form-control"
-            onChange="{this.updateFootprintInput.bind(this)}"
-            value="{this.displayUserApiStateValue('airextended')}"
-            data-api_key="input_footprint_transportation_airextended"/>
-          <div class="cc-component__sub-question-label">{this.t('travel.air.extended')}</div>
+      <div class="panel panel-default">
+        <div class="panel-heading">{this.t('travel.air.label')}</div>
+        <div class="panel-body">
+          <div class="cc-component__question">
+            <h5>{this.t('travel.air.short')}</h5>
+            <div class="input-group">
+              <input class="form-control"
+                onChange="{this.updateFootprintInput.bind(this)}"
+                value="{this.displayUserApiStateValue('airshort')}"
+                data-api_key="input_footprint_transportation_airshort"/>
+              <span class="input-group-addon">{this.t('travel.flights_per_year')}</span>
+            </div>
+          </div>
+
+          <div class="cc-component__question">
+            <h5>{this.t('travel.air.medium')}</h5>
+            <div class="input-group">
+              <input class="form-control"
+                onChange="{this.updateFootprintInput.bind(this)}"
+                value="{this.displayUserApiStateValue('airmedium')}"
+                data-api_key="input_footprint_transportation_airmedium"/>
+              <span class="input-group-addon">{this.t('travel.flights_per_year')}</span>
+            </div>
+          </div>
+
+          <div class="cc-component__question">
+            <h5>{this.t('travel.air.long')}</h5>
+            <div class="input-group">
+              <input class="form-control"
+                onChange="{this.updateFootprintInput.bind(this)}"
+                value="{this.displayUserApiStateValue('airlong')}"
+                data-api_key="input_footprint_transportation_airlong"/>
+              <span class="input-group-addon">{this.t('travel.flights_per_year')}</span>
+            </div>
+          </div>
+
+          <div class="cc-component__question">
+            <h5>{this.t('travel.air.extended')}</h5>
+            <div class="input-group">
+              <input class="form-control"
+                onChange="{this.updateFootprintInput.bind(this)}"
+                value="{this.displayUserApiStateValue('airextended')}"
+                data-api_key="input_footprint_transportation_airextended"/>
+              <span class="input-group-addon">{this.t('travel.flights_per_year')}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

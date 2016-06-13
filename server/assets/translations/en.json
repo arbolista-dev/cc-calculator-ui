@@ -1,6 +1,7 @@
 {
   "get_started": {
     "title": "Get Started",
+    "byline": "Start with a quick carbon footprint estimate",
     "route_path": "get_started",
     "location_prompt": "Enter your location",
     "income": {
@@ -8,10 +9,13 @@
     },
     "size": {
       "label": "How many people live in your household?"
-    }
+    },
+    "United States": "United States",
+    "average_household_size": "Avg (2.5)"
   },
   "travel": {
     "title": "Travel",
+    "your_vehicles": "Your vehicles",
     "byline": "How do you get around?",
     "route_path": "travel",
     "add_vehicle": "Add vehicle",
@@ -19,6 +23,7 @@
     "miles_per_gallon": "miles per gallon",
     "gasoline": "Gasoline",
     "diesel": "Diesel",
+    "flights_per_year": "flights/year",
     "publictrans": {
       "label": "Public Transit",
       "bus": "Bus",
@@ -28,7 +33,6 @@
     },
     "air": {
       "label": "Air Travel",
-      "advanced_sub_label": "Number of one-way flights",
       "short": "Short (< 400 mi)",
       "medium": "Medium (400 - 1500 mi)",
       "long": "long (1500 - 3000 mi)",
@@ -87,7 +91,6 @@
     "byline": "How much do you spend on each of the following?",
     "route_path": "shopping",
     "dollars_per_month": "$/month",
-    "enter_data_help": "Please enter USD spent per month by category",
     "services": {
       "label": "Services"
     },
@@ -111,16 +114,37 @@
     "miscservices": {"label": "Other services"}
   },
   "footprint": {
-    "title": "Footprint",
-    "route_path": "footprint"
+    "title": "Your Footprint",
+    "route_path": "footprint",
+    "your_footprint": "Your household footprint",
+    "average_footprint": "Average household"
   },
   "take_action": {
     "title": "Take Action",
-    "route_path": "take_action"
+    "byline": "Offset your impact",
+    "route_path": "take_action",
+    "tons_saved": "Tons saved",
+    "dollars_saved": "Dollars saved",
+    "upfront_cost": "Upfront cost"
   },
   "graphs": {
     "your_footprint": "Your footprint",
-    "average_footprint": "Average"
+    "average_footprint": "Average",
+    "total_home_footprint": "Total Home Footprint",
+    "total_travel_footprint": "Total Home Footprint",
+    "total_shopping_footprint": "Total Home Footprint",
+    "total_food_footprint": "Total Home Footprint",
+    "total_home_footprint": "Total Home Footprint",
+    "better_than_average": "Better than Average",
+    "worse_than_average": "Worse than Average"
+  },
+  "summaries": {
+    "total_footprint": "Total Footprint",
+    "total_travel_footprint": "Total Travel Footprint",
+    "total_home_footprint": "Total Home Footprint",
+    "total_food_footprint": "Total Food Footprint",
+    "total_shopping_footprint": "Total Shopping Footprint",
+    "total_action_savings": "Annual Savings"
   },
   "categories": {
     "result_transport_total": "Travel",
@@ -175,7 +199,8 @@
     "kwh_per_year": "kWh/year",
     "therms_per_year": "therms/year",
     "cuft_per_year": "cuft/year",
-    "gallons_per_year": "gallons/month"
+    "gallons_per_year": "gallons/month",
+    "tons_co2_per_year": "tons CO<sub>2</sub>/year"
   },
   "component": {
     "labels": {
@@ -184,13 +209,18 @@
     }
   },
   "route_doesnt_exist": "The route you requested does not exist!",
+  "Hide": "Hide",
+  "Total": "Total",
   "Avg": "Avg",
   "Next": "Next",
   "Previous": "Previous",
   "City": "City",
   "County": "County",
+  "Country": "Country",
   "Remove": "Remove",
   "State": "State",
-  "Zipcode": "Zipcode"
-
+  "Zipcode": "Zipcode",
+  "add": "add",
+  "percent_of_total": "Percent of total",
+  "month": "month"
 }

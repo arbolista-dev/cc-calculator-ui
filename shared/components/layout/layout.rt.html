@@ -8,20 +8,19 @@
 <rt-require dependency="./../missing/missing.component" as="Missing"/>
 <rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
 <div id="cc_calculator_ui">
-	<nav id="cc_nav" class="navbar navbar-default">
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<li
+	<nav class="navbar navbar-default">
+			<div id="cc_nav" >
+				<div
 					rt-repeat="route in this.router.main_routes"
 					class="cc-nav__item"
 					key="{route.key}"
 					rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
 					onClick="{this.goToRoute.bind(this, route)}">
-					<img src="/assets/img/{route.key}.png"/>
-					<span>{this.t(`${route.key}.title`)}</span>
-				</li>
-			</ul>
-		</div>
+					<img rt-if="route.route_name !== this.current_route_name" src="/assets/img/{route.key}-green.svg"/>
+					<img rt-if="route.route_name === this.current_route_name" src="/assets/img/{route.key}-blue.svg"/>
+					<div>{this.t(`${route.key}.title`)}</div>
+				</div>
+			</div>
 	</nav>
 	<div id="banner"></div>
 	<main>

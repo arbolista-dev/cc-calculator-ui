@@ -1,12 +1,14 @@
-<main class="cc-component container container-sm" id="food">
+<main class="cc-component container container-md" id="food">
   <header class="cc-component__header">
-    <img src="/assets/img/{this.route_key}.png"/>
-    <h2>{this.title}</h2>
+    <img src="/assets/img/{this.route_key}-black.svg"/>
+    <h4>{this.title}</h4>
     <h3 class="cc-component__byline">{this.t('food.byline')}</h3>
     <div>
       <span class="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': this.state.simple}"
         onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
       <span class="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': !this.state.simple}"
         onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
     </div>
   </header>
@@ -15,9 +17,9 @@
     <div rt-repeat="food_type in this.relevant_api_keys"
       key="food_question_{food_type}">
       <div class="cc-component__question" rt-class="{hidden: !this.shouldShow(food_type)}">
-        <div class="cc-component__question-label">{this.t(`food.${food_type}.label`)}</div>
+        <h4>{this.t(`food.${food_type}.label`)}</h4>
+        <span class="label label-slider">{this.displayUserApiStateValue(food_type)} <i>{this.t('food.calories')}</i></span>
         <div id="food_average_slider_{food_type}"></div>
-        <div>{this.displayUserApiStateValue(food_type)} <i>{this.t('food.calories')}</i></div>
       </div>
     </div>
   </div>

@@ -5,12 +5,24 @@ import CalculatorApi from 'api/calculator.api';
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
 const DEFAULT_INPUTS = ['input_size', 'input_income', 'input_location', 'input_location_mode'];
 const TAKEACTION_INPUTS = ['input_footprint_household_adults', 'input_footprint_household_children'];
+const CATEGORY_COLORS = {
+  result_transport_total: '#0D7A3E',
+  result_housing_total: '#45813C',
+  result_food_total: '#5E893C',
+  result_goods_total: '#0B713D',
+  result_services_total: '#4AAA48'
+};
+
 
 export default class StateManager {
 
   constructor(){
     var state_manager = this;
     state_manager.state = {average_footprint: {}, user_footprint: {}};
+  }
+
+  get category_colors(){
+    return CATEGORY_COLORS;
   }
 
   get params(){
@@ -27,6 +39,14 @@ export default class StateManager {
 
   get cool_climate_keys(){
     return Object.keys(this.state.user_footprint)
+  }
+
+  get footprint_not_updated(){
+    return this.user_footprint['input_changed'] != 1;
+  }
+
+  get actions_not_updated(){
+    return this.result_takeaction_pounds === undefined;
   }
 
   get user_footprint_set(){
@@ -54,10 +74,6 @@ export default class StateManager {
     return this.state.user_footprint['input_location_mode'];
   }
 
-  get actions_not_updated(){
-    return this.result_takeaction_pounds === undefined;
-  }
-
   get result_takeaction_pounds(){
     return this.state['result_takeaction_pounds']
   }
@@ -71,12 +87,7 @@ export default class StateManager {
   }
 
   get inputs(){
-    return Object.keys(this.state.user_footprint).reduce((params, key)=>{
-      if (/^input_/.test(key) || DEFAULT_INPUTS.indexOf(key) >= 0){
-        params[key] = this.state.user_footprint[key];
-      }
-      return params;
-    }, {});
+    return Object.assign({}, this.user_footprint)
   }
 
   setRoute(route){
@@ -94,8 +105,12 @@ export default class StateManager {
   syncLayout(){
     let state_manager = this;
     if (state_manager.layout !== undefined){
-      return state_manager.layout.syncFromStateManager();
+      return state_manager.layout.syncFromStateManager()
+                .then(()=>{
+                  state_manager.update_in_progress = false;
+                });
     } else {
+      state_manager.update_in_progress = false;
       return undefined;
     }
   }
@@ -107,21 +122,23 @@ export default class StateManager {
   }
 
   updateDefaults(){
-    let state_manager = this;
+    let state_manager = this, defaults;
 
     return CalculatorApi.getDefaultsAndResults(state_manager.default_inputs)
-      .then((res)=>{
-        state_manager.state.average_footprint = res;
-        if (!state_manager.user_footprint_set){
-          state_manager.parseFootrintResult(res);
-          return undefined
+      .then((_defaults)=>{
+        defaults = _defaults
+        state_manager.state.average_footprint = defaults;
+        return CalculatorApi.computeFootprint(defaults)
+      })
+      .then((default_footprint)=>{
+        Object.assign(state_manager.state.average_footprint, default_footprint);
+        if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
+          state_manager.parseFootprintResult(defaults);
+          return undefined;
         } else {
           // If user footprint has been defined, update it with new location.
           return state_manager.updateFootprint(state_manager.inputs);
         }
-      })
-      .then(()=>{
-        return state_manager.syncLayout();
       });
   }
 
@@ -135,18 +152,29 @@ export default class StateManager {
 
   updateFootprint(){
     let state_manager = this;
-
     return CalculatorApi.computeFootprint(state_manager.inputs)
       .then((res)=>{
-        state_manager.parseFootrintResult(res);
+        state_manager.parseFootprintResult(res);
         return undefined;
-      })
-      .then(()=>{
-        return state_manager.syncLayout();
       });
   }
 
-  parseFootrintResult(result){
+  logDifferences(input, output){
+    let state_manager = this,
+        keys = Object.keys(input).sort(),
+        differences = [];
+        keys.forEach((key)=>{
+          let in_v = input[key],
+              out_v = output[key];
+          if (in_v !== out_v && out_v){
+            differences.push([key, in_v, out_v])
+          }
+        });
+
+    console.log(JSON.stringify(differences, null, 2))
+  }
+
+  parseFootprintResult(result){
     // compute footprint and default calls will 0 out take action inputs/results.
     // do not override those values for user_footprint.
     let state_manager = this;
@@ -162,7 +190,6 @@ export default class StateManager {
       }, {});
       Object.assign(state_manager.state.user_footprint, result);
     }
-
   }
 
   /*
@@ -185,7 +212,6 @@ export default class StateManager {
   parseTakeactionResult(result){
     let state_manager = this;
     Object.assign(state_manager.state.user_footprint, result);
-
     state_manager.state['result_takeaction_pounds'] = JSON.parse(result['result_takeaction_pounds']);
     state_manager.state['result_takeaction_dollars'] = JSON.parse(result['result_takeaction_dollars']);
     state_manager.state['result_takeaction_net10yr'] = JSON.parse(result['result_takeaction_net10yr']);

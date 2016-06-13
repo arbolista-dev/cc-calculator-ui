@@ -1,4 +1,44 @@
 <div class="cc-component" id="graphs">
-  <div id="overview_chart"></div>
+  <div id="graphs_total_summary">
+    <div id="graphs_total_summary_heading">{this.t('Total')}</div>
+    <div id="graphs_total_footprint">{this.display_total_footprint}</div>
+    <div class="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></div>
+  </div>
 
+  <div rt-class="{hidden: !this.state.show_chart}">
+    <div id="overview_chart"></div>
+    <div class="chart-legend">
+      <div>
+        <img src="/assets/img/your-footprint-rect.png"/>
+        {this.t('footprint.your_footprint')}
+      </div>
+      <div>
+        <img src="/assets/img/average-footprint-rect.png"/>
+        {this.t('footprint.average_footprint')}
+      </div>
+    </div>
+  </div>
+
+  <div id="graphs_category_stats">
+    <div>
+      <div>
+        <span class="graphs__category_stat">{this.user_category_footprint}</span><br/>
+        <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
+      </div>
+      <div class="graphs__category_byline">{this.category_total_byline}</div>
+    </div>
+    <div>
+      <button class="btn btn-default"
+        rt-class="{'graphs--active': this.state.show_chart}"
+        onClick="{this.toggleChart.bind(this)}">
+        <i class="fa fa-bar-chart"></i>
+      </button>
+    </div>
+    <div>
+      <div class="graphs__category_stat">
+        {this.display_category_percent}%
+      </div>
+      <div class="graphs__category_byline">{this.category_percentage_byline}</div>
+    </div>
+  </div>
 </div>

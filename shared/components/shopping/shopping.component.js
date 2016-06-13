@@ -28,6 +28,9 @@ class ShoppingComponent extends Panel {
     shopping.state = Object.assign({
       simple: true
     }, shopping.userApiState());
+    shopping.state['input_footprint_shopping_goods_total'] = shopping.userApiValue('input_footprint_shopping_goods_total')
+    shopping.state['input_footprint_shopping_services_total'] = shopping.userApiValue('input_footprint_shopping_services_total')
+    shopping.initResizeListener();
   }
 
   get api_key_base(){
@@ -134,11 +137,20 @@ class ShoppingComponent extends Panel {
     return shopping.defaultApiValue(api_key);
   }
 
+  get display_services_monthly_spending(){
+    return this.numberWithCommas(
+      Math.round(this.state['input_footprint_shopping_services_total'])
+    )
+  }
+
   initializeServicesSlider(){
     let shopping = this;
 
     shopping.services_slider = new SimpleSlider({
       container: '#shopping_services_slider',
+      outer_height: 60,
+      outer_width: shopping.slider_width,
+      margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
         1: '1x',
@@ -169,11 +181,20 @@ class ShoppingComponent extends Panel {
     });
   }
 
+  get display_goods_monthly_spending(){
+    return this.numberWithCommas(
+      Math.round(this.state['input_footprint_shopping_goods_total'])
+    )
+  }
+
   initializeGoodsSlider(){
     let shopping = this;
 
-    shopping.services_slider = new SimpleSlider({
+    shopping.goods_slider = new SimpleSlider({
       container: '#shopping_goods_slider',
+      outer_height: 60,
+      outer_width: shopping.slider_width,
+      margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
         1: '1x',
@@ -198,11 +219,20 @@ class ShoppingComponent extends Panel {
         shopping.updateFootprint(update_params);
       }
     });
-    console.log('hi')
-    shopping.services_slider.drawData({
+    shopping.goods_slider.drawData({
       abs_min: 0,
       abs_max: 5,
       current_value: 1
+    });
+  }
+
+  resize(){
+    let shopping = this;
+    shopping.goods_slider.redraw({
+      outer_width: shopping.slider_width
+    });
+    shopping.services_slider.redraw({
+      outer_width: shopping.slider_width
     });
   }
 

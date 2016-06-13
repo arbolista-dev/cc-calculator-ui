@@ -5,9 +5,58 @@
   rect.average {
     fill: none;
     stroke-dasharray:5,5;
-    stroke-width:2;
+    stroke-width:s;
     stroke:#A4A4A4;
   }
+}
 
+#overview_chart {
+  text-align:center;
+  padding:10px;
 
+  rect.your-footprint.travel { fill: #0D7A3E; }
+  rect.your-footprint.home { fill: #45813C; }
+  rect.your-footprint.dining { fill: #5E893C; }
+  rect.your-footprint.goods { fill: #0B713D; }
+  rect.your-footprint.services { fill: #4AAA48; }
+}
+
+.d3-overlap-bar { cursor:pointer; }
+
+#graphs_total_summary {
+  text-align:center;
+}
+#graphs_total_summary_heading {
+  font-weight:bold;
+  font-size:1.4em;
+}
+#graphs_total_footprint {
+  font-size:1.7em;
+}
+
+.graphs__units {
+  font-size:0.9em;
+}
+
+#graphs_category_stats {
+  > div {
+    width: 33%;
+    display:inline-block;
+    &:nth-child(2){
+      text-align:center;
+    }
+    &:last-child{
+      text-align:right;
+    }
+  }
+  .graphs__category_stat {
+    font-size:1.5em;
+  }
+  .graphs__category_byline {
+    font-size:1.1em;
+  }
+}
+
+.graphs--active {
+  color:#4AAA48;
 }
