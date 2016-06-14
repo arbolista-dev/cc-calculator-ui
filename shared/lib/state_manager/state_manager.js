@@ -37,6 +37,24 @@ export default class StateManager {
     return this.state.average_footprint;
   }
 
+  get user_footprint_storage(){
+    let footprint = localStorage.getItem('user_footprint');
+    if(footprint){
+      return JSON.parse(footprint);
+    } else {
+      return false;
+    }
+  }
+
+  get average_footprint_storage(){
+    let footprint = localStorage.getItem('average_footprint');
+    if(footprint){
+      return JSON.parse(footprint);
+    } else {
+      return false;
+    }
+  }
+
   get cool_climate_keys(){
     return Object.keys(this.state.user_footprint)
   }
@@ -99,7 +117,14 @@ export default class StateManager {
   getInitialData(){
     let state_manager = this;
     // we'll load past user answers and get CC results here.
+    state_manager.checkLocalStorage();
     return state_manager.updateDefaults();
+  }
+
+  checkLocalStorage(){
+    let state_manager = this;
+    if (state_manager.average_footprint_storage) Object.assign(state_manager.state.average_footprint, state_manager.average_footprint_storage)
+    if (state_manager.user_footprint_storage) Object.assign(state_manager.state.user_footprint, state_manager.user_footprint_storage)
   }
 
   syncLayout(){
@@ -118,7 +143,9 @@ export default class StateManager {
   updateDefaultParams(new_location){
     let state_manager = this;
     Object.assign(state_manager.state.average_footprint, new_location);
+    state_manager.updateAverageFootprintStorage();
     Object.assign(state_manager.state.user_footprint, new_location);
+    state_manager.updateUserFootprintStorage();
   }
 
   updateDefaults(){
@@ -132,7 +159,11 @@ export default class StateManager {
       })
       .then((default_footprint)=>{
         Object.assign(state_manager.state.average_footprint, default_footprint);
-        if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
+        if (state_manager.user_footprint_set) {
+          state_manager.updateUserFootprintStorage();
+          state_manager.parseFootprintResult(state_manager.user_footprint_storage);
+        } else if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
+          state_manager.updateAverageFootprintStorage();
           state_manager.parseFootprintResult(defaults);
           return undefined;
         } else {
@@ -140,6 +171,16 @@ export default class StateManager {
           return state_manager.updateFootprint(state_manager.inputs);
         }
       });
+  }
+
+  updateUserFootprintStorage() {
+    let state_manager = this;
+    localStorage.setItem('user_footprint', JSON.stringify(state_manager.state.user_footprint));
+  }
+
+  updateAverageFootprintStorage() {
+    let state_manager = this;
+    localStorage.setItem('average_footprint', JSON.stringify(state_manager.state.average_footprint));
   }
 
   // This should be called to update input parameters that don't
@@ -155,6 +196,7 @@ export default class StateManager {
     return CalculatorApi.computeFootprint(state_manager.inputs)
       .then((res)=>{
         state_manager.parseFootprintResult(res);
+        state_manager.updateUserFootprintStorage();
         return undefined;
       });
   }
@@ -202,6 +244,7 @@ export default class StateManager {
     return CalculatorApi.computeTakeactionResults(state_manager.user_footprint)
       .then((res)=>{
         state_manager.parseTakeactionResult(res);
+        state_manager.updateUserFootprintStorage();
         return undefined;
       })
       .then(()=>{
