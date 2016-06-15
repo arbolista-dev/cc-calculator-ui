@@ -17,9 +17,15 @@ class GraphsComponent extends Panel {
     super(props, context);
     let graphs = this;
     graphs.initResizeListener();
-    graphs.state = {
-      show_chart: false
-    };
+    if (window.outerWidth < 992) {
+      graphs.state = {
+        show_chart: false
+      };
+    } else {
+      graphs.state = {
+        show_chart: true
+      };
+    }
   }
 
   componentDidMount() {
