@@ -48,6 +48,14 @@ class GraphsComponent extends Panel {
     })
   }
 
+  shouldShowTotal(){
+    if (this.current_route_name === 'GetStarted') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   /*
    * Graph Drawing
    */
@@ -159,7 +167,7 @@ class GraphsComponent extends Panel {
         keys = ['result_goods_total', 'result_services_total'];
         break;
       default:
-        keys = ['result_grand_total']
+        keys = ['result_grand_total'];
     }
     return keys;
    }
@@ -168,6 +176,8 @@ class GraphsComponent extends Panel {
     let graphs = this;
     if (graphs.current_route_name === 'TakeAction'){
       return graphs.displayTakeactionSavings('result_takeaction_pounds');
+    } else if (graphs.current_route_name === 'GetStarted'){
+      return Math.round(graphs.userApiValue('result_grand_total'))
     } else {
       return Math.round(
         graphs.category_keys.reduce((sum, category_key)=>{
@@ -203,7 +213,7 @@ class GraphsComponent extends Panel {
     }
   }
 
-  get category_total_byline(){
+  get category_user_byline(){
     let graphs = this;
     switch (graphs.current_route_name){
       case 'Travel':
@@ -221,8 +231,31 @@ class GraphsComponent extends Panel {
     }
   }
 
+  get category_average_byline(){
+    let graphs = this;
+    switch (graphs.current_route_name){
+      case 'Travel':
+        return graphs.t('summaries.average_travel_footprint')
+      case 'Home':
+        return graphs.t('summaries.average_home_footprint')
+      case 'Food':
+        return graphs.t('summaries.average_food_footprint')
+      case 'Shopping':
+        return graphs.t('summaries.average_shopping_footprint')
+      case 'TakeAction':
+        return graphs.t('summaries.average_action_savings')
+      default:
+        return graphs.t('summaries.average_footprint')
+    }
+  }
+
   get display_total_footprint(){
     let graphs = this;
+    if (graphs.current_route_name === 'GetStarted') {
+      graphs.state.show_total = false;
+    } else {
+      graphs.state.show_total = true;
+    }
     return Math.round(graphs.userApiValue('result_grand_total'))
   }
 

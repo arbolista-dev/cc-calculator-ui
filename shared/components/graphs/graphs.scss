@@ -33,21 +33,20 @@
 #graphs_total_footprint {
   font-size:1.7em;
 }
+#graphs_toggle_chart {
+	text-align: center;
+	padding-top: 15px;
+}
 
 .graphs__units {
   font-size:0.9em;
 }
 
-#graphs_category_stats {
+#graphs_stats {
   > div {
-    width: 33%;
+    width: 25%;
     display:inline-block;
-    &:nth-child(2){
-      text-align:center;
-    }
-    &:last-child{
-      text-align:right;
-    }
+		text-align: center;
   }
   .graphs__category_stat {
     font-size:1.5em;

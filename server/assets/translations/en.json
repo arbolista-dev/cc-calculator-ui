@@ -139,11 +139,16 @@
     "worse_than_average": "Worse than Average"
   },
   "summaries": {
-    "total_footprint": "Total Footprint",
-    "total_travel_footprint": "Total Travel Footprint",
-    "total_home_footprint": "Total Home Footprint",
-    "total_food_footprint": "Total Food Footprint",
-    "total_shopping_footprint": "Total Shopping Footprint",
+    "total_footprint": "Your Total Footprint",
+    "total_travel_footprint": "Your Travel Footprint",
+    "total_home_footprint": "Your Home Footprint",
+    "total_food_footprint": "Your Food Footprint",
+    "total_shopping_footprint": "Your Shopping Footprint",
+    "average_footprint": "Average Total Footprint",
+    "average_travel_footprint": "Average Travel Footprint",
+    "average_home_footprint": "Average Home Footprint",
+    "average_food_footprint": "Average Food Footprint",
+    "average_shopping_footprint": "Average Shopping Footprint",
     "total_action_savings": "Annual Savings"
   },
   "categories": {
