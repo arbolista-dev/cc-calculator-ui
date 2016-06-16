@@ -87,6 +87,15 @@ main > header {
 	}
 }
 
+.d3-slider-axis {
+	.tick {
+		&:hover {
+			fill: #777;
+			cursor: pointer;
+		}
+	}
+}
+
 .cc-component__nav {
 	clear: both;
 	margin-bottom: 40px;
@@ -102,5 +111,3 @@ main > header {
 		&:last-child { margin: 0; }
 	}
 }
-
-

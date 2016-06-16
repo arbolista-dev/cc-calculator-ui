@@ -51,7 +51,9 @@
                 onClick="{this.removeVehicle.bind(this, vehicle)}">X</button>
             </span>
           </div>
-          <span class="label label-slider">{vehicle.display_mpg} <i>{this.t('travel.miles_per_gallon')}</i></span>
+          <div class="label-container">
+            <span class="label label-slider">{vehicle.display_mpg} <i>{this.t('travel.miles_per_gallon')}</i></span>
+          </div>
           <div class="vehicle-slider__container" id="{vehicle.slider_id}"></div>
         </div>
       </div>

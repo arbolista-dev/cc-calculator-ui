@@ -37,10 +37,23 @@
   padding:4px;
 }
 
+#home,
+#food {
+  .cc-component__question {
+    max-width: 80%;
+    margin: 0px auto;
+  }
+}
+
+.label-container {
+  padding-top: 10px;
+  text-align: center;
+}
+
 .label-slider {
   background-color:#0290BE;
   font-weight:normal;
-  font-size:12px;
+  font-size:14px;
 }
 
 .chart-legend {
@@ -68,5 +81,3 @@
     padding:3px;
   }
 }
-
-
