@@ -14,3 +14,13 @@
   }
 }
 
+.cc-component__question--gasoline_unit {
+  display: inline;
+  margin-left: 16%;
+  .input-group-btn {
+    display: inline;
+    .dropdown-menu {
+      margin: 10px 0 0;
+    }
+  }
+}

@@ -17,6 +17,28 @@
           <i class="fa fa-plus"></i>.
           {this.t('add')}
         </button>
+        <div class="input-group cc-component__question--gasoline_unit">
+          {this.t('travel.gasoline_unit')}
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                {this.displayConsumptionUnit()}
+                <!--  -->
+               <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#" onClick="{this.updateConsumptionUnit.bind(this, 'mpg')}">
+                  {this.t('travel.miles_per_gallon')}
+                </a>
+              </li>
+              <li>
+                <a href="#" onClick="{this.updateConsumptionUnit.bind(this, 'kml')}">
+                  {this.t('travel.liters_per_km')}
+                </a>
+              </li>
+            </ul>
+          </div><!-- /btn-group -->
+      </div>
       </div>
       <div class="panel panel-body">
         <div rt-repeat="vehicle in this.vehicles"
@@ -44,7 +66,7 @@
               value="{vehicle.display_miles}"
               placeholder="{this.t('travel.miles_per_year')}"
               onChange="{this.updateVehicle.bind(this, vehicle)}"/>
-            <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+            <span class="input-group-addon">{this.displayYearlyDistanceUnit()}</span>
             <span class="input-group-btn">
               <button type="button"
                 class="btn btn-danger"
@@ -52,7 +74,7 @@
             </span>
           </div>
           <div class="label-container">
-            <span class="label label-slider">{vehicle.display_mpg} <i>{this.t('travel.miles_per_gallon')}</i></span>
+            <span class="label label-slider">{vehicle.display_mpg} <i>{this.displayConsumptionUnit()}</i></span>
           </div>
           <div class="vehicle-slider__container" id="{vehicle.slider_id}"></div>
         </div>
@@ -74,11 +96,11 @@
         <div class="panel-body">
           <div class="input-group">
             <input class="form-control"
-              onChange="{this.updateFootprintInput.bind(this)}"
-              value="{this.displayUserApiStateValue('publictrans')}"
+              onChange="{this.updateDistanceFootprint.bind(this)}"
+              placeholder="{this.displayDistanceValue('publictrans')}"
               data-api_key="input_footprint_transportation_publictrans"
               class="cc-component__question-input--right"/>
-            <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+            <span class="input-group-addon">{this.displayYearlyDistanceUnit()}</span>
           </div>
         </div>
       </div>
@@ -87,11 +109,11 @@
         <div class="panel-body">
           <div class="input-group">
             <input class="form-control"
-              onChange="{this.updateFootprintInput.bind(this)}"
-              value="{this.displayUserApiStateValue('airtotal')}"
+              onChange="{this.updateDistanceFootprint.bind(this)}"
+              placeholder="{this.displayDistanceValue('airtotal')}"
               data-api_key="input_footprint_transportation_airtotal"
               class="cc-component__question-input--right"/>
-            <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+            <span class="input-group-addon">{this.displayYearlyDistanceUnit()}</span>
           </div>
         </div>
       </div>
@@ -105,10 +127,10 @@
             <h5>{this.t('travel.publictrans.bus')}</h5>
             <div class="input-group">
               <input class="form-control"
-                onChange="{this.updateFootprintInput.bind(this)}"
-                value="{this.displayUserApiStateValue('bus')}"
+                onChange="{this.updateDistanceFootprint.bind(this)}"
+                placeholder="{this.displayDistanceValue('bus')}"
                 data-api_key="input_footprint_transportation_bus"/>
-              <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+              <span class="input-group-addon">{this.displayYearlyDistanceUnit()}</span>
             </div>
           </div>
 
@@ -116,10 +138,10 @@
             <h5>{this.t('travel.publictrans.transit_rail')}</h5>
             <div class="input-group">
               <input class="form-control"
-                onChange="{this.updateFootprintInput.bind(this)}"
-                value="{this.displayUserApiStateValue('transit')}"
+                onChange="{this.updateDistanceFootprint.bind(this)}"
+                placeholder="{this.displayDistanceValue('transit')}"
                 data-api_key="input_footprint_transportation_transit"/>
-              <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+              <span class="input-group-addon">{this.displayYearlyDistanceUnit()}</span>
             </div>
           </div>
 
@@ -127,10 +149,10 @@
             <h5>{this.t('travel.publictrans.commuter_rail')}</h5>
             <div class="input-group">
               <input class="form-control"
-                onChange="{this.updateFootprintInput.bind(this)}"
-                value="{this.displayUserApiStateValue('commuter')}"
+                onChange="{this.updateDistanceFootprint.bind(this)}"
+                placeholder="{this.displayDistanceValue('commuter')}"
                 data-api_key="input_footprint_transportation_commuter"/>
-              <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+              <span class="input-group-addon">{this.displayYearlyDistanceUnit()}</span>
             </div>
           </div>
 
@@ -139,9 +161,9 @@
             <div class="input-group">
               <input class="form-control"
                 onChange="{this.updateFootprintInput.bind(this)}"
-                value="{this.displayUserApiStateValue('intercity')}"
+                placeholder="{this.displayDistanceValue('intercity')}"
                 data-api_key="input_footprint_transportation_intercity"/>
-              <span class="input-group-addon">{this.t('travel.miles_per_year')}</span>
+              <span class="input-group-addon">{this.displayYearlyDistanceUnit()}</span>
             </div>
           </div>
         </div>
@@ -150,7 +172,7 @@
         <div class="panel-heading">{this.t('travel.air.label')}</div>
         <div class="panel-body">
           <div class="cc-component__question">
-            <h5>{this.t('travel.air.short')}</h5>
+            <h5>{this.t('travel.air.short')}{this.displayDistanceAbbreviation()}</h5>
             <div class="input-group">
               <input class="form-control"
                 onChange="{this.updateFootprintInput.bind(this)}"
@@ -161,7 +183,7 @@
           </div>
 
           <div class="cc-component__question">
-            <h5>{this.t('travel.air.medium')}</h5>
+            <h5>{this.t('travel.air.medium')}{this.displayDistanceAbbreviation()}</h5>
             <div class="input-group">
               <input class="form-control"
                 onChange="{this.updateFootprintInput.bind(this)}"
@@ -172,7 +194,7 @@
           </div>
 
           <div class="cc-component__question">
-            <h5>{this.t('travel.air.long')}</h5>
+            <h5>{this.t('travel.air.long')}{this.displayDistanceAbbreviation()}</h5>
             <div class="input-group">
               <input class="form-control"
                 onChange="{this.updateFootprintInput.bind(this)}"
@@ -183,7 +205,7 @@
           </div>
 
           <div class="cc-component__question">
-            <h5>{this.t('travel.air.extended')}</h5>
+            <h5>{this.t('travel.air.extended')}{this.displayDistanceAbbreviation()}</h5>
             <div class="input-group">
               <input class="form-control"
                 onChange="{this.updateFootprintInput.bind(this)}"

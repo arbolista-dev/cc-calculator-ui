@@ -18,6 +18,7 @@ class TravelComponent extends Panel {
     travel.initResizeListener();
     travel.state = Object.assign({
       simple: true,
+      consumption_unit: 'mpg',
       vehicles: [
         new Vehicle(travel.newVehicleParams(1), travel),
         new Vehicle(travel.newVehicleParams(2), travel)
@@ -114,11 +115,17 @@ class TravelComponent extends Panel {
       let vehicle = travel.vehicles[i- 1];
       if (vehicle){
         Object.assign(vehicle_params, vehicle.cc_inputs(i));
+        if (travel.state.consumption_unit === 'kml'){
+          let curr_distance = vehicle_params[`input_footprint_transportation_miles${i}`],
+              consumption = vehicle_params[`input_footprint_transportation_mpg${i}`];
+          vehicle_params[`input_footprint_transportation_miles${i}`] = travel.convertKmToMiles(curr_distance);
+          vehicle_params[`input_footprint_transportation_mpg${i}`] = travel.convertMetricConsumptionToMPG(consumption);
+        }
       } else {
         vehicle_params[`input_footprint_transportation_miles${i}`] = 0;
       }
     }
-    travel.setState({vehiles: travel.state.vehicles});
+    travel.setState({vehicles: travel.state.vehicles});
     travel.updateFootprint(vehicle_params);
   }
 
@@ -164,6 +171,76 @@ class TravelComponent extends Panel {
       vehicles: this.vehicles
     });
     travel.updateVehicleFootprint();
+  }
+
+  /*
+  * Gasoline consumption unit
+  */
+  updateConsumptionUnit(unit){
+    let travel = this;
+    travel.state.consumption_unit = unit;
+    travel.updateVehicleFootprint();
+  }
+
+  displayConsumptionUnit(){
+    let travel = this;
+    if (travel.state.consumption_unit === 'mpg') return this.t('travel.miles_per_gallon');
+    else return this.t('travel.liters_per_km');
+  }
+
+  displayYearlyDistanceUnit(){
+    let travel = this;
+    if (travel.state.consumption_unit === 'mpg') return this.t('travel.miles_per_year');
+    else return this.t('travel.km_per_year');
+  }
+
+  displayDistanceAbbreviation(){
+    let travel = this;
+    if (travel.state.consumption_unit === 'mpg') return ' mi)';
+    else return ' km)';
+  }
+
+  convertKmToMiles(km){
+    return Math.round(km * 0.62137).toString();
+  }
+
+  convertMilesToKm(miles){
+    return Math.round(miles / 0.62137).toString();
+  }
+
+  convertMetricConsumptionToMPG(metricConsumption){
+    let val = (100*3.785411784)/(1.609344*metricConsumption);
+    val = Math.round(val);
+    return val;
+  }
+
+  displayDistanceValue(api_suffix){
+    let travel = this,
+        api_value = travel.displayUserApiStateValue(api_suffix);
+    if (travel.state.consumption_unit === 'mpg') {
+      return Math.round(api_value);
+    } else {
+      api_value = travel.convertMilesToKm(api_value);
+      return api_value;
+    }
+  }
+
+  updateDistanceFootprint(event){
+    let travel = this,
+        api_key = event.target.dataset.api_key,
+        update;
+
+    if (travel.state.consumption_unit === 'mpg') {
+      update = {
+        [api_key]: event.target.value
+      };
+    } else {
+      update = {
+        [api_key]: travel.convertKmToMiles(event.target.value)
+      };
+    }
+    travel.setState(update);
+    travel.updateFootprint(update);
   }
 
   resize(){
