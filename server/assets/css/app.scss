@@ -37,6 +37,39 @@
   padding:4px;
 }
 
+.cc-component__auth {
+  text-align: center;
+  .form-group {
+    width: 50%;
+    margin: 20px auto;
+    .control-label {
+      width: 20%;
+      float: left;
+    }
+    .form-control {
+      float: left;
+      width: 60%;
+      margin-left: 15px;
+    }
+  }
+  .cc-component__auth-submit {
+  	clear: both;
+  	margin-bottom: 40px;
+  	text-align: center;
+  	width: 100%;
+  	a {
+  		background: #4AAA48;
+  		color: #FFF;
+  		display: inline-block;
+  		padding: 10px;
+  		text-transform: uppercase;
+  		margin-right: 10px;
+  		&:last-child { margin: 0; }
+  	}
+  }
+}
+
+
 #home,
 #food {
   .cc-component__question {

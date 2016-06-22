@@ -4,11 +4,16 @@ import GetStarted from './routes/get_started/get_started';
 import Home from './routes/home/home';
 import Missing from './routes/missing/missing';
 import Shopping from './routes/shopping/shopping';
+import SignUp from './routes/sign_up/sign_up';
 import TakeAction from './routes/take_action/take_action';
 import Travel from './routes/travel/travel';
 
 export function defineRoutes(i18n) {
   return [
+    new SignUp({
+      path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('sign_up.route_path')})?$`),
+      parameters: {2: 'locale'}
+    }),
     new GetStarted({
       path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('get_started.route_path')})?$`),
       parameters: {2: 'locale'}

@@ -29,7 +29,6 @@ class LayoutComponent extends mixin(Translatable, routable) {
     return this.state_manager.state.route.route_name;
   }
 
-
   componentDidMount() {
     var layout = this;
     layout.router.initializeHistory(layout);

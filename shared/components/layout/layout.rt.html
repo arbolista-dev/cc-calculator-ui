@@ -1,3 +1,4 @@
+<rt-require dependency="./../sign_up/sign_up.component" as="SignUp"/>
 <rt-require dependency="./../get_started/get_started.component" as="GetStarted"/>
 <rt-require dependency="./../travel/travel.component" as="Travel"/>
 <rt-require dependency="./../home/home.component" as="Home"/>
@@ -16,14 +17,17 @@
 					key="{route.key}"
 					rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
 					onClick="{this.goToRoute.bind(this, route)}">
-					<img rt-if="route.route_name !== this.current_route_name" src="/assets/img/{route.key}-green.svg"/>
-					<img rt-if="route.route_name === this.current_route_name" src="/assets/img/{route.key}-blue.svg"/>
+					<img rt-if="(route.route_name !== this.current_route_name) && route.route_name !== 'SignUp'" src="/assets/img/{route.key}-green.svg"/>
+					<img rt-if="(route.route_name === this.current_route_name) && route.route_name !== 'SignUp'" src="/assets/img/{route.key}-blue.svg"/>
 					<div>{this.t(`${route.key}.title`)}</div>
 				</div>
 			</div>
 	</nav>
 	<div id="banner"></div>
 	<main>
+		<SignUp
+			rt-if="this.current_route_name === 'SignUp'"
+		></SignUp>
 		<GetStarted
 			rt-if="this.current_route_name === 'GetStarted'"
 		></GetStarted>
@@ -49,5 +53,5 @@
 			rt-if="this.current_route_name === 'Missing'"
 		></Missing>
 	</main>
-	<Graphs></Graphs>
+	<Graphs rt-if="this.current_route_name != 'SignUp'"></Graphs>
 </div>
