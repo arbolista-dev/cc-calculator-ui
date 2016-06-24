@@ -1,7 +1,8 @@
 /*global JS_ENV Map require*/
 
 import CalculatorApi from 'api/calculator.api';
-import _ from 'lodash';
+import { updateAnswers } from 'api/user.api';
+import { tokenIsValid, getLocalStorageItem } from '../utils/utils';
 
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
 const DEFAULT_INPUTS = ['input_size', 'input_income', 'input_location', 'input_location_mode'];
@@ -19,7 +20,7 @@ export default class StateManager {
 
   constructor(){
     var state_manager = this;
-    state_manager.state = {average_footprint: {}, user_footprint: {}};
+    state_manager.state = {average_footprint: {}, user_footprint: {}, auth: {}};
   }
 
   get category_colors(){
@@ -39,36 +40,19 @@ export default class StateManager {
   }
 
   get user_footprint_storage(){
-    let footprint = localStorage.getItem('user_footprint');
-    if(footprint){
-      return JSON.parse(footprint);
-    } else {
-      return false;
-    }
+    return getLocalStorageItem('user_footprint');
   }
 
   get average_footprint_storage(){
-    let footprint = localStorage.getItem('average_footprint');
-    if(footprint){
-      return JSON.parse(footprint);
-    } else {
-      return false;
-    }
+    return getLocalStorageItem('average_footprint');
+  }
+
+  get auth_storage(){
+    return getLocalStorageItem('auth');
   }
 
   get take_action_storage(){
-    let results = {
-        dollars: localStorage.getItem('result_takeaction_dollars'),
-        net10yr: localStorage.getItem('result_takeaction_net10yr'),
-        pounds: localStorage.getItem('result_takeaction_pounds')
-      },
-      results_exist = Object.values(results).filter(result => result != null);
-
-    if(results_exist.length !== 0){
-      return results;
-    } else {
-      return false;
-    }
+    return getLocalStorageItem('take_action');
   }
 
   get cool_climate_keys(){
@@ -124,6 +108,10 @@ export default class StateManager {
     return Object.assign({}, this.user_footprint)
   }
 
+  get auth_state(){
+    return this.state['auth']
+  }
+
   setRoute(route){
     let state_manager = this;
     state_manager.state.route = route;
@@ -143,6 +131,7 @@ export default class StateManager {
       state_manager.state['result_takeaction_net10yr'] = JSON.parse(state_manager.take_action_storage.net10yr);
       state_manager.state['result_takeaction_pounds'] = JSON.parse(state_manager.take_action_storage.pounds);
     }
+    if (state_manager.auth_storage) Object.assign(state_manager.state.auth, state_manager.auth_storage)
     if (state_manager.average_footprint_storage && state_manager.user_footprint_storage) {
       Object.assign(state_manager.state.average_footprint, state_manager.average_footprint_storage)
       Object.assign(state_manager.state.user_footprint, state_manager.user_footprint_storage)
@@ -311,6 +300,20 @@ export default class StateManager {
     state_manager.state['result_takeaction_dollars'] = JSON.parse(result['result_takeaction_dollars']);
     state_manager.state['result_takeaction_net10yr'] = JSON.parse(result['result_takeaction_net10yr']);
     state_manager.updateTakeActionResultStorage();
+  }
+
+  /*
+   * User API
+   */
+  updateUserAnswers(){
+    let state_manager = this,
+        token = state_manager.state.auth.token;
+
+    return UserApi.updateAnswers(state_manager.user_footprint, token)
+            .then((res) => {
+              if (res.success) console.log('answers updated');
+            })
+    // return UserApi
   }
 
 }

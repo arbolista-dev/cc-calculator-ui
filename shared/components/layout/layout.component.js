@@ -29,6 +29,10 @@ class LayoutComponent extends mixin(Translatable, routable) {
     return this.state_manager.state.route.route_name;
   }
 
+  get user_authenticated() {
+    return this.state_manager.state.auth.hasOwnProperty('email');
+  }
+
   componentDidMount() {
     var layout = this;
     layout.router.initializeHistory(layout);

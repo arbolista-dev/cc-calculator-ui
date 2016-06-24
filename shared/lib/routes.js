@@ -2,6 +2,7 @@ import Food from './routes/food/food';
 import Footprint from './routes/footprint/footprint';
 import GetStarted from './routes/get_started/get_started';
 import Home from './routes/home/home';
+import Login from './routes/login/login';
 import Missing from './routes/missing/missing';
 import Shopping from './routes/shopping/shopping';
 import SignUp from './routes/sign_up/sign_up';
@@ -12,6 +13,10 @@ export function defineRoutes(i18n) {
   return [
     new SignUp({
       path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('sign_up.route_path')})?$`),
+      parameters: {2: 'locale'}
+    }),
+    new Login({
+      path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('login.route_path')})?$`),
       parameters: {2: 'locale'}
     }),
     new GetStarted({

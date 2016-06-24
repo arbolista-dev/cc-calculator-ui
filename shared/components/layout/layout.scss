@@ -2,12 +2,20 @@
 a { cursor: pointer; }
 
 #cc_calculator_ui {
+	#cc_nav {
+		div:first-child {
+			margin-left: 140px;
+		}
+	}
 	.cc-nav__item {
 		cursor: pointer;
 		padding: 5px 0;
 		text-align: center;
 		display:inline-block;
 		width:100px;
+		// &:first-child {
+		// 	margin-left: 70px;
+		// }
 		img {
 			margin: 0 auto;
 			height: 40px;
@@ -20,6 +28,22 @@ a { cursor: pointer; }
 			background-color: #EEE;
 			span {
 			// color: $brand-primary !important;
+			}
+		}
+	}
+
+	.cc-nav__auth {
+		display: inline-block;
+		vertical-align: top;
+		margin: 20px 0 0 70px;
+		a:first-of-type {
+			background-color: #5cb85c;
+    	border-color: #4cae4c;
+			color: #fff;
+			margin-right: 5px;
+			&:hover {
+				background-color: #449d44;
+				border-color: #398439;
 			}
 		}
 	}

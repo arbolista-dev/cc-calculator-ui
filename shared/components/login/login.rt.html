@@ -1,23 +1,13 @@
-<main class="cc-component container container-md" id="sign_up">
+<main class="cc-component container container-md" id="login">
     <header class="cc-component__header">
         <div>
             <!-- <img src="/assets/img/{this.route_key}.png"/> -->
-            <h3>{this.t('sign_up.title')}</h3>
+            <h3>{this.t('login.title')}</h3>
         </div>
     </header>
 
     <div class="cc-component__form form-horizontal">
         <div class="cc-component__auth">
-            <div class="form-group">
-                <label for="inputFirst" class="control-label">{this.t(`sign_up.first_name`)}</label>
-                <input type="text" class="form-control" id="inputFirst" rt-class="{error: !this.paramValid('first_name')}" onChange="{this.updateInput.bind(this)}" value="{this.state.first_name}" data-api_key="first_name" placeholder="{this.t(`sign_up.first_name`)}">
-            </div>
-            <div class="form-group">
-                <label for="inputLast" class="control-label">{this.t(`sign_up.last_name`)}</label>
-                <input type="text" class="form-control" id="inputLast"
-                rt-class="{error: !this.paramValid('last_name')}"
-                onChange="{this.updateInput.bind(this)}" data-api_key="last_name" value="{this.state.last_name}" placeholder="{this.t(`sign_up.last_name`)}">
-            </div>
             <div class="form-group">
                 <label for="inputEmail" class="control-label">{this.t(`auth.email`)}</label>
                 <input type="email" class="form-control" id="inputEmail"
@@ -30,7 +20,7 @@
                  id="inputPassword" rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}" data-api_key="password" value="{this.state.password}" placeholder="{this.t(`auth.password`)}">
             </div>
             <div class="cc-component__auth-submit">
-                <a onClick="{this.submitSignup.bind(this)}">{this.t(`sign_up.submit`)}</a>
+                <a onClick="{this.submitLogin.bind(this)}">{this.t(`login.submit`)}</a>
             </div>
         </div>
     </div>
