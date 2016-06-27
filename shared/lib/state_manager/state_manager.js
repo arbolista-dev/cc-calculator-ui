@@ -133,7 +133,6 @@ export default class StateManager {
     let state_manager = this;
     // we'll load past user answers and get CC results here.
     return state_manager.checkLocalStorage();
-    // return state_manager.updateDefaults();
   }
 
   checkLocalStorage(){
@@ -144,12 +143,10 @@ export default class StateManager {
       state_manager.state['result_takeaction_pounds'] = JSON.parse(state_manager.take_action_storage.pounds);
     }
     if (state_manager.average_footprint_storage && state_manager.user_footprint_storage) {
-      console.log('get defaults from storage, state: ', state_manager.state);
       Object.assign(state_manager.state.average_footprint, state_manager.average_footprint_storage)
       Object.assign(state_manager.state.user_footprint, state_manager.user_footprint_storage)
       return Promise.resolve();
     } else {
-      console.log('update defaults')
       return state_manager.updateDefaults();
     }
   }
@@ -205,6 +202,17 @@ export default class StateManager {
     localStorage.setItem('user_footprint', JSON.stringify(state_manager.state.user_footprint));
   }
 
+  setUserFootprintStorageToDefault() {
+    let state_manager = this;
+    localStorage.removeItem('user_footprint');
+    state_manager.state.user_footprint = {};
+    return state_manager.updateDefaults().then(() => {
+      // User footprint reset!
+      state_manager.syncLayout().then(() => {
+      });
+    })
+  }
+
   updateAverageFootprintStorage() {
     let state_manager = this;
     localStorage.setItem('average_footprint', JSON.stringify(state_manager.state.average_footprint));
@@ -255,7 +263,6 @@ export default class StateManager {
     // do not override those values for user_footprint.
     let state_manager = this;
 
-    console.log('parseFootprintResult, state:', state_manager.state)
     if (state_manager.actions_not_updated){
       state_manager.parseTakeactionResult(result);
     } else {

@@ -8,6 +8,13 @@
 	</header>
 
 	<div class="cc-component__form">
+
+		<div id="forget_user_answers" class="cc-component__question">
+			<a rt-if="this.user_footprint_storage_set" type="button"
+				class="btn btn-default"
+				onClick="{this.setUserAnswersToDefault.bind(this)}" >{this.t('get_started.forget_answers')}</a>
+		</div>
+
 		<div id="location_mode_btn_group_container" class="cc-component__question">
 			<div id="location_mode_btn_group" class="btn-group" role="group">
 				<a rt-repeat="mode in this.location_modes"

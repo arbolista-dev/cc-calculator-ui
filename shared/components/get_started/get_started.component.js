@@ -58,6 +58,11 @@ class GetStartedComponent extends Panel {
     return LOCATION_MODES;
   }
 
+  get user_footprint_storage_set(){
+    let get_started = this;
+    return get_started.state_manager.user_footprint_storage
+  }
+
   get show_location_suggestions(){
     return this.state.show_location_suggestions;
   }
@@ -97,6 +102,22 @@ class GetStartedComponent extends Panel {
       input_location: undefined,
       locations: {},
       show_location_suggestions: false
+    });
+  }
+
+  setUserAnswersToDefault(){
+    let get_started = this;
+    get_started.state_manager.setUserFootprintStorageToDefault().then((res) => {
+      get_started.income_slider.drawData({
+        abs_min: 1,
+        abs_max: 11,
+        current_value: get_started.input_income
+      });
+      get_started.size_slider.drawData({
+        abs_min: 0,
+        abs_max: 5,
+        current_value: get_started.input_size
+      });
     });
   }
 
