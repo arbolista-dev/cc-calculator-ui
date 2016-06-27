@@ -196,8 +196,8 @@ class TravelComponent extends Panel {
 
   displayDistanceAbbreviation(){
     let travel = this;
-    if (travel.state.consumption_unit === 'mpg') return ' mi)';
-    else return ' km)';
+    if (travel.state.consumption_unit === 'mpg') return ' ' + this.t('travel.miles_abbr') + ')';
+    else return ' ' + this.t('travel.km_abbr') + ')';
   }
 
   convertKmToMiles(km){

@@ -16,20 +16,19 @@ class GraphsComponent extends Panel {
   constructor(props, context){
     super(props, context);
     let graphs = this;
+    graphs.state = {
+      show_chart: true
+    };
     graphs.initResizeListener();
-    if (window.outerWidth < 992) {
-      graphs.state = {
-        show_chart: false
-      };
-    } else {
-      graphs.state = {
-        show_chart: true
-      };
-    }
   }
 
   componentDidMount() {
     let graphs = this;
+    if (window.outerWidth < 992) {
+      graphs.setState({
+        show_chart: false
+      });
+    }
     graphs.initializeOverallChart();
   }
 
@@ -251,17 +250,8 @@ class GraphsComponent extends Panel {
 
   get display_total_footprint(){
     let graphs = this;
-    if (graphs.current_route_name === 'GetStarted') {
-      graphs.state.show_total = false;
-    } else {
-      graphs.state.show_total = true;
-    }
     return Math.round(graphs.userApiValue('result_grand_total'))
   }
-
-
-
-
 
 }
 

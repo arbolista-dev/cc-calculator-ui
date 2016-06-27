@@ -24,6 +24,8 @@
     "km_per_year": "km/year",
     "miles_per_gallon": "miles per gallon",
     "liters_per_km": "liters per 100 kilometers",
+    "miles_abbr": "mi",
+    "km_abbr": "km",
     "gasoline": "Gasoline",
     "diesel": "Diesel",
     "flights_per_year": "flights/year",

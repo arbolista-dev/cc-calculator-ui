@@ -145,7 +145,7 @@ class ShoppingComponent extends Panel {
 
   initializeServicesSlider(){
     let shopping = this,
-        total_services_api_key = shopping.apiKey('input_footprint_shopping_services_total');
+        total_services_api_key = 'input_footprint_shopping_services_total';
 
     shopping.services_slider = new SimpleSlider({
       container: '#shopping_services_slider',
@@ -189,7 +189,7 @@ class ShoppingComponent extends Panel {
 
   initializeGoodsSlider(){
     let shopping = this,
-    total_goods_api_key = shopping.apiKey('input_footprint_shopping_goods_total');
+    total_goods_api_key = 'input_footprint_shopping_goods_total';
 
     shopping.goods_slider = new SimpleSlider({
       container: '#shopping_goods_slider',
@@ -213,6 +213,7 @@ class ShoppingComponent extends Panel {
             hash[api_key] = new_value;
             return hash;
           }, {}),
+
           total_goods = multiplier * shopping.average_goods_expend;
         update_params[total_goods_api_key] = total_goods;
         shopping.setState(update_params);

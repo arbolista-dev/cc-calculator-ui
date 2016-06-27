@@ -55,6 +55,21 @@ export default class StateManager {
     }
   }
 
+  get take_action_storage(){
+    let results = {
+        dollars: localStorage.getItem('result_takeaction_dollars'),
+        net10yr: localStorage.getItem('result_takeaction_net10yr'),
+        pounds: localStorage.getItem('result_takeaction_pounds')
+      },
+      results_exist = Object.values(results).filter(result => result != null);
+
+    if(results_exist.length !== 0){
+      return results;
+    } else {
+      return false;
+    }
+  }
+
   get cool_climate_keys(){
     return Object.keys(this.state.user_footprint)
   }
@@ -117,14 +132,26 @@ export default class StateManager {
   getInitialData(){
     let state_manager = this;
     // we'll load past user answers and get CC results here.
-    state_manager.checkLocalStorage();
-    return state_manager.updateDefaults();
+    return state_manager.checkLocalStorage();
+    // return state_manager.updateDefaults();
   }
 
   checkLocalStorage(){
     let state_manager = this;
-    if (state_manager.average_footprint_storage) Object.assign(state_manager.state.average_footprint, state_manager.average_footprint_storage)
-    if (state_manager.user_footprint_storage) Object.assign(state_manager.state.user_footprint, state_manager.user_footprint_storage)
+    if (state_manager.take_action_storage) {
+      state_manager.state['result_takeaction_dollars'] = JSON.parse(state_manager.take_action_storage.dollars);
+      state_manager.state['result_takeaction_net10yr'] = JSON.parse(state_manager.take_action_storage.net10yr);
+      state_manager.state['result_takeaction_pounds'] = JSON.parse(state_manager.take_action_storage.pounds);
+    }
+    if (state_manager.average_footprint_storage && state_manager.user_footprint_storage) {
+      console.log('get defaults from storage, state: ', state_manager.state);
+      Object.assign(state_manager.state.average_footprint, state_manager.average_footprint_storage)
+      Object.assign(state_manager.state.user_footprint, state_manager.user_footprint_storage)
+      return Promise.resolve();
+    } else {
+      console.log('update defaults')
+      return state_manager.updateDefaults();
+    }
   }
 
   syncLayout(){
@@ -183,6 +210,13 @@ export default class StateManager {
     localStorage.setItem('average_footprint', JSON.stringify(state_manager.state.average_footprint));
   }
 
+  updateTakeActionResultStorage() {
+    let state_manager = this;
+    localStorage.setItem('result_takeaction_dollars', JSON.stringify(state_manager.state['result_takeaction_dollars']));
+    localStorage.setItem('result_takeaction_net10yr', JSON.stringify(state_manager.state['result_takeaction_net10yr']));
+    localStorage.setItem('result_takeaction_pounds', JSON.stringify(state_manager.state['result_takeaction_pounds']));
+  }
+
   // This should be called to update input parameters that don't
   // impact resulting footprint (eg input type).
   updateFootprintParams(params){
@@ -221,6 +255,7 @@ export default class StateManager {
     // do not override those values for user_footprint.
     let state_manager = this;
 
+    console.log('parseFootprintResult, state:', state_manager.state)
     if (state_manager.actions_not_updated){
       state_manager.parseTakeactionResult(result);
     } else {
@@ -258,6 +293,7 @@ export default class StateManager {
     state_manager.state['result_takeaction_pounds'] = JSON.parse(result['result_takeaction_pounds']);
     state_manager.state['result_takeaction_dollars'] = JSON.parse(result['result_takeaction_dollars']);
     state_manager.state['result_takeaction_net10yr'] = JSON.parse(result['result_takeaction_net10yr']);
+    state_manager.updateTakeActionResultStorage();
   }
 
 }
