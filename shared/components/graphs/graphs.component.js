@@ -16,14 +16,19 @@ class GraphsComponent extends Panel {
   constructor(props, context){
     super(props, context);
     let graphs = this;
-    graphs.initResizeListener();
     graphs.state = {
-      show_chart: false
+      show_chart: true
     };
+    graphs.initResizeListener();
   }
 
   componentDidMount() {
     let graphs = this;
+    if (window.outerWidth < 992) {
+      graphs.setState({
+        show_chart: false
+      });
+    }
     graphs.initializeOverallChart();
   }
 
@@ -40,6 +45,14 @@ class GraphsComponent extends Panel {
     this.setState({
       show_chart: !this.state.show_chart
     })
+  }
+
+  shouldShowTotal(){
+    if (this.current_route_name === 'GetStarted') {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   /*
@@ -153,7 +166,7 @@ class GraphsComponent extends Panel {
         keys = ['result_goods_total', 'result_services_total'];
         break;
       default:
-        keys = ['result_grand_total']
+        keys = ['result_grand_total'];
     }
     return keys;
    }
@@ -162,30 +175,32 @@ class GraphsComponent extends Panel {
     let graphs = this;
     if (graphs.current_route_name === 'TakeAction'){
       return graphs.displayTakeactionSavings('result_takeaction_pounds');
+    } else if (graphs.current_route_name === 'GetStarted'){
+      return graphs.userApiValue('result_grand_total');
     } else {
-      return Math.round(
-        graphs.category_keys.reduce((sum, category_key)=>{
-          return sum + parseInt(graphs.userApiValue(category_key));
-        }, 0)
-      );
+      return graphs.category_keys.reduce((sum, category_key)=>{
+        return sum + parseFloat(graphs.userApiValue(category_key));
+      }, 0)
     }
   }
 
   get average_category_footprint(){
     let graphs = this;
 
-    return Math.round(
-      graphs.category_keys.reduce((sum, category_key)=>{
-        return sum + parseInt(graphs.defaultApiValue(category_key));
-      }, 0)
-    )
+    return graphs.category_keys.reduce((sum, category_key)=>{
+      return sum + parseInt(graphs.defaultApiValue(category_key));
+    }, 0);
   }
 
   get display_category_percent(){
     let graphs = this;
-    return Math.round(Math.abs(
-      100 * graphs.user_category_footprint / graphs.average_category_footprint - 100
-    ));
+    if (graphs.state_manager.footprint_not_updated){
+      return 0;
+    } else {
+      return Math.round(Math.abs(
+        100 * graphs.user_category_footprint / graphs.average_category_footprint - 100
+      ));
+    }
   }
 
   get category_percentage_byline(){
@@ -197,7 +212,7 @@ class GraphsComponent extends Panel {
     }
   }
 
-  get category_total_byline(){
+  get category_user_byline(){
     let graphs = this;
     switch (graphs.current_route_name){
       case 'Travel':
@@ -215,14 +230,28 @@ class GraphsComponent extends Panel {
     }
   }
 
+  get category_average_byline(){
+    let graphs = this;
+    switch (graphs.current_route_name){
+      case 'Travel':
+        return graphs.t('summaries.average_travel_footprint')
+      case 'Home':
+        return graphs.t('summaries.average_home_footprint')
+      case 'Food':
+        return graphs.t('summaries.average_food_footprint')
+      case 'Shopping':
+        return graphs.t('summaries.average_shopping_footprint')
+      case 'TakeAction':
+        return graphs.t('summaries.average_action_savings')
+      default:
+        return graphs.t('summaries.average_footprint')
+    }
+  }
+
   get display_total_footprint(){
     let graphs = this;
     return Math.round(graphs.userApiValue('result_grand_total'))
   }
-
-
-
-
 
 }
 

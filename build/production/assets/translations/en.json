@@ -1,0 +1,226 @@
+{
+  "get_started": {
+    "title": "Get Started",
+    "byline": "Start with a quick carbon footprint estimate",
+    "route_path": "get_started",
+    "location_prompt": "Enter your location",
+    "income": {
+      "label": "What is your gross annual household income?"
+    },
+    "size": {
+      "label": "How many people live in your household?"
+    },
+    "United States": "United States",
+    "average_household_size": "Avg (2.5)"
+  },
+  "travel": {
+    "title": "Travel",
+    "your_vehicles": "Your vehicles",
+    "byline": "How do you get around?",
+    "route_path": "travel",
+    "add_vehicle": "Add vehicle",
+    "miles_per_year": "miles/year",
+    "miles_per_gallon": "miles per gallon",
+    "gasoline": "Gasoline",
+    "diesel": "Diesel",
+    "flights_per_year": "flights/year",
+    "publictrans": {
+      "label": "Public Transit",
+      "bus": "Bus",
+      "transit_rail": "Transit Rail (light&heavy)",
+      "commuter_rail": "Commuter Rail",
+      "inter_city_rail": "Inter-city Rail (Amtrak)"
+    },
+    "air": {
+      "label": "Air Travel",
+      "short": "Short (< 400 mi)",
+      "medium": "Medium (400 - 1500 mi)",
+      "long": "long (1500 - 3000 mi)",
+      "extended": "Extended (> 3000 mi)"
+    }
+  },
+  "home": {
+    "title": "Home",
+    "route_path": "home",
+    "byline": "How much do you use in your home?",
+    "electricity": {"label": "Electricity"},
+    "cleanpercent": {"label": "Percent purchased from a clean energy program"},
+    "naturalgas": {"label": "Natural Gas"},
+    "heatingoil": {"label": "Heating Oil & Other Fuels"},
+    "squarefeet": {"label": "Square ft. of living space"},
+    "watersewage": {"label": "Water Usage"}
+  },
+  "food": {
+    "title": "Food",
+    "byline": "How much do you consume of each of the following?",
+    "route_path": "food",
+    "calories": "calories",
+    "calories_per_day": {
+      "label": "Total calories per day"
+    },
+    "cereals": {
+      "label": "Grains & baked goods"
+    },
+    "dairy": {
+      "label": "Dairy"
+    },
+    "fruitvegetables": {
+      "label": "Fruits & vegetables"
+    },
+    "otherfood": {
+      "label": "Snacks, drinks, etc..."
+    },
+    "meat_beefpork": {
+      "label": "Beef, pork, lamb, veal"
+    },
+    "meat_fish": {
+      "label": "Fish & seafood"
+    },
+    "meat_other": {
+      "label": "Other meat (processed, nuts, etc...)"
+    },
+    "meat_poultry": {
+      "label": "Poultry & eggs"
+    },
+    "meatfisheggs": {
+      "label": "Meat, fish, eggs"
+    }
+  },
+  "shopping": {
+    "title": "Shopping",
+    "byline": "How much do you spend on each of the following?",
+    "route_path": "shopping",
+    "dollars_per_month": "$/month",
+    "services": {
+      "label": "Services"
+    },
+    "goods": {
+      "label": "Goods"
+    },
+    "furnitureappliances": {"label": "Furniture & appliances"},
+    "clothing": {"label": "Clothing"},
+    "other_entertainment": {"label": "Entertainment"},
+    "other_office": {"label": "Paper, office, & reading"},
+    "other_personalcare": {"label": "Personal care & cleaning"},
+    "other_autoparts": {"label": "Auto parts"},
+    "other_medical": {"label": "Medical"},
+    "healthcare": {"label": "Health Care"},
+    "education": {"label": "Information & Communication"},
+    "communications": {"label": "Medical"},
+    "vehicleservices": {"label": "Vehicle services"},
+    "finance": {"label": "Personal business & finance"},
+    "household": {"label": "Household maintenance & repair"},
+    "charity": {"label": "Organizations & Charity"},
+    "miscservices": {"label": "Other services"}
+  },
+  "footprint": {
+    "title": "Your Footprint",
+    "route_path": "footprint",
+    "your_footprint": "Your household footprint",
+    "average_footprint": "Average household"
+  },
+  "take_action": {
+    "title": "Take Action",
+    "byline": "Offset your impact",
+    "route_path": "take_action",
+    "tons_saved": "Tons saved",
+    "dollars_saved": "Dollars saved",
+    "upfront_cost": "Upfront cost"
+  },
+  "graphs": {
+    "your_footprint": "Your footprint",
+    "average_footprint": "Average",
+    "total_home_footprint": "Total Home Footprint",
+    "total_travel_footprint": "Total Home Footprint",
+    "total_shopping_footprint": "Total Home Footprint",
+    "total_food_footprint": "Total Home Footprint",
+    "total_home_footprint": "Total Home Footprint",
+    "better_than_average": "Better than Average",
+    "worse_than_average": "Worse than Average"
+  },
+  "summaries": {
+    "total_footprint": "Total Footprint",
+    "total_travel_footprint": "Total Travel Footprint",
+    "total_home_footprint": "Total Home Footprint",
+    "total_food_footprint": "Total Food Footprint",
+    "total_shopping_footprint": "Total Shopping Footprint",
+    "total_action_savings": "Annual Savings"
+  },
+  "categories": {
+    "result_transport_total": "Travel",
+    "result_housing_total": "Home",
+    "result_food_total": "Dining",
+    "result_goods_total": "Goods",
+    "result_services_total": "Services"
+  },
+  "actions": {
+    "more_efficient_vehicle": {"label": "More efficient vehicle"},
+    "alternativefuel_vehicle": {"label": "Purchase alternative fuel vehicle"},
+    "electric_vehicle": {"label": "Purchase electric vehicle"},
+    "hybrid_vehicle": {"label": "Purchase hybrid vehicle"},
+    "telecommute_to_work": {"label": "Telecommute to work"},
+    "ride_my_bike": {"label": "Ride my bike"},
+    "take_public_transportation": {"label": "Take public transportation"},
+    "practice_eco_driving": {"label": "Practice eco driving"},
+    "maintain_my_vehicles": {"label": "Maintaine my vehicles"},
+    "carpool_to_work": {"label": "Carpool to work"},
+    "reduce_air_travel": {"label": "Reduce air travel"},
+    "switch_to_cfl": {"label": "Switch to CFL"},
+    "turn_off_lights": {"label": "Turn off lights"},
+    "T12toT8": {"label": "Switch form T12 Lights to T8 Lights"},
+    "tankless_water_heater": {"label": "Purchase tankless water heater"},
+    "thermostat_winter": {"label": "Reduce winter household thermostat"},
+    "thermostat_summer": {"label": "Increase summer household thermostat"},
+    "purchase_high_efficiency_cooling": {"label": "Purchase high efficiency cooling"},
+    "purchase_high_efficiency_heating": {"label": "Purchase high efficiency heating"},
+    "energy_star_fridge": {"label": "Replace refrigerator with Energy Star refrigerator"},
+    "energy_star_printers": {"label": "Replace printers with Energy Star printers"},
+    "energy_star_copiers": {"label": "Replace copiers with Energy Star copiers"},
+    "energy_star_desktops": {"label": "Replace computers with Energy Star computers"},
+    "rechargeable_batteries": {"label": "Use rechargeable batteries"},
+    "power_mgmt_comp": {"label": "Manage computer energy use"},
+    "purchase_green_electricity": {"label": "Purchase green electricity"},
+    "install_PV_panels": {"label": "Install PV panels"},
+    "install_solar_heating": {"label": "Install solar water heater"},
+    "low_flow_showerheads": {"label": "Install low flow showerheads"},
+    "low_flow_faucets": {"label": "Install low flow faucets"},
+    "low_flow_toilet": {"label": "Install low flow toilets"},
+    "line_dry_clothing": {"label": "Line dry clothing"},
+    "water_efficient_landscaping": {"label": "Install water efficient landscaping"},
+    "plant_trees": {"label": "Plant trees"},
+    "reduce_comm_waste": {"label": "Reduce my waste"},
+    "print_double_sided": {"label": "Print double sided"},
+    "low_carbon_diet": {"label": "Eat a low carbon diet"},
+    "go_organic": {"label": "Go organic"}
+  },
+  "units": {
+    "usd_per_year": "$/year",
+    "usd_per_month": "$/month",
+    "kwh_per_year": "kWh/year",
+    "therms_per_year": "therms/year",
+    "cuft_per_year": "cuft/year",
+    "gallons_per_year": "gallons/month",
+    "tons_co2_per_year": "tons CO<sub>2</sub>/year"
+  },
+  "component": {
+    "labels": {
+      "simple": "Simple",
+      "advanced": "Advanced"
+    }
+  },
+  "route_doesnt_exist": "The route you requested does not exist!",
+  "Hide": "Hide",
+  "Total": "Total",
+  "Avg": "Avg",
+  "Next": "Next",
+  "Previous": "Previous",
+  "City": "City",
+  "County": "County",
+  "Country": "Country",
+  "Remove": "Remove",
+  "State": "State",
+  "Zipcode": "Zipcode",
+  "add": "add",
+  "percent_of_total": "Percent of total",
+  "month": "month"
+}

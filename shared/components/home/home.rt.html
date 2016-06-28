@@ -1,4 +1,4 @@
-<main class="cc-component container container-sm" id="home">
+<main class="cc-component container container-md" id="home">
 	<header class="cc-component__header">
 		<div>
 			<img src="/assets/img/{this.route_key}-black.svg"/>
@@ -51,9 +51,9 @@
 		</div>
 		<div class="cc-component__question">
 			<div class="cc-component__question-label">{this.t(`home.cleanpercent.label`)}</div>
-			<span class="label label-slider">
-				{this.display_cleanpercent} %
-			</span>
+			<div class="label-container">
+				<span class="label label-slider">{this.display_cleanpercent} %</span>
+			</div>
 			<div id="home_cleanpercent_slider"></div>
 		</div>
 		<div class="cc-component__question">
@@ -168,10 +168,12 @@
 
 		<div class="cc-component__question">
 			<h4>{this.t(`home.watersewage.label`)}</h4>
-			<span class="label label-slider">
-				{this.display_annual_water_dollars}
-				<i>{this.t('units.usd_per_year')}</i>
-			</span>
+			<div class="label-container">
+				<span class="label label-slider">
+					{this.display_annual_water_dollars}
+					<i>{this.t('units.usd_per_year')}</i>
+				</span>
+			</div>
 			<div id="home_watersewage_slider"></div>
 		</div>
 	</div>

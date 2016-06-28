@@ -102,7 +102,9 @@ class HomeComponent extends Panel {
    */
 
   initializeWaterSlider(){
-    let home = this;
+    let home = this,
+        watersewage_api_key = home.apiKey('watersewage'),
+        default_watersewage = home.defaultApiValue(watersewage_api_key);
 
     home.water_slider = new SimpleSlider({
       container: '#home_watersewage_slider',
@@ -116,10 +118,8 @@ class HomeComponent extends Panel {
         5: '5x',
       },
       onChange: (multiplier)=>{
-        let api_key = home.apiKey('watersewage'),
-            default_watersewage = home.defaultApiValue(api_key),
-            update = {
-              [api_key]: multiplier * parseFloat(default_watersewage)
+        let update = {
+              [watersewage_api_key]: multiplier * parseFloat(default_watersewage)
             };
         home.setState(update);
         home.updateFootprint(update);
@@ -128,7 +128,7 @@ class HomeComponent extends Panel {
     home.water_slider.drawData({
       abs_min: 0,
       abs_max: 5,
-      current_value: 1
+      current_value: home.userApiValue(watersewage_api_key) / default_watersewage
     });
   }
 

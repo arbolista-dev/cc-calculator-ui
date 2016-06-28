@@ -1,8 +1,44 @@
 <div class="cc-component" id="graphs">
-  <div id="graphs_total_summary">
-    <div id="graphs_total_summary_heading">{this.t('Total')}</div>
-    <div id="graphs_total_footprint">{this.display_total_footprint}</div>
-    <div class="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></div>
+  <div id="graphs_stats">
+    <div id="graphs_total_category">
+      <div class="graphs__category_byline">{this.category_user_byline}</div>
+      <div>
+        <span class="graphs__category_stat">{Math.round(this.user_category_footprint)} </span>
+        <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
+      </div>
+    </div>
+    <div id="graphs_average_category">
+      <div class="graphs__category_byline">{this.category_average_byline}</div>
+      <div>
+        <span class="graphs__category_stat">{Math.round(this.average_category_footprint)} </span>
+        <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
+      </div>
+    </div>
+    <div id="graphs_total_percentage">
+      <div class="graphs__category_byline">{this.t('summaries.comparison')}</div>
+      <div>
+        <span class="graphs__category_stat">
+          {this.display_category_percent}%
+        </span>
+        <span class="graphs__category_byline">{this.category_percentage_byline}</span>
+      </div>
+    </div>
+    <div id="graphs_total_summary" rt-class="{hidden: !this.shouldShowTotal()}">
+      <div id="graphs_total_summary_heading">{this.t('summaries.total_footprint')}</div>
+      <div>
+        <span id="graphs_total_footprint">{this.display_total_footprint} </span>
+        <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span>
+      </div>
+    </div>
+  </div>
+  <div id="graphs_toggle_chart">
+    <div>
+      <button class="btn btn-default"
+        rt-class="{'graphs--active': this.state.show_chart}"
+        onClick="{this.toggleChart.bind(this)}">
+        <i class="fa fa-bar-chart"></i>
+      </button>
+    </div>
   </div>
 
   <div rt-class="{hidden: !this.state.show_chart}">
@@ -16,29 +52,6 @@
         <img src="/assets/img/average-footprint-rect.png"/>
         {this.t('footprint.average_footprint')}
       </div>
-    </div>
-  </div>
-
-  <div id="graphs_category_stats">
-    <div>
-      <div>
-        <span class="graphs__category_stat">{this.user_category_footprint}</span><br/>
-        <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
-      </div>
-      <div class="graphs__category_byline">{this.category_total_byline}</div>
-    </div>
-    <div>
-      <button class="btn btn-default"
-        rt-class="{'graphs--active': this.state.show_chart}"
-        onClick="{this.toggleChart.bind(this)}">
-        <i class="fa fa-bar-chart"></i>
-      </button>
-    </div>
-    <div>
-      <div class="graphs__category_stat">
-        {this.display_category_percent}%
-      </div>
-      <div class="graphs__category_byline">{this.category_percentage_byline}</div>
     </div>
   </div>
 </div>

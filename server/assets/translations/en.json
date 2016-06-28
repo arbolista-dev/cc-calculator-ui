@@ -11,7 +11,8 @@
       "label": "How many people live in your household?"
     },
     "United States": "United States",
-    "average_household_size": "Avg (2.5)"
+    "average_household_size": "Avg (2.5)",
+    "forget_answers": "Forget my answers"
   },
   "travel": {
     "title": "Travel",
@@ -19,8 +20,13 @@
     "byline": "How do you get around?",
     "route_path": "travel",
     "add_vehicle": "Add vehicle",
+    "gasoline_unit": "Consumption unit",
     "miles_per_year": "miles/year",
+    "km_per_year": "km/year",
     "miles_per_gallon": "miles per gallon",
+    "liters_per_km": "liters per 100 kilometers",
+    "miles_abbr": "mi",
+    "km_abbr": "km",
     "gasoline": "Gasoline",
     "diesel": "Diesel",
     "flights_per_year": "flights/year",
@@ -33,10 +39,10 @@
     },
     "air": {
       "label": "Air Travel",
-      "short": "Short (< 400 mi)",
-      "medium": "Medium (400 - 1500 mi)",
-      "long": "long (1500 - 3000 mi)",
-      "extended": "Extended (> 3000 mi)"
+      "short": "Short (< 400",
+      "medium": "Medium (400 - 1500",
+      "long": "long (1500 - 3000",
+      "extended": "Extended (> 3000"
     }
   },
   "home": {
@@ -139,11 +145,17 @@
     "worse_than_average": "Worse than Average"
   },
   "summaries": {
-    "total_footprint": "Total Footprint",
-    "total_travel_footprint": "Total Travel Footprint",
-    "total_home_footprint": "Total Home Footprint",
-    "total_food_footprint": "Total Food Footprint",
-    "total_shopping_footprint": "Total Shopping Footprint",
+    "total_footprint": "Your Total Footprint",
+    "total_travel_footprint": "Your Travel Footprint",
+    "total_home_footprint": "Your Home Footprint",
+    "total_food_footprint": "Your Food Footprint",
+    "total_shopping_footprint": "Your Shopping Footprint",
+    "average_footprint": "Average Total Footprint",
+    "average_travel_footprint": "Average Travel Footprint",
+    "average_home_footprint": "Average Home Footprint",
+    "average_food_footprint": "Average Food Footprint",
+    "average_shopping_footprint": "Average Shopping Footprint",
+    "comparison": "Comparison",
     "total_action_savings": "Annual Savings"
   },
   "categories": {

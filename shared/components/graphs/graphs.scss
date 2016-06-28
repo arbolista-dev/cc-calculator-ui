@@ -1,4 +1,5 @@
 #graphs {
+  text-align:center;
 	rect.your-footprint {
     fill: #0D793E;
   }
@@ -33,21 +34,20 @@
 #graphs_total_footprint {
   font-size:1.7em;
 }
+#graphs_toggle_chart {
+	text-align: center;
+	padding-top: 15px;
+}
 
 .graphs__units {
   font-size:0.9em;
 }
 
-#graphs_category_stats {
+#graphs_stats {
   > div {
-    width: 33%;
+    width: 25%;
     display:inline-block;
-    &:nth-child(2){
-      text-align:center;
-    }
-    &:last-child{
-      text-align:right;
-    }
+		text-align: center;
   }
   .graphs__category_stat {
     font-size:1.5em;
@@ -59,4 +59,29 @@
 
 .graphs--active {
   color:#4AAA48;
+}
+
+@media (max-width: 400px) {
+  #graphs_total_summary_heading {
+    font-size:0.8em;
+  }
+  #graphs_total_footprint {
+    font-size:0.9em;
+  }
+  #graphs_toggle_chart {
+    padding-top: 10px;
+  }
+
+  .graphs__units {
+    font-size:0.6em;
+  }
+
+  #graphs_stats {
+    .graphs__category_stat {
+      font-size:0.9em;
+    }
+    .graphs__category_byline {
+      font-size:0.8em;
+    }
+  }
 }

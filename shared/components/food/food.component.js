@@ -100,7 +100,10 @@ class FoodComponent extends Panel {
   }
 
   initializeSlider(food_type){
-    let food = this;
+    let food = this,
+        api_key = food.apiKey(food_type),
+        default_value = food.defaultApiValue(api_key);
+
     food.sliders[food_type] = new SimpleSlider({
       container: '#food_average_slider_' + food_type,
       outer_height: 60,
@@ -118,8 +121,7 @@ class FoodComponent extends Panel {
         if (food_type === 'meatfisheggs'){
           food.distributeAverageMeatCalories(multiplier);
         } else {
-          let api_key = food.apiKey(food_type),
-              update = {
+          let update = {
                 [api_key]: food.applyAverageCalorieMultiplier(food_type, multiplier)
               }
           food.setState(update);
@@ -130,7 +132,7 @@ class FoodComponent extends Panel {
     food.sliders[food_type].drawData({
       abs_min: 0,
       abs_max: 5,
-      current_value: 1
+      current_value: food.userApiValue(api_key) / default_value
     });
   }
 
