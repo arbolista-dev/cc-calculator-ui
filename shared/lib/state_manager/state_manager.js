@@ -1,6 +1,7 @@
 /*global JS_ENV Map require*/
 
 import CalculatorApi from 'api/calculator.api';
+import _ from 'lodash';
 
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
 const DEFAULT_INPUTS = ['input_size', 'input_income', 'input_location', 'input_location_mode'];
@@ -182,17 +183,18 @@ export default class StateManager {
         return CalculatorApi.computeFootprint(defaults)
       })
       .then((default_footprint)=>{
+
+        // Set average footprint and save to storage.
         Object.assign(state_manager.state.average_footprint, default_footprint);
-        if (state_manager.user_footprint_set) {
-          state_manager.updateUserFootprintStorage();
-          state_manager.parseFootprintResult(state_manager.user_footprint_storage);
-        } else if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
-          state_manager.updateAverageFootprintStorage();
+        state_manager.updateAverageFootprintStorage();
+
+        if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
           state_manager.parseFootprintResult(defaults);
           return undefined;
         } else {
           // If user footprint has been defined, update it with new location.
-          return state_manager.updateFootprint(state_manager.inputs);
+          Object.assign(state_manager.user_footprint, state_manager.inputs);
+          return state_manager.updateFootprint();
         }
       });
   }
@@ -226,7 +228,7 @@ export default class StateManager {
   }
 
   // This should be called to update input parameters that don't
-  // impact resulting footprint (eg input type).
+  // impact resulting footprint (eg input_footprint_housing_electricity_type).
   updateFootprintParams(params){
     let state_manager = this;
     state_manager.user_footprint['input_changed'] = 1;
@@ -238,7 +240,6 @@ export default class StateManager {
     return CalculatorApi.computeFootprint(state_manager.inputs)
       .then((res)=>{
         state_manager.parseFootprintResult(res);
-        state_manager.updateUserFootprintStorage();
         return undefined;
       });
   }
@@ -274,16 +275,25 @@ export default class StateManager {
       }, {});
       Object.assign(state_manager.state.user_footprint, result);
     }
+    state_manager.updateUserFootprintStorage();
   }
 
   /*
    * Takeaction Results
    */
 
-  updateTakeactionResults(){
-    let state_manager = this;
+  get total_vehicle_miles(){
+    let sum = 0;
+    for (let i=1; i<=10; i++){
+      sum += this.user_footprint[`input_footprint_transportation_miles${i}`];
+    }
+    return sum;
+  }
 
-    return CalculatorApi.computeTakeactionResults(state_manager.user_footprint)
+  updateTakeactionResults(){
+    let state_manager = this,
+        action_inputs = Object.assign({}, state_manager.average_footprint, state_manager.user_footprint);
+    return CalculatorApi.computeTakeactionResults(action_inputs)
       .then((res)=>{
         state_manager.parseTakeactionResult(res);
         state_manager.updateUserFootprintStorage();

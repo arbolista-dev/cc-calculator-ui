@@ -54,6 +54,10 @@ export default class Vehicle {
     });
   }
 
+  updateConsumptionSlider(){
+    this.slider.setValue(this.mpg, {exec_callback: false});
+  }
+
 }
 
 Vehicle.current_id = 0;

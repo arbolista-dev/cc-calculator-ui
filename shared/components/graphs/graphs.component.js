@@ -176,31 +176,31 @@ class GraphsComponent extends Panel {
     if (graphs.current_route_name === 'TakeAction'){
       return graphs.displayTakeactionSavings('result_takeaction_pounds');
     } else if (graphs.current_route_name === 'GetStarted'){
-      return Math.round(graphs.userApiValue('result_grand_total'))
+      return graphs.userApiValue('result_grand_total');
     } else {
-      return Math.round(
-        graphs.category_keys.reduce((sum, category_key)=>{
-          return sum + parseInt(graphs.userApiValue(category_key));
-        }, 0)
-      );
+      return graphs.category_keys.reduce((sum, category_key)=>{
+        return sum + parseFloat(graphs.userApiValue(category_key));
+      }, 0)
     }
   }
 
   get average_category_footprint(){
     let graphs = this;
 
-    return Math.round(
-      graphs.category_keys.reduce((sum, category_key)=>{
-        return sum + parseInt(graphs.defaultApiValue(category_key));
-      }, 0)
-    )
+    return graphs.category_keys.reduce((sum, category_key)=>{
+      return sum + parseInt(graphs.defaultApiValue(category_key));
+    }, 0);
   }
 
   get display_category_percent(){
     let graphs = this;
-    return Math.round(Math.abs(
-      100 * graphs.user_category_footprint / graphs.average_category_footprint - 100
-    ));
+    if (graphs.state_manager.footprint_not_updated){
+      return 0;
+    } else {
+      return Math.round(Math.abs(
+        100 * graphs.user_category_footprint / graphs.average_category_footprint - 100
+      ));
+    }
   }
 
   get category_percentage_byline(){

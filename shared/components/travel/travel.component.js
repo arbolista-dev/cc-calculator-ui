@@ -8,7 +8,9 @@ import Vehicle from './vehicle';
 
 
 const RELEVANT_API_KEYS = ['publictrans', 'bus', 'transit', 'commuter', 'intercity',
-    'airtotal', 'airshort', 'airmedium', 'airlong', 'airextended'];
+    'airtotal', 'airshort', 'airmedium', 'airlong', 'airextended'],
+    KILOMETERS_PER_MILE = 1.609344,
+    LITERS_PER_GALLON = 3.785411784;
 
 class TravelComponent extends Panel {
 
@@ -176,10 +178,22 @@ class TravelComponent extends Panel {
   /*
   * Gasoline consumption unit
   */
-  updateConsumptionUnit(unit){
+  updateConsumptionUnit(new_unit, event){
+    event.preventDefault();
     let travel = this;
-    travel.state.consumption_unit = unit;
-    travel.updateVehicleFootprint();
+    if (new_unit !== this.state.consumption_unit){
+      travel.vehicles.forEach((vehicle)=>{
+        if (new_unit === 'mpg'){
+          vehicle.mpg = travel.convertMetricConsumptionToMPG(vehicle.mpg);
+        } else {
+          vehicle.mpg = travel.convertMPGToMetric(vehicle.mpg);
+        }
+        vehicle.updateConsumptionSlider();
+      });
+      travel.setState({
+        consumption_unit: new_unit
+      });
+    }
   }
 
   displayConsumptionUnit(){
@@ -201,15 +215,21 @@ class TravelComponent extends Panel {
   }
 
   convertKmToMiles(km){
-    return Math.round(km * 0.62137).toString();
+    return Math.round(km / KILOMETERS_PER_MILE).toString();
   }
 
   convertMilesToKm(miles){
-    return Math.round(miles / 0.62137).toString();
+    return Math.round(miles * KILOMETERS_PER_MILE).toString();
+  }
+
+  convertMPGToMetric(mpg){
+    let val = LITERS_PER_GALLON / mpg / KILOMETERS_PER_MILE * 100;
+    val = Math.round(val);
+    return val;
   }
 
   convertMetricConsumptionToMPG(metricConsumption){
-    let val = (100*3.785411784)/(1.609344*metricConsumption);
+    let val = (100 * LITERS_PER_GALLON)/(KILOMETERS_PER_MILE * metricConsumption);
     val = Math.round(val);
     return val;
   }

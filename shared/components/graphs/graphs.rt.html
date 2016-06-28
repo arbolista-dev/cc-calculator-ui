@@ -3,14 +3,14 @@
     <div id="graphs_total_category">
       <div class="graphs__category_byline">{this.category_user_byline}</div>
       <div>
-        <span class="graphs__category_stat">{this.user_category_footprint} </span>
+        <span class="graphs__category_stat">{Math.round(this.user_category_footprint)} </span>
         <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
       </div>
     </div>
     <div id="graphs_average_category">
       <div class="graphs__category_byline">{this.category_average_byline}</div>
       <div>
-        <span class="graphs__category_stat">{this.average_category_footprint} </span>
+        <span class="graphs__category_stat">{Math.round(this.average_category_footprint)} </span>
         <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
       </div>
     </div>

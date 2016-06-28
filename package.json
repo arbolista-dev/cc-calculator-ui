@@ -8,7 +8,8 @@
     "lint": "eslint --fix .",
     "generate": "gulp generate",
     "develop": "NODE_ENV=development npm start",
-    "start": "babel-node ./server/run.js"
+    "start": "babel-node ./server/run.js",
+    "build_production": "gulp build --env production"
   },
   "keywords": [],
   "devDependencies": {
