@@ -1,3 +1,5 @@
+<rt-require dependency="./../flash_message/flash_message.component" as="FlashMessage"/>
+
 <main class="cc-component container container-md" id="sign_up">
     <header class="cc-component__header">
         <div>
@@ -5,6 +7,8 @@
             <h3>{this.t('sign_up.title')}</h3>
         </div>
     </header>
+
+    <FlashMessage alerts={this.alerts}></FlashMessage>
 
     <div class="cc-component__form form-horizontal">
         <div class="cc-component__auth">
@@ -19,15 +23,15 @@
                 onChange="{this.updateInput.bind(this)}" data-api_key="last_name" value="{this.state.last_name}" placeholder="{this.t(`sign_up.last_name`)}">
             </div>
             <div class="form-group">
-                <label for="inputEmail" class="control-label">{this.t(`auth.email`)}</label>
+                <label for="inputEmail" class="control-label">{this.t(`sign_up.email`)}</label>
                 <input type="email" class="form-control" id="inputEmail"
                 rt-class="{error: !this.paramValid('email')}" onChange="{this.updateInput.bind(this)}" data-api_key="email"
-                value="{this.state.email}" placeholder="{this.t(`auth.email`)}">
+                value="{this.state.email}" placeholder="{this.t(`sign_up.email`)}">
             </div>
             <div class="form-group">
-                <label for="inputPassword" class="control-label">{this.t(`auth.password`)}</label>
+                <label for="inputPassword" class="control-label">{this.t(`sign_up.password`)}</label>
                 <input type="password" class="form-control"
-                 id="inputPassword" rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}" data-api_key="password" value="{this.state.password}" placeholder="{this.t(`auth.password`)}">
+                 id="inputPassword" rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}" data-api_key="password" value="{this.state.password}" placeholder="{this.t(`sign_up.password`)}">
             </div>
             <div class="cc-component__auth-submit">
                 <a onClick="{this.submitSignup.bind(this)}">{this.t(`sign_up.submit`)}</a>

@@ -1,6 +1,7 @@
 <rt-require dependency="./../sign_up/sign_up.component" as="SignUp"/>
 <rt-require dependency="./../login/login.component" as="Login"/>
 <rt-require dependency="./../logout/logout.component" as="Logout"/>
+<rt-require dependency="./../flash_message/flash_message.component" as="FlashMessage"/>
 <rt-require dependency="./../get_started/get_started.component" as="GetStarted"/>
 <rt-require dependency="./../travel/travel.component" as="Travel"/>
 <rt-require dependency="./../home/home.component" as="Home"/>
@@ -38,6 +39,7 @@
 			</div>
 	</nav>
 	<div id="banner"></div>
+	<FlashMessage alerts="{this.alert_list}"></FlashMessage>
 	<main>
 		<SignUp
 			rt-if="this.current_route_name === 'SignUp'"

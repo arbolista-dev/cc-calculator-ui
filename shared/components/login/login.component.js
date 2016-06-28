@@ -52,13 +52,21 @@ class LoginComponent extends Panel {
     }
     let test = re.test(value);
     login.valid[key] = test;
-    console.log('%s: %s - valid:', key, value, test);
   }
 
   validateAll(){
     let login = this,
-        valid = Object.values(login.valid).filter(item => item === false);
-    if (valid[0] === false) {
+        all_valid = Object.values(login.valid).filter(item => item === false);
+
+    for (let key in login.valid) {
+      let value = login.valid[key]
+      if (value === false) {
+        login.state_manager.state.alerts.push({type: 'error', message: login.t('login.' + key) + " is not valid."});
+        login.state_manager.syncLayout();
+      }
+    }
+
+    if (all_valid[0] === false) {
       return false;
     } else {
       return true;
@@ -86,13 +94,26 @@ class LoginComponent extends Panel {
         console.log('result', res)
         if (res.success) {
           // user logged in
-          Object.assign(login.state_manager.state.auth, res.data);
-          console.log('auth state', login.state_manager.state);
-          localStorage.setItem('auth', JSON.stringify(res.data));
+          let auth_res = {
+            token: res.data.token,
+            name: res.data.name
+          }
+          Object.assign(login.state_manager.state.auth, auth_res);
+          localStorage.setItem('auth', JSON.stringify(auth_res));
+          // @ToDo: check if answers: {'...'} is returned
+          // if true, don't call updateUserAnswers() but instead overwrite local user footprint with remote one
+
           login.state_manager.updateUserAnswers();
+          login.state_manager.state.alerts.push({type: 'success', message: "You're logged in!"});
           login.state_manager.syncLayout();
+          let get_started = this.router.routes.filter((route) => {
+                return route.route_name === 'GetStarted';
+              });
+          this.router.goToRoute(get_started[0]);
         } else {
-          // user login failed
+          // failed
+          login.state_manager.state.alerts.push({type: 'error', message: res.error});
+          login.state_manager.syncLayout();
         }
         return res
       })

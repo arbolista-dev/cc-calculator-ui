@@ -1,0 +1,3 @@
+<div rt-if="this.alerts_not_empty" class="flash-message">
+    <h4 rt-class="{'text-success': alert.type === 'success', 'text-danger': alert.type === 'error'}" rt-repeat="alert in this.props.alerts">{alert.message}</h4>
+</div>

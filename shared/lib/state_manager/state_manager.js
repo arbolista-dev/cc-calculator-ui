@@ -20,7 +20,7 @@ export default class StateManager {
 
   constructor(){
     var state_manager = this;
-    state_manager.state = {average_footprint: {}, user_footprint: {}, auth: {}};
+    state_manager.state = {average_footprint: {}, user_footprint: {}, auth: {}, alerts: []};
   }
 
   get category_colors(){

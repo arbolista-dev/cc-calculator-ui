@@ -8,11 +8,15 @@
     "route_path": "sign_up",
     "first_name": "First name",
     "last_name": "Last name",
+    "email": "Email",
+    "password": "Password",
     "submit": "Sign up"
   },
   "login": {
     "title": "Login",
     "route_path": "login",
+    "email": "Email",
+    "password": "Password",
     "submit": "Login"
   },
   "logout": {

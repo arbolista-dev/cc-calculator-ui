@@ -25,7 +25,7 @@ class SignUpComponent extends Panel {
       password: '',
       answers: ''
     };
-
+    sign_up.alerts = [];
   }
 
   componentDidMount() {
@@ -65,13 +65,21 @@ class SignUpComponent extends Panel {
     }
     let test = re.test(value);
     sign_up.valid[key] = test;
-    console.log('%s: %s - valid:', key, value, test);
   }
 
   validateAll(){
     let sign_up = this,
-        valid = Object.values(sign_up.valid).filter(item => item === false);
-    if (valid[0] === false) {
+        all_valid = Object.values(sign_up.valid).filter(item => item === false);
+
+    for (let key in sign_up.valid) {
+      let value = sign_up.valid[key]
+      if (value === false) {
+        sign_up.state_manager.state.alerts.push({type: 'error', message: sign_up.t('sign_up.' + key) + " is not valid."});
+        sign_up.state_manager.syncLayout();
+      }
+    }
+
+    if (all_valid[0] === false) {
       return false;
     } else {
       return true;
@@ -99,13 +107,26 @@ class SignUpComponent extends Panel {
         console.log('result', res)
         if (res.success) {
           // user added
+          let auth_res = {
+            token: res.data.token,
+            name: res.data.name
+          }
+          Object.assign(sign_up.state_manager.state.auth, auth_res);
+          localStorage.setItem('auth', JSON.stringify(auth_res));
+          sign_up.state_manager.state.alerts.push({type: 'success', message: "You're now signed up and logged in!"});
+          sign_up.state_manager.syncLayout();
+          /* Forward to GetStarted */
+          let get_started = this.router.routes.filter((route) => {
+                return route.route_name === 'GetStarted';
+              });
+          this.router.goToRoute(get_started[0]);
         } else {
           // failed
+          sign_up.state_manager.state.alerts.push({type: 'error', message: res.error});
+          sign_up.state_manager.syncLayout();
         }
         return res
       })
-    } else {
-      // input not valid
     }
   }
 
