@@ -18,7 +18,7 @@ export default class Panel extends mixin(Translatable, routable, footprintable, 
   }
 
   get slider_width(){
-    let width = window.outerWidth * 0.8;
+    let width = window.innerWidth * 0.8;
     width = Math.min(MAX_SLIDER_WIDTH, width);
     width = Math.max(MIN_SLIDER_WIDTH, width);
     return width
