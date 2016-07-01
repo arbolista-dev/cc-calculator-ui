@@ -19,7 +19,7 @@ export default class StateManager {
 
   constructor(){
     var state_manager = this;
-    state_manager.state = {average_footprint: {}, user_footprint: {}};
+    state_manager.state = {average_footprint: {}, user_footprint: {}, external_offset: {}};
   }
 
   get category_colors(){
@@ -130,8 +130,23 @@ export default class StateManager {
     return Promise.resolve();
   }
 
+  receiveExternalOffset() {
+    let state_manager = this;
+
+    window.addEventListener('message', ((event) => {
+      // optional origin check:
+      // if(event.origin !== 'http://localhost:8080') return;
+
+      let data = JSON.parse(event.data);
+      Object.assign(state_manager.state.external_offset, data)
+    }),false);
+
+  }
+
   getInitialData(){
     let state_manager = this;
+    state_manager.receiveExternalOffset()
+
     // we'll load past user answers and get CC results here.
     return state_manager.checkLocalStorage();
   }
