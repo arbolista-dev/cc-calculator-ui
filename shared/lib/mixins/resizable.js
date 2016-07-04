@@ -6,9 +6,12 @@ export let resizable = {
 
   initResizeListener: function(){
     let component = this;
+    let cachedWidth = window.innerWidth;
     window.addEventListener('resize', ()=>{
-      // just the debounce function.
-      component.$resize();
+      if (cachedWidth !== window.innerWidth) {
+        // just the debounce function.
+        component.$resize();
+      }
     }, true);
   },
 
