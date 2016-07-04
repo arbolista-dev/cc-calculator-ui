@@ -70,9 +70,6 @@ module.exports = {
       'window.jQuery': 'jquery',
       'window.d3': 'd3',
       'd3': 'd3'
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
     })
   ],
   node: {
