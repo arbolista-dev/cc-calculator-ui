@@ -193,6 +193,13 @@ export default class StateManager {
     localStorage.setItem('user_footprint', JSON.stringify(state_manager.state.user_footprint));
   }
 
+  setUserFootprint(answers) {
+    let state_manager = this;
+    Object.assign(state_manager.state.user_footprint, answers)
+    state_manager.updateUserFootprintStorage();
+    state_manager.parseFootprintResult(state_manager.state.user_footprint);
+  }
+
   setUserFootprintStorageToDefault() {
     let state_manager = this;
     localStorage.removeItem('user_footprint');
@@ -229,6 +236,8 @@ export default class StateManager {
     return CalculatorApi.computeFootprint(state_manager.inputs)
       .then((res)=>{
         state_manager.parseFootprintResult(res);
+        state_manager.updateUserFootprintStorage();
+        if (state_manager.user_authenticated) state_manager.updateUserAnswers();
         return undefined;
       });
   }
@@ -311,9 +320,8 @@ export default class StateManager {
 
     return UserApi.updateAnswers(state_manager.user_footprint, token)
             .then((res) => {
-              if (res.success) console.log('answers updated');
+              if (res.success) console.log('answers updated in DB');
             })
-    // return UserApi
   }
 
 }

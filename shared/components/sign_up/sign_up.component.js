@@ -52,8 +52,8 @@ class SignUpComponent extends Panel {
         re = /^[A-Za-z0-9 ]{4,20}$/;
         break;
       case "last_name":
-          re = /^[A-Za-z0-9 ]{4,20}$/;
-          break;
+        re = /^[A-Za-z0-9 ]{4,20}$/;
+        break;
       case "email":
         re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         break;
@@ -61,7 +61,7 @@ class SignUpComponent extends Panel {
         re = /^[A-Za-z0-9!@#$%^&*()_]{4,30}$/;
         break;
       default:
-        console.log('Unknown key: ', key);
+        break;
     }
     let test = re.test(value);
     sign_up.valid[key] = test;
@@ -74,7 +74,7 @@ class SignUpComponent extends Panel {
     for (let key in sign_up.valid) {
       let value = sign_up.valid[key]
       if (value === false) {
-        sign_up.state_manager.state.alerts.push({type: 'error', message: sign_up.t('sign_up.' + key) + " is not valid."});
+        sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('sign_up.' + key) + " is not valid."});
         sign_up.state_manager.syncLayout();
       }
     }
@@ -104,25 +104,24 @@ class SignUpComponent extends Panel {
 
     if (sign_up.validateAll()) {
       auth.signupUser(sign_up.state).then((res)=>{
-        console.log('result', res)
         if (res.success) {
           // user added
           let auth_res = {
             token: res.data.token,
             name: res.data.name
-          }
+          };
+
           Object.assign(sign_up.state_manager.state.auth, auth_res);
           localStorage.setItem('auth', JSON.stringify(auth_res));
-          sign_up.state_manager.state.alerts.push({type: 'success', message: "You're now signed up and logged in!"});
-          sign_up.state_manager.syncLayout();
-          /* Forward to GetStarted */
+
           let get_started = this.router.routes.filter((route) => {
                 return route.route_name === 'GetStarted';
               });
           this.router.goToRoute(get_started[0]);
+
+          sign_up.state_manager.state.alerts.push({type: 'success', message: "You're now signed up and logged in!"});
         } else {
-          // failed
-          sign_up.state_manager.state.alerts.push({type: 'error', message: res.error});
+          sign_up.state_manager.state.alerts.push({type: 'danger', message: res.error});
           sign_up.state_manager.syncLayout();
         }
         return res

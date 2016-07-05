@@ -21,11 +21,25 @@ class FlashMessageComponent extends Translatable {
   componentDidUpdate(){
     let flash_message = this;
 
+
     if (flash_message.alerts_not_empty) {
-      setTimeout(() => {
-         flash_message.state_manager.state.alerts = [];
-         flash_message.state_manager.syncLayout();
-      }, 15000);
+      let current_route = flash_message.router.current_route.key
+
+      for (let i = 0; i < flash_message.state_manager.state.alerts.length; i++ ) {
+        if (!flash_message.state_manager.state.alerts[i].initial_route) {
+          flash_message.state_manager.state.alerts[i].initial_route = current_route
+        }
+        if (flash_message.state_manager.state.alerts[i].initial_route !== current_route) {
+          flash_message.state_manager.state.alerts.splice(i, 1);
+          flash_message.state_manager.syncLayout();
+        }
+      }
+
+      // Hide Flash Message after 15 seconds
+      // setTimeout(() => {
+      //    flash_message.state_manager.state.alerts = [];
+      //    flash_message.state_manager.syncLayout();
+      // }, 15000);
     }
   }
 

@@ -48,7 +48,7 @@ class LoginComponent extends Panel {
         re = /^[A-Za-z0-9!@#$%^&*()_]{4,30}$/;
         break;
       default:
-        console.log('Unknown key: ', key);
+        break;
     }
     let test = re.test(value);
     login.valid[key] = test;
@@ -61,7 +61,7 @@ class LoginComponent extends Panel {
     for (let key in login.valid) {
       let value = login.valid[key]
       if (value === false) {
-        login.state_manager.state.alerts.push({type: 'error', message: login.t('login.' + key) + " is not valid."});
+        login.state_manager.state.alerts.push({type: 'danger', message: login.t('login.' + key) + " is not valid."});
         login.state_manager.syncLayout();
       }
     }
@@ -91,28 +91,28 @@ class LoginComponent extends Panel {
 
     if (login.validateAll()) {
       auth.loginUser(login.state).then((res)=>{
-        console.log('result', res)
         if (res.success) {
           // user logged in
           let auth_res = {
             token: res.data.token,
             name: res.data.name
-          }
+          }, remote_anwers = JSON.parse(res.data.answers);
+
           Object.assign(login.state_manager.state.auth, auth_res);
           localStorage.setItem('auth', JSON.stringify(auth_res));
-          // @ToDo: check if answers: {'...'} is returned
-          // if true, don't call updateUserAnswers() but instead overwrite local user footprint with remote one
 
-          login.state_manager.updateUserAnswers();
-          login.state_manager.state.alerts.push({type: 'success', message: "You're logged in!"});
-          login.state_manager.syncLayout();
+          if (remote_anwers.length !== 0) {
+            login.state_manager.setUserFootprint(remote_anwers);
+          }
+
           let get_started = this.router.routes.filter((route) => {
                 return route.route_name === 'GetStarted';
               });
           this.router.goToRoute(get_started[0]);
+
+          login.state_manager.state.alerts.push({type: 'success', message: "You're logged in!"});
         } else {
-          // failed
-          login.state_manager.state.alerts.push({type: 'error', message: res.error});
+          login.state_manager.state.alerts.push({type: 'danger', message: res.error});
           login.state_manager.syncLayout();
         }
         return res
@@ -120,6 +120,11 @@ class LoginComponent extends Panel {
     } else {
       // input not valid
     }
+  }
+
+  goToForgotPasswordPage() {
+    let fp_route = this.router.routes.filter((route)=>{ return route.route_name === 'ForgotPassword'; });
+    this.router.goToRoute(fp_route[0]);
   }
 
   render() {

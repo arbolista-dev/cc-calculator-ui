@@ -25,17 +25,15 @@ class LogoutComponent extends Translatable {
 
     if(token) {
       auth.logoutUser(token).then((res)=>{
-        console.log('result', res)
         if (res.success) {
           // user logged out
           delete logout.state_manager.state.auth;
           logout.state_manager.state.auth = {};
-          console.log('auth state', logout.state_manager.state);
           localStorage.removeItem('auth');
           logout.state_manager.state.alerts.push({type: 'success', message: "You've been logged out!"});
-          logout.state_manager.syncLayout();
+          logout.state_manager.setUserFootprintStorageToDefault();
         } else {
-          // user login failed
+          // user logout failed?!
         }
         return res
       })

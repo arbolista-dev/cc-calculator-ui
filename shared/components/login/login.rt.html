@@ -19,6 +19,9 @@
                 <input type="password" class="form-control"
                  id="inputPassword" rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}" data-api_key="password" value="{this.state.password}" placeholder="{this.t(`login.password`)}">
             </div>
+            <div class="cc-component__auth-password-request">
+                <a onClick="{this.goToForgotPasswordPage.bind(this)}">{this.t(`login.password_request`)}</a>
+            </div>
             <div class="cc-component__auth-submit">
                 <a onClick="{this.submitLogin.bind(this)}">{this.t(`login.submit`)}</a>
             </div>
