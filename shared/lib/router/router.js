@@ -19,7 +19,7 @@ export default class Router {
   }
 
   get main_routes(){
-    return this.routes.filter((route)=>{ return route.route_name !== 'MissingRoute' && route.route_name !== 'Login' && route.route_name !== 'SignUp'; })
+    return this.routes.filter((route)=>{ return route.route_name !== 'MissingRoute' && route.route_name !== 'Login' && route.route_name !== 'SignUp' && route.route_name !== 'ForgotPassword'; })
   }
 
   get auth_routes(){

@@ -47,6 +47,7 @@
     "jasmine-core": "2.4.x",
     "jquery": "2.2.x",
     "json-loader": "0.5.x",
+    "jwt-decode": "^2.0.1",
     "karma": "0.13.x",
     "karma-coverage": "0.5.x",
     "karma-jasmine": "0.3.x",

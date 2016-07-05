@@ -1,6 +1,7 @@
 /*global JS_ENV Map require*/
 
 import UserApi from 'api/user.api';
+import jwtDecode from 'jwt-decode';
 
 export let auth = {
   signupUser: function(input){
@@ -26,5 +27,17 @@ export let auth = {
         return res;
       });
   },
+
+  forgotPassword: function(input){
+    return UserApi.forgotPassword(input)
+      .then((res) => {
+        console.log('User forgot password: ', res)
+        return res;
+      });
+  },
+
+  tokenIsValid: function(token){
+    return jwtDecode(token) < new Date().getTime();
+  }
 
 };

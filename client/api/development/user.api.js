@@ -74,6 +74,21 @@ class UserApi {
     });
   }
 
+  static forgotPassword(input){
+    console.log('forgotPassword input: ', JSON.stringify(input))
+    return new Promise((fnResolve, fnReject)=>{
+      superagent.post(BASE + 'user/reset/req')
+        .set('Content-Type', 'application/json; charset=UTF-8')
+        .send(JSON.stringify(input))
+        .end((err, res)=>{
+          if (err) fnReject(err);
+          else {
+            console.log('res', res.body);
+            fnResolve(res.body);
+          }
+        });
+    });
+  }
 }
 
 export default UserApi;

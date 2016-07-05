@@ -17,10 +17,17 @@
     "route_path": "login",
     "email": "Email",
     "password": "Password",
+    "password_request": "Forgot your password?",
     "submit": "Login"
   },
   "logout": {
     "submit": "Logout"
+  },
+  "forgot_password": {
+    "title": "Forgot password",
+    "route_path": "forgot_password",
+    "email": "Email",
+    "submit": "Continue"
   },
   "get_started": {
     "title": "Get Started",

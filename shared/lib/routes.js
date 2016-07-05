@@ -1,5 +1,6 @@
 import Food from './routes/food/food';
 import Footprint from './routes/footprint/footprint';
+import ForgotPassword from './routes/forgot_password/forgot_password';
 import GetStarted from './routes/get_started/get_started';
 import Home from './routes/home/home';
 import Login from './routes/login/login';
@@ -17,6 +18,10 @@ export function defineRoutes(i18n) {
     }),
     new Login({
       path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('login.route_path')})?$`),
+      parameters: {2: 'locale'}
+    }),
+    new ForgotPassword({
+      path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('forgot_password.route_path')})?$`),
       parameters: {2: 'locale'}
     }),
     new GetStarted({
