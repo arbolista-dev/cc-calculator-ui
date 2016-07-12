@@ -1,8 +1,4 @@
 {
-  "auth": {
-    "email": "Email",
-    "password": "Password"
-  },
   "sign_up": {
     "title": "Sign up",
     "route_path": "sign_up",
@@ -264,5 +260,33 @@
   "Zipcode": "Zipcode",
   "add": "add",
   "percent_of_total": "Percent of total",
-  "month": "month"
+  "month": "month",
+  "errors": {
+    "email": {
+      "non-existent": "User with this email address does not exist. Please sign up.",
+      "non-unique": "User with this email address already exists."
+    },
+    "password": {
+      "incorrect": "Wrong password entered. Please try again."
+    },
+    "session": {
+      "expired": "Please log in again. Your login session has expired.",
+      "non-existent": "Please log in again."
+    },
+    "password-reset": {
+      "expired": "Your password reset link has expired. Please request a new one by visiting 'Forgot your password'."
+    },
+    "reset-token": {
+      "corrupt": "Your password reset link is invalid. Please request a new one by visiting 'Forgot your password'."
+    },
+    "unspecified": "not specified. Please fill out all fields.",
+    "invalid": "is not valid. Please re-type it."
+  },
+  "success": {
+    "sign_up": "You're now signed up and logged in!",
+    "login": "You're now logged in!",
+    "forgot_password": "Please check your emails and reset your password.",
+    "logout": "You've been logged out!",
+    "answers_reset": "Your answers got reset!"
+  }
 }

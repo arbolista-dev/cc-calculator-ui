@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-import {auth} from './../../lib/auth/auth';
-import Translatable from './../../lib/base_classes/translatable';
-import template from './logout.rt.html'
+import { logoutUser } from 'api/user.api';
+import Translatable from './../../../lib/base_classes/translatable';
+import template from './logout.rt.html';
 
 class LogoutComponent extends Translatable {
 
@@ -22,16 +22,20 @@ class LogoutComponent extends Translatable {
     event.preventDefault();
     let logout = this,
         token = logout.state_manager.state.auth.token;
+    logout.state_manager.state.alerts = [];
 
     if(token) {
-      auth.logoutUser(token).then((res)=>{
+      logoutUser(token).then((res)=>{
         if (res.success) {
           // user logged out
+
           delete logout.state_manager.state.auth;
           logout.state_manager.state.auth = {};
           localStorage.removeItem('auth');
-          logout.state_manager.state.alerts.push({type: 'success', message: "You've been logged out!"});
-          logout.state_manager.setUserFootprintStorageToDefault();
+          logout.state_manager.state.alerts.push({type: 'success', message: logout.t('success.logout')});
+          logout.state_manager.setUserFootprintStorageToDefault().then(() => {
+            logout.router.goToUri('GetStarted')
+          })
         } else {
           // user logout failed?!
         }

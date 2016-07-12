@@ -2,9 +2,10 @@
 
 import React from 'react';
 
-import {auth} from './../../lib/auth/auth';
-import Panel from './../../lib/base_classes/panel';
-import template from './forgot_password.rt.html'
+import { forgotPassword } from 'api/user.api';
+import { validateParameter } from './../../../lib/utils/utils';
+import Panel from './../../../lib/base_classes/panel';
+import template from './forgot_password.rt.html';
 
 class ForgotPasswordComponent extends Panel {
 
@@ -12,10 +13,10 @@ class ForgotPasswordComponent extends Panel {
     super(props, context);
     let forgot_password = this;
     forgot_password.valid = {
-      email: '',
+      email: false
     };
     forgot_password.state = {
-      email: '',
+      email: ''
     };
   }
 
@@ -33,22 +34,6 @@ class ForgotPasswordComponent extends Panel {
     }
   }
 
-  validateInput(input) {
-    let forgot_password = this,
-        key = Object.keys(input)[0],
-        value = Object.values(input)[0],
-        re;
-    switch (key) {
-      case "email":
-        re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-        break;
-      default:
-        break;
-    }
-    let test = re.test(value);
-    forgot_password.valid[key] = test;
-  }
-
   validateAll(){
     let forgot_password = this,
         all_valid = Object.values(forgot_password.valid).filter(item => item === false);
@@ -56,7 +41,7 @@ class ForgotPasswordComponent extends Panel {
     for (let key in forgot_password.valid) {
       let value = forgot_password.valid[key]
       if (value === false) {
-        forgot_password.state_manager.state.alerts.push({type: 'danger', message: forgot_password.t('forgot_password.' + key) + " is not valid."});
+        forgot_password.state_manager.state.alerts.push({type: 'danger', message: forgot_password.t('forgot_password.' + key) + " " + forgot_password.t('errors.invalid')});
         forgot_password.state_manager.syncLayout();
       }
     }
@@ -76,26 +61,26 @@ class ForgotPasswordComponent extends Panel {
         update = {
           [api_key]: event.target.value
         };
-    forgot_password.validateInput(update);
+
+    forgot_password.valid[api_key] = validateParameter(update);
     forgot_password.setState(update);
   }
 
   submitForgotPassword(event) {
     event.preventDefault();
     let forgot_password = this;
+    forgot_password.state_manager.state.alerts = [];
 
     if (forgot_password.validateAll()) {
-      auth.forgotPassword(forgot_password.state).then((res)=>{
+      forgotPassword(forgot_password.state).then((res)=>{
         if (res.success) {
 
-          let login = this.router.routes.filter((route) => {
-            return route.route_name === 'Login';
-          });
-          this.router.goToRoute(login[0]);
-          forgot_password.state_manager.state.alerts.push({type: 'success', message: "Please check your emails and reset your password."});
+          forgot_password.router.goToUri('Login')
+          
+          forgot_password.state_manager.state.alerts.push({type: 'success', message: forgot_password.t('success.forgot_password')});
         } else {
           // failed
-          forgot_password.state_manager.state.alerts.push({type: 'danger', message: res.error});
+          forgot_password.state_manager.state.alerts.push({type: 'danger', message: forgot_password.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
           forgot_password.state_manager.syncLayout();
         }
         return res

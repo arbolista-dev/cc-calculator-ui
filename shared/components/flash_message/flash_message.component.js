@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import {auth} from './../../lib/auth/auth';
 import Translatable from './../../lib/base_classes/translatable';
 import template from './flash_message.rt.html'
 

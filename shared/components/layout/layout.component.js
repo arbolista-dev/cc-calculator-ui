@@ -30,7 +30,7 @@ class LayoutComponent extends mixin(Translatable, routable) {
   }
 
   get user_authenticated() {
-    return this.state_manager.state.auth.hasOwnProperty('token');
+    return this.state_manager.user_authenticated;
   }
 
   get alert_list() {

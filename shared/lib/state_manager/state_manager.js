@@ -108,8 +108,12 @@ export default class StateManager {
     return Object.assign({}, this.user_footprint)
   }
 
-  get auth_state(){
-    return this.state['auth']
+  get user_authenticated(){
+    if (this.state.auth.hasOwnProperty('token')) {
+      return tokenIsValid(this.state.auth.token);
+    } else {
+      return false;
+    }
   }
 
   setRoute(route){
@@ -318,9 +322,9 @@ export default class StateManager {
     let state_manager = this,
         token = state_manager.state.auth.token;
 
-    return UserApi.updateAnswers(state_manager.user_footprint, token)
+    return updateAnswers(state_manager.user_footprint, token)
             .then((res) => {
-              if (res.success) console.log('answers updated in DB');
+              if (res.success) console.log('Updated user answers in DB.');
             })
   }
 

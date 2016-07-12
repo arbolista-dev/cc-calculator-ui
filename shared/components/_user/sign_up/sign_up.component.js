@@ -2,9 +2,10 @@
 
 import React from 'react';
 
-import {auth} from './../../lib/auth/auth';
-import Panel from './../../lib/base_classes/panel';
-import template from './sign_up.rt.html'
+import { addUser } from 'api/user.api';
+import { validateParameter } from './../../../lib/utils/utils';
+import Panel from './../../../lib/base_classes/panel';
+import template from './sign_up.rt.html';
 
 
 class SignUpComponent extends Panel {
@@ -13,10 +14,10 @@ class SignUpComponent extends Panel {
     super(props, context);
     let sign_up = this;
     sign_up.valid = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      password: '',
+      first_name: false,
+      last_name: false,
+      email: false,
+      password: false
     };
     sign_up.state = {
       first_name: '',
@@ -42,31 +43,6 @@ class SignUpComponent extends Panel {
     }
   }
 
-  validateInput(input) {
-    let sign_up = this,
-        key = Object.keys(input)[0],
-        value = Object.values(input)[0],
-        re;
-    switch (key) {
-      case "first_name":
-        re = /^[A-Za-z0-9 ]{4,20}$/;
-        break;
-      case "last_name":
-        re = /^[A-Za-z0-9 ]{4,20}$/;
-        break;
-      case "email":
-        re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-        break;
-      case "password":
-        re = /^[A-Za-z0-9!@#$%^&*()_]{4,30}$/;
-        break;
-      default:
-        break;
-    }
-    let test = re.test(value);
-    sign_up.valid[key] = test;
-  }
-
   validateAll(){
     let sign_up = this,
         all_valid = Object.values(sign_up.valid).filter(item => item === false);
@@ -74,7 +50,7 @@ class SignUpComponent extends Panel {
     for (let key in sign_up.valid) {
       let value = sign_up.valid[key]
       if (value === false) {
-        sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('sign_up.' + key) + " is not valid."});
+        sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('sign_up.' + key) + " " + sign_up.t('errors.invalid')});
         sign_up.state_manager.syncLayout();
       }
     }
@@ -94,16 +70,18 @@ class SignUpComponent extends Panel {
         update = {
           [api_key]: event.target.value
         };
-    sign_up.validateInput(update);
+
+    sign_up.valid[api_key] = validateParameter(update);
     sign_up.setState(update);
   }
 
   submitSignup(event) {
     event.preventDefault();
     let sign_up = this;
+    sign_up.state_manager.state.alerts = [];;
 
     if (sign_up.validateAll()) {
-      auth.signupUser(sign_up.state).then((res)=>{
+      addUser(sign_up.state).then((res)=>{
         if (res.success) {
           // user added
           let auth_res = {
@@ -114,14 +92,12 @@ class SignUpComponent extends Panel {
           Object.assign(sign_up.state_manager.state.auth, auth_res);
           localStorage.setItem('auth', JSON.stringify(auth_res));
 
-          let get_started = this.router.routes.filter((route) => {
-                return route.route_name === 'GetStarted';
-              });
-          this.router.goToRoute(get_started[0]);
-
-          sign_up.state_manager.state.alerts.push({type: 'success', message: "You're now signed up and logged in!"});
+          sign_up.state_manager.state.alerts.push({type: 'success', message: sign_up.t('success.sign_up')});
+          sign_up.router.goToUri('GetStarted');
         } else {
-          sign_up.state_manager.state.alerts.push({type: 'danger', message: res.error});
+          let err = JSON.parse(res.error);
+
+          sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
           sign_up.state_manager.syncLayout();
         }
         return res

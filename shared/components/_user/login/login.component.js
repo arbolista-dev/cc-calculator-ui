@@ -2,9 +2,10 @@
 
 import React from 'react';
 
-import {auth} from './../../lib/auth/auth';
-import Panel from './../../lib/base_classes/panel';
-import template from './login.rt.html'
+import { loginUser } from 'api/user.api';
+import { validateParameter } from './../../../lib/utils/utils';
+import Panel from './../../../lib/base_classes/panel';
+import template from './login.rt.html';
 
 class LoginComponent extends Panel {
 
@@ -12,8 +13,8 @@ class LoginComponent extends Panel {
     super(props, context);
     let login = this;
     login.valid = {
-      email: '',
-      password: '',
+      email: false,
+      password: false,
     };
     login.state = {
       email: '',
@@ -35,25 +36,6 @@ class LoginComponent extends Panel {
     }
   }
 
-  validateInput(input) {
-    let login = this,
-        key = Object.keys(input)[0],
-        value = Object.values(input)[0],
-        re;
-    switch (key) {
-      case "email":
-        re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-        break;
-      case "password":
-        re = /^[A-Za-z0-9!@#$%^&*()_]{4,30}$/;
-        break;
-      default:
-        break;
-    }
-    let test = re.test(value);
-    login.valid[key] = test;
-  }
-
   validateAll(){
     let login = this,
         all_valid = Object.values(login.valid).filter(item => item === false);
@@ -61,7 +43,7 @@ class LoginComponent extends Panel {
     for (let key in login.valid) {
       let value = login.valid[key]
       if (value === false) {
-        login.state_manager.state.alerts.push({type: 'danger', message: login.t('login.' + key) + " is not valid."});
+        login.state_manager.state.alerts.push({type: 'danger', message: login.t('login.' + key) + " " + login.t('errors.invalid')});
         login.state_manager.syncLayout();
       }
     }
@@ -81,16 +63,18 @@ class LoginComponent extends Panel {
         update = {
           [api_key]: event.target.value
         };
-    login.validateInput(update);
+
+    login.valid[api_key] = validateParameter(update);
     login.setState(update);
   }
 
   submitLogin(event) {
     event.preventDefault();
     let login = this;
+    login.state_manager.state.alerts = [];
 
     if (login.validateAll()) {
-      auth.loginUser(login.state).then((res)=>{
+      loginUser(login.state).then((res)=>{
         if (res.success) {
           // user logged in
           let auth_res = {
@@ -105,14 +89,13 @@ class LoginComponent extends Panel {
             login.state_manager.setUserFootprint(remote_anwers);
           }
 
-          let get_started = this.router.routes.filter((route) => {
-                return route.route_name === 'GetStarted';
-              });
-          this.router.goToRoute(get_started[0]);
 
-          login.state_manager.state.alerts.push({type: 'success', message: "You're logged in!"});
+          login.state_manager.state.alerts.push({type: 'success', message: login.t('success.login')});
+          login.router.goToUri('GetStarted');
         } else {
-          login.state_manager.state.alerts.push({type: 'danger', message: res.error});
+          let err = JSON.parse(res.error);
+
+          login.state_manager.state.alerts.push({type: 'danger', message: login.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
           login.state_manager.syncLayout();
         }
         return res
@@ -122,9 +105,8 @@ class LoginComponent extends Panel {
     }
   }
 
-  goToForgotPasswordPage() {
-    let fp_route = this.router.routes.filter((route)=>{ return route.route_name === 'ForgotPassword'; });
-    this.router.goToRoute(fp_route[0]);
+  goToForgotPassword() {
+    this.router.goToUri('ForgotPassword')
   }
 
   render() {

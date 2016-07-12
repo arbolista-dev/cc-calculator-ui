@@ -119,6 +119,7 @@ class GetStartedComponent extends Panel {
         current_value: get_started.input_size
       });
     });
+    get_started.state_manager.state.alerts.push({type: 'success', message: get_started.t('success.answers_reset')});
   }
 
   // called when location suggestion is clicked.
