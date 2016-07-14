@@ -33,6 +33,16 @@ class GetStartedComponent extends Panel {
     get_started.initializeIncomeSlider();
   }
 
+  componentDidUpdate(){
+    let component = this;
+    if (component.input_income !== component.income_slider.current_value){
+      component.income_slider.setValue(component.input_income);
+    }
+    if (component.input_size !== component.size_slider.current_value){
+      component.size_slider.setValue(component.input_size);
+    }
+  }
+
   render(){
     return template.call(this);
   }
@@ -103,23 +113,6 @@ class GetStartedComponent extends Panel {
       locations: {},
       show_location_suggestions: false
     });
-  }
-
-  setUserAnswersToDefault(){
-    let get_started = this;
-    get_started.state_manager.setUserFootprintStorageToDefault().then((res) => {
-      get_started.income_slider.drawData({
-        abs_min: 1,
-        abs_max: 11,
-        current_value: get_started.input_income
-      });
-      get_started.size_slider.drawData({
-        abs_min: 0,
-        abs_max: 5,
-        current_value: get_started.input_size
-      });
-    });
-    get_started.state_manager.state.alerts.push({type: 'success', message: get_started.t('success.answers_reset')});
   }
 
   // called when location suggestion is clicked.
@@ -211,7 +204,7 @@ class GetStartedComponent extends Panel {
 
   get income_tick_labels(){
     let get_started = this,
-        width = window.outerWidth;
+        width = window.innerWidth;
     if (width < 400){
       return {
         1: get_started.t('Avg'),

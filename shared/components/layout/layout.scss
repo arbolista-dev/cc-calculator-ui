@@ -4,7 +4,7 @@ a { cursor: pointer; }
 #cc_calculator_ui {
 	#cc_nav {
 		div:first-child {
-			margin-left: 140px;
+			margin-left: 40px;
 		}
 	}
 	.cc-nav__item {
@@ -31,6 +31,12 @@ a { cursor: pointer; }
 			}
 		}
 	}
+	#settings_nav_item {
+			padding-top:10px;
+		img {
+			height:35px;
+		};
+	}
 
 	.cc-nav__auth {
 		display: inline-block;
@@ -53,7 +59,7 @@ a { cursor: pointer; }
 	margin-bottom:5px;
 	text-align: center;
 	max-width:100%;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   margin: 0 auto;
   white-space: nowrap;
@@ -135,3 +141,4 @@ main > header {
 		&:last-child { margin: 0; }
 	}
 }
+

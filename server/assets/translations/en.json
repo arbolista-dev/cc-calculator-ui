@@ -25,6 +25,12 @@
     "email": "Email",
     "submit": "Continue"
   },
+  "settings": {
+    "route_path": "settings",
+    "title": "Settings",
+    "restore_defaults": "Restore Defaults",
+    "explain_browser_storage": "When you change your answers in the calculator, for convenience they will be saved in your browser's storage. They are not stored on a server anywhere so your data remains private and only accessible by you on this browser. To erase your answers from browser storage and re-initialize default values, click the button below."
+  },
   "get_started": {
     "title": "Get Started",
     "byline": "Start with a quick carbon footprint estimate",
@@ -157,7 +163,12 @@
     "route_path": "take_action",
     "tons_saved": "Tons saved",
     "dollars_saved": "Dollars saved",
-    "upfront_cost": "Upfront cost"
+    "upfront_cost": "Upfront cost",
+    "external_offset": {
+      "tons_co2_per_year": "tons CO2/year",
+      "monthly_gift": "monthly gift",
+      "dollar_sign": "$"
+    }
   },
   "graphs": {
     "your_footprint": "Your footprint",
@@ -182,7 +193,8 @@
     "average_food_footprint": "Average Food Footprint",
     "average_shopping_footprint": "Average Shopping Footprint",
     "comparison": "Comparison",
-    "total_action_savings": "Annual Savings"
+    "total_action_savings": "Annual Savings",
+    "average_action_savings": "Average Savings"
   },
   "categories": {
     "result_transport_total": "Travel",

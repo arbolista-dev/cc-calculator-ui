@@ -1,12 +1,10 @@
-<main class="cc-component container container-md" id="login">
-    <header class="cc-component__header">
-        <div>
-            <!-- <img src="/assets/img/{this.route_key}.png"/> -->
-            <h3>{this.t('login.title')}</h3>
-        </div>
-    </header>
+<div class="panel panel-coolclimate" id="login">
 
-    <div class="cc-component__form form-horizontal">
+    <div class="panel-heading">
+        {this.t('login.title')}
+    </div>
+
+    <div class="panel-body cc-component__form form-horizontal">
         <div class="cc-component__auth">
             <div class="form-group">
                 <label for="inputEmail" class="control-label">{this.t(`login.email`)}</label>
@@ -23,8 +21,10 @@
                 <a onClick="{this.goToForgotPassword.bind(this)}">{this.t(`login.password_request`)}</a>
             </div>
             <div class="cc-component__auth-submit">
-                <a onClick="{this.submitLogin.bind(this)}">{this.t(`login.submit`)}</a>
+                <button class="btn btn-default"
+                    onClick="{this.submitLogin.bind(this)}">{this.t(`login.submit`)}
+                </button>
             </div>
         </div>
     </div>
-</main>
+</div>

@@ -1,0 +1,33 @@
+<rt-require dependency="./../_user/sign_up/sign_up.component" as="SignUp"/>
+<rt-require dependency="./../_user/login/login.component" as="Login"/>
+<rt-require dependency="./../_user/logout/logout.component" as="Logout"/>
+<main class="cc-component" id="settings">
+  <header class="cc-component__header">
+    <h4>{this.t('settings.title')}</h4>
+  </header>
+
+  <div class="cc-component__form">
+    <div class="panel panel-coolclimate">
+      <div class="panel-heading">
+        {this.t('settings.restore_defaults')}
+      </div>
+      <div class="panel-body">
+        <p>
+          {this.t('settings.explain_browser_storage')}
+        </p>
+        <div style="text-align:center;">
+          <button type="button"
+            class="btn btn-default"
+            onClick="{this.setUserFootprintStorageToDefault.bind(this)}">
+            {this.t('settings.restore_defaults')}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <SignUp rt-if="!this.user_authenticated"/>
+    <Login rt-if="!this.user_authenticated"/>
+    <Logout rt-if="this.user_authenticated"/>
+  </div>
+
+</main>

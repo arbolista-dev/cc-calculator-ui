@@ -9,6 +9,7 @@
     "generate": "gulp generate",
     "develop": "NODE_ENV=development npm start",
     "start": "babel-node ./server/run.js",
+    "prod": "NODE_ENV=production npm start",
     "build_production": "gulp build --env production"
   },
   "keywords": [],

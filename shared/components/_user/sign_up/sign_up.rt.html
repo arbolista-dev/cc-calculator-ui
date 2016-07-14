@@ -1,12 +1,9 @@
-<main class="cc-component container container-md" id="sign_up">
-    <header class="cc-component__header">
-        <div>
-            <!-- <img src="/assets/img/{this.route_key}.png"/> -->
-            <h3>{this.t('sign_up.title')}</h3>
-        </div>
-    </header>
+<main class="panel panel-coolclimate" id="sign_up">
+    <div class="panel-heading">
+        {this.t('sign_up.title')}
+    </div>
 
-    <div class="cc-component__form form-horizontal">
+    <div class="panel-body cc-component__form form-horizontal">
         <div class="cc-component__auth">
             <div class="form-group">
                 <label for="inputFirst" class="control-label">{this.t(`sign_up.first_name`)}</label>
@@ -30,7 +27,9 @@
                  id="inputPassword" rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}" data-api_key="password" value="{this.state.password}" placeholder="{this.t(`sign_up.password`)}">
             </div>
             <div class="cc-component__auth-submit">
-                <a onClick="{this.submitSignup.bind(this)}">{this.t(`sign_up.submit`)}</a>
+                <button class="btn btn-default"
+                    onClick="{this.submitSignup.bind(this)}">{this.t(`sign_up.submit`)}
+                </button>
             </div>
         </div>
     </div>

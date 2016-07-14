@@ -44,7 +44,6 @@ function logoutUser(jwt){
       .end((err, res)=>{
         if (err) fnReject(err);
         else {
-          console.log('res', res.body);
           fnResolve(res.body);
         }
       });

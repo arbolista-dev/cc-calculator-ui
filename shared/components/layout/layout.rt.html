@@ -1,6 +1,3 @@
-<rt-require dependency="./../_user/sign_up/sign_up.component" as="SignUp"/>
-<rt-require dependency="./../_user/login/login.component" as="Login"/>
-<rt-require dependency="./../_user/logout/logout.component" as="Logout"/>
 <rt-require dependency="./../_user/forgot_password/forgot_password.component" as="ForgotPassword"/>
 <rt-require dependency="./../flash_message/flash_message.component" as="FlashMessage"/>
 <rt-require dependency="./../get_started/get_started.component" as="GetStarted"/>
@@ -12,6 +9,7 @@
 <rt-require dependency="./../take_action/take_action.component" as="TakeAction"/>
 <rt-require dependency="./../missing/missing.component" as="Missing"/>
 <rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
+<rt-require dependency="./../settings/settings.component" as="Settings"/>
 <div id="cc_calculator_ui">
 	<nav class="navbar navbar-default">
 			<div id="cc_nav">
@@ -25,32 +23,27 @@
 					<img rt-if="(route.route_name === this.current_route_name)" src="/assets/img/{route.key}-blue.svg"/>
 					<div>{this.t(`${route.key}.title`)}</div>
 				</div>
-				<div class="cc-nav__auth">
-					<a rt-repeat="route in this.router.auth_routes"
-						class="cc-nav__item btn btn-default"
-						key="{route.key}"
-						rt-if
-						="!(this.user_authenticated)"
-						rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
-						onClick="{this.goToRoute.bind(this, route)}">
-						{this.t(`${route.key}.title`)}
-					</a>
-					<Logout rt-if="(this.user_authenticated)"></Logout
+
+				<div
+					class="cc-nav__item"
+					id="settings_nav_item"
+					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
+					onClick="{this.goToSettings.bind(this)}">
+				  <img src="/assets/img/settings.png"/>
+					<div>{this.t(`Settings`)}</div>
 				</div>
+
 			</div>
 	</nav>
 	<div id="banner"></div>
 	<FlashMessage alerts="{this.alert_list}"></FlashMessage>
 	<main>
-		<SignUp
-			rt-if="this.current_route_name === 'SignUp'"
-		></SignUp>
-		<Login
-			rt-if="this.current_route_name === 'Login'"
-		></Login>
 		<ForgotPassword
 			rt-if="this.current_route_name === 'ForgotPassword'"
 		></ForgotPassword>
+		<Settings
+			rt-if="this.current_route_name === 'Settings'"
+		></Settings>
 		<GetStarted
 			rt-if="this.current_route_name === 'GetStarted'"
 		></GetStarted>
@@ -76,5 +69,5 @@
 			rt-if="this.current_route_name === 'Missing'"
 		></Missing>
 	</main>
-	<Graphs rt-if="this.current_route_name != 'SignUp' && this.current_route_name != 'Login' && this.current_route_name != 'ForgotPassword'"></Graphs>
+	<Graphs rt-if="this.graphing_route"></Graphs>
 </div>

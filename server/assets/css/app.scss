@@ -102,6 +102,25 @@
   text-align:center;
 }
 
+.panel-coolclimate {
+  border-color:#30912D;
+  .panel-heading {
+    background-color:#4BA847;
+    color:white;
+    font-size:1.1em;
+    border-color:#30912D;
+  }
+}
+
+.btn-coolclimate-blue {
+  background-color:#0F95D3;
+  border-color:#0C8DC9;
+  &:hover {
+    background-color:#0C8DC9;
+    border-color:#0983BB;
+  }
+}
+
 @media (max-width: 400px) {
   .d3-snap-slider .tick text {
     font-size:0.8em;

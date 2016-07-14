@@ -8,6 +8,8 @@ import Translatable from './../../lib/base_classes/translatable';
 import {routable} from './../../lib/mixins/routable';
 import template from './layout.rt.html';
 
+const NON_GRAPH_PANELS = ['Settings', 'ForgotPassword']
+
 class LayoutComponent extends mixin(Translatable, routable) {
 
   constructor(props, context) {
@@ -29,12 +31,16 @@ class LayoutComponent extends mixin(Translatable, routable) {
     return this.state_manager.state.route.route_name;
   }
 
-  get user_authenticated() {
-    return this.state_manager.user_authenticated;
-  }
-
   get alert_list() {
     return this.state_manager.state.alerts;
+  }
+
+  get graphing_route(){
+    return NON_GRAPH_PANELS.indexOf(this.current_route_name) < 0;
+  }
+
+  goToSettings(){
+    this.router.goToRouteByName('Settings');
   }
 
   componentDidMount() {

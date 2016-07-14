@@ -3,6 +3,8 @@
 import queryString from 'query-string';
 import {defineRoutes} from '../routes';
 
+const NON_MAIN_ROUTES = ['Settings', 'MissingRoute', 'ForgotPassword'];
+
 export default class Router {
 
   constructor(state_manager, i18n) {
@@ -19,11 +21,9 @@ export default class Router {
   }
 
   get main_routes(){
-    return this.routes.filter((route)=>{ return route.route_name !== 'MissingRoute' && route.route_name !== 'Login' && route.route_name !== 'SignUp' && route.route_name !== 'ForgotPassword'; })
-  }
-
-  get auth_routes(){
-    return this.routes.filter((route)=>{ return route.route_name === 'Login' || route.route_name === 'SignUp'; })
+    return this.routes.filter((route)=>{
+      return  NON_MAIN_ROUTES.indexOf(route.route_name) < 0;
+    })
   }
 
   locale(){
@@ -70,6 +70,13 @@ export default class Router {
         i18n = router.i18n,
         url = `/${i18n.language}/${i18n.t(route_key + '.route_path')}`
     return router.history.push(url);
+  }
+
+  goToRouteByName(route_name){
+    let route = this.routes.find((route)=>{
+      return route.route_name === route_name;
+    });
+    this.goToRoute(route)
   }
 
   goToUri(uri){
