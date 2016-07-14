@@ -26,6 +26,11 @@ class TakeActionComponent extends Panel {
     return this.action_keys;
   }
 
+  get external_offset_set(){
+    let e_o = this.state_manager.state.external_offset;
+    return Object.keys(e_o).length !== 0 && e_o.constructor === Object
+  }
+
   get result_takeaction_pounds(){
     return this.state_manager['result_takeaction_pounds'];
   }
