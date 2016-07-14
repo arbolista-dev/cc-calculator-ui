@@ -24,7 +24,8 @@ class SignUpComponent extends Panel {
       last_name: '',
       email: '',
       password: '',
-      answers: ''
+      answers: '',
+      public: true
     };
     sign_up.alerts = [];
   }
@@ -75,10 +76,16 @@ class SignUpComponent extends Panel {
     sign_up.setState(update);
   }
 
+  updateCheckbox() {
+    this.setState({
+      public: !this.state.public
+    })
+  }
+
   submitSignup(event) {
     event.preventDefault();
     let sign_up = this;
-    sign_up.state_manager.state.alerts = [];;
+    sign_up.state_manager.state.alerts = [];
 
     if (sign_up.validateAll()) {
       addUser(sign_up.state).then((res)=>{
