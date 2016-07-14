@@ -21,6 +21,29 @@ Go to `localhost:3000` to view app.
 
 Code changes will automatically refresh page. However, to load changes to a particular component template, you must also make a change to the JS component file.
 
+## Production
+
+To run the production Node server in a Docker container, a Docker image needs to be built and the container to be launched:
+
+```sh
+docker build -t cc:ui .
+
+(docker stop ui || exit 0) && \
+(docker rm ui || exit 0) && \
+docker run \
+  -d \
+  -p 0.0.0.0:3000:3000 \
+  --name ui\
+  cc:ui
+```
+
+Go to `localhost:3000` to view app.
+
+Alternatively the server can be started outside of a Docker container using,
+```sh
+npm run prod
+```
+
 ## Testing
 
 `npm test` is equivalent to:

@@ -210,7 +210,7 @@ class GetStartedComponent extends Panel {
 
   get income_tick_labels(){
     let get_started = this,
-        width = window.outerWidth;
+        width = window.innerWidth;
     if (width < 400){
       return {
         1: get_started.t('Avg'),

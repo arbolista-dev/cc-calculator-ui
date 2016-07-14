@@ -24,7 +24,7 @@ class GraphsComponent extends Panel {
 
   componentDidMount() {
     let graphs = this;
-    if (window.outerWidth < 992) {
+    if (window.innerWidth < 992) {
       graphs.setState({
         show_chart: false
       });
@@ -67,7 +67,7 @@ class GraphsComponent extends Panel {
   }
 
   get graph_dimensions(){
-    let width = window.outerWidth,
+    let width = window.innerWidth,
         dimensions = {
           outer_width: width * 0.8
         };

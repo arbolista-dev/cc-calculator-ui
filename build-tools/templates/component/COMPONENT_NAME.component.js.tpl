@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import TranslatableComponent from '../translatable/translatable.component';
+import Translatable from './../../lib/base_classes/translatable';
 import template from './<%= componentNameLowerCase %>.rt.html'
 
-class <%=  componentNameCamelCase %>Component extends TranslatableComponent {
+class <%=  componentNameCamelCase %>Component extends Translatable {
 
   constructor(props, context){
     super(props, context);
