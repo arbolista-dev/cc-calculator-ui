@@ -24,7 +24,8 @@ class SignUpComponent extends Panel {
       last_name: '',
       email: '',
       password: '',
-      answers: ''
+      answers: '',
+      public: true
     };
   }
 
@@ -76,6 +77,12 @@ class SignUpComponent extends Panel {
 
     sign_up.valid[api_key] = validateParameter(update);
     sign_up.setState(update);
+  }
+
+  updateCheckbox() {
+    this.setState({
+      public: !this.state.public
+    })
   }
 
   submitSignup(event) {

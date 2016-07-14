@@ -80,4 +80,21 @@ function forgotPassword(input){
   });
 }
 
-export { addUser, loginUser, logoutUser, updateAnswers, forgotPassword };
+function setLocation(input, jwt){
+  console.log('setLocation input: ', input);
+  return new Promise((fnResolve, fnReject)=>{
+    superagent.put(BASE + 'user/location')
+      .set('Content-Type', 'application/json; charset=UTF-8')
+      .set('Authorization', jwt)
+      .send(JSON.stringify({ location: input }))
+      .end((err, res)=>{
+        if (err) fnReject(err);
+        else {
+          console.log('res', res.body);
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
+export { addUser, loginUser, logoutUser, updateAnswers, forgotPassword, setLocation };
