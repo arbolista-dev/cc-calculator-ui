@@ -33,8 +33,8 @@
     "webpack-dev-server": "1.14.x"
   },
   "dependencies": {
-    "babel-cli": "6.7.x",
-    "babel-core": "6.7.x",
+    "babel-cli": "6.10.x",
+    "babel-core": "6.10.x",
     "babel-eslint": "6.0.x",
     "babel-loader": "6.2.x",
     "babel-plugin-add-module-exports": "0.1.x",
@@ -71,7 +71,7 @@
     "query-string": "3.0.x",
     "raw-loader": "0.5.x",
     "react": "0.14.x",
-   "react-dom": "0.14.x",
+    "react-dom": "0.14.x",
     "react-templates": "0.4.3",
     "react-templates-loader": "0.4.x",
     "resolve-url-loader": "1.4.x",
