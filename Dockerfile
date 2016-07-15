@@ -2,7 +2,7 @@ FROM node:argon
 
 ADD . /app
 WORKDIR /app
-RUN npm install
+RUN npm install --production
 RUN npm rebuild node-sass
 RUN ./build_production.sh
 
