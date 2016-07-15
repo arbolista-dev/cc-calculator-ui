@@ -3,8 +3,7 @@
 
 import superagent from 'superagent';
 
-const BASE = 'http://localhost:8082/';
-
+const BASE = API_BASE_URL;
 
 function addUser(input){
   return new Promise((fnResolve, fnReject)=>{

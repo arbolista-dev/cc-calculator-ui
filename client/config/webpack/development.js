@@ -77,7 +77,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      api: __dirname + '/../../api/development'
+      api: __dirname + '/../../api/real'
     }
   }
 }

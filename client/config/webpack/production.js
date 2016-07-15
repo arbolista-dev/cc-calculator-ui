@@ -70,6 +70,11 @@ module.exports = {
       'window.jQuery': 'jquery',
       'window.d3': 'd3',
       'd3': 'd3'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"',
+      'NODE_ENV': '"production"',
+      API_BASE_URL: `"${process.env.API_BASE_URL}"`
     })
   ],
   node: {
@@ -77,7 +82,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      api: __dirname + '/../../api/development'
+      api: __dirname + '/../../api/real'
     }
   }
 }
