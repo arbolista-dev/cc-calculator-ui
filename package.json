@@ -1,6 +1,6 @@
 {
-  "name": "spike",
-  "version": "1.0.0",
+  "name": "cc-calculator-ui",
+  "version": "1.1.0",
   "description": "",
   "scripts": {
     "test": "npm run test_client && npm run lint",
@@ -61,6 +61,7 @@
     "history": "2.0.x",
     "i18next": "^2.5.1",
     "i18next-xhr-backend": "^0.5.3",
+    "lodash": "4.13.x",
     "jquery": "2.2.x",
     "json-loader": "0.5.x",
     "jwt-decode": "^2.0.1",

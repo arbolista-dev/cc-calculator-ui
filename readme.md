@@ -44,6 +44,17 @@ Alternatively the server can be started outside of a Docker container using,
 npm run prod
 ```
 
+### In Rancher
+
+```sh
+(docker stop ui || exit 0) && \
+  (docker rm ui || exit 0) && \
+  docker run -itd --label io.rancher.container.network=true    \
+  --name ui  cc:ui
+```
+
+You can then find the container and add to a service.
+
 ## Testing
 
 `npm test` is equivalent to:

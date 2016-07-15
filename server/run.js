@@ -6,9 +6,9 @@ import { argv } from 'yargs';
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 if (argv.local_api){
-  process.env.API_BASE_URL = 'http://localhost:8082'
+  process.env.API_BASE_URL = 'http://localhost:8082';
 } else {
-  process.env.API_BASE_URL = 'http://api.coolclimatenetwork.net'
+  process.env.API_BASE_URL = 'http://calculator.coolclimatenetwork.net/user_api';
 }
 
 var env_server_path = path.join(__dirname, 'config', process.env.NODE_ENV.toLowerCase(), 'server'),
