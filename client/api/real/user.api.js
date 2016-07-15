@@ -4,6 +4,7 @@
 import superagent from 'superagent';
 
 const BASE = API_BASE_URL;
+console.log('BASE', BASE)
 
 function addUser(input){
   return new Promise((fnResolve, fnReject)=>{
