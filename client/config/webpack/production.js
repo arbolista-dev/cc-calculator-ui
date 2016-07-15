@@ -75,7 +75,8 @@ module.exports = {
       'process.env.NODE_ENV': '"production"',
       'NODE_ENV': '"production"',
       API_BASE_URL: `"${process.env.API_BASE_URL}"`
-    })
+    }),
+    new webpack.optimize.UglifyJsPlugin({minimize: true})
   ],
   node: {
     fs: 'empty'
