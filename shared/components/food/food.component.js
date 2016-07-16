@@ -1,6 +1,7 @@
 /*global module*/
 
 import React from 'react';
+import _ from 'lodash';
 import mixin from './../../lib/mixin';
 import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
@@ -9,7 +10,8 @@ import template from './food.rt.html'
 
 const RELEVANT_API_KEYS = ['meatfisheggs', 'meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry',
                     'cereals', 'dairy', 'fruitvegetables', 'otherfood'],
-      MEAT_TYPES = ['meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry'];
+      MEAT_TYPES = ['meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry'],
+      AVERAGE_HOUSEHOLD_SIZE = 2.5;
 
 class FoodComponent extends Panel {
 
@@ -94,9 +96,16 @@ class FoodComponent extends Panel {
    * Food Sliders
    */
 
+  get household_size(){
+    let size = parseInt(this.state_manager.state.user_footprint['input_size']);
+    return size === 0 ? AVERAGE_HOUSEHOLD_SIZE : size;
+  }
+
   displayUserCalories(food_type){
-    let api_key = this.apiKey(food_type);
-    return Math.round(this.userApiValue(api_key));
+    let api_key = this.apiKey(food_type),
+        daily_household_calories = this.userApiValue(api_key),
+        daily_user_calories = daily_household_calories / this.household_size;
+    return Math.round(daily_user_calories);
   }
 
   initializeSlider(food_type){
@@ -111,7 +120,7 @@ class FoodComponent extends Panel {
       margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
-        1: '1x',
+        1: _.upperFirst(food.t('average')),
         2: '2x',
         3: '3x',
         4: '4x',

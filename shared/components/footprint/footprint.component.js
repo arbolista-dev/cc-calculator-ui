@@ -71,8 +71,17 @@ class FootprintComponent extends Panel {
       MAX_GRAPH_WIDTH,
       dimensions.outer_width
     );
-    dimensions.outer_height = dimensions.outer_width / 2;
+    dimensions.outer_height = Math.max(300, dimensions.outer_width / 2);
     return dimensions;
+  }
+
+  get pie_margins(){
+    return {
+      top: 30,
+      left: 30,
+      right: 30,
+      bottom: 30
+    }
   }
 
   generateData(footprint){
@@ -89,7 +98,8 @@ class FootprintComponent extends Panel {
       container: '#overall_comparative_pie',
       outer_width: dimensions.outer_width,
       outer_height: dimensions.outer_height,
-      label_r: 15,
+      margin: footprint.pie_margins,
+      label_r: 30,
       fnColor: (category)=>{
         return colors[category];
       }

@@ -1,6 +1,7 @@
 /*global module*/
 
 import React from 'react';
+import _ from 'lodash';
 import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
 import Panel from './../../lib/base_classes/panel';
@@ -154,7 +155,7 @@ class ShoppingComponent extends Panel {
       margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
-        1: '1x',
+        1: _.upperFirst(shopping.t('average')),
         2: '2x',
         3: '3x',
         4: '4x',
@@ -198,7 +199,7 @@ class ShoppingComponent extends Panel {
       margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
-        1: '1x',
+        1: _.upperFirst(shopping.t('average')),
         2: '2x',
         3: '3x',
         4: '4x',

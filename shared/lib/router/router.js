@@ -54,14 +54,18 @@ export default class Router {
     let router = this,
         current_i = router.routes.indexOf(router.current_route),
         next_route = router.routes[current_i + 1];
-    return router.goToRoute(next_route);
+    window.jQuery("html, body").animate({ scrollTop: 0 }, 500, ()=>{
+      return router.goToRoute(next_route);
+    });
   }
 
   previous(){
     let router = this,
         current_i = router.routes.indexOf(router.current_route),
         next_route = router.routes[current_i - 1];
-    return router.goToRoute(next_route);
+    window.jQuery("html, body").animate({ scrollTop: 0 }, 500, ()=>{
+      return router.goToRoute(next_route);
+    });
   }
 
   goToRoute(route){
