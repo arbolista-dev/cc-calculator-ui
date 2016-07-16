@@ -44,6 +44,11 @@ class GraphsComponent extends Panel {
   toggleChart(){
     this.setState({
       show_chart: !this.state.show_chart
+    }, ()=>{
+      // scroll to bottom of page if chart show.
+      if (this.state.show_chart){
+        window.jQuery("html, body").animate({ scrollTop: $(document).height() }, 500);
+      }
     })
   }
 

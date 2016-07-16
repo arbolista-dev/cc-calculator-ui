@@ -70,6 +70,11 @@ module.exports = {
       'window.jQuery': 'jquery',
       'window.d3': 'd3',
       'd3': 'd3'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"development"',
+      'NODE_ENV': '"development"',
+      API_BASE_URL: `"${process.env.API_BASE_URL}"`
     })
   ],
   node: {

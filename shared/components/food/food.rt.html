@@ -19,7 +19,7 @@
       <div class="cc-component__question" rt-class="{hidden: !this.shouldShow(food_type)}">
         <h4>{this.t(`food.${food_type}.label`)}</h4>
         <div class="label-container">
-          <span class="label label-slider">{this.displayUserApiStateValue(food_type)} <i>{this.t('food.calories')}</i></span>
+          <span class="label label-slider">{this.displayUserCalories(food_type)} <i>{this.t('food.calories')}</i></span>
         </div>
         <div id="food_average_slider_{food_type}"></div>
       </div>

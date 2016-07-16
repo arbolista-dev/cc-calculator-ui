@@ -37,7 +37,7 @@
     "route_path": "get_started",
     "location_prompt": "Enter your location",
     "income": {
-      "label": "What is your gross annual household income?"
+      "label": "What is your approximate gross annual household income?"
     },
     "size": {
       "label": "How many people live in your household?"
@@ -92,7 +92,7 @@
     "title": "Food",
     "byline": "How much do you consume of each of the following?",
     "route_path": "food",
-    "calories": "calories",
+    "calories": "Calories per day per person",
     "calories_per_day": {
       "label": "Total calories per day"
     },
@@ -273,6 +273,7 @@
   "add": "add",
   "percent_of_total": "Percent of total",
   "month": "month",
+  "average": "average",
   "errors": {
     "email": {
       "non-existent": "User with this email address does not exist. Please sign up.",
