@@ -92,7 +92,7 @@
     "title": "Food",
     "byline": "How much do you consume of each of the following?",
     "route_path": "food",
-    "calories": "Calories per day per person",
+    "calories": "Daily calories per person",
     "calories_per_day": {
       "label": "Total calories per day"
     },
