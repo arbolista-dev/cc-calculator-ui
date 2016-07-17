@@ -66,6 +66,10 @@ class LayoutComponent extends mixin(Translatable, routable) {
     if (prerender_data) prerender_data.parentNode.removeChild(prerender_data);
   }
 
+  goToTakeAction(){
+    this.router.goToRouteByName('TakeAction');
+  }
+
 }
 LayoutComponent.NAME = 'Layout';
 LayoutComponent.propTypes = {};

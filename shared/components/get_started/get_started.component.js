@@ -19,8 +19,7 @@ class GetStartedComponent extends Panel {
       locations: {},
       input_location_mode: parseInt(get_started.state_manager.input_location_mode),
       input_location: get_started.userApiValue('input_location'),
-      show_location_suggestions: false,
-      logs: []
+      show_location_suggestions: false
     };
   }
 
@@ -193,9 +192,6 @@ class GetStartedComponent extends Panel {
       onSnap: function(selected_size) {
         if (selected_size != this.input_size){
           get_started.updateDefaults({input_size: selected_size});
-        }else {
-          this.state.logs.push('ignoring size snap', selected_size)
-          this.setState({logs: this.state.logs})
         }
       }
     });
@@ -252,9 +248,6 @@ class GetStartedComponent extends Panel {
       onSnap: function(selected_income) {
         if (selected_income != this.input_income){
           get_started.updateDefaults({input_income: selected_income});
-        }else {
-          this.state.logs.push('ignoring income snap', selected_income)
-          this.setState({logs: this.state.logs})
         }
       }
     });
@@ -274,10 +267,6 @@ class GetStartedComponent extends Panel {
     });
     get_started.size_slider.redraw({
       outer_width: get_started.slider_width
-    });
-    this.state.logs.push(`Resize Event: income ${this.input_income}, size ${this.input_size}`)
-    get_started.setState({
-      logs: this.state.logs
     });
   }
 

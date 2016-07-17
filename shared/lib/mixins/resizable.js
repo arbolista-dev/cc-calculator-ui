@@ -30,7 +30,6 @@ export let resizable = {
   },
 
   windowSizeHasChanged: function(){
-    console.log((this.cachedWidth - window.innerWidth) / window.innerWidth)
     return Math.abs((this.cachedWidth - window.innerWidth) / window.innerWidth) > 0.05;
   }
 

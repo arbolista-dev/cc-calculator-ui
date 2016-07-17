@@ -70,4 +70,9 @@
 		></Missing>
 	</main>
 	<Graphs rt-if="this.graphing_route"></Graphs>
+  <div rt-if="this.current_route_name !== 'TakeAction'" id="go_to_take_action" class="fixed-sidebar">
+    <span onClick="{this.goToTakeAction.bind(this)}" class="label label-info">
+    	{this.t('Take action now')}
+    </span>
+  </div>
 </div>

@@ -274,6 +274,7 @@
   "percent_of_total": "Percent of total",
   "month": "month",
   "average": "average",
+  "Take action now": "Take action now",
   "errors": {
     "email": {
       "non-existent": "User with this email address does not exist. Please sign up.",
