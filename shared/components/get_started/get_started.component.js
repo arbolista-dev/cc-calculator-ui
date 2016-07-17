@@ -19,7 +19,8 @@ class GetStartedComponent extends Panel {
       locations: {},
       input_location_mode: parseInt(get_started.state_manager.input_location_mode),
       input_location: get_started.userApiValue('input_location'),
-      show_location_suggestions: false
+      show_location_suggestions: false,
+      logs: []
     };
   }
 
@@ -35,10 +36,10 @@ class GetStartedComponent extends Panel {
 
   componentDidUpdate(){
     let component = this;
-    if (component.input_income !== component.income_slider.current_value){
+    if (component.input_income != component.income_slider.current_value){
       component.income_slider.setValue(component.input_income);
     }
-    if (component.input_size !== component.size_slider.current_value){
+    if (component.input_size != component.size_slider.current_value){
       component.size_slider.setValue(component.input_size);
     }
   }
@@ -190,7 +191,12 @@ class GetStartedComponent extends Panel {
         1: '1', 2: '2', 3: '3', 4: '4', 5: '5+'
       },
       onSnap: function(selected_size) {
-        get_started.updateDefaults({input_size: selected_size});
+        if (selected_size != this.input_size){
+          get_started.updateDefaults({input_size: selected_size});
+        }else {
+          this.state.logs.push('ignoring size snap', selected_size)
+          this.setState({logs: this.state.logs})
+        }
       }
     });
 
@@ -244,7 +250,12 @@ class GetStartedComponent extends Panel {
       outer_width: get_started.slider_width,
       tick_labels: get_started.income_tick_labels,
       onSnap: function(selected_income) {
-        get_started.updateDefaults({input_income: selected_income});
+        if (selected_income != this.input_income){
+          get_started.updateDefaults({input_income: selected_income});
+        }else {
+          this.state.logs.push('ignoring income snap', selected_income)
+          this.setState({logs: this.state.logs})
+        }
       }
     });
 
@@ -263,6 +274,10 @@ class GetStartedComponent extends Panel {
     });
     get_started.size_slider.redraw({
       outer_width: get_started.slider_width
+    });
+    this.state.logs.push(`Resize Event: income ${this.input_income}, size ${this.input_size}`)
+    get_started.setState({
+      logs: this.state.logs
     });
   }
 

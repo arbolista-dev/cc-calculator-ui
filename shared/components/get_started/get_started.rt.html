@@ -47,6 +47,15 @@
 			<div  class="cc-slider-container" id="income_slider"></div>
 		</div>
 
+		<div class="logs">
+			<ul>
+				<li rt-repeat="log in this.state.logs" key="{logIndex}">
+					{log}
+				</li>
+			</ul>
+		</div>
+
+
 	</div>
 
 	<div class="cc-component__nav">

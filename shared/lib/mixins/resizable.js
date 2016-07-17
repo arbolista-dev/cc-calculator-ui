@@ -8,10 +8,8 @@ export let resizable = {
     let component = this;
     component.cachedWidth = window.innerWidth;
     window.addEventListener('resize', ()=>{
-      if (component.cachedWidth !== window.innerWidth) {
-        // just the debounce function.
-        component.$resize();
-      }
+      // just the debounce function.
+      component.$resize();
     }, true);
   },
 
@@ -24,8 +22,16 @@ export let resizable = {
     }
 
     component.$on_resize = setTimeout(()=>{
-      component.cachedWidth = window.innerWidth;
-      component.resize();
+      if (component.windowSizeHasChanged()){
+        component.cachedWidth = window.innerWidth;
+        component.resize();
+      }
     }, component.resize_debounce_ms || 250);
+  },
+
+  windowSizeHasChanged: function(){
+    console.log((this.cachedWidth - window.innerWidth) / window.innerWidth)
+    return Math.abs((this.cachedWidth - window.innerWidth) / window.innerWidth) > 0.05;
   }
+
 };
