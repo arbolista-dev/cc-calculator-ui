@@ -35,7 +35,9 @@
 
 			</div>
 	</nav>
-	<div id="banner"></div>
+	<div rt-if="this.external_offset.banner_url" id="external_banner">
+		<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
+	</div>
 	<FlashMessage alerts="{this.alert_list}"></FlashMessage>
 	<main>
 		<ForgotPassword

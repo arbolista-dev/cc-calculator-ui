@@ -28,3 +28,12 @@
     width:80px;
   }
 }
+
+@media (max-width: 400px) {
+  #location_mode_btn_group {
+    a {
+      font-size:0.8em;
+      width:65px;
+    }
+  }
+}
