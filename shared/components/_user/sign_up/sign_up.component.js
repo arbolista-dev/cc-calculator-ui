@@ -95,10 +95,15 @@ class SignUpComponent extends Panel {
           sign_up.state_manager.state.alerts.push({type: 'success', message: sign_up.t('success.sign_up')});
           sign_up.router.goToUri('GetStarted');
         } else {
-          let err = JSON.parse(res.error);
-
-          sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
-          sign_up.state_manager.syncLayout();
+          let err;
+          try {
+            err = JSON.parse(res.error);
+            sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
+            sign_up.state_manager.syncLayout();
+          } catch (err){
+            sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('errors.email.non-unique')});
+            sign_up.state_manager.syncLayout();
+          }
         }
         return res
       })
