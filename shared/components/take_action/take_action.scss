@@ -46,5 +46,23 @@
 }
 
 #take_action_savings {
-  bottom:0px;
+  bottom:5px;
+  h3 { margin-top:7px; margin-bottom:0px; }
+  .mobile {
+    display:none;
+  }
+  .desktop {
+    display:inline-block;
+  }
+}
+
+@media (max-width: 400px) {
+  #take_action_savings {
+    .mobile {
+      display:inline-block;
+    }
+    .desktop {
+      display:none;
+    }
+  }
 }

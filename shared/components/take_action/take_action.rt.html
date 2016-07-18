@@ -42,9 +42,16 @@
   </div>
 
   <div id="take_action_savings" class="fixed-sidebar">
-    <span class="label label-info">{this.displayTakeactionSavings('result_takeaction_pounds')} {this.t('take_action.tons_saved')}</span><br/>
-    <span class="label label-info">${this.displayTakeactionSavings('result_takeaction_dollars')} {this.t('take_action.dollars_saved')}</span><br/>
-    <span class="label label-info">${this.displayTakeactionSavings('result_takeaction_net10yr')} {this.t('take_action.upfront_cost')}</span><br/>
+    <div class="mobile">
+      <span class="label label-info">{this.displayTakeactionSavings('result_takeaction_pounds')} {this.t('take_action.tons_saved')}</span><br/>
+      <span class="label label-info">${this.displayTakeactionSavings('result_takeaction_dollars')} {this.t('take_action.dollars_saved')}</span><br/>
+      <span class="label label-info">${this.displayTakeactionSavings('result_takeaction_net10yr')} {this.t('take_action.upfront_cost')}</span><br/>
+    </div>
+    <div class="desktop">
+      <h3><span class="label label-info">{this.displayTakeactionSavings('result_takeaction_pounds')} {this.t('take_action.tons_saved')}</span></h3>
+      <h3><span class="label label-info">${this.displayTakeactionSavings('result_takeaction_dollars')} {this.t('take_action.dollars_saved')}</span></h3>
+      <h3><span class="label label-info">${this.displayTakeactionSavings('result_takeaction_net10yr')} {this.t('take_action.upfront_cost')}</span></h3>
+    </div>
   </div>
 
   <div class="cc-component__nav">

@@ -149,4 +149,21 @@ main > header {
 #go_to_take_action {
   bottom:0px;
   cursor:pointer;
+	  .mobile {
+	  	display:none;
+	  }
+	  .desktop {
+	  	display:inline-block;
+	  }
+}
+
+@media (max-width: 400px) {
+	#go_to_take_action {
+	  .mobile {
+	  	display:inline-block;
+	  }
+	  .desktop {
+	  	display:none;
+	  }
+	}
 }

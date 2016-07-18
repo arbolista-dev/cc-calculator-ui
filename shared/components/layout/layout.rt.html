@@ -73,8 +73,11 @@
 	</main>
 	<Graphs rt-if="this.graphing_route"></Graphs>
   <div rt-if="this.current_route_name !== 'TakeAction'" id="go_to_take_action" class="fixed-sidebar">
-	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info">
+	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info btn-lg desktop">
 	    	{this.t('Take action now')}
-	    </span>
+	    </button>
+	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info mobile">
+	    	{this.t('Take action now')}
+	    </button>
   </div>
 </div>
