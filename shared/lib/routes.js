@@ -15,10 +15,6 @@ export function defineRoutes(i18n) {
       path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('get_started.route_path')})?$`),
       parameters: {2: 'locale'}
     }),
-    new ForgotPassword({
-      path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('forgot_password.route_path')})$`),
-      parameters: {2: 'locale'}
-    }),
     new Travel({
       path: new RegExp(`^\/?((\\w{2})\/)?${i18n.t('travel.route_path')}$`),
       parameters: {2: 'locale'}
@@ -45,6 +41,10 @@ export function defineRoutes(i18n) {
     }),
     new Settings({
       path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('settings.route_path')})$`),
+      parameters: {2: 'locale'}
+    }),
+    new ForgotPassword({
+      path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('forgot_password.route_path')})$`),
       parameters: {2: 'locale'}
     }),
     new Missing({
