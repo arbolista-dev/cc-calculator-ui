@@ -113,7 +113,7 @@ class GraphsComponent extends Panel {
   resize(){
     let graphs = this;
     graphs.bar_chart.redraw(graphs.graph_dimensions);
-    footprint.pie_chart.redraw(footprint.graph_dimensions);
+    graphs.pie_chart.redraw(graphs.graph_dimensions);
   }
 
   get graph_dimensions(){
@@ -291,7 +291,7 @@ class GraphsComponent extends Panel {
     let graphs = this;
 
     return graphs.category_keys.reduce((sum, category_key)=>{
-      return sum + parseInt(graphs.defaultApiValue(category_key));
+      return sum + parseFloat(graphs.defaultApiValue(category_key));
     }, 0);
   }
 
@@ -308,11 +308,15 @@ class GraphsComponent extends Panel {
 
   get category_percentage_byline(){
     let graphs = this;
-    if (graphs.user_category_footprint >= graphs.average_category_footprint){
+    if (graphs.worse_than_average){
       return graphs.t('graphs.worse_than_average');
     } else {
       return graphs.t('graphs.better_than_average');
     }
+  }
+
+  get worse_than_average(){
+    return Math.round(this.user_category_footprint) > Math.round(this.average_category_footprint);
   }
 
   get category_user_byline(){

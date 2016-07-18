@@ -24,16 +24,6 @@
 
 .d3-overlap-bar { cursor:pointer; }
 
-#graphs_total_summary {
-  text-align:center;
-}
-#graphs_total_summary_heading {
-  font-weight:bold;
-  font-size:1.4em;
-}
-#graphs_total_footprint {
-  font-size:1.7em;
-}
 #graphs_toggle_chart {
 	text-align: center;
 	padding-top: 15px;
@@ -43,45 +33,40 @@
   font-size:0.9em;
 }
 
-#graphs_stats {
-  > div {
-    width: 25%;
-    display:inline-block;
-		text-align: center;
-  }
-  .graphs__category_stat {
-    font-size:1.5em;
-  }
-  .graphs__category_byline {
-    font-size:1.1em;
-  }
-}
-
 .graphs--active {
   color:#4AAA48;
 }
 
+#graphs_summary {
+  td, th {
+    text-align:center;
+    vertical-align:middle;
+  }
+}
+
 @media (max-width: 400px) {
-  #graphs_total_summary_heading {
+  #graphs_summary {
     font-size:0.8em;
   }
-  #graphs_total_footprint {
-    font-size:0.9em;
-  }
-  #graphs_toggle_chart {
-    padding-top: 10px;
-  }
+}
 
-  .graphs__units {
-    font-size:0.6em;
-  }
+/* Pie */
 
-  #graphs_stats {
-    .graphs__category_stat {
-      font-size:0.9em;
-    }
-    .graphs__category_byline {
-      font-size:0.8em;
-    }
+#overall_comparative_pie {
+  text-align:center;
+}
+
+.d3-value-arc {
+  text {
+    fill: black;
+    cursor:pointer;
   }
+  path {
+    stroke: white;
+    stroke-width: 1px;
+  }
+}
+
+.d3-comparative-arc {
+  stroke: darkgrey !important;
 }
