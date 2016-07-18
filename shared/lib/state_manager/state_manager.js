@@ -23,12 +23,13 @@ export default class StateManager {
     state_manager.state = {
       average_footprint: {},
       user_footprint: {},
-      external_offset: {
-        banner_url: 'http://clipartix.com/wp-content/uploads/2016/04/Red-banner-clipart-picture.png',
-        banner_style: {'max-height': '90px'}
-      },
+      external_offset: {},
       auth: {},
-      alerts: []
+      alerts: [],
+      chart: {
+        show: true,
+        type: 'bar'
+      }
     };
   }
 

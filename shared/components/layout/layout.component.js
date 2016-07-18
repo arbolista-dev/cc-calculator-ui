@@ -8,7 +8,7 @@ import Translatable from './../../lib/base_classes/translatable';
 import {routable} from './../../lib/mixins/routable';
 import template from './layout.rt.html';
 
-const NON_GRAPH_PANELS = ['Settings', 'ForgotPassword']
+const NON_GRAPH_PANELS = ['Settings', 'ForgotPassword', 'Footprint']
 
 class LayoutComponent extends mixin(Translatable, routable) {
 

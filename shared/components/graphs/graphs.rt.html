@@ -32,17 +32,36 @@
     </div>
   </div>
   <div id="graphs_toggle_chart">
-    <div>
+    <div class="btn-group">
       <button class="btn btn-default"
-        rt-class="{'graphs--active': this.state.show_chart}"
-        onClick="{this.toggleChart.bind(this)}">
+        rt-class="{'graphs--active': this.show_bar_chart}"
+        onClick="{this.toggleChartType.bind(this, 'bar')}">
         <i class="fa fa-bar-chart"></i>
+      </button>
+      <button class="btn btn-default"
+        rt-class="{'graphs--active': this.show_pie_chart}"
+        onClick="{this.toggleChartType.bind(this, 'pie')}">
+        <i class="fa fa-pie-chart"></i>
       </button>
     </div>
   </div>
 
-  <div rt-class="{hidden: !this.state.show_chart}">
-    <div id="overview_chart"></div>
+  <div rt-class="{hidden: !this.show_bar_chart}">
+    <div id="overview_bar_chart"></div>
+    <div class="chart-legend">
+      <div>
+        <img src="/assets/img/your-footprint-icon.png"/>
+        {this.t('footprint.your_footprint')}
+      </div>
+      <div>
+        <img src="/assets/img/average-footprint-icon.png"/>
+        {this.t('footprint.average_footprint')}
+      </div>
+    </div>
+  </div>
+
+  <div rt-class="{hidden: !this.show_pie_chart}">
+    <div id="overall_comparative_pie"></div>
     <div class="chart-legend">
       <div>
         <img src="/assets/img/your-footprint-rect.png"/>

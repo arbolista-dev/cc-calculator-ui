@@ -2,6 +2,7 @@
 
 import React from 'react';
 import OverlapBar from 'd3-object-charts/src/bar/overlap';
+import ComparativePie from 'd3-object-charts/src/pie/comparative';
 
 import Panel from '../../lib/base_classes/panel';
 import template from './graphs.rt.html'
@@ -17,9 +18,35 @@ class GraphsComponent extends Panel {
     super(props, context);
     let graphs = this;
     graphs.state = {
-      show_chart: true
+      show_chart: true,
+      chart_type: 'bar'
     };
     graphs.initResizeListener();
+  }
+
+  get show_pie_chart(){
+    return this.state_manager.state.chart.show &&
+      this.state_manager.state.chart.type === 'pie';
+  }
+
+  get show_bar_chart(){
+    return this.state_manager.state.chart.show &&
+      this.state_manager.state.chart.type === 'bar';
+  }
+
+  toggleChartType(type){
+    this.hidePopovers()
+    if (this.state_manager.state.chart.type === type){
+      this.state_manager.state.chart.show = false;
+      this.state_manager.state.chart.type = undefined;
+    } else {
+      this.state_manager.state.chart.show = true;
+      this.state_manager.state.chart.type = type;
+
+      if (type === 'pie') this.initializePiePopovers();
+      else this.initializeBarPopovers();
+    }
+    this.state_manager.syncLayout();
   }
 
   componentDidMount() {
@@ -29,27 +56,28 @@ class GraphsComponent extends Panel {
         show_chart: false
       });
     }
-    graphs.initializeOverallChart();
+    graphs.initializeOverallPieChart();
+    graphs.initializeOverallBarChart();
   }
 
   componentDidUpdate(){
     let graphs = this;
-    graphs.drawData();
+    graphs.drawBarData();
+    graphs.drawPieData();
+    graphs.hidePopovers();
+  }
+
+  componentWillUnmount(){
+    this.hidePopovers();
+  }
+
+  hidePopovers(){
+    window.jQuery(".d3-value-arc text").popover('hide');
+    window.jQuery(".your-footprint").popover('hide');
   }
 
   render(){
     return template.call(this);
-  }
-
-  toggleChart(){
-    this.setState({
-      show_chart: !this.state.show_chart
-    }, ()=>{
-      // scroll to bottom of page if chart show.
-      if (this.state.show_chart){
-        window.jQuery("html, body").animate({ scrollTop: $(document).height() }, 500);
-      }
-    })
   }
 
   shouldShowTotal(){
@@ -60,10 +88,6 @@ class GraphsComponent extends Panel {
     }
   }
 
-  /*
-   * Graph Drawing
-   */
-
   get categories(){
     let graphs = this;
     return CATEGORIES.map((category_key)=>{
@@ -71,8 +95,29 @@ class GraphsComponent extends Panel {
     });
   }
 
+  get category_colors(){
+    let graphs = this;
+    return CATEGORIES.reduce((hash, category_key)=>{
+      let translated = graphs.t(`categories.${category_key}`);
+      hash[translated] = graphs.state_manager.category_colors[category_key];
+      return hash;
+    }, {});
+  }
+
+  generateData(footprint){
+    return CATEGORIES.map((category)=>{
+      return footprint[category];
+    });
+  }
+
+  resize(){
+    let graphs = this;
+    graphs.bar_chart.redraw(graphs.graph_dimensions);
+    footprint.pie_chart.redraw(footprint.graph_dimensions);
+  }
+
   get graph_dimensions(){
-    let width = window.innerWidth,
+    let width = document.getElementById('graphs').offsetWidth,
         dimensions = {
           outer_width: width * 0.8
         };
@@ -84,35 +129,33 @@ class GraphsComponent extends Panel {
       MAX_GRAPH_WIDTH,
       dimensions.outer_width
     );
-    dimensions.outer_height = dimensions.outer_width / 2;
+    dimensions.outer_height = Math.max(300, dimensions.outer_width / 2);
     return dimensions;
   }
 
-  generateData(footprint){
-    return CATEGORIES.map((category)=>{
-      return footprint[category];
-    });
-  }
+  /*
+   * Bar Chart
+   */
 
-  initializeOverallChart(){
+  initializeOverallBarChart(){
     let graphs = this,
         dimensions = graphs.graph_dimensions;
-    graphs.chart = new OverlapBar({
+    graphs.bar_chart = new OverlapBar({
       outer_height: dimensions.outer_height,
       outer_width: dimensions.outer_width,
-      container: '#overview_chart',
+      container: '#overview_bar_chart',
       y_ticks: 5,
       margin:{top: 4, bottom: 30, left: 40, right: 0},
       seriesClass: function(series){
         return series.name.replace(/\s+/g, '-').toLowerCase();
       }
     });
-    graphs.drawData();
+    graphs.drawBarData();
   }
 
-  drawData(){
+  drawBarData(){
     let graphs = this;
-    graphs.chart.drawData({
+    graphs.bar_chart.drawData({
       categories: graphs.categories,
       series: [
         {
@@ -124,11 +167,11 @@ class GraphsComponent extends Panel {
         }
       ]
     });
-    graphs.initializePopovers();
+    graphs.initializeBarPopovers();
   }
 
-  initializePopovers(){
-    let footprint = this;
+  initializeBarPopovers(){
+    let component = this;
     window.jQuery('.your-footprint').popover({
       placement: 'top',
       html: true,
@@ -138,16 +181,71 @@ class GraphsComponent extends Panel {
         let klasses = window.jQuery(this)
           .attr('class').split(' '),
           category = klasses[klasses.length - 1];
-        return footprint.popoverContentForCategory(category)
+        return component.popoverContentForCategory(category)
       }
 
     });
   }
 
-  resize(){
-    let graphs = this;
-    graphs.chart.redraw(graphs.graph_dimensions);
-    graphs.initializePopovers();
+  /*
+   * Pie Chart
+   */
+
+  get pie_margins(){
+    return {
+      top: 30,
+      left: 30,
+      right: 30,
+      bottom: 30
+    }
+  }
+
+  get average_footprint_total(){
+    return this.state_manager.average_footprint['result_grand_total'];
+  }
+
+  initializeOverallPieChart(){
+    let component = this,
+        colors = component.category_colors,
+        dimensions = component.graph_dimensions;
+    component.pie_chart = new ComparativePie({
+      container: '#overall_comparative_pie',
+      outer_width: dimensions.outer_width,
+      outer_height: dimensions.outer_height,
+      margin: component.pie_margins,
+      label_r: 30,
+      fnColor: (category)=>{
+        return colors[category];
+      }
+    });
+    component.drawPieData();
+    component.initializePiePopovers();
+  }
+
+  initializePiePopovers(){
+    let component = this;
+    window.jQuery('.d3-value-arc text').popover({
+      placement: 'top',
+      html: true,
+      container: 'body',
+      trigger: 'click',
+      content: function(){
+        let category = window.jQuery(this)
+          .closest('.d3-value-arc')
+          .attr('class').split(' ')[1];
+        return component.popoverContentForCategory(category)
+      }
+
+    });
+  }
+
+  drawPieData(){
+    let component = this;
+    component.pie_chart.drawData({
+      categories: component.categories,
+      values: component.generateData(component.state_manager.user_footprint),
+      comparative_sum: component.average_footprint_total
+    })
   }
 
   /*

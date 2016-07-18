@@ -1,3 +1,4 @@
+<rt-require dependency="../graphs/graphs.component" as="Graphs"/>
 <main class="cc-component container container-md" id="footprint">
   <header class="cc-component__header">
     <div>
@@ -6,17 +7,7 @@
     </div>
   </header>
 
-  <div id="overall_comparative_pie"></div>
-  <div class="chart-legend">
-    <div>
-      <img src="/assets/img/your-footprint-icon.png"/>
-      {this.t('footprint.your_footprint')}
-    </div>
-    <div>
-      <img src="/assets/img/average-footprint-icon.png"/>
-      {this.t('footprint.average_footprint')}
-    </div>
-  </div>
+  <Graphs></Graphs>
   <div class="cc-component__nav">
     <a onClick="{this.router.previous.bind(this.router)}">{this.t('Previous')}</a>
     <a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
