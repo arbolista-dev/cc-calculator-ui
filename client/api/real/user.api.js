@@ -83,7 +83,7 @@ function forgotPassword(input){
 function setLocation(input, jwt){
   console.log('setLocation input: ', input);
   return new Promise((fnResolve, fnReject)=>{
-    superagent.put(BASE + 'user/location')
+    superagent.put(BASE + '/user/location')
       .set('Content-Type', 'application/json; charset=UTF-8')
       .set('Authorization', jwt)
       .send(JSON.stringify({ location: input }))
@@ -97,4 +97,18 @@ function setLocation(input, jwt){
   });
 }
 
-export { addUser, loginUser, logoutUser, updateAnswers, forgotPassword, setLocation };
+function listLeaders(limit, offset){
+  console.log('listLeaders - limit: %d  offset: %d', limit, offset);
+  return new Promise((fnResolve, fnReject)=>{
+    superagent.get(BASE + '/user/leaders')
+      .query({ limit: limit, offset: offset })
+      .end((err, res)=>{
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
+export { addUser, loginUser, logoutUser, updateAnswers, forgotPassword, setLocation, listLeaders };

@@ -7,6 +7,7 @@ import Missing from './routes/missing/missing';
 import Shopping from './routes/shopping/shopping';
 import TakeAction from './routes/take_action/take_action';
 import Travel from './routes/travel/travel';
+import Leaders from './routes/leaders/leaders';
 import Settings from './routes/settings/settings';
 
 export function defineRoutes(i18n) {
@@ -37,6 +38,10 @@ export function defineRoutes(i18n) {
     }),
     new TakeAction({
       path: new RegExp(`^\/?((\\w{2})\/)?${i18n.t('take_action.route_path')}$`),
+      parameters: {2: 'locale'}
+    }),
+    new Leaders({
+      path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('leaders.route_path')})$`),
       parameters: {2: 'locale'}
     }),
     new Settings({

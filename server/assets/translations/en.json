@@ -26,6 +26,13 @@
     "email": "Email",
     "submit": "Continue"
   },
+  "leaders": {
+    "route_path": "leaders",
+    "title": "Leaders",
+    "location": "Location",
+    "total_footprint": "Total Footprint",
+    "retrieval_error": "Leaders can't be retrieved right now. Please retry later."
+  },
   "settings": {
     "route_path": "settings",
     "title": "Settings",

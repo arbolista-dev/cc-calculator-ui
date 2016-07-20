@@ -1,0 +1,32 @@
+<main class="cc-component" id="leaders">
+    <div class="cc-component__form">
+        <div class="panel panel-coolclimate">
+            <div class="panel-heading">
+                {this.t('leaders.title')}
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                  <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>{this.t('sign_up.first_name')}</th>
+                          <th>{this.t('sign_up.last_name')}</th>
+                          <th>{this.t('leaders.location')}</th>
+                          <th>{this.t('leaders.total_footprint')}</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr rt-repeat="user in this.list">
+                          <th scope="row">1</th>
+                          <td>{user.first_name}</td>
+                          <td>{user.last_name}</td>
+                          <td>{user.location.city}</td>
+                          <td>{user.total_footprint} <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></td>
+                      </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</main>

@@ -9,6 +9,7 @@
 <rt-require dependency="./../take_action/take_action.component" as="TakeAction"/>
 <rt-require dependency="./../missing/missing.component" as="Missing"/>
 <rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
+<rt-require dependency="./../leaders/leaders.component" as="Leaders"/>
 <rt-require dependency="./../settings/settings.component" as="Settings"/>
 <div id="cc_calculator_ui">
 	<nav class="navbar navbar-default">
@@ -26,12 +27,21 @@
 
 				<div
 					class="cc-nav__item"
+					id="leaders_nav_item"
+					rt-class="{'cc-nav__item--active': this.current_route_name === 'Leaders'}"
+					onClick="{this.goToLeaders.bind(this)}">
+					<img src="/assets/img/list.png"/>
+					<div>{this.t(`leaders.title`)}</div>
+				</div>
+
+				<div
+					class="cc-nav__item"
 					id="settings_nav_item"
 					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
 					rt-if="this.show_settings"
 					onClick="{this.goToSettings.bind(this)}">
 				  <img src="/assets/img/settings.png"/>
-					<div>{this.t(`Settings`)}</div>
+					<div>{this.t(`settings.title`)}</div>
 				</div>
 
 			</div>
@@ -44,6 +54,9 @@
 		<ForgotPassword
 			rt-if="this.current_route_name === 'ForgotPassword'"
 		></ForgotPassword>
+		<Leaders
+			rt-if="this.current_route_name === 'Leaders'"
+		></Leaders>
 		<Settings
 			rt-if="this.current_route_name === 'Settings'"
 		></Settings>
