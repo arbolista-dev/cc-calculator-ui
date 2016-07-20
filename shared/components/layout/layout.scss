@@ -31,13 +31,15 @@ a { cursor: pointer; }
 			}
 		}
 	}
-	#settings_nav_item {
+
+	#settings_nav_item,
+	#leaders_nav_item, {
 		padding-top:10px;
 		div { opacity:0.9; }
 		img {
 			height:35px;
 			opacity:0.5;
-		};
+		}
 	}
 
 	.cc-nav__auth {

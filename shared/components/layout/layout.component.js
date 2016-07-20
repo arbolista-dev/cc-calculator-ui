@@ -8,7 +8,7 @@ import Translatable from './../../lib/base_classes/translatable';
 import {routable} from './../../lib/mixins/routable';
 import template from './layout.rt.html';
 
-const NON_GRAPH_PANELS = ['Settings', 'ForgotPassword', 'Footprint']
+const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint']
 
 class LayoutComponent extends mixin(Translatable, routable) {
 
@@ -49,6 +49,10 @@ class LayoutComponent extends mixin(Translatable, routable) {
 
   goToSettings(){
     this.router.goToRouteByName('Settings');
+  }
+
+  goToLeaders(){
+    this.router.goToRouteByName('Leaders');
   }
 
   componentDidMount() {
