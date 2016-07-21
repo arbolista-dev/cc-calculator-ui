@@ -42,6 +42,7 @@ export default class Vehicle {
       outer_height: 60,
       outer_width: vehicle.travel.slider_width,
       margin: {left: 10, right: 15, top: 0, bottom: 10},
+      handle_r: 16,
       onChange: (new_value)=>{
         vehicle.mpg = new_value;
         vehicle.travel.updateVehicleFootprint();

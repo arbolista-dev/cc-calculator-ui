@@ -43,6 +43,10 @@ class LayoutComponent extends mixin(Translatable, routable) {
     return this.state_manager.state.external_offset;
   }
 
+  get show_take_action_now(){
+    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
+  }
+
   goToSettings(){
     this.router.goToRouteByName('Settings');
   }

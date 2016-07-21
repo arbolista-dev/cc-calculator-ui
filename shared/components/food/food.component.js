@@ -118,6 +118,7 @@ class FoodComponent extends Panel {
       outer_height: 60,
       outer_width: food.slider_width,
       margin: {left: 10, right: 15, top: 0, bottom: 10},
+      handle_r: 15,
       tick_labels: {
         0: '0',
         1: _.upperFirst(food.t('average')),

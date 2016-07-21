@@ -32,9 +32,11 @@ a { cursor: pointer; }
 		}
 	}
 	#settings_nav_item {
-			padding-top:10px;
+		padding-top:10px;
+		div { opacity:0.9; }
 		img {
 			height:35px;
+			opacity:0.5;
 		};
 	}
 
@@ -148,19 +150,22 @@ main > header {
 
 #go_to_take_action {
   bottom:0px;
+  display:block;
+  width:100%;
+  opacity:0.9;
   cursor:pointer;
 	  .mobile {
 	  	display:none;
 	  }
 	  .desktop {
-	  	display:inline-block;
+	  	display:block;
 	  }
 }
 
 @media (max-width: 400px) {
 	#go_to_take_action {
 	  .mobile {
-	  	display:inline-block;
+	  	display:block;
 	  }
 	  .desktop {
 	  	display:none;

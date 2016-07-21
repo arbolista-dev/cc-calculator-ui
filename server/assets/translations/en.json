@@ -179,7 +179,8 @@
     "total_food_footprint": "Total Home Footprint",
     "total_home_footprint": "Total Home Footprint",
     "better_than_average": "Better than Average",
-    "worse_than_average": "Worse than Average"
+    "worse_than_average": "Worse than Average",
+    "bar_graph_title": "Household tons CO<sub>2</sub>/year"
   },
   "summaries": {
     "total_footprint": "Your Total Footprint",

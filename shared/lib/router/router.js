@@ -69,7 +69,6 @@ export default class Router {
         route_key = route.key,
         i18n = router.i18n,
         url = `/${i18n.language}/${i18n.t(route_key + '.route_path')}`
-
     window.jQuery("[data-toggle='popover']").popover('hide');
     window.jQuery("html, body").animate({ scrollTop: 0 }, 500, ()=>{
       return router.history.push(url);
@@ -104,10 +103,13 @@ export default class Router {
   initializeHistory(component) {
     let router = this;
     router.history = component.props.createHistory();
+    router.syncNavScroll();
     router.history.listen((new_location) => {
       if (new_location.action !== 'PUSH') return false;
+
       router.setLocation(new_location)
         .then(() => {
+          router.syncNavScroll();
           return component.syncFromStateManager();
         })
         .then(() => {
@@ -116,6 +118,11 @@ export default class Router {
           return undefined
         });
     })
+  }
+
+  syncNavScroll(){
+    let route_i = this.main_routes.indexOf(this.current_route);
+    window.jQuery('#cc_nav').scrollLeft(route_i * 100)
   }
 
   static locale(){

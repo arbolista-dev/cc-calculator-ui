@@ -45,6 +45,7 @@ class GraphsComponent extends Panel {
 
       if (type === 'pie') this.initializePiePopovers();
       else this.initializeBarPopovers();
+      window.jQuery("html, body").animate({ scrollTop: window.jQuery(document).height() }, 1000);
     }
     this.state_manager.syncLayout();
   }
@@ -56,14 +57,14 @@ class GraphsComponent extends Panel {
         show_chart: false
       });
     }
-    graphs.initializeOverallPieChart();
+    graphs.drawPieChart();
     graphs.initializeOverallBarChart();
   }
 
   componentDidUpdate(){
     let graphs = this;
     graphs.drawBarData();
-    graphs.drawPieData();
+    graphs.drawPieChart();
     graphs.hidePopovers();
   }
 
@@ -194,8 +195,8 @@ class GraphsComponent extends Panel {
   get pie_margins(){
     return {
       top: 30,
-      left: 30,
-      right: 30,
+      left: 50,
+      right: 50,
       bottom: 30
     }
   }
@@ -204,10 +205,14 @@ class GraphsComponent extends Panel {
     return this.state_manager.average_footprint['result_grand_total'];
   }
 
-  initializeOverallPieChart(){
+  // Don't redraw pie data. The average and user values
+  // will be drawn out of order, hiding smaller value.
+  // Instead, wipe the chart and completely redraw.
+  drawPieChart(){
     let component = this,
         colors = component.category_colors,
         dimensions = component.graph_dimensions;
+    document.getElementById('overall_comparative_pie').innerHTML = '';
     component.pie_chart = new ComparativePie({
       container: '#overall_comparative_pie',
       outer_width: dimensions.outer_width,
@@ -218,7 +223,11 @@ class GraphsComponent extends Panel {
         return colors[category];
       }
     });
-    component.drawPieData();
+    component.pie_chart.drawData({
+      categories: component.categories,
+      values: component.generateData(component.state_manager.user_footprint),
+      comparative_sum: component.average_footprint_total
+    })
     component.initializePiePopovers();
   }
 
@@ -237,15 +246,6 @@ class GraphsComponent extends Panel {
       }
 
     });
-  }
-
-  drawPieData(){
-    let component = this;
-    component.pie_chart.drawData({
-      categories: component.categories,
-      values: component.generateData(component.state_manager.user_footprint),
-      comparative_sum: component.average_footprint_total
-    })
   }
 
   /*

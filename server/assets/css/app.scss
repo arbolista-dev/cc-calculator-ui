@@ -1,7 +1,13 @@
-body { margin-bottom:20px; }
+body { margin-bottom:40px; }
 
 #cc_calculator_ui > nav {
   margin-bottom:0px;
+}
+
+.input-group {
+  .form-control, .input-group-btn {
+    z-index:0 !important;
+  }
 }
 
 .cc-simple-advanced-container {

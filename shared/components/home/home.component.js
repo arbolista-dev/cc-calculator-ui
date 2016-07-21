@@ -109,6 +109,7 @@ class HomeComponent extends Panel {
     home.water_slider = new SimpleSlider({
       container: '#home_watersewage_slider',
       outer_width: home.slider_width,
+      handle_r: 16,
       tick_labels: {
         0: '0',
         1: '1x',
@@ -149,6 +150,7 @@ class HomeComponent extends Panel {
       container: '#home_cleanpercent_slider',
       tick_values: [0, 20, 40, 60, 80, 100],
       outer_width: home.slider_width,
+      handle_r: 16,
       onChange: (cleanpercent)=>{
         let api_key = home.apiKey('cleanpercent'),
             update = {

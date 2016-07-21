@@ -36,4 +36,7 @@
       width:65px;
     }
   }
+  #income_slider .tick:nth-child(even){
+    visibility:hidden;
+  }
 }

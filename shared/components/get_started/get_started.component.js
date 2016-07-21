@@ -185,6 +185,7 @@ class GetStartedComponent extends Panel {
     get_started.size_slider = new SnapSlider({
       container: '#size_slider',
       outer_width: get_started.slider_width,
+      handle_r: 14,
       tick_labels: {
         0: get_started.t('get_started.average_household_size'),
         1: '1', 2: '2', 3: '3', 4: '4', 5: '5+'
@@ -245,6 +246,7 @@ class GetStartedComponent extends Panel {
       container: '#income_slider',
       outer_width: get_started.slider_width,
       tick_labels: get_started.income_tick_labels,
+      handle_r: 14,
       onSnap: function(selected_income) {
         if (selected_income != this.input_income){
           get_started.updateDefaults({input_income: selected_income});
