@@ -29,9 +29,10 @@
   "leaders": {
     "route_path": "leaders",
     "title": "Leaders",
-    "location": "Location",
+    "city": "City",
     "total_footprint": "Total Footprint",
-    "retrieval_error": "Leaders can't be retrieved right now. Please retry later."
+    "retrieval_error": "Leaders can't be retrieved right now. Please retry later.",
+    "empty": "No leaders have registered so far."
   },
   "settings": {
     "route_path": "settings",
