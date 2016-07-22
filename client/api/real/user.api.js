@@ -13,7 +13,6 @@ function addUser(input){
       .end((err, res)=>{
         if (err) fnReject(err);
         else {
-          console.log('res', res.body);
           fnResolve(res.body);
         }
       });
@@ -28,7 +27,6 @@ function loginUser(input){
       .end((err, res)=>{
         if (err) fnReject(err);
         else {
-          console.log('res', res.body);
           fnResolve(res.body);
         }
       });
@@ -58,7 +56,6 @@ function updateAnswers(input, jwt){
       .end((err, res)=>{
         if (err) fnReject(err);
         else {
-          console.log('res', res.body);
           fnResolve(res.body);
         }
       });
@@ -73,7 +70,6 @@ function forgotPassword(input){
       .end((err, res)=>{
         if (err) fnReject(err);
         else {
-          console.log('res', res.body);
           fnResolve(res.body);
         }
       });
@@ -81,7 +77,6 @@ function forgotPassword(input){
 }
 
 function setLocation(input, jwt){
-  console.log('setLocation input: ', input);
   return new Promise((fnResolve, fnReject)=>{
     superagent.put(BASE + '/user/location')
       .set('Content-Type', 'application/json; charset=UTF-8')
@@ -90,7 +85,6 @@ function setLocation(input, jwt){
       .end((err, res)=>{
         if (err) fnReject(err);
         else {
-          console.log('res', res.body);
           fnResolve(res.body);
         }
       });
@@ -98,7 +92,6 @@ function setLocation(input, jwt){
 }
 
 function listLeaders(limit, offset){
-  console.log('listLeaders - limit: %d  offset: %d', limit, offset);
   return new Promise((fnResolve, fnReject)=>{
     superagent.get(BASE + '/user/leaders')
       .query({ limit: limit, offset: offset })
