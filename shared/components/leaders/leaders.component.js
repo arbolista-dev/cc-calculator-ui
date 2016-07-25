@@ -27,8 +27,56 @@ class LeadersComponent extends Panel {
     return this.state.list;
   }
 
+  get footprint_identifier() {
+    let leaders = this;
+    switch (leaders.current_route_name){
+      case 'Travel':
+        return 'result_transport_total';
+        break;
+      case 'Home':
+        return 'result_housing_total';
+        break;
+      case 'Food':
+        return 'result_food_total';
+        break;
+      case 'Shopping':
+        return ['result_services_total', 'result_goods_total'];
+        break;
+      default:
+        return 'result_grand_total';
+        break;
+    }
+  }
+
+  get show_chart(){
+    return this.state.show_leaders_chart;
+  }
+
   get is_loading(){
     return this.state.is_loading;
+  }
+
+  get footprint_title(){
+    let leaders = this,
+    title;
+    switch (leaders.current_route_name){
+      case 'Travel':
+        title = leaders.t('leaders.travel_footprint');
+        break;
+      case 'Home':
+        title = leaders.t('leaders.home_footprint');
+        break;
+      case 'Food':
+        title = leaders.t('leaders.food_footprint');
+        break;
+      case 'Shopping':
+        title = leaders.t('leaders.shopping_footprint');
+        break;
+      default:
+        title = leaders.t('leaders.total_footprint');
+        break;
+    }
+    return title;
   }
 
   get total_count_reached(){
@@ -50,8 +98,23 @@ class LeadersComponent extends Panel {
         leaders.state_manager.syncLayout();
       }
     });
+  }
 
+  filterCategoryFootprint() {
+    let leaders = this,
+    id = this.footprint_identifier;
 
+    leaders.state.cache.forEach((leader) => {
+      Object.keys(leader.total_footprint).forEach(function (key) {
+        if (Array.isArray(id)) {
+          leader['footprint'] = parseFloat(leader.total_footprint[id[0]]) + parseFloat(leader.total_footprint[id[1]])
+        } else {
+          if (key === id) {
+            leader['footprint'] = leader.total_footprint[key];
+          }
+        }
+      });
+    })
   }
 
   showRetrievedLeaders() {
@@ -100,6 +163,7 @@ class LeadersComponent extends Panel {
               cache: leaders.state.cache.concat(res.data.list),
               total_count: res.data.total_count
             });
+            leaders.filterCategoryFootprint();
           } else {
             leaders.setState({
               all_loaded: true
@@ -117,6 +181,10 @@ class LeadersComponent extends Panel {
         }
       })
     })
+  }
+
+  scrollToTop(){
+    window.jQuery("html, body").animate({ scrollTop:0 }, 1000);
   }
 
   render(){

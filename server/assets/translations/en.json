@@ -31,6 +31,10 @@
     "title": "Leaders",
     "city": "City",
     "total_footprint": "Total Footprint",
+    "travel_footprint": "Travel Footprint",
+    "shopping_footprint": "Shopping Footprint",
+    "food_footprint": "Food Footprint",
+    "home_footprint": "Home Footprint",
     "retrieval_error": "Leaders can't be retrieved right now. Please retry later.",
     "empty": "No leaders have registered so far."
   },
@@ -183,9 +187,9 @@
     "your_footprint": "Your footprint",
     "average_footprint": "Average",
     "total_home_footprint": "Total Home Footprint",
-    "total_travel_footprint": "Total Home Footprint",
-    "total_shopping_footprint": "Total Home Footprint",
-    "total_food_footprint": "Total Home Footprint",
+    "total_travel_footprint": "Total Travel Footprint",
+    "total_shopping_footprint": "Total Shopping Footprint",
+    "total_food_footprint": "Total Food Footprint",
     "total_home_footprint": "Total Home Footprint",
     "better_than_average": "Better than Average",
     "worse_than_average": "Worse than Average",
@@ -266,7 +270,8 @@
     "labels": {
       "simple": "Simple",
       "advanced": "Advanced"
-    }
+    },
+    "compare": "See how you compare"
   },
   "route_doesnt_exist": "The route you requested does not exist!",
   "Hide": "Hide",

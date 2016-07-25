@@ -8,7 +8,8 @@ import Translatable from './../../lib/base_classes/translatable';
 import {routable} from './../../lib/mixins/routable';
 import template from './layout.rt.html';
 
-const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint']
+const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint'];
+const NON_LEADERS_PANELS = ['GetStarted', 'Settings', 'ForgotPassword'];
 
 class LayoutComponent extends mixin(Translatable, routable) {
 
@@ -39,6 +40,11 @@ class LayoutComponent extends mixin(Translatable, routable) {
     return NON_GRAPH_PANELS.indexOf(this.current_route_name) < 0;
   }
 
+  get show_leaders_comparison(){
+    let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
+    return leaders_route && this.state_manager.state.show_leaders_chart;
+  }
+
   get external_offset(){
     return this.state_manager.state.external_offset;
   }
@@ -49,10 +55,6 @@ class LayoutComponent extends mixin(Translatable, routable) {
 
   goToSettings(){
     this.router.goToRouteByName('Settings');
-  }
-
-  goToLeaders(){
-    this.router.goToRouteByName('Leaders');
   }
 
   componentDidMount() {

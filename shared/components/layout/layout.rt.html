@@ -27,15 +27,6 @@
 
 				<div
 					class="cc-nav__item"
-					id="leaders_nav_item"
-					rt-class="{'cc-nav__item--active': this.current_route_name === 'Leaders'}"
-					onClick="{this.goToLeaders.bind(this)}">
-					<img src="/assets/img/list.png"/>
-					<div>{this.t(`leaders.title`)}</div>
-				</div>
-
-				<div
-					class="cc-nav__item"
 					id="settings_nav_item"
 					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
 					onClick="{this.goToSettings.bind(this)}">
@@ -85,6 +76,7 @@
 		></Missing>
 	</main>
 	<Graphs rt-if="this.graphing_route"></Graphs>
+	<Leaders rt-if="this.show_leaders_comparison"></Leaders>
   <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
 	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info btn-lg btn-block desktop">
 	    	{this.t('Take action now')}

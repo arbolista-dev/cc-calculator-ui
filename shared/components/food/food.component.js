@@ -33,6 +33,13 @@ class FoodComponent extends Panel {
     return RELEVANT_API_KEYS;
   }
 
+  toggleLeadersChart() {
+    let food = this;
+    food.state_manager.state.show_leaders_chart = true;
+    food.state_manager.syncLayout();
+    window.jQuery("html, body").animate({ scrollTop: window.jQuery(document).height() }, 1000);
+  }
+
   /*
    * React Events
    */

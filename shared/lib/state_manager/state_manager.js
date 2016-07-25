@@ -29,7 +29,8 @@ export default class StateManager {
       chart: {
         show: true,
         type: 'bar'
-      }
+      },
+      show_leaders_chart: false
     };
   }
 
