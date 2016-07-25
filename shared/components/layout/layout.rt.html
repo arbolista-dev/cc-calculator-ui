@@ -27,15 +27,6 @@
 
 				<div
 					class="cc-nav__item"
-					id="leaders_nav_item"
-					rt-class="{'cc-nav__item--active': this.current_route_name === 'Leaders'}"
-					onClick="{this.goToLeaders.bind(this)}">
-					<img src="/assets/img/list.png"/>
-					<div>{this.t(`leaders.title`)}</div>
-				</div>
-
-				<div
-					class="cc-nav__item"
 					id="settings_nav_item"
 					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
 					rt-if="this.show_settings"
@@ -86,6 +77,9 @@
 		></Missing>
 	</main>
 	<Graphs rt-if="this.graphing_route"></Graphs>
+	<div class="cc_leaders">
+		<Leaders rt-if="this.show_leaders_comparison"></Leaders>
+	</div>
 	<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
 		<a type="button"
 			class="btn btn-default"

@@ -35,7 +35,8 @@ export default class StateManager {
         show: true,
         type: 'bar'
       },
-      show_settings: true
+      show_settings: true,
+      show_leaders_chart: false
     };
   }
 

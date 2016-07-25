@@ -63,6 +63,13 @@ class HomeComponent extends Panel {
     return home.defaultApiValue(home.apiKey(key_end));
   }
 
+  toggleLeadersChart() {
+    let home = this;
+    home.state_manager.state.show_leaders_chart = true;
+    home.state_manager.syncLayout();
+    window.jQuery("html, body").animate({ scrollTop: window.jQuery(document).height() }, 1000);
+  }
+
   /*
    * React Events
    */
