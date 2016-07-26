@@ -76,7 +76,9 @@
 		></Missing>
 	</main>
 	<Graphs rt-if="this.graphing_route"></Graphs>
-	<Leaders rt-if="this.show_leaders_comparison"></Leaders>
+	<div class="cc_leaders">
+		<Leaders rt-if="this.show_leaders_comparison"></Leaders>
+	</div>
   <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
 	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info btn-lg btn-block desktop">
 	    	{this.t('Take action now')}

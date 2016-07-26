@@ -18,38 +18,36 @@ class LeadersComponent extends Panel {
       cache: [],
       total_count: 0,
       trigger_update: true,
-      is_loading: false,
+      is_loading: true,
       all_loaded: false
     }
   }
 
-  get list(){
-    return this.state.list;
-  }
-
-  get footprint_identifier() {
-    let leaders = this;
+  get category_identifier() {
+    let leaders = this,
+    id;
     switch (leaders.current_route_name){
       case 'Travel':
-        return 'result_transport_total';
+        id = 'result_transport_total';
         break;
       case 'Home':
-        return 'result_housing_total';
+        id = 'result_housing_total';
         break;
       case 'Food':
-        return 'result_food_total';
+        id = 'result_food_total';
         break;
       case 'Shopping':
-        return ['result_services_total', 'result_goods_total'];
+        id = 'result_shopping_total';
         break;
       default:
-        return 'result_grand_total';
+        id = 'result_grand_total';
         break;
     }
+    return id;
   }
 
-  get show_chart(){
-    return this.state.show_leaders_chart;
+  get list(){
+    return this.state.list;
   }
 
   get is_loading(){
@@ -89,9 +87,25 @@ class LeadersComponent extends Panel {
 
   componentDidMount() {
     let leaders = this;
+    if (leaders.state_manager.state.leaders_chart.show) leaders.retrieveAndShow();
+    leaders.state_manager.state.leaders_chart.current_route = leaders.current_route_name;
+  }
+
+  componentDidUpdate() {
+    let leaders = this;
+    if (leaders.state_manager.state.leaders_chart.current_route != leaders.current_route_name) {
+      leaders.state_manager.state.leaders_chart.current_route = leaders.current_route_name
+      leaders.state_manager.state.leaders_chart.show = false;
+      $(window).off("scroll", leaders.detectScroll());
+      leaders.state_manager.syncLayout();
+    }
+  }
+
+  retrieveAndShow(){
+    let leaders = this;
     leaders.retrieveLeaders().then(() => {
       leaders.showRetrievedLeaders();
-      if (!leaders.total_count_reached) leaders.detectScroll();
+      if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
     }).catch((err) => {
       if (err === "total_count=0") {
         leaders.state_manager.state.alerts.push({type: 'danger', message: leaders.t('leaders.empty')});
@@ -102,25 +116,20 @@ class LeadersComponent extends Panel {
 
   filterCategoryFootprint() {
     let leaders = this,
-    id = this.footprint_identifier;
-
+    id = leaders.category_identifier;
     leaders.state.cache.forEach((leader) => {
       Object.keys(leader.total_footprint).forEach(function (key) {
-        if (Array.isArray(id)) {
-          leader['footprint'] = parseFloat(leader.total_footprint[id[0]]) + parseFloat(leader.total_footprint[id[1]])
-        } else {
-          if (key === id) {
-            leader['footprint'] = leader.total_footprint[key];
-          }
+        if (key === id) {
+          leader['footprint'] = leader.total_footprint[key];
         }
-      });
-    })
+      })
+    });
   }
 
   showRetrievedLeaders() {
     let leaders = this;
     leaders.setState({
-      list: leaders.state.cache,
+      list: leaders.state.list.concat(leaders.state.cache),
       is_loading: false
     })
   }
@@ -160,7 +169,7 @@ class LeadersComponent extends Panel {
         if (res.success) {
           if (res.data.list != null) {
             leaders.setState({
-              cache: leaders.state.cache.concat(res.data.list),
+              cache: res.data.list,
               total_count: res.data.total_count
             });
             leaders.filterCategoryFootprint();

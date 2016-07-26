@@ -19,8 +19,6 @@ class FlashMessageComponent extends Translatable {
 
   componentDidUpdate(){
     let flash_message = this;
-
-
     if (flash_message.alerts_not_empty) {
       let current_route = flash_message.router.current_route.key
 
@@ -33,7 +31,6 @@ class FlashMessageComponent extends Translatable {
           flash_message.state_manager.syncLayout();
         }
       }
-
       // Hide Flash Message after 15 seconds
       // setTimeout(() => {
       //    flash_message.state_manager.state.alerts = [];

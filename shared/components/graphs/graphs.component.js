@@ -42,6 +42,7 @@ class GraphsComponent extends Panel {
     } else {
       this.state_manager.state.chart.show = true;
       this.state_manager.state.chart.type = type;
+
     }
 
     this.state_manager.syncLayout();
