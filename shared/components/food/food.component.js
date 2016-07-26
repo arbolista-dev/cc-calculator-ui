@@ -35,9 +35,9 @@ class FoodComponent extends Panel {
 
   toggleLeadersChart() {
     let food = this;
-    food.state_manager.state.show_leaders_chart = true;
+    food.state_manager.state.leaders_chart.show = true;
     food.state_manager.syncLayout();
-    window.jQuery("html, body").animate({ scrollTop: window.jQuery(document).height() }, 1000);
+    window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 
   /*

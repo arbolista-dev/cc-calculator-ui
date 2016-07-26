@@ -42,7 +42,8 @@ class LayoutComponent extends mixin(Translatable, routable) {
 
   get show_leaders_comparison(){
     let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
-    return leaders_route && this.state_manager.state.show_leaders_chart;
+
+    return leaders_route && this.state_manager.state.leaders_chart.show;
   }
 
   get external_offset(){
