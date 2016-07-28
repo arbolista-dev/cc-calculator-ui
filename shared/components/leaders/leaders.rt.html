@@ -11,7 +11,7 @@
               </button>
               <div rt-if="this.show_locations_list" id="leaders_locations_list">
                 <div class="leaders__location-suggestion"
-                  onClick="{this.hideLocationsList.bind(this)}">- {this.t('leaders.hide')} -</div>
+                  onClick="{this.resetLocation.bind(this)}">- {this.t('leaders.reset')} -</div>
                   <div rt-repeat="location in this.state.locations" class="leaders__location-suggestion" data-city="{location.city}" data-state="{location.state}" onClick="{this.setLocation.bind(this)}" title="{location.state}">{location.city}</div>
               </div>
             </div>
