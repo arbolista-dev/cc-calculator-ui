@@ -81,7 +81,7 @@ function setLocation(input, jwt){
     superagent.put(BASE + '/user/location')
       .set('Content-Type', 'application/json; charset=UTF-8')
       .set('Authorization', jwt)
-      .send(JSON.stringify({ location: input }))
+      .send(JSON.stringify(input))
       .end((err, res)=>{
         if (err) fnReject(err);
         else {
@@ -91,10 +91,10 @@ function setLocation(input, jwt){
   });
 }
 
-function listLeaders(limit, offset){
+function listLeaders(limit, offset, category, city, state){
   return new Promise((fnResolve, fnReject)=>{
     superagent.get(BASE + '/user/leaders')
-      .query({ limit: limit, offset: offset })
+      .query({ limit: limit, offset: offset, category: category, city: city, state: state })
       .end((err, res)=>{
         if (err) fnReject(err);
         else {
@@ -104,4 +104,16 @@ function listLeaders(limit, offset){
   });
 }
 
-export { addUser, loginUser, logoutUser, updateAnswers, forgotPassword, setLocation, listLeaders };
+function listLocations(){
+  return new Promise((fnResolve, fnReject)=>{
+    superagent.get(BASE + '/user/locations')
+      .end((err, res)=>{
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
+export { addUser, loginUser, logoutUser, updateAnswers, forgotPassword, setLocation, listLeaders, listLocations };

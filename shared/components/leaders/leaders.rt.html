@@ -3,6 +3,19 @@
     <div class="panel panel-coolclimate">
       <div class="panel-heading">
           {this.t('leaders.title')}
+          <div id="leaders_location_container">
+            <span class="hint">{this.t('leaders.location_prompt')}</span>
+            <div class="cc-component__question">
+              <button class="btn btn-default" type="button" id="city_selector" aria-haspopup="true" aria-expanded="true" onClick="{this.showLocationsList.bind(this)}">
+                City <span class="caret"></span>
+              </button>
+              <div rt-if="this.show_locations_list" id="leaders_locations_list">
+                <div class="leaders__location-suggestion"
+                  onClick="{this.hideLocationsList.bind(this)}">- {this.t('leaders.hide')} -</div>
+                  <div rt-repeat="location in this.state.locations" class="leaders__location-suggestion" data-city="{location.city}" data-state="{location.state}" onClick="{this.setLocation.bind(this)}" title="{location.state}">{location.city}</div>
+              </div>
+            </div>
+          </div>
       </div>
       <div class="panel-body">
         <table class="table">
@@ -21,7 +34,7 @@
               <th scope="row">{userIndex + 1}</th>
               <td>{user.first_name}</td>
               <td>{user.last_name}</td>
-              <td>{user.location.city}</td>
+              <td>{user.city}, {user.state}</td>
               <td>{user.footprint} <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></td>
               <!-- <td>{user.total_footprint.result_grand_total} <span class="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></td> -->
               <!-- <td><button class="btn btn-default"><i class="fa fa-pie-chart"></i></button></td> -->

@@ -29,6 +29,7 @@
   "leaders": {
     "route_path": "leaders",
     "title": "Leaders",
+    "location_prompt": "Choose your city to see nearby leaders: ",
     "city": "City",
     "total_footprint": "Total Footprint",
     "travel_footprint": "Travel Footprint",
@@ -36,7 +37,8 @@
     "food_footprint": "Food Footprint",
     "home_footprint": "Home Footprint",
     "retrieval_error": "Leaders can't be retrieved right now. Please retry later.",
-    "empty": "No leaders have registered so far."
+    "empty": "No leaders have registered so far.",
+    "hide": "Hide"
   },
   "settings": {
     "route_path": "settings",

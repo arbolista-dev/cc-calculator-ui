@@ -14,9 +14,10 @@ class FootprintComponent extends Panel {
   }
 
   toggleLeadersChart() {
-    let travel = this;
-    travel.state_manager.state.leaders_chart.show = true;
-    travel.state_manager.syncLayout();
+    let footprint = this;
+    footprint.state_manager.state.leaders_chart.show = true;
+    footprint.state_manager.state.leaders_chart.category = "";
+    footprint.state_manager.syncLayout();
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 
