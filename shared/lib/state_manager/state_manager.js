@@ -31,7 +31,8 @@ export default class StateManager {
         type: 'bar'
       },
       leaders_chart: {
-        show: false
+        show: false,
+        category: ""
       }
     };
   }

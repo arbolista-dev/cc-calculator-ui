@@ -66,6 +66,7 @@ class HomeComponent extends Panel {
   toggleLeadersChart() {
     let home = this;
     home.state_manager.state.leaders_chart.show = true;
+    home.state_manager.state.leaders_chart.category = "housing";
     home.state_manager.syncLayout();
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
