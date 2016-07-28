@@ -38,7 +38,7 @@
     "home_footprint": "Home Footprint",
     "retrieval_error": "Leaders can't be retrieved right now. Please retry later.",
     "empty": "No leaders have registered so far.",
-    "hide": "Hide"
+    "reset": "Reset"
   },
   "settings": {
     "route_path": "settings",

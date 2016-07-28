@@ -131,7 +131,6 @@ class LeadersComponent extends Panel {
   retrieveAndShow(){
     let leaders = this;
     leaders.retrieveLeaders().then(() => {
-      console.log('retrieveLeaders().then')
       leaders.showRetrievedLeaders();
       if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
     }).catch((err) => {
@@ -148,8 +147,6 @@ class LeadersComponent extends Panel {
       list: leaders.state.list.concat(leaders.state.cache),
       is_loading: false
     })
-    console.log('showRetrievedLeaders')
-    console.log('--retrieved List: ', leaders.state.list)
   }
 
   detectScroll() {
@@ -215,13 +212,41 @@ class LeadersComponent extends Panel {
     let leaders = this;
     leaders.setState({
       show_locations_list: true
-    })
+    });
+
+    $(document).on('click', function(event) {
+      if (!$(event.target).closest('#leaders_locations_list').length) {
+        leaders.setState({
+          show_locations_list: false
+        })
+      }
+    });
   }
 
-  hideLocationsList(){
-    this.setState({
-      show_locations_list: false
+  resetLocation(){
+    let leaders = this,
+        location = { city: "", state: ""};
+
+    leaders.setState({
+      selected_location: location,
+      show_locations_list: false,
+      list: [],
+      limit: 20,
+      offset: 0,
+      total_count: 0,
+      trigger_update: true,
+      trigger_update: true,
+      is_loading: true,
+      all_loaded: false,
     });
+
+    if (leaders.$location_unfilter) {
+      clearTimeout(leaders.$location_unfilter);
+    }
+
+    leaders.$location_unfilter = setTimeout(()=>{
+      leaders.retrieveAndShow();
+    }, 100);
   }
 
   setLocation(event){
@@ -248,7 +273,6 @@ class LeadersComponent extends Panel {
     }
 
     leaders.$location_filter = setTimeout(()=>{
-      console.log('set location state', leaders.state.selected_location)
       leaders.retrieveAndShow();
     }, 100);
   }
