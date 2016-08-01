@@ -56,6 +56,28 @@
   }
 }
 
+#action_category_btn_group_container {
+  text-align:center;
+}
+
+#action_category_btn_group {
+  white-space:nowrap;
+  max-width:100%;
+  overflow-x:auto;
+  a {
+    float:none;
+  }
+}
+
+@media (max-width: 600px) {
+  #action_category_btn_group {
+    a {
+      font-size:0.8em;
+      width:95px;
+    }
+  }
+}
+
 @media (max-width: 400px) {
   #take_action_savings {
     .mobile {

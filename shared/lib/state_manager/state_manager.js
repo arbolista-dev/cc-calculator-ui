@@ -324,6 +324,8 @@ export default class StateManager {
   updateTakeactionResults(){
     let state_manager = this,
         action_inputs = Object.assign({}, state_manager.average_footprint, state_manager.user_footprint);
+
+    console.log('updateTakeactionResults action_inputs: ', action_inputs)
     return CalculatorApi.computeTakeactionResults(action_inputs)
       .then((res)=>{
         state_manager.parseTakeactionResult(res);

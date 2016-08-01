@@ -6,6 +6,11 @@ import Action from './action';
 import Panel from './../../lib/base_classes/panel';
 import template from './take_action.rt.html'
 
+const ACTION_CATEGORIES = [['transportation', 'Transportation'], ['housing', 'Housing'], ['shopping', 'Shopping']];
+const ACTIONS_LIST = {"transportation": ['more_efficient_vehicle', 'alternativefuel_vehicle', 'electric_vehicle', 'hybrid_vehicle', 'telecommute_to_work', 'ride_my_bike', 'take_public_transportation', 'practice_eco_driving', 'maintain_my_vehicles', 'carpool_to_work', 'reduce_air_travel'], "shopping": ['low_carbon_diet', 'go_organic'],  "housing": ['switch_to_cfl', 'turn_off_lights', 'T12toT8', 'tankless_water_heater', 'thermostat_winter', 'thermostat_summer', 'purchase_high_efficiency_cooling', 'purchase_high_efficiency_heating', 'energy_star_fridge', 'energy_star_printers', 'energy_star_copiers', 'energy_star_desktops', 'rechargeable_batteries', 'power_mgmt_comp', 'purchase_green_electricity', 'install_PV_panels', 'install_solar_heating', 'low_flow_showerheads', 'low_flow_faucets', 'low_flow_toilet', 'line_dry_clothing', 'water_efficient_landscaping', 'plant_trees', 'reduce_comm_waste', 'print_double_sided']};
+
+// 'offset_transportation', 'offset_housing', 'offset_shopping'
+
 class TakeActionComponent extends Panel {
 
   constructor(props, context){
@@ -16,10 +21,24 @@ class TakeActionComponent extends Panel {
     take_action.actions = take_action
       .action_keys
       .map((action_key)=>{
-        return new Action(action_key, take_action);
+        let category;
+        for (let cat in ACTIONS_LIST) {
+          let index = ACTIONS_LIST[cat].find(x => x === action_key);
+          if (index) category = cat;
+        }
+        return new Action(action_key, take_action, category);
       });
     take_action.state = take_action.userApiState();
+    take_action.state['input_action_category'] = ACTION_CATEGORIES[0][0],
+    take_action.state['show_actions'] = ACTIONS_LIST[ACTION_CATEGORIES[0][0]],
     take_action.state['actions'] = take_action.actions;
+
+    take_action.showActions(take_action.state.input_action_category);
+
+  }
+
+  get action_categories(){
+    return ACTION_CATEGORIES;
   }
 
   get relevant_api_keys(){
@@ -41,6 +60,29 @@ class TakeActionComponent extends Panel {
 
   get result_takeaction_net10yr(){
     return this.state_manager['result_takeaction_net10yr'];
+  }
+
+  actionCategoryActive(category){
+    return this.state.input_action_category === category;
+  }
+
+  setActionCategory(category){
+    let take_action = this;
+    take_action.setState({
+      input_action_category: category
+    });
+    take_action.showActions(category);
+  }
+
+  showActions(category){
+    let take_action = this;
+    take_action.actions.forEach((action) => {
+      if (action.category === category) {
+        action.show = true;
+      } else {
+        action.show = false;
+      }
+    })
   }
 
   toggleActionDetails(action){

@@ -10,10 +10,21 @@
 
   <ExternalOffset rt-if="this.external_offset_set"></ExternalOffset>
 
+  <div id="action_category_btn_group_container" class="cc-component__question">
+    <div id="action_category_btn_group" class="btn-group" role="group">
+      <a rt-repeat="category in this.action_categories"
+        rt-class="{'btn-success': this.actionCategoryActive(category[0]), 'btn-default': !this.actionCategoryActive(category[0])}"
+        key="action_category_{category[0]}"
+        type="button"
+        class="btn"
+        onClick="{this.setActionCategory.bind(this, category[0])}" >{this.t(category[1])}</a>
+    </div>
+  </div>
+
   <div class="cc-component__form">
     <div>
       <div rt-repeat="action in this.actions"
-        key="{action.key}">
+        key="{action.key}" rt-class="{hidden: !action.show}">
         <div class="take-action__action-heading"
           rt-class="{'take-action__action-heading--taken': action.taken}"
           onClick="{this.toggleActionDetails.bind(this, action)}">

@@ -1,8 +1,10 @@
 export default class Action {
-  constructor(action_key, take_action){
+  constructor(action_key, take_action, category){
     let action = this;
     action.key = action_key;
     action.take_action = take_action;
+    action.category = category;
+    action.show = false;
     action.detailed = false;
   }
 
@@ -15,7 +17,7 @@ export default class Action {
   }
 
   get display_name(){
-    return this.take_action.t(`actions.${this.key}.label`);
+    return this.take_action.t(`actions.${this.category}.${this.key}.label`);
   }
 
   get tons_saved(){
