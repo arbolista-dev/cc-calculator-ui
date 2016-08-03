@@ -42,12 +42,17 @@ class GraphsComponent extends Panel {
     } else {
       this.state_manager.state.chart.show = true;
       this.state_manager.state.chart.type = type;
-
-      if (type === 'pie') this.initializePiePopovers();
-      else this.initializeBarPopovers();
-      window.jQuery("html, body").animate({ scrollTop: window.jQuery(document).height() }, 1000);
     }
+
     this.state_manager.syncLayout();
+    setTimeout(()=>{
+      if (this.show_pie_chart){
+        this.drawPieChart();
+      } else if (this.show_bar_chart) {
+        this.initializeOverallBarChart();
+      }
+      window.jQuery("html, body").animate({ scrollTop: window.jQuery(document).height() }, 1000);
+    }, 400)
   }
 
   componentDidMount() {
@@ -57,14 +62,20 @@ class GraphsComponent extends Panel {
         show_chart: false
       });
     }
-    graphs.drawPieChart();
-    graphs.initializeOverallBarChart();
+    if (this.show_pie_chart){
+      graphs.drawPieChart();
+    } else if (this.show_bar_chart) {
+      graphs.initializeOverallBarChart();
+    }
   }
 
   componentDidUpdate(){
     let graphs = this;
-    graphs.drawBarData();
-    graphs.drawPieChart();
+    if (this.show_pie_chart){
+      graphs.drawPieChart();
+    } else if (this.show_bar_chart) {
+      graphs.initializeOverallBarChart();
+    }
     graphs.hidePopovers();
   }
 
@@ -141,6 +152,7 @@ class GraphsComponent extends Panel {
   initializeOverallBarChart(){
     let graphs = this,
         dimensions = graphs.graph_dimensions;
+    document.getElementById('overview_bar_chart').innerHTML = '';
     graphs.bar_chart = new OverlapBar({
       outer_height: dimensions.outer_height,
       outer_width: dimensions.outer_width,
