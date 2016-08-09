@@ -29,12 +29,28 @@ class TakeActionComponent extends Panel {
         return new Action(action_key, take_action, category);
       });
     take_action.state = take_action.userApiState();
-    take_action.state['input_action_category'] = ACTION_CATEGORIES[0][0],
-    take_action.state['show_actions'] = ACTIONS_LIST[ACTION_CATEGORIES[0][0]],
+    take_action.state['input_action_category'] = ACTION_CATEGORIES[0][0];
+    take_action.state['show_actions'] = ACTIONS_LIST[ACTION_CATEGORIES[0][0]];
     take_action.state['actions'] = take_action.actions;
+    take_action.state['vehicles'] = take_action.vehicles;
 
     take_action.showActions(take_action.state.input_action_category);
 
+  }
+
+  get vehicles(){
+    let footprint = this.state_manager.state.user_footprint,
+        num = footprint['input_footprint_transportation_num_vehicles'],
+        vehicles = [];
+
+    for (let i=1; i<=num; i++){
+      let vehicle = {};
+      vehicle.miles = footprint[`input_footprint_transportation_miles${i}`];
+      vehicle.mpg = footprint[`input_footprint_transportation_mpg${i}`];
+      vehicles.push(vehicle);
+    }
+    console.log('vehicles: ', vehicles)
+    return vehicles;
   }
 
   get action_categories(){
@@ -60,6 +76,26 @@ class TakeActionComponent extends Panel {
 
   get result_takeaction_net10yr(){
     return this.state_manager['result_takeaction_net10yr'];
+  }
+
+  setSelectOptions(select) {
+    if (select.type === 'vehicle') {
+
+      console.log('Vehicle -- selectOptionValues', select)
+      let options = [], i = 1;
+      this.vehicles.forEach((v) => {
+        let vehicle = {};
+        vehicle.value = i;
+        vehicle.text = 'Vehicle ' + i;
+        i++;
+        options.push(vehicle);
+      })
+      return options;
+
+    } else {
+      return select.options
+    }
+
   }
 
   actionCategoryActive(category){
@@ -104,6 +140,53 @@ class TakeActionComponent extends Panel {
     }
     take_action.setState(update);
     take_action.updateTakeaction(update);
+  }
+
+  updateActionInput(event){
+    let take_action = this,
+        val = event.target.value,
+        id = event.target.id,
+        update = {};
+
+    update[id] = parseInt(val);
+    update['input_changed'] = id;
+    console.log('ID update: ', id)
+    take_action.setState(update);
+    take_action.updateTakeaction(update);
+  }
+
+  handleChange(event){
+    let i = event.target.value,
+    is_vehicle = event.target.id.lastIndexOf('vehicle_select'),
+    action = event.target.dataset.action_key;
+
+    console.log('handleChange value: ', i)
+    console.log('handleChange action key: ', action)
+    console.log('handleChange id: ', event.target.id)
+
+    if (is_vehicle !== 0) this.selectVehicle(i, action)
+
+  }
+
+  selectVehicle(i, action){
+    // on update, call setState and updateTakeaction
+
+    let footprint = this.state_manager.state.user_footprint,
+    v_miles = footprint[`input_footprint_transportation_miles${i}`],
+    v_mpg = footprint[`input_footprint_transportation_mpg${i}`];
+
+    console.log('vehicle miles', v_miles);
+
+    if (action === 'ride_my_bike') {
+      footprint['input_takeaction_' + action + '_mpg'] = parseInt(v_mpg);
+      $('#display_takeaction_' + action + '_mpg').text(v_mpg).append(' ' + this.t(`travel.miles_per_gallon`));
+    } else {
+      footprint['input_takeaction_' + action + '_mpg_old'] = parseInt(v_mpg);
+      footprint['input_takeaction_' + action + '_miles_old'] = parseInt(v_miles);
+
+      $('#display_takeaction_' + action + '_mpg_old').text(v_mpg).append(' ' + this.t(`travel.miles_per_gallon`));
+    }
+
   }
 
   updateTakeaction(params){

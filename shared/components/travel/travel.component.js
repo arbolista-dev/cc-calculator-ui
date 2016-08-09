@@ -29,6 +29,7 @@ class TravelComponent extends Panel {
   }
 
   get vehicles(){
+    console.log('vehicles: ', this.state.vehicles)
     return this.state.vehicles;
   }
 

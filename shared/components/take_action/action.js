@@ -20,7 +20,18 @@ export default class Action {
     return this.take_action.t(`actions.${this.category}.${this.key}.label`);
   }
 
+  get content(){
+    let content = this.take_action.t(`actions.${this.category}.${this.key}.content`, {returnObjects: true})
+
+    this.take_action.selectVehicle(1, this.key);
+
+    // console.log('content', content)
+    return content;
+  }
+
   get tons_saved(){
+    console.log('-- ', this.key)
+    console.log('tons saved', this.take_action.result_takeaction_pounds[this.key])
     return this.take_action.numberWithCommas(
       Math.round(this.take_action.result_takeaction_pounds[this.key] * 100) / 100
     );
