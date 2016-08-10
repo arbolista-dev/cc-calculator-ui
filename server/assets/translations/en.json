@@ -71,6 +71,8 @@
         "miles_per_year": "miles/year",
         "km_per_year": "km/year",
         "miles_per_gallon": "miles per gallon",
+        "gallons_per_year": "gallons per year",
+        "co2_per_year": "CO2 per year",
         "liters_per_km": "liters per 100 kilometers",
         "miles_abbr": "mi",
         "km_abbr": "km",
@@ -494,7 +496,7 @@
                             "text": "3"
                         }, {
                             "value": "4",
-                            "text": "5"
+                            "text": "4"
                         }, {
                             "value": "5",
                             "text": "5"
@@ -832,7 +834,7 @@
                     }
                 }, {
                     "description": "which gets",
-                    "input": "display_takeaction_take_public_transportation_mpg",
+                    "show": "display_takeaction_take_public_transportation_mpg",
                     "suffix": "miles per gallon."
                 }, {
                     "description": "I will save",

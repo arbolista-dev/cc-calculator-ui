@@ -54,7 +54,7 @@
                       {block.suffix}
                      </p>
                      <p rt-if="block.input">
-                       <input type="text" id="{block.input.id}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
+                       <input type="text" id="{block.input.id}" value="{this.setInputState(block.input.id)}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
                        {block.suffix}
                      </p>
                      <p rt-if="block.show" id="{block.show}">

@@ -23,9 +23,10 @@ export default class Action {
   get content(){
     let content = this.take_action.t(`actions.${this.category}.${this.key}.content`, {returnObjects: true})
 
-    this.take_action.selectVehicle(1, this.key);
+    if (this.category === 'transportation') this.take_action.selectVehicle(1, this.key);
+    if (this.key === 'practice_eco_driving' || this.key === 'maintain_my_vehicles') this.take_action.calcVehicleTotal(this.key);
+    if (this.key === 'reduce_air_travel') this.take_action.getAirTotal();
 
-    // console.log('content', content)
     return content;
   }
 

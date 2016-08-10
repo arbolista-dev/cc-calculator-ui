@@ -34,6 +34,8 @@ class TakeActionComponent extends Panel {
     take_action.state['actions'] = take_action.actions;
     take_action.state['vehicles'] = take_action.vehicles;
 
+    take_action.state['footprint'] = take_action.state_manager.state.user_footprint;
+
     take_action.showActions(take_action.state.input_action_category);
 
   }
@@ -142,6 +144,12 @@ class TakeActionComponent extends Panel {
     take_action.updateTakeaction(update);
   }
 
+  setInputState(id){
+    let take_action = this,
+    footprint = take_action.state_manager.state.user_footprint;
+    return footprint[id]
+  }
+
   updateActionInput(event){
     let take_action = this,
         val = event.target.value,
@@ -164,7 +172,26 @@ class TakeActionComponent extends Panel {
     console.log('handleChange action key: ', action)
     console.log('handleChange id: ', event.target.id)
 
-    if (is_vehicle !== 0) this.selectVehicle(i, action)
+    // @ToDo: updateTakeaction first and then show results --> Air travel needs updated miles_alt state!
+
+    if (is_vehicle > 0) this.selectVehicle(i, action)
+
+    if (action === 'reduce_air_travel') {
+
+      // console.log("--- miles_percent BEFORE", footprint['input_takeaction_reduce_air_travel_miles_percent'])
+
+      let update = {};
+      update['input_takeaction_reduce_air_travel_miles_percent'] = i;
+      // this.setState(update);
+      this.updateTakeaction(update);
+      // footprint['input_takeaction_reduce_air_travel_miles_percent'] = i;
+
+      let footprint = this.state_manager.state.user_footprint;
+      console.log("--- miles_percent", footprint['input_takeaction_reduce_air_travel_miles_percent'])
+
+      console.log("footprint['result_takeaction_reduce_air_travel_miles_alt']", footprint['result_takeaction_reduce_air_travel_miles_alt'])
+      $('#result_takeaction_reduce_air_travel_miles_alt').text(footprint['result_takeaction_reduce_air_travel_miles_alt']).append(' fewer miles per year.');
+    }
 
   }
 
@@ -177,10 +204,15 @@ class TakeActionComponent extends Panel {
 
     console.log('vehicle miles', v_miles);
 
-    if (action === 'ride_my_bike') {
+
+    if (action === 'ride_my_bike' || action ===  'telecommute_to_work' || action ===  'take_public_transportation') {
+      console.log("('ride_my_bike' || 'telecommute_to_work' || 'take_public_transportation'): ", action);
+
       footprint['input_takeaction_' + action + '_mpg'] = parseInt(v_mpg);
       $('#display_takeaction_' + action + '_mpg').text(v_mpg).append(' ' + this.t(`travel.miles_per_gallon`));
+
     } else {
+
       footprint['input_takeaction_' + action + '_mpg_old'] = parseInt(v_mpg);
       footprint['input_takeaction_' + action + '_miles_old'] = parseInt(v_miles);
 
@@ -189,8 +221,49 @@ class TakeActionComponent extends Panel {
 
   }
 
+  calcVehicleTotal(action){
+
+    let footprint = this.state_manager.state.user_footprint,
+        no_vehicles = this.state['vehicles'].length,
+        total_miles = 0,
+        total_mpg = 0;
+
+    this.state['vehicles'].forEach((v) => {
+      total_miles += parseInt(v.miles);
+      total_mpg += parseInt(v.mpg);
+    });
+
+    if (action === 'practice_eco_driving') {
+      footprint['result_takeaction_practice_eco_driving_dispmiles'] = total_miles;
+      $('#result_takeaction_practice_eco_driving_dispmiles').text(total_miles).append(' ' + this.t(`travel.miles_abbr`));
+      footprint['result_takeaction_practice_eco_driving_mpg'] = total_mpg / no_vehicles;
+      $('#result_takeaction_practice_eco_driving_mpg').text(total_mpg / no_vehicles).append(' ' + this.t(`travel.miles_per_gallon`));
+
+      let newmpg = 'result_takeaction_practice_eco_driving_newmpg',
+          galsaved = 'result_takeaction_practice_eco_driving_galsaved';
+
+      $('#' + newmpg).text(Math.round(footprint[newmpg])).append(' ' + this.t(`travel.miles_per_gallon`));
+      $('#' + galsaved).text(Math.round(footprint[galsaved])).append(' ' + this.t(`travel.gallons_per_year`));
+
+    } else {
+      $('#result_takeaction_maintain_my_vehicles_dispmiles').text(total_miles).append(' ' + this.t(`travel.miles_abbr`));
+      $('#result_takeaction_maintain_my_vehicles_mpg').text(total_mpg / no_vehicles).append(' ' + this.t(`travel.miles_per_gallon`));
+
+    }
+  }
+
+  getAirTotal(){
+    let footprint = this.state_manager.state.user_footprint;
+
+    $('#result_takeaction_reduce_air_travel_totalmiles').text(footprint['result_takeaction_reduce_air_travel_totalmiles']).append(' ' + this.t(`travel.miles_per_year`));
+    $('#result_takeaction_reduce_air_travel_pounds_from_flight').text(footprint['result_takeaction_reduce_air_travel_pounds_from_flight']).append(' ' + this.t(`travel.co2_per_year`));
+  }
+
+
   updateTakeaction(params){
     let take_action = this;
+
+    take_action.state_manager.update_in_progress = true;
     take_action.updateFootprintParams(params);
 
     // debounce updating take action results by 500ms.
@@ -201,12 +274,22 @@ class TakeActionComponent extends Panel {
     take_action.$update_takeaction = setTimeout(()=>{
       // This will also make necessary update to user footprint.
       take_action.state_manager.updateTakeactionResults()
+        .then(()=> {
+          take_action.state_manager.syncLayout();
+        })
         .then(()=>{
           let user_api_state = take_action.userApiState();
-          take_action.setState(user_api_state);
+          take_action.setState(user_api_state, ()=>{
+            take_action.state_manager.update_in_progress = false;
+          })
         });
     }, 500);
   }
+
+  // componentDidMount(){
+  //   let take_action = this;
+  //   take_action.setInputToState();
+  // }
 
 
   render(){
