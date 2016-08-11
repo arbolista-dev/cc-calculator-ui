@@ -21,6 +21,7 @@ export default class Action {
   }
 
   get content(){
+    console.log('GET CONTENT for: ', this.key)
     let content = this.take_action.t(`actions.${this.category}.${this.key}.content`, {returnObjects: true})
 
     if (this.category === 'transportation') this.take_action.selectVehicle(1, this.key);

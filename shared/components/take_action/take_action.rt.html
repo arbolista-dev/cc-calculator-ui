@@ -1,4 +1,5 @@
 <rt-require dependency="./external_offset/external_offset.component" as="ExternalOffset"/>
+<rt-require dependency="./action/action.component" as="Action"/>
 <main class="cc-component container container-md" id="take_action">
   <header class="cc-component__header">
     <div>
@@ -13,81 +14,22 @@
   <div id="action_category_btn_group_container" class="cc-component__question">
     <div id="action_category_btn_group" class="btn-group" role="group">
       <a rt-repeat="category in this.action_categories"
-        rt-class="{'btn-success': this.actionCategoryActive(category[0]), 'btn-default': !this.actionCategoryActive(category[0])}"
+        rt-class="{'btn-success': this.isCategoryActive(category[0]), 'btn-default': !this.isCategoryActive(category[0])}"
         key="action_category_{category[0]}"
         type="button"
         class="btn"
-        onClick="{this.setActionCategory.bind(this, category[0])}" >{this.t(category[1])}</a>
+        onClick="{this.setCategory.bind(this, category[0])}"
+         >{this.t(category[1])}</a>
     </div>
   </div>
 
   <div class="cc-component__form">
     <div>
-      <div rt-repeat="action in this.actions"
-        key="{action.key}" rt-class="{hidden: !action.show}">
-        <div class="take-action__action-heading"
-          rt-class="{'take-action__action-heading--taken': action.taken}"
-          onClick="{this.toggleActionDetails.bind(this, action)}">
-          <h5>{action.display_name}</h5>
+      <rt-virtual rt-repeat="category in this.actions_list">
+        <div rt-repeat="key in category.keys">
+          <Action action_key="{key}" category="{category.category}" take_action="{this}" show="{this.showAction(key)}"></Action>
         </div>
-        <div class="take-action__action-body" rt-class="{hidden: !action.detailed}">
-          <div class="take-action__action-content">
-            <div class="table-responsive">
-             <table class="table">
-               <tbody>
-                 <tr class="block" rt-repeat="block in action.content">
-                   <td>
-                     <p>
-                       {block.description}
-                     </p>
-                   </td>
-                   <td>
-                     <p class="text-right">{block.prefix}</p>
-                   </td>
-                   <td>
-                     <p rt-if="block.select">
-                       <select id="{block.select.id}" data-action_key="{action.key}" onChange="{this.handleChange.bind(this)}">
-
-                        <option rt-repeat="option in this.setSelectOptions(block.select)" value="{option.value}">{option.text}</option>
-
-                      </select>
-                      {block.suffix}
-                     </p>
-                     <p rt-if="block.input">
-                       <input type="text" id="{block.input.id}" value="{this.setInputState(block.input.id)}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
-                       {block.suffix}
-                     </p>
-                     <p rt-if="block.show" id="{block.show}">
-                       <!-- prepended for vehicles, add to other types -->
-                       <!-- {block.suffix} -->
-                     </p>
-
-                   </td>
-                 </tr>
-               </tbody>
-             </table>
-             </div>
-          </div>
-          <div class="take-action__action-savings">
-            <div>
-              <div class="take-action__savings-amount">{action.tons_saved}</div>
-              <div class="take-action__savings-label">{this.t('take_action.tons_saved')}</div>
-            </div>
-            <div>
-              <div class="take-action__savings-amount">${action.dollars_saved}</div>
-              <div class="take-action__savings-label">{this.t('take_action.dollars_saved')}</div>
-            </div>
-            <div>
-              <div class="take-action__savings-amount">${action.upfront_cost}</div>
-              <div class="take-action__savings-label">{this.t('take_action.upfront_cost')}</div>
-            </div>
-            <button class="btn btn-default"
-              onClick="{this.toggleAction.bind(this, action)}">
-              <i class="fa" rt-class="{'fa-check-square-o': !action.taken, 'fa-check-square': action.taken}"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+      </virtual>
     </div>
   </div>
 
