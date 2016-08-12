@@ -824,6 +824,13 @@
                             "value": "3",
                             "text": "Amtrak"
                         }]
+                    }
+                }, {
+                    "description": "for",
+                    "input": {
+                        "id": "input_takeaction_take_public_transportation_miles",
+                        "size": "3",
+                        "maxlength": "3"
                     },
                     "suffix": "miles per week"
                 }, {
@@ -1126,13 +1133,14 @@
                         }]
                     }
                 }, {
-                    "description": "In my climate typical",
-                    "show": "display_takeaction_thermostat_winter_sqft"
+                    "description": "In my climate typically for a home of",
+                    "show": "input_footprint_housing_squarefeet",
+                    "suffix": "square feet"
                 }, {
-                    "description": "spend",
+                    "description": "are spent yearly",
                     "prefix": "$",
                     "show": "result_takeaction_thermostat_winter_dollarstypical",
-                    "suffix": "per year on heating."
+                    "suffix": "on heating."
                 }, {
                     "description": "I heat my home about",
                     "select": {
@@ -1207,11 +1215,11 @@
             "thermostat_summer": {
                 "label": "Increase summer household thermostat",
                 "content": [{
-                    "description": "In my climate typical",
-                    "show": "display_takeaction_thermostat_summer_sqft",
-                    "suffix": "square foot homes"
+                    "description": "In my climate typically a home of",
+                    "show": "input_footprint_housing_squarefeet",
+                    "suffix": "square feet"
                 }, {
-                    "description": "yearly spend",
+                    "description": "yearly spends",
                     "prefix": "$",
                     "show": "result_takeaction_thermostat_summer_dollarstypical"
                 }, {
@@ -1264,14 +1272,18 @@
                 }, {
                     "description": "or",
                     "prefix": "$",
-                    "input": "result_takeaction_thermostat_summer_dollarsuse"
+                    "show": "result_takeaction_thermostat_summer_dollarsuse"
                 }, {
                     "description": "",
-                    "input": "result_takeaction_thermostat_summer_kwhuse",
+                    "show": "result_takeaction_thermostat_summer_kwhuse",
                     "suffix": "kWh per year."
                 }, {
                     "description": "I will turn my thermostat up",
-
+                    "input": {
+                        "id": "input_takeaction_thermostat_summer_daydegrees",
+                        "size": "2",
+                        "maxlength": "2"
+                    },
                     "suffix": "degrees F on summer days"
                 }, {
                     "description": "and",
@@ -1291,9 +1303,9 @@
             "purchase_high_efficiency_cooling": {
                 "label": "Purchase high efficiency cooling",
                 "content": [{
-                    "description": "In my climate a typical",
-                    "show": "display_takeaction_purchase_high_efficiency_cooling_sqft",
-                    "suffix": "square foot home"
+                    "description": "In my climate typically a home of",
+                    "show": "input_footprint_housing_squarefeet",
+                    "suffix": "square feet"
                 }, {
                     "description": "yearly spends",
                     "prefix": "$",
@@ -1393,9 +1405,9 @@
                         }]
                     }
                 }, {
-                    "description": "In my climate a typical",
-                    "show": "display_takeaction_purchase_high_efficiency_heating_sqft",
-                    "suffix": "square foot home"
+                    "description": "In my climate typically a home of",
+                    "show": "input_footprint_housing_squarefeet",
+                    "suffix": "square feet"
                 }, {
                     "description": "yearly spends",
                     "prefix": "$",
@@ -1692,7 +1704,7 @@
                 "label": "Purchase green electricity",
                 "content": [{
                     "description": "My yearly electricity household amounts to",
-                    "show": "display_takeaction_purchase_green_electricity_kwhyear",
+                    "show": "input_footprint_housing_electricity_kwh",
                     "suffix": "kilowatt hours"
                 }, {
                     "description": "which per year produces",
@@ -1753,11 +1765,11 @@
                 "label": "Install PV panels",
                 "content": [{
                     "description": "My yearly household electricity usage amounts to",
-                    "show": "display_takeaction_install_PV_panels_kwhyear",
+                    "show": "input_footprint_housing_electricity_kwh",
                     "suffix": "kilowatt hours"
                 }, {
                     "description": "which per year produces",
-                    "show": "result_takeaction_install_PV_panels_kwhCO2yr",
+                    "show": "result_takeaction_purchase_green_electricity_kwhCO2yr",
                     "suffix": "metric tons of CO2"
                 }, {
                     "description": "By installing solar photovoltaic (PV) panels I will meet",
@@ -1828,7 +1840,11 @@
                     "suffix": "of my electricity needs."
                 }, {
                     "description": "It costs",
-                    "input": "input_takeaction_install_PV_panels_w_cost",
+                    "input": {
+                        "id": "input_takeaction_install_PV_panels_w_cost",
+                        "size": "2",
+                        "maxlength": "2"
+                    },
                     "suffix": "per watt."
                 }],
                 "rebates": {
@@ -1839,9 +1855,9 @@
             "install_solar_heating": {
                 "label": "Install solar water heater",
                 "content": [{
-                    "description": "In my climate a typical home of",
-                    "show": "display_takeaction_install_solar_heating_sqft",
-                    "suffix": "square foot"
+                    "description": "In my climate typically a home of",
+                    "show": "input_footprint_housing_squarefeet",
+                    "suffix": "square feet"
                 }, {
                     "description": "yearly uses on heating",
                     "show": "input_takeaction_install_solar_heating_ng_consumption",
@@ -1916,7 +1932,11 @@
                 }, {
                     "description": "It costs",
                     "prefix": "$",
-                    "input": "input_takeaction_install_solar_heating_cost",
+                    "input": {
+                        "id": "input_takeaction_install_solar_heating_cost",
+                        "size": "2",
+                        "maxlength": "2"
+                    },
                     "suffix": "per cubic feet of natural gas."
                 }],
                 "rebates": {

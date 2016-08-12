@@ -5,39 +5,6 @@
     <h5>{this.display_name}</h5>
   </div>
   <div class="take-action__action-body" rt-class="{hidden: !this.state.detailed}">
-    <div class="take-action__action-content">
-      <div class="table-responsive">
-       <table class="table">
-         <tbody>
-           <tr class="block" rt-repeat="block in this.content">
-             <td>
-               <p>
-                 {block.description}
-               </p>
-             </td>
-             <td>
-               <p class="text-right">{block.prefix}</p>
-             </td>
-             <td>
-               <p rt-if="block.select">
-                 <select id="{block.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}">
-                  <option rt-repeat="option in this.setSelectOptions(block.select)" value="{option.value}">{option.text}</option>
-                </select>
-                {block.suffix}
-               </p>
-               <p rt-if="block.input">
-                 <input type="text" id="{block.input.id}" value="{this.setInputState(block.input.id)}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
-                 <span> {block.suffix}</span>
-               </p>
-               <p rt-if="block.show" id="{block.show}">
-                 {this.displayStateValue(block.show, block.suffix)}
-               </p>
-             </td>
-           </tr>
-         </tbody>
-       </table>
-      </div>
-    </div>
     <div class="take-action__action-savings">
       <div>
         <div class="take-action__savings-amount">{this.tons_saved}</div>
@@ -55,6 +22,42 @@
         onClick="{this.toggleAction.bind(this, this.action)}">
         <i class="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
       </button>
+    </div>
+    <div class="take-action__action-content">
+      <div class="table-responsive">
+       <table class="table">
+         <tbody>
+           <tr class="block" rt-repeat="block in this.content">
+             <td>
+               <p class="text-right">
+                 {block.description}
+               </p>
+             </td>
+             <!-- <td>
+               <p class="text-right">{block.prefix}</p>
+             </td> -->
+             <td>
+               <p rt-if="block.select">
+                 {block.prefix}
+                 <select id="{block.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}">
+                  <option rt-repeat="option in this.setSelectOptions(block.select)" value="{option.value}">{option.text}</option>
+                </select>
+                {block.suffix}
+               </p>
+               <p rt-if="block.input">
+                 <span>{block.prefix} </span>
+                 <input type="text" id="{block.input.id}" value="{this.setInputState(block.input.id)}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
+                 <span> {block.suffix}</span>
+               </p>
+               <p rt-if="block.show" id="{block.show}">
+                 <span>{block.prefix} </span>
+                 {this.displayStateValue(block.show, block.suffix)}
+               </p>
+             </td>
+           </tr>
+         </tbody>
+       </table>
+      </div>
     </div>
   </div>
 </div>

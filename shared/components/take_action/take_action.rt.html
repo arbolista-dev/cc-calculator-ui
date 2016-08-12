@@ -26,9 +26,7 @@
   <div class="cc-component__form">
     <div>
       <rt-virtual rt-repeat="category in this.actions_list">
-        <div rt-repeat="key in category.keys">
-          <Action action_key="{key}" category="{category.category}" show="{this.showAction(key)}"></Action>
-        </div>
+        <Action rt-repeat="key in category.keys" action_key="{key}" category="{category.category}" show="{this.showAction(key)}"></Action>
       </virtual>
     </div>
   </div>
