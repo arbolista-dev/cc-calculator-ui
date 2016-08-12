@@ -2,11 +2,10 @@
 
 import React from 'react';
 
-import { ACTIONS_LIST } from '../take_action.component';
-import Unit from './../../../lib/base_classes/unit';
+import Translatable from './../../../lib/base_classes/translatable';
 import template from './action.rt.html'
 
-class ActionComponent extends Unit {
+class ActionComponent extends Translatable {
 
   constructor(props, context){
     super(props, context);
@@ -23,13 +22,8 @@ class ActionComponent extends Unit {
     return `input_takeaction_${this.state.key}`;
   }
 
-  // @ToDo: needed?
   get result_key(){
     return `result_takeaction_${this.state.key}`;
-  }
-
-  get data(){
-    let action = this;
   }
 
   get display_name(){
@@ -37,7 +31,7 @@ class ActionComponent extends Unit {
   }
 
   get content(){
-    console.log('GET CONTENT for: ', this.state.key)
+    console.log('Get content for key: ', this.state.key)
     let content = this.t(`actions.${this.state.category}.${this.state.key}.content`, {returnObjects: true})
     return content;
   }
@@ -95,8 +89,6 @@ class ActionComponent extends Unit {
     status = action.state.detailed;
     update['detailed'] = !status;
     action.setState(update);
-
-    action.state.detailed = !action.state.detailed;
   }
 
   setInputState(id){
@@ -105,14 +97,12 @@ class ActionComponent extends Unit {
     return footprint[id]
   }
 
-  displayStateContent(id){
-    console.log('displayStateContent', id.includes('display_takeaction'));
-
+  displayStateValue(id, suffix){
     if (id.includes('display_takeaction')) {
       id = id.replace(/display_takeaction/i, 'input_takeaction')
     }
-    console.log('= ', this.state_manager.state.user_footprint[id]);
-    return this.state_manager.state.user_footprint[id]
+    console.log(id, '= ', this.state_manager.state.user_footprint[id]);
+    return this.state_manager.state.user_footprint[id] + ' ' + suffix
   }
 
   updateActionInput(event){
@@ -131,7 +121,6 @@ class ActionComponent extends Unit {
   setSelectOptions(select) {
     if (select.type === 'vehicle') {
 
-      console.log('Vehicle -- selectOptionValues', select)
       let options = [], i = 1;
       this.state_manager.state.vehicles.forEach((v) => {
         let vehicle = {};
@@ -152,8 +141,8 @@ class ActionComponent extends Unit {
     is_vehicle = event.target.id.lastIndexOf('vehicle_select'),
     action_key = event.target.dataset.action_key;
 
-    console.log('handleChange value: ', i)
     console.log('handleChange action key: ', action_key)
+    console.log('handleChange value: ', i)
     console.log('handleChange id: ', event.target.id)
 
     // @ToDo: updateTakeaction first and then show results --> Air travel needs updated miles_alt state!
@@ -168,12 +157,13 @@ class ActionComponent extends Unit {
       update['input_takeaction_reduce_air_travel_miles_percent'] = i;
       this.setState(update);
       this.updateTakeaction(update);
+      // this.state_manager.syncLayout()
       // footprint['input_takeaction_reduce_air_travel_miles_percent'] = i;
 
-      let footprint = this.state_manager.state.user_footprint;
-      console.log("--- miles_percent", footprint['input_takeaction_reduce_air_travel_miles_percent'])
-
-      console.log("footprint['result_takeaction_reduce_air_travel_miles_alt']", footprint['result_takeaction_reduce_air_travel_miles_alt'])
+      // let footprint = this.state_manager.state.user_footprint;
+      // console.log("--- miles_percent", footprint['input_takeaction_reduce_air_travel_miles_percent'])
+      //
+      // console.log("footprint['result_takeaction_reduce_air_travel_miles_alt']", footprint['result_takeaction_reduce_air_travel_miles_alt'])
       // $('#result_takeaction_reduce_air_travel_miles_alt').text(footprint['result_takeaction_reduce_air_travel_miles_alt']).append(' fewer miles per year.');
     }
 
@@ -245,35 +235,71 @@ class ActionComponent extends Unit {
     $('#result_takeaction_reduce_air_travel_pounds_from_flight').text(footprint['result_takeaction_reduce_air_travel_pounds_from_flight']).append(' ' + this.t(`travel.co2_per_year`));
   }
 
+  userApiValue(api_key){
+    return this.state_manager.user_footprint[api_key];
+  }
+
+  userApiState(){
+    let component = this,
+    hash = {},
+    keys = Object.keys(component.state_manager.user_footprint)
+      .filter(key=> key.includes(component.result_key))
+
+    return keys.reduce((hash, api_key)=>{
+      hash[api_key] = component.userApiValue(api_key);
+      return hash;
+    }, {});
+  }
+
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  updateFootprintParams(params){
+    this.state_manager.updateFootprintParams(params);
+  }
+
+  updateTakeactionInput(event){
+    let component = this,
+        api_key = event.target.dataset.api_key,
+        update = {
+          [api_key]: event.target.value
+        };
+    component.setState(update);
+    component.updateTakeaction(update);
+  }
+
+  updateTakeaction(params){
+    let component = this;
+
+    component.state_manager.update_in_progress = true;
+    component.updateFootprintParams(params);
+
+    // debounce updating take action results by 500ms.
+    if (component.$update_takeaction) {
+      clearTimeout(component.$update_takeaction);
+    }
+
+    component.$update_takeaction = setTimeout(()=>{
+      // This will also make necessary update to user footprint.
+      component.state_manager.updateTakeactionResults()
+        .then(()=>{
+          let user_api_state = component.userApiState();
+          component.setState(user_api_state, ()=>{
+            component.state_manager.update_in_progress = false;
+          })
+        })
+        .then(()=> {
+          component.state_manager.syncLayout().then(() => {})
+        })
+    }, 500);
+  }
+
   componentDidMount(){
     if (this.category === 'transportation') this.selectVehicle(1, this.key);
     if (this.key === 'practice_eco_driving' || this.key === 'maintain_my_vehicles') this.calcVehicleTotal(this.key);
     if (this.key === 'reduce_air_travel') this.getAirTotal();
   }
-
-  // shouldComponentUpdate(nextProps, nextState){
-  //   console.log('--- state', this.state);
-  //   console.log('--- nextState', nextState);
-  //   // if (nextState.updated === true) {
-  //   //   let update = {};
-  //   //   update['updated'] = false;
-  //   //   this.setState(update);
-  //   //   return true
-  //   // } else {
-  //   //   false
-  //   // }
-  //   console.log('shouldComponentUpdate: ');
-  //   console.log('nextState.show === this.state.show', nextState.show === this.state.show);
-  //   console.log('nextState.detailed === this.state.detailed', nextState.detailed === this.state.detailed);
-  //   console.log('nextState.length === this.state.length', nextState.length === this.state.length);
-  //   // if ((nextState.show === this.state.show) && (nextState.detailed === this.state.detailed) && (nextState.length === this.state.length)) {
-  //   //   return false
-  //   // } else {
-  //   //   return true
-  //   // }
-  //   return true
-  // }
-
 
   render(){
     return template.call(this);
