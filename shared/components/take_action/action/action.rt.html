@@ -20,7 +20,7 @@
              </td>
              <td>
                <p rt-if="block.select">
-                 <select id="{block.select.id}" data-action_key="{this.key}" onChange="{this.handleChange.bind(this)}">
+                 <select id="{block.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}">
 
                   <option rt-repeat="option in this.setSelectOptions(block.select)" value="{option.value}">{option.text}</option>
 
@@ -34,12 +34,11 @@
                <p rt-if="block.show" id="{block.show}">
                  {this.displayStateContent(block.show)}
                </p>
-
              </td>
            </tr>
          </tbody>
        </table>
-       </div>
+      </div>
     </div>
     <div class="take-action__action-savings">
       <div>

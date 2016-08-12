@@ -3,29 +3,29 @@
 import React from 'react';
 
 import { ACTIONS_LIST } from '../take_action.component';
-import Translatable from './../../../lib/base_classes/translatable';
+import Unit from './../../../lib/base_classes/unit';
 import template from './action.rt.html'
 
-class ActionComponent extends Translatable {
+class ActionComponent extends Unit {
 
   constructor(props, context){
     super(props, context);
     let action = this;
-    action.state = {}
-    action.key = this.props.action_key;
-    action.category = this.props.category;
-    action.take_action = this.props.take_action;
-    action.show = this.props.show || false;
-    action.detailed = false;
-
-    console.log('action key', this.props.action_key)
-    console.log('action category', this.props.category)
-    console.log('action show', this.props.show)
-    console.log('action take_action', this.props.take_action)
+    action.state = {
+        key: this.props.action_key,
+        category: this.props.category,
+        show: this.props.show,
+        detailed: false
+    }
   }
 
   get api_key(){
-    return `input_takeaction_${this.key}`;
+    return `input_takeaction_${this.state.key}`;
+  }
+
+  // @ToDo: needed?
+  get result_key(){
+    return `result_takeaction_${this.state.key}`;
   }
 
   get data(){
@@ -33,35 +33,46 @@ class ActionComponent extends Translatable {
   }
 
   get display_name(){
-    return this.t(`actions.${this.category}.${this.key}.label`);
+    return this.t(`actions.${this.state.category}.${this.state.key}.label`);
   }
 
   get content(){
-    console.log('GET CONTENT for: ', this.key)
-    let content = this.t(`actions.${this.category}.${this.key}.content`, {returnObjects: true})
+    console.log('GET CONTENT for: ', this.state.key)
+    let content = this.t(`actions.${this.state.category}.${this.state.key}.content`, {returnObjects: true})
     return content;
   }
 
   get tons_saved(){
-    console.log('-- ', this.key)
-    console.log('tons saved', this.take_action.result_takeaction_pounds[this.key])
-    return this.take_action.numberWithCommas(
-      Math.round(this.take_action.result_takeaction_pounds[this.key] * 100) / 100
+    return this.numberWithCommas(
+      Math.round(this.result_takeaction_pounds[this.state.key] * 100) / 100
     );
   }
 
+  get result_takeaction_pounds(){
+    return this.state_manager['result_takeaction_pounds'];
+  }
+
+  get result_takeaction_dollars(){
+    return this.state_manager['result_takeaction_dollars'];
+  }
+
+  get result_takeaction_net10yr(){
+    return this.state_manager['result_takeaction_net10yr'];
+  }
+
+
   get dollars_saved(){
-    return this.take_action.numberWithCommas(
-      Math.round(this.take_action.result_takeaction_dollars[this.key]));
+    return this.numberWithCommas(
+      Math.round(this.result_takeaction_dollars[this.state.key]));
   }
 
   get upfront_cost(){
-    return this.take_action.numberWithCommas(
-      Math.round(this.take_action.result_takeaction_net10yr[this.key]));
+    return this.numberWithCommas(
+      Math.round(this.result_takeaction_net10yr[this.state.key]));
   }
 
   get taken(){
-    return parseInt(this.take_action.userApiValue(this.api_key)) === 1;
+    return parseInt(this.userApiValue(this.api_key)) === 1;
   }
 
 
@@ -74,7 +85,7 @@ class ActionComponent extends Translatable {
       update[selected_action.api_key] = 1;
     }
     action.setState(update);
-    action.take_action.updateTakeaction(update);
+    action.updateTakeaction(update);
   }
 
   toggleActionDetails(){
@@ -86,10 +97,6 @@ class ActionComponent extends Translatable {
     action.setState(update);
 
     action.state.detailed = !action.state.detailed;
-    console.log('toggleActionDetails: ', action.key)
-    // take_action.setState({
-    //   detailed: !take_action.state.detailed
-    // })
   }
 
   setInputState(id){
@@ -118,7 +125,7 @@ class ActionComponent extends Translatable {
     update['input_changed'] = id;
     console.log('updateActionInput of: ', update)
     action.setState(update);
-    action.take_action.updateTakeaction(update);
+    action.updateTakeaction(update);
   }
 
   setSelectOptions(select) {
@@ -126,7 +133,7 @@ class ActionComponent extends Translatable {
 
       console.log('Vehicle -- selectOptionValues', select)
       let options = [], i = 1;
-      this.take_action.vehicles.forEach((v) => {
+      this.state_manager.state.vehicles.forEach((v) => {
         let vehicle = {};
         vehicle.value = i;
         vehicle.text = 'Vehicle ' + i;
@@ -160,7 +167,7 @@ class ActionComponent extends Translatable {
       let update = {};
       update['input_takeaction_reduce_air_travel_miles_percent'] = i;
       this.setState(update);
-      this.take_action.updateTakeaction(update);
+      this.updateTakeaction(update);
       // footprint['input_takeaction_reduce_air_travel_miles_percent'] = i;
 
       let footprint = this.state_manager.state.user_footprint;
@@ -186,27 +193,16 @@ class ActionComponent extends Translatable {
     if (action_key === 'ride_my_bike' || action_key ===  'telecommute_to_work' || action_key ===  'take_public_transportation') {
       console.log("('ride_my_bike' || 'telecommute_to_work' || 'take_public_transportation'): ", action_key);
 
-      // before
-      // footprint['input_takeaction_' + action_key + '_mpg'] = parseInt(v_mpg);
-      // $('#display_takeaction_' + action_key + '_mpg').text(v_mpg).append(' ' + this.t(`travel.miles_per_gallon`));
-
-      // after
       update['input_takeaction_' + action_key + '_mpg'] = parseInt(v_mpg);
       this.setState(update);
-      this.take_action.updateTakeaction(update);
+      this.updateTakeaction(update);
 
     } else {
 
-      // before
-      // footprint['input_takeaction_' + action_key + '_mpg_old'] = parseInt(v_mpg);
-      // footprint['input_takeaction_' + action_key + '_miles_old'] = parseInt(v_miles);
-      // $('#display_takeaction_' + action_key + '_mpg_old').text(v_mpg).append(' ' + this.t(`travel.miles_per_gallon`));
-
-      // after
       update['input_takeaction_' + action_key + '_mpg_old'] = parseInt(v_mpg);
       update['input_takeaction_' + action_key + '_miles_old'] = parseInt(v_miles);
       this.setState(update);
-      this.take_action.updateTakeaction(update);
+      this.updateTakeaction(update);
     }
 
   }
@@ -214,11 +210,11 @@ class ActionComponent extends Translatable {
   calcVehicleTotal(action_key){
 
     let footprint = this.state_manager.state.user_footprint,
-        no_vehicles = this.state['vehicles'].length,
+        no_vehicles = this.state_manager.state.vehicles.length,
         total_miles = 0,
         total_mpg = 0;
 
-    this.state['vehicles'].forEach((v) => {
+    this.state_manager.state.vehicles.forEach((v) => {
       total_miles += parseInt(v.miles);
       total_mpg += parseInt(v.mpg);
     });
@@ -253,8 +249,31 @@ class ActionComponent extends Translatable {
     if (this.category === 'transportation') this.selectVehicle(1, this.key);
     if (this.key === 'practice_eco_driving' || this.key === 'maintain_my_vehicles') this.calcVehicleTotal(this.key);
     if (this.key === 'reduce_air_travel') this.getAirTotal();
-
   }
+
+  // shouldComponentUpdate(nextProps, nextState){
+  //   console.log('--- state', this.state);
+  //   console.log('--- nextState', nextState);
+  //   // if (nextState.updated === true) {
+  //   //   let update = {};
+  //   //   update['updated'] = false;
+  //   //   this.setState(update);
+  //   //   return true
+  //   // } else {
+  //   //   false
+  //   // }
+  //   console.log('shouldComponentUpdate: ');
+  //   console.log('nextState.show === this.state.show', nextState.show === this.state.show);
+  //   console.log('nextState.detailed === this.state.detailed', nextState.detailed === this.state.detailed);
+  //   console.log('nextState.length === this.state.length', nextState.length === this.state.length);
+  //   // if ((nextState.show === this.state.show) && (nextState.detailed === this.state.detailed) && (nextState.length === this.state.length)) {
+  //   //   return false
+  //   // } else {
+  //   //   return true
+  //   // }
+  //   return true
+  // }
+
 
   render(){
     return template.call(this);
@@ -265,8 +284,7 @@ class ActionComponent extends Translatable {
 ActionComponent.propTypes = {
   action_key: React.PropTypes.string.isRequired,
   category: React.PropTypes.string.isRequired,
-  show: React.PropTypes.bool.isRequired,
-  take_action: React.PropTypes.object.isRequired
+  show: React.PropTypes.bool.isRequired
 };
 
 ActionComponent.NAME = 'Action';

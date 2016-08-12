@@ -32,8 +32,6 @@ class TakeActionComponent extends Panel {
     take_action.state['input_action_category'] = ACTION_CATEGORIES[0][0];
     take_action.state['show_actions'] = ACTIONS_LIST[ACTION_CATEGORIES[0][0]];
     take_action.state['vehicles'] = take_action.vehicles;
-
-    console.log('input_action_category: ', take_action.state['input_action_category'])
   }
 
   get vehicles(){
@@ -47,6 +45,8 @@ class TakeActionComponent extends Panel {
       vehicle.mpg = footprint[`input_footprint_transportation_mpg${i}`];
       vehicles.push(vehicle);
     }
+
+    this.state_manager.state.vehicles = vehicles.slice();
     return vehicles;
   }
 
@@ -131,34 +131,16 @@ class TakeActionComponent extends Panel {
     }
   }
 
-  updateTakeaction(params){
-    let take_action = this;
-
-    take_action.state_manager.update_in_progress = true;
-    take_action.updateFootprintParams(params);
-
-    // debounce updating take action results by 500ms.
-    if (take_action.$update_takeaction) {
-      clearTimeout(take_action.$update_takeaction);
-    }
-
-    take_action.$update_takeaction = setTimeout(()=>{
-      // This will also make necessary update to user footprint.
-      take_action.state_manager.updateTakeactionResults()
-        .then(()=> {
-          take_action.state_manager.syncLayout();
-        })
-        .then(()=>{
-          let user_api_state = take_action.userApiState();
-          take_action.setState(user_api_state, ()=>{
-            take_action.state_manager.update_in_progress = false;
-          })
-        });
-    }, 500);
-  }
-
   componentWillMount(){
     this.setActiveActionsByCategory(this.state['input_action_category']);
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    if (Object.is(this.state, nextState)) {
+      return false
+    } else {
+      return true
+    }
   }
 
   render(){

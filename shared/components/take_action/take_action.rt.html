@@ -27,7 +27,7 @@
     <div>
       <rt-virtual rt-repeat="category in this.actions_list">
         <div rt-repeat="key in category.keys">
-          <Action action_key="{key}" category="{category.category}" take_action="{this}" show="{this.showAction(key)}"></Action>
+          <Action action_key="{key}" category="{category.category}" show="{this.showAction(key)}"></Action>
         </div>
       </virtual>
     </div>

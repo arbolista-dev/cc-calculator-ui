@@ -45,7 +45,6 @@ export default class Vehicle {
       handle_r: 16,
       onChange: (new_value)=>{
         vehicle.mpg = Math.round(new_value);
-        console.log(vehicle.mpg)
         vehicle.travel.updateVehicleFootprint();
       }
     })
