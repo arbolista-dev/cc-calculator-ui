@@ -13,15 +13,22 @@
 
   <div id="action_category_btn_group_container" class="cc-component__question">
     <div id="action_category_btn_group" class="btn-group" role="group">
-      <a rt-repeat="category in this.action_categories"
-        rt-class="{'btn-success': this.isCategoryActive(category[0]), 'btn-default': !this.isCategoryActive(category[0])}"
-        key="action_category_{category[0]}"
+      <a rt-repeat="category in this.actions_list"
+        rt-class="{'btn-success': this.isCategoryActive(category.category), 'btn-default': !this.isCategoryActive(category.category)}"
+        key="action_category_{category.category}"
         type="button"
         class="btn"
-        onClick="{this.setCategory.bind(this, category[0])}"
-         >{this.t(category[1])}</a>
+        onClick="{this.setCategory.bind(this, category.category)}"
+         >{this.t(category.title)}</a>
     </div>
   </div>
+
+  <!-- <div id="action_shared_assumptions">
+    <a type="button"
+      class="btn btn-sm btn-info"
+      onClick="{this.toggleSharedAssumptions.bind(this)}"
+       >{this.t('take_action.shared_assumptions')}</a>
+  </div> -->
 
   <div class="cc-component__form">
     <div>

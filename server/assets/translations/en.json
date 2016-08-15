@@ -219,6 +219,7 @@
     "take_action": {
         "title": "Take Action",
         "byline": "Offset your impact",
+        "shared_assumptions": "View Critical Assumptions",
         "route_path": "take_action",
         "tons_saved": "Tons saved",
         "dollars_saved": "Dollars saved",
@@ -262,6 +263,52 @@
         "result_food_total": "Dining",
         "result_goods_total": "Goods",
         "result_services_total": "Services"
+    },
+    "critical_assumptions": {
+      "content": [{
+          "description": "Price of gasoline:",
+          "prefix": "$",
+          "input": {
+              "id": "input_takeaction_assumption_price_of_gasoline",
+              "size": "4",
+              "maxlength": "4"
+          },
+          "suffix": "per gallon"
+      }, {
+        "description": "Electricity price (cents/kWh)",
+        "input": {
+            "id": "input_takeaction_assumption_kwhprice",
+            "size": "4",
+            "maxlength": "4"
+        }
+      }, {
+          "description": "Electricity emission factor (gCO2/kWh)",
+          "show": "takeaction_display_gco2perkwh"
+      }, {
+          "description": "Natural gas price",
+          "prefix": "($/therm):",
+          "input": {
+              "id": "input_takeaction_assumption_ngprice",
+              "size": "4",
+              "maxlength": "4"
+          }
+      }, {
+          "description": "Discount rate (used in NPV and ROI calculations)",
+          "input": {
+              "id": "input_takeaction_assumption_discountrate",
+              "size": "2",
+              "maxlength": "2"
+          },
+          "suffix": "%"
+      }, {
+        "description": "Inflation rate (used in NPV and ROI calculations)",
+        "input": {
+            "id": "input_takeaction_assumption_inflationrate",
+            "size": "2",
+            "maxlength": "2"
+        },
+        "suffix": "%"
+      }]
     },
     "actions": {
         "transportation": {
@@ -948,7 +995,8 @@
                     },
                     "suffix": "hours a day."
                 }, {
-                    "description": "CFL's contain mercury so be sure to dispose of them safely. Visit the <a href='http://www2.epa.gov/cfl/recycling-and-disposal-after-cfl-burns-out'>EPA</a> website to learn more."
+                    "description": "CFL's contain mercury so be sure to dispose of them safely. ",
+                    "text_url": "http://www2.epa.gov/cfl/recycling-and-disposal-after-cfl-burns-out"
                 }],
                 "fact": "Everyone knows CFL's are a better lightning investment. If you have any incadescents left in your house, they're slurping away four times more energy than their efficient CFL relatives for the same brightness.",
                 "rebates": {
@@ -1380,7 +1428,8 @@
                         "maxlength": "2"
                     }
                 }, {
-                    "description": "<a href='http://energy.gov/energysaver/articles/central-air-conditioning'>SEER Ratings</a>"
+                    "description": "SEER Ratings",
+                    "text_url": "http://energy.gov/energysaver/articles/central-air-conditioning"
                 }],
                 "rebates": {
                     "url": "http://www.coolcalifornia.org/funding-wizard#search/cooling//false/none/false/1/12",

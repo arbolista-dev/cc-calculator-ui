@@ -2,24 +2,20 @@
 
 import React from 'react';
 
-// import Action from './action';
 import Panel from './../../lib/base_classes/panel';
 import template from './take_action.rt.html'
 
-const ACTION_CATEGORIES = [['transportation', 'Transportation'], ['housing', 'Housing'], ['shopping', 'Shopping']];
-// export const ACTIONS_LIST = {"transportation": ['more_efficient_vehicle', 'alternativefuel_vehicle', 'electric_vehicle', 'hybrid_vehicle', 'telecommute_to_work', 'ride_my_bike', 'take_public_transportation', 'practice_eco_driving', 'maintain_my_vehicles', 'carpool_to_work', 'reduce_air_travel'], "shopping": ['low_carbon_diet', 'go_organic'],  "housing": ['switch_to_cfl', 'turn_off_lights', 'T12toT8', 'tankless_water_heater', 'thermostat_winter', 'thermostat_summer', 'purchase_high_efficiency_cooling', 'purchase_high_efficiency_heating', 'energy_star_fridge', 'energy_star_printers', 'energy_star_copiers', 'energy_star_desktops', 'rechargeable_batteries', 'power_mgmt_comp', 'purchase_green_electricity', 'install_PV_panels', 'install_solar_heating', 'low_flow_showerheads', 'low_flow_faucets', 'low_flow_toilet', 'line_dry_clothing', 'water_efficient_landscaping', 'plant_trees', 'reduce_comm_waste', 'print_double_sided']};
 export const ACTIONS_LIST = [{
-    "category": "transportation",
+    "category": "transportation", "title": "Transportation",
     "keys": ["more_efficient_vehicle", "alternativefuel_vehicle", "electric_vehicle", "hybrid_vehicle", "telecommute_to_work", "ride_my_bike", "take_public_transportation", "practice_eco_driving", "maintain_my_vehicles", "carpool_to_work", "reduce_air_travel"]
 }, {
-    "category": "shopping",
-    "keys": ["low_carbon_diet", "go_organic"]
-}, {
-    "category": "housing",
+    "category": "housing", "title": "Housing",
     "keys": ["switch_to_cfl", "turn_off_lights", "T12toT8", "tankless_water_heater", "thermostat_winter", "thermostat_summer", "purchase_high_efficiency_cooling", "purchase_high_efficiency_heating", "energy_star_fridge", "energy_star_printers", "energy_star_copiers", "energy_star_desktops", "rechargeable_batteries", "power_mgmt_comp", "purchase_green_electricity", "install_PV_panels", "install_solar_heating", "low_flow_showerheads", "low_flow_faucets", "low_flow_toilet", "line_dry_clothing", "water_efficient_landscaping", "plant_trees", "reduce_comm_waste", "print_double_sided"]
+}, {
+    "category": "shopping", "title": "Shopping",
+    "keys": ["low_carbon_diet", "go_organic"]
 }];
 
-// 'offset_transportation', 'offset_housing', 'offset_shopping'
 
 class TakeActionComponent extends Panel {
 
@@ -29,9 +25,10 @@ class TakeActionComponent extends Panel {
     take_action.action_keys = Object.keys(take_action.result_takeaction_pounds)
       .filter(key=> !/^offset_/.test(key));
     take_action.state = take_action.userApiState();
-    take_action.state['input_action_category'] = ACTION_CATEGORIES[0][0];
-    take_action.state['show_actions'] = ACTIONS_LIST[ACTION_CATEGORIES[0][0]];
+    take_action.state['input_action_category'] = ACTIONS_LIST[0].category;
+    take_action.state['show_actions'] = ACTIONS_LIST[0].keys;
     take_action.state['vehicles'] = take_action.vehicles;
+    take_action.state['show_shared_assumptions'] = false;
   }
 
   get vehicles(){
@@ -79,6 +76,10 @@ class TakeActionComponent extends Panel {
     return this.state_manager['result_takeaction_net10yr'];
   }
 
+  get show_shared_assumptions(){
+    return this.state['show_shared_assumptions']
+  }
+
   setSelectOptions(select) {
     if (select.type === 'vehicle') {
 
@@ -95,7 +96,6 @@ class TakeActionComponent extends Panel {
     } else {
       return select.options
     }
-
   }
 
   isCategoryActive(category){
@@ -113,13 +113,18 @@ class TakeActionComponent extends Panel {
     })
   }
 
-
   setCategory(category){
     let take_action = this;
     take_action.setState({
       input_action_category: category
     });
     take_action.setActiveActionsByCategory(category);
+  }
+
+  toggleSharedAssumptions(){
+    this.setState({
+      show_shared_assumptions: !this.state.show_shared_assumptions
+    })
   }
 
   showAction(key){

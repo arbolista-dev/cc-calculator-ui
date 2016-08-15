@@ -30,6 +30,18 @@ class ActionComponent extends Translatable {
     return this.t(`actions.${this.state.category}.${this.state.key}.label`);
   }
 
+  get fact(){
+    return this.t(`actions.${this.state.category}.${this.state.key}.fact`);
+  }
+
+  get rebates(){
+    return this.t(`actions.${this.state.category}.${this.state.key}.rebates`, {returnObjects: true});
+  }
+
+  get is_shown_detailed(){
+    return this.state.detailed
+  }
+
   get content(){
     console.log('Get content for key: ', this.state.key)
     let content = this.t(`actions.${this.state.category}.${this.state.key}.content`, {returnObjects: true})
@@ -165,7 +177,14 @@ class ActionComponent extends Translatable {
     //   this.setState(update);
     //   this.updateTakeaction(update);
     // }
+  }
 
+  getSelectedOption(id){
+    console.log('getSelectedOption of id', id)
+    console.log('=', this.state_manager.state.user_footprint[id])
+
+    // currently not setting dropdown value --> use getInitialState()
+    return this.state[id]
   }
 
   selectVehicle(i, action_key){
@@ -244,13 +263,13 @@ class ActionComponent extends Translatable {
   }
 
   userApiState(){
-    let component = this,
+    let action = this,
     hash = {},
-    keys = Object.keys(component.state_manager.user_footprint)
-      .filter(key=> key.includes(component.result_key))
+    keys = Object.keys(action.state_manager.user_footprint)
+      .filter(key=> key.includes(action.result_key))
 
     return keys.reduce((hash, api_key)=>{
-      hash[api_key] = component.userApiValue(api_key);
+      hash[api_key] = action.userApiValue(api_key);
       return hash;
     }, {});
   }
@@ -264,37 +283,37 @@ class ActionComponent extends Translatable {
   }
 
   updateTakeactionInput(event){
-    let component = this,
+    let action = this,
         api_key = event.target.dataset.api_key,
         update = {
           [api_key]: event.target.value
         };
-    component.setState(update);
-    component.updateTakeaction(update);
+    action.setState(update);
+    action.updateTakeaction(update);
   }
 
   updateTakeaction(params){
-    let component = this;
+    let action = this;
 
-    component.state_manager.update_in_progress = true;
-    component.updateFootprintParams(params);
+    action.state_manager.update_in_progress = true;
+    action.updateFootprintParams(params);
 
     // debounce updating take action results by 500ms.
-    if (component.$update_takeaction) {
-      clearTimeout(component.$update_takeaction);
+    if (action.$update_takeaction) {
+      clearTimeout(action.$update_takeaction);
     }
 
-    component.$update_takeaction = setTimeout(()=>{
+    action.$update_takeaction = setTimeout(()=>{
       // This will also make necessary update to user footprint.
-      component.state_manager.updateTakeactionResults()
+      action.state_manager.updateTakeactionResults()
         .then(()=>{
-          let user_api_state = component.userApiState();
-          component.setState(user_api_state, ()=>{
-            component.state_manager.update_in_progress = false;
+          let user_api_state = action.userApiState();
+          action.setState(user_api_state, ()=>{
+            action.state_manager.update_in_progress = false;
           })
         })
         .then(()=> {
-          component.state_manager.syncLayout().then(() => {})
+          action.state_manager.syncLayout().then(() => {})
         })
     }, 500);
   }

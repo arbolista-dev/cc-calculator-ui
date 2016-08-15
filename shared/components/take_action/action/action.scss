@@ -1,10 +1,50 @@
 .action {
   padding-bottom: 2px;
 
+  .action__heading {
+    border-bottom:1px solid lightgrey;
+    background-color:#F2F2F2;
+    cursor:pointer;
+    padding:4px;
+    border-radius:5px;
+  }
+  .action__heading--taken {
+    color:white;
+    background-color:#449D44;
+  }
+
+  .action__savings-amount {
+    font-size:1.25em;
+  }
+
+  .action__savings-label {
+    font-weight:bold;
+    font-size:0.9em;
+  }
+
+  .action__body {
+    margin-top: 15px;
+  }
+
+  .action__savings {
+    text-align:center;
+    > div {
+      display:inline-block;
+      padding:4px;
+      margin-left:4px;
+      margin-right:4px;
+    }
+    > button {
+      margin-top:3px;
+      float:right;
+    }
+  }
+
   .table > tbody > tr > td {
     border-top: 0px;
     line-height: 1em;
     vertical-align: middle;
     padding: 3px;
+    width: 50%;
   }
 }
