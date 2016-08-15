@@ -265,50 +265,50 @@
         "result_services_total": "Services"
     },
     "critical_assumptions": {
-      "content": [{
-          "description": "Price of gasoline:",
-          "prefix": "$",
-          "input": {
-              "id": "input_takeaction_assumption_price_of_gasoline",
-              "size": "4",
-              "maxlength": "4"
-          },
-          "suffix": "per gallon"
-      }, {
-        "description": "Electricity price (cents/kWh)",
-        "input": {
-            "id": "input_takeaction_assumption_kwhprice",
-            "size": "4",
-            "maxlength": "4"
-        }
-      }, {
-          "description": "Electricity emission factor (gCO2/kWh)",
-          "show": "input_footprint_housing_gco2_per_kwh"
-      }, {
-          "description": "Natural gas price",
-          "prefix": "($/therm):",
-          "input": {
-              "id": "input_takeaction_assumption_ngprice",
-              "size": "4",
-              "maxlength": "4"
-          }
-      }, {
-          "description": "Discount rate (used in NPV and ROI calculations)",
-          "input": {
-              "id": "input_takeaction_assumption_discountrate",
-              "size": "2",
-              "maxlength": "2"
-          },
-          "suffix": "%"
-      }, {
-        "description": "Inflation rate (used in NPV and ROI calculations)",
-        "input": {
-            "id": "input_takeaction_assumption_inflationrate",
-            "size": "2",
-            "maxlength": "2"
-        },
-        "suffix": "%"
-      }]
+        "content": [{
+            "description": "Price of gasoline:",
+            "prefix": "$",
+            "input": {
+                "id": "input_takeaction_assumption_price_of_gasoline",
+                "size": "4",
+                "maxlength": "4"
+            },
+            "suffix": "per gallon"
+        }, {
+            "description": "Electricity price (cents/kWh)",
+            "input": {
+                "id": "input_takeaction_assumption_kwhprice",
+                "size": "4",
+                "maxlength": "4"
+            }
+        }, {
+            "description": "Electricity emission factor (gCO2/kWh)",
+            "show": "input_footprint_housing_gco2_per_kwh"
+        }, {
+            "description": "Natural gas price",
+            "prefix": "($/therm):",
+            "input": {
+                "id": "input_takeaction_assumption_ngprice",
+                "size": "4",
+                "maxlength": "4"
+            }
+        }, {
+            "description": "Discount rate (used in NPV and ROI calculations)",
+            "input": {
+                "id": "input_takeaction_assumption_discountrate",
+                "size": "2",
+                "maxlength": "2"
+            },
+            "suffix": "%"
+        }, {
+            "description": "Inflation rate (used in NPV and ROI calculations)",
+            "input": {
+                "id": "input_takeaction_assumption_inflationrate",
+                "size": "2",
+                "maxlength": "2"
+            },
+            "suffix": "%"
+        }]
     },
     "actions": {
         "transportation": {
@@ -356,6 +356,21 @@
                         "size": "8",
                         "maxlength": "6"
                     }
+                }, {
+                    "assumptions": [{
+                        "description": "Price of gasoline: ",
+                        "show": "input_takeaction_assumption_price_of_gasoline",
+                        "suffix": "per gallon"
+                    }, {
+                        "description": "Well-to-pump emissions: 20% of fossil fuel emissions. This includes emissions from the fuel used to find, extract, transport and refine crude oil into gasoline.",
+                        "text_only": true
+                    }, {
+                        "description": "Greenhouse gas emissions from vehicles manufacturing: 53 grams CO2e per mile (8 metric tons per vehicle / 150,000 miles lifespan).",
+                        "text_only": true
+                    }, {
+                        "description": "Not included: emissions from road construction and maintenance, and other government-related emissions.",
+                        "text_only": true
+                    }]
                 }],
                 "fact": "Americans are choosing greener vehicles--the average fuel efficiency of cars on the road in the U.S. has gone up steadily for the past 10 years. Don't get left behind in a gas guzzler!",
                 "rebates": {
@@ -407,6 +422,28 @@
                         "size": "8",
                         "maxlength": "6"
                     }
+                }, {
+                    "assumptions": [{
+                        "description": "Price of gasoline: ",
+                        "show": "input_takeaction_assumption_price_of_gasoline",
+                        "suffix": "per gallon"
+                    }, {
+                        "description": "Well-to-pump emissions: 20% of fossil fuel emissions. This includes emissions from the fuel used to find, extract, transport and refine crude oil into gasoline.",
+                        "text_only": true
+                    }, {
+                        "description": "Greenhouse gas emissions from vehicles manufacturing: 53 grams CO2e per mile (8 metric tons per vehicle / 150,000 miles lifespan).",
+                        "text_only": true
+                    }, {
+                        "description": "Price of electricity: ",
+                        "show": "input_takeaction_assumption_kwhprice",
+                        "suffix": "(cents/kWh)"
+                    }, {
+                        "description": "A number of rebates are available for alternative fuel vehicles from state, federal and local agencies. We assume $2,000 rebate per vehicle is available at the time of purchase",
+                        "text_only": true
+                    }, {
+                        "description": "Not included: emissions from road construction and maintenance, and other government-related emissions.",
+                        "text_only": true
+                    }]
                 }],
                 "fact": "Americans are choosing greener vehicles--the average fuel efficiency of cars on the road in the U.S. has gone up steadily for the past 10 years. Don't get left behind in a gas guzzler!",
                 "rebates": {
@@ -467,6 +504,27 @@
                         "size": "8",
                         "maxlength": "6"
                     }
+                }, {
+                    "assumptions": [{
+                        "description": "Price of gasoline: ",
+                        "show": "input_takeaction_assumption_price_of_gasoline",
+                        "suffix": "per gallon"
+                    }, {
+                        "description": "Well-to-pump emissions: 20% of fossil fuel emissions. This includes emissions from the fuel used to find, extract, transport and refine crude oil into gasoline.",
+                        "text_only": true
+                    }, {
+                        "description": "Greenhouse gas emissions from vehicles manufacturing: 53 grams CO2e per mile (8 metric tons per vehicle / 150,000 miles lifespan).",
+                        "text_only": true
+                    }, {
+                        "description": "Alternative fuel: CNG",
+                        "text_only": true
+                    }, {
+                        "description": "A number of rebates are available for alternative fuel vehicles from state, federal and local agencies. We assume $2,000 rebate per vehicle is available at the time of purchase",
+                        "text_only": true
+                    }, {
+                        "description": "Not included: emissions from road construction and maintenance, and other government-related emissions.",
+                        "text_only": true
+                    }]
                 }],
                 "fact": "Americans are choosing greener vehicles--the average fuel efficiency of cars on the road in the U.S. has gone up steadily for the past 10 years. Don't get left behind in a gas guzzler!",
                 "rebates": {
@@ -518,6 +576,21 @@
                         "size": "8",
                         "maxlength": "6"
                     }
+                }, {
+                    "assumptions": [{
+                        "description": "Price of gasoline: ",
+                        "show": "input_takeaction_assumption_price_of_gasoline",
+                        "suffix": "per gallon"
+                    }, {
+                        "description": "Well-to-pump emissions: 20% of fossil fuel emissions. This includes emissions from the fuel used to find, extract, transport and refine crude oil into gasoline.",
+                        "text_only": true
+                    }, {
+                        "description": "Greenhouse gas emissions from vehicles manufacturing: 53 grams CO2e per mile (8 metric tons per vehicle / 150,000 miles lifespan).",
+                        "text_only": true
+                    }, {
+                        "description": "Not included: emissions from road construction and maintenance, and other government-related emissions.",
+                        "text_only": true
+                    }]
                 }],
                 "fact": "Americans are choosing greener vehicles--the average fuel efficiency of cars on the road in the U.S. has gone up steadily for the past 10 years. Don't get left behind in a gas guzzler!",
                 "rebates": {
@@ -608,6 +681,12 @@
                         "maxlength": "2"
                     },
                     "suffix": "per hour."
+                }, {
+                    "assumptions": [{
+                        "description": "Price of gasoline: ",
+                        "show": "input_takeaction_assumption_price_of_gasoline",
+                        "suffix": "per gallon"
+                    }]
                 }],
                 "fact": "Not every job is suited for telecommuting, but if you can work from home the environmental and quality-of-life perks are quite compelling!",
                 "rebates": {
@@ -657,6 +736,20 @@
                     "description": "Which results in saving",
                     "show": "result_takeaction_practice_eco_driving_galsaved",
                     "suffix": "gallons per year."
+                }, {
+                    "assumptions": [{
+                        "description": "Price of gasoline: ",
+                        "show": "input_takeaction_assumption_price_of_gasoline",
+                        "suffix": "per gallon"
+                    }, {
+                        "description": "Average top cruising speed represents",
+                        "input": {
+                            "id": "input_takeaction_practice_eco_driving_topspercent",
+                            "size": "2",
+                            "maxlength": "2"
+                        },
+                        "suffix": "% of highway miles"
+                    }]
                 }],
                 "fact": "Most car engines get less and less efficient as speeds increase. Smart speed management levels off emissions on the freeway and helps prevent ticket troubles.",
                 "rebates": {
@@ -777,6 +870,20 @@
                         "size": "1",
                         "maxlength": "3"
                     }
+                }, {
+                    "assumptions": [{
+                        "description": "Pounds CO2 per gallon: 19.4",
+                        "text_only": true
+                    }, {
+                        "description": "Well-to-pump emissions: 26%",
+                        "text_only": true
+                    }, {
+                        "description": "Price of gas per gallon $",
+                        "show": "input_takeaction_assumption_price_of_gasoline"
+                    }, {
+                        "description": "Depreciation per mile for vehicle driven: $",
+                        "show": "result_takeaction_carpool_to_work_dep1k"
+                    }]
                 }],
                 "fact": "Get in the Fast Lane! One of the major benefits of carpooling is that you get access to the carpool-only lanes on the freeway.",
                 "rebates": {
@@ -818,6 +925,44 @@
                             "text": "I already change air filters regularly"
                         }]
                     }
+                }, {
+                    "assumptions": [{
+                        "description": "Price of gasoline: ",
+                        "show": "input_takeaction_assumption_price_of_gasoline",
+                        "suffix": "per gallon"
+                    }, {
+                        "description": "Keeping tires inflated improves fuel efficiency by",
+                        "input": {
+                            "id": "input_takeaction_maintain_my_vehicles_tirespercent",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "percent"
+                    }, {
+                        "description": "Changing air filters regularly improves fuel efficiency by",
+                        "input": {
+                            "id": "input_takeaction_maintain_my_vehicles_filterpercent",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "percent"
+                    }, {
+                        "description": "Keeping tires inflated costs",
+                        "prefix": "$",
+                        "input": {
+                            "id": "input_takeaction_maintain_my_vehicles_tirescost",
+                            "size": "2",
+                            "maxlength": "2"
+                        }
+                    }, {
+                        "description": "Changing air filters regularly costs",
+                        "prefix": "$",
+                        "input": {
+                            "id": "input_takeaction_maintain_my_vehicles_filtercost",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }]
                 }],
                 "fact": "Taking care of your car keeps you on the road instead of at the shop. Plus, your smoothly running machine trims pounds of your carbon footprint.",
                 "rebates": {
@@ -845,6 +990,44 @@
                         "maxlength": "3"
                     },
                     "suffix": "miles per week."
+                }, {
+                    "assumptions": [{
+                        "description": "Price of gasoline: ",
+                        "show": "input_takeaction_assumption_price_of_gasoline",
+                        "suffix": "per gallon"
+                    }, {
+                        "description": "You currently consume about",
+                        "show": "result_takeaction_ride_my_bike_totalcalories",
+                        "suffix": "per day"
+                    }, {
+                        "description": "with a corresponding carbon footprint of about",
+                        "show": "result_takeaction_ride_my_bike_ghgper100cal",
+                        "suffix": "grams of CO2e per 100 calories"
+                    }, {
+                        "description": "Weekly riding your bicycle",
+                        "show": "display_takeaction_ride_my_bike_miles",
+                        "suffix": "miles"
+                    }, {
+                        "description": "therefore produces about",
+                        "show": "result_takeaction_ride_my_bike_bikeghgs",
+                        "suffix": "mtCO2e/yr"
+                    }, {
+                        "description": "Driving your vehicle the same distance produces",
+                        "show": "result_takeaction_ride_my_bike_driveghgs",
+                        "suffix": "mtCO2e/yr"
+                    }, {
+                        "description": "Growing, processing and distributing food produces greenhouse gases. The average American consumes about about 300 - 500 unnecessary calories per day, and riding a bicycle burns about 400 calories per hour, so most people could ride a bicycle for about one hour per day without increasing calorie intake. However, if you do not take in surplus calories and would need to eat more to fuel bicycle riding, then select Include emissions from food.",
+                        "select": {
+                            "id": "input_takeaction_ride_my_bike_include_foodemissions",
+                            "options": [{
+                                "value": "1",
+                                "text": "Include emissions from food"
+                            }, {
+                                "value": "0",
+                                "text": "Don't include emissions from food"
+                            }]
+                        }
+                    }]
                 }],
                 "fact": "Your bicycle can make you a lean, green clean-moving machine! Free tools like google maps have bike-friendly directions to get you going as an exemplary neighborhood cyclist.",
                 "rebates": {
@@ -907,6 +1090,43 @@
                         "maxlength": "3"
                     },
                     "suffix": "per week."
+                }, {
+                    "assumptions": [{
+                        "description": "Price of gasoline: ",
+                        "show": "input_takeaction_assumption_price_of_gasoline",
+                        "suffix": "per gallon"
+                    }, {
+                        "description": "Carbon intensity of different transit options (gCO2e/passenger mile):",
+                        "text_only": true
+                    }, {
+                        "description": "Diesel bus (average occupancy of bus is 11 passengers)",
+                        "input": {
+                            "id": "input_takeaction_take_public_transportation_gco2bus",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }, {
+                        "description": "Natural gas bus (average occupancy is 11 passengers)",
+                        "input": {
+                            "id": "input_takeaction_take_public_transportation_gco2ngbus",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }, {
+                        "description": "Electric transit rail (average occupancy is 37 passengers per rail car)",
+                        "input": {
+                            "id": "input_takeaction_take_public_transportation_gco2transit",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }, {
+                        "description": "Amtrak (average occupancy is 23 passengers per rail car)",
+                        "input": {
+                            "id": "input_takeaction_take_public_transportation_gco2amtrak",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }]
                 }],
                 "fact": "Riding transit frees you from the stress of navigating traffic and provides time for work, catching up on the news or finally getting around to that book you've been meaning to read.",
                 "rebates": {
@@ -967,6 +1187,14 @@
                     "description": "or",
                     "show": "result_takeaction_reduce_air_travel_miles_alt",
                     "suffix": "fewer miles per year."
+                }, {
+                    "assumptions": [{
+                        "description": "Flying produces 223 grams of CO2e/passenger mile, on average (WRI-WBCSD).",
+                        "text_only": true
+                    }, {
+                        "description": "Indirect emissions (from contrails and other atmospheric effects) account for 50% of total emissions.",
+                        "text_only": true
+                    }]
                 }],
                 "fact": "Travelling virtually is one of the best things you can do to reduce you impacts because every two-hours flight avoided saves as much as avoiding a month of typical driving.",
                 "rebates": {
@@ -997,6 +1225,50 @@
                 }, {
                     "description": "CFL's contain mercury so be sure to dispose of them safely. ",
                     "text_url": "http://www2.epa.gov/cfl/recycling-and-disposal-after-cfl-burns-out"
+                }, {
+                    "assumptions": [{
+                        "description": "Wattage of incandescent bulbs:",
+                        "input": {
+                            "id": "input_takeaction_switch_to_cfl_incanwatt",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }, {
+                        "description": "Equivalent wattage of CFL bulbs:",
+                        "input": {
+                            "id": "input_takeaction_switch_to_cfl_cflwatt",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }, {
+                        "description": "Cost to run incandescent bulb: $",
+                        "input": {
+                            "id": "input_takeaction_switch_to_cfl_incancost",
+                            "size": "4",
+                            "maxlength": "4"
+                        },
+                        "suffix": "per day"
+                    }, {
+                        "description": "Lifetime of incandescents:",
+                        "input": {
+                            "id": "input_takeaction_switch_to_cfl_incanlife",
+                            "size": "4",
+                            "maxlength": "4"
+                        },
+                        "suffix": "hours"
+                    }, {
+                        "description": "Lifetime of CFLs:",
+                        "input": {
+                            "id": "input_takeaction_switch_to_cfl_cfllife",
+                            "size": "4",
+                            "maxlength": "4"
+                        },
+                        "suffix": "hours"
+                    }, {
+                        "description": "Price of electricity:",
+                        "show": "input_takeaction_assumption_kwhprice",
+                        "suffix": "(cents/kWh)"
+                    }]
                 }],
                 "fact": "Everyone knows CFL's are a better lightning investment. If you have any incadescents left in your house, they're slurping away four times more energy than their efficient CFL relatives for the same brightness.",
                 "rebates": {
@@ -1098,6 +1370,33 @@
                         "maxlength": "3"
                     },
                     "suffix": "T-12 lights to T-8 lights."
+                }, {
+                    "assumptions": [{
+                        "description": "Wattage of T-12 lights:",
+                        "input": {
+                            "id": "input_takeaction_T12toT8_T12watt",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }, {
+                        "description": "Wattage of T-8 lights:",
+                        "input": {
+                            "id": "input_takeaction_T12toT8_T8watt",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }, {
+                        "description": "Cost of each new T8 light: $",
+                        "input": {
+                            "id": "input_takeaction_T12toT8_T8cost",
+                            "size": "4",
+                            "maxlength": "4"
+                        }
+                    }, {
+                        "description": "Price of electricity:",
+                        "show": "input_takeaction_assumption_kwhprice",
+                        "suffix": "(cents/kWh)"
+                    }]
                 }],
                 "rebates": {
                     "url": "http://www.coolcalifornia.org/funding-wizard#search//%255BZipcode%253D%253D94720%255D%255BEligible+Applicants%253D%253DIndividual%255D%255BCategory%253D%253DEnergy%255D/false/none/false/1/12",
@@ -1253,6 +1552,74 @@
                         "maxlength": "2"
                     },
                     "suffix": "degrees F on winter nights."
+                }, {
+                    "assumptions": [{
+                        "description": "Price of electricity:",
+                        "show": "input_takeaction_assumption_kwhprice",
+                        "suffix": "cents/kWh based on your location"
+                    }, {
+                        "description": "Price of natural gas (cents/therm):",
+                        "show": "input_takeaction_assumption_ngprice"
+                    }, {
+                        "description": "Price of fuel oil (cents/gallon):",
+                        "input": {
+                            "id": "input_takeaction_thermostat_winter_fueloilprice",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }, {
+                        "description": "Heating Degree Days:",
+                        "input": {
+                            "id": "input_takeaction_thermostat_winter_hdd",
+                            "size": "5",
+                            "maxlength": "5"
+                        }
+                    }, {
+                        "description": "Number of hours with temperature set for:",
+                        "text_only": true
+                    }, {
+                        "description": "Weekdays during the day:",
+                        "input": {
+                            "id": "input_takeaction_thermostat_winter_wdsetup",
+                            "size": "2",
+                            "maxlength": "2"
+                        }
+                    }, {
+                        "description": "Weekdays at night:",
+                        "input": {
+                            "id": "input_takeaction_thermostat_winter_wdntsetup",
+                            "size": "2",
+                            "maxlength": "2"
+                        }
+                    }, {
+                        "description": "Weekends during the day:",
+                        "input": {
+                            "id": "input_takeaction_thermostat_winter_wesetup",
+                            "size": "2",
+                            "maxlength": "2"
+                        }
+                    }, {
+                        "description": "Weekends at night:",
+                        "input": {
+                            "id": "input_takeaction_thermostat_winter_wentsetup",
+                            "size": "2",
+                            "maxlength": "2"
+                        }
+                    }, {
+                        "description": "Consumption Intensity:",
+                        "show": "result_takeaction_thermostat_winter_intensity",
+                        "suffix": "physical units*1000 / (HDD*sqft/1000)"
+                    }, {
+                        "description": "Emissions per physical unit of fuel:",
+                        "show": "result_takeaction_thermostat_winter_gCO2fueltype",
+                        "suffix": "gCO2e"
+                    }, {
+                        "description": "Physical units: kWh of electricity; cubic feet of natural gas; gallons of fuel oil",
+                        "text_only": true
+                    }, {
+                        "description": "Annual energy consumption in physical units of selected fuel type:",
+                        "show": "result_takeaction_thermostat_winter_pu"
+                    }]
                 }],
                 "fact": "Smart settings on your thermostat is one of the best things you can do to save energy because heating is the largest single contributor to energy use in typical homes, even in many moderate climates.",
                 "rebates": {
@@ -1341,6 +1708,50 @@
                         "maxlength": "2"
                     },
                     "suffix": "degrees F on summer nights."
+                }, {
+                    "assumptions": [{
+                        "description": "Price of electricity:",
+                        "show": "input_takeaction_assumption_kwhprice",
+                        "suffix": "cents/kWh based on your location"
+                    }, {
+                        "description": "Cooling degree-days",
+                        "input": {
+                            "id": "input_takeaction_thermostat_summer_cdd",
+                            "size": "4",
+                            "maxlength": "4"
+                        }
+                    }, {
+                        "description": "Number of hours with temperature set for:",
+                        "text_only": true
+                    }, {
+                        "description": "Weekdays during the day:",
+                        "input": {
+                            "id": "input_takeaction_thermostat_summer_wdsetup",
+                            "size": "2",
+                            "maxlength": "2"
+                        }
+                    }, {
+                        "description": "Weekdays at night:",
+                        "input": {
+                            "id": "input_takeaction_thermostat_summer_wdntsetup",
+                            "size": "2",
+                            "maxlength": "2"
+                        }
+                    }, {
+                        "description": "Weekends during the day:",
+                        "input": {
+                            "id": "input_takeaction_thermostat_summer_wesetup",
+                            "size": "2",
+                            "maxlength": "2"
+                        }
+                    }, {
+                        "description": "Weekends at night:",
+                        "input": {
+                            "id": "input_takeaction_thermostat_summer_wentsetup",
+                            "size": "2",
+                            "maxlength": "2"
+                        }
+                    }]
                 }],
                 "fact": "If you don't already do this, setting your thermostat to a neutral temperature while you're gone at work can results in an immediate 10% savings on energy. Don't let your energy dollars seep away while you're busy earning 'em!",
                 "rebates": {
@@ -1430,6 +1841,27 @@
                 }, {
                     "description": "SEER Ratings",
                     "text_url": "http://energy.gov/energysaver/articles/central-air-conditioning"
+                }, {
+                    "assumptions": [{
+                        "description": "Price of electricity:",
+                        "show": "input_takeaction_assumption_kwhprice",
+                        "suffix": "(cents/kWh)"
+                    }, {
+                        "description": "Cooling degree-days:",
+                        "input": {
+                            "id": "input_takeaction_purchase_high_efficiency_cooling_cdd",
+                            "size": "4",
+                            "maxlength": "4"
+                        }
+                    }, {
+                        "description": "The cost difference between a conventional air conditioner and an energy star air conditioner is",
+                        "input": {
+                            "id": "input_takeaction_purchase_high_efficiency_cooling_cost_difference",
+                            "size": "5",
+                            "maxlength": "5"
+                        },
+                        "suffix": "dollars"
+                    }]
                 }],
                 "rebates": {
                     "url": "http://www.coolcalifornia.org/funding-wizard#search/cooling//false/none/false/1/12",
@@ -1510,6 +1942,43 @@
                     "prefix": "$",
                     "show": "result_takeaction_purchase_high_efficiency_heating_dollarsuse",
                     "suffix": "per year."
+                }, {
+                    "assumptions": [{
+                        "description": "Price of electricity:",
+                        "show": "input_takeaction_assumption_kwhprice",
+                        "suffix": "cents/kWh based on your location"
+                    }, {
+                        "description": "Price of natural gas (cents/therm):",
+                        "show": "input_takeaction_assumption_ngprice"
+                    }, {
+                        "description": "Price of fuel oil (cents/gallon):",
+                        "input": {
+                            "id": "input_takeaction_purchase_high_efficiency_heating_fueloilprice",
+                            "size": "3",
+                            "maxlength": "3"
+                        }
+                    }, {
+                        "description": "Consumption Intensity:",
+                        "show": "result_takeaction_purchase_high_efficiency_heating_intensity",
+                        "suffix": "physical units*1000 / (HDD*sqft/1000)"
+                    }, {
+                        "description": "Emissions per physical unit of fuel:",
+                        "show": "result_takeaction_purchase_high_efficiency_heating_gCO2fueltype",
+                        "suffix": "gCO2e"
+                    }, {
+                        "description": "Physical units: kWh of electricity; cubic feet of natural gas; gallons of fuel oil",
+                        "text_only": true
+                    }, {
+                        "description": "Annual energy consumption in physical units of selected fuel type:",
+                        "show": "result_takeaction_purchase_high_efficiency_heating_pu"
+                    }, {
+                        "description": " The cost difference between a conventional furnace and an energy star furnace is",
+                        "input": {
+                            "id": "input_takeaction_purchase_high_efficiency_heating_cost_difference",
+                            "size": "5",
+                            "maxlength": "5"
+                        }
+                    }]
                 }],
                 "rebates": {
                     "url": "http://www.coolcalifornia.org/funding-wizard#search/heating//false/none/false/1/12",
@@ -1554,6 +2023,44 @@
                         "size": "4",
                         "maxlength": "4"
                     }
+                }, {
+                    "assumptions": [{
+                        "description": "Refrigerator fresh volume:",
+                        "input": {
+                            "id": "input_takeaction_energy_star_fridge_fresh",
+                            "size": "5",
+                            "maxlength": "5"
+                        },
+                        "suffix": "cubic feet"
+                    }, {
+                        "description": "Refrigerator freezer volume:",
+                        "input": {
+                            "id": "input_takeaction_energy_star_fridge_freezer",
+                            "size": "5",
+                            "maxlength": "5"
+                        },
+                        "suffix": "cubic feet"
+                    }, {
+                        "description": "The total volume is:",
+                        "show": "result_takeaction_energy_star_fridge_totvolume",
+                        "suffix": "cubic feet"
+                    }, {
+                        "description": "Efficiency of conventional model:",
+                        "show": "result_takeaction_energy_star_fridge_fridgekwh",
+                        "suffix": "kWh per cubic feet"
+                    }, {
+                        "description": "Efficiency of Energy Star model:",
+                        "show": "result_takeaction_energy_star_fridge_ESfridgekwh",
+                        "suffix": "kWh per cubic feet"
+                    }, {
+                        "description": "Electricity price (your local energy price based on the location you selected in the Introduction tab)",
+                        "input": {
+                            "id": "input_takeaction_assumption_kwhprice",
+                            "size": "4",
+                            "maxlength": "4"
+                        },
+                        "suffix": "cents/kWh"
+                    }]
                 }],
                 "fact": "'Eat up' less energy: A new refrigerator with an ENERGY STAR label beats current federal standards by at least 20%.",
                 "rebates": {
@@ -1580,6 +2087,16 @@
                         "maxlength": "4"
                     },
                     "suffix": "each."
+                }, {
+                    "assumptions": [{
+                        "description": "Annual energy savings: ",
+                        "input": {
+                            "id": "input_takeaction_energy_star_printers_annual_savings",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "kWh"
+                    }]
                 }],
                 "rebates": {
                     "url": "http://www.coolcalifornia.org/funding-wizard#search/energy+efficiency/%255BEligible+Applicants%253D%253DBusiness%255D/false/none/false/1/12",
@@ -1605,6 +2122,16 @@
                         "maxlength": "4"
                     },
                     "suffix": "each."
+                }, {
+                    "assumptions": [{
+                        "description": "Annual energy savings: ",
+                        "input": {
+                            "id": "input_takeaction_energy_star_copiers_annual_savings",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "kWh"
+                    }]
                 }],
                 "rebates": {
                     "url": "http://www.coolcalifornia.org/funding-wizard#search/energy+efficiency/%255BEligible+Applicants%253D%253DBusiness%255D/false/none/false/1/12",
@@ -1630,6 +2157,16 @@
                         "maxlength": "4"
                     },
                     "suffix": "each."
+                }, {
+                    "assumptions": [{
+                        "description": "Annual energy savings: ",
+                        "input": {
+                            "id": "input_takeaction_energy_star_desktops_annual_savings",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "kWh"
+                    }]
                 }],
                 "rebates": {
                     "url": "http://www.coolcalifornia.org/funding-wizard#search/energy+efficiency/%255BEligible+Applicants%253D%253DBusiness%255D/false/none/false/1/12",
@@ -1680,6 +2217,70 @@
                     "suffix": "9V"
                 }, {
                     "description": "I will buy rechargeable batteries instead of disposable ones."
+                }, {
+                    "assumptions": [{
+                        "description": "Disposable batteries are alkaline and rechargable batteries are NiCd.",
+                        "text_only": true
+                    }, {
+                        "description": "Rechargeable batteries can be re-used",
+                        "input": {
+                            "id": "input_takeaction_rechargeable_batteries_uses",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "times"
+                    }, {
+                        "description": "and cost",
+                        "input": {
+                            "id": "input_takeaction_rechargeable_batteries_cost_multiple",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "times as much as disposable models."
+                    }, {
+                        "description": "Cost of disposable batteries:",
+                        "text_only": true
+                    }, {
+                        "prefix": "$",
+                        "input": {
+                            "id": "input_takeaction_rechargeable_batteries_cost_aaa",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "per AAA"
+                    }, {
+                        "prefix": "$",
+                        "input": {
+                            "id": "input_takeaction_rechargeable_batteries_cost_aa",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "per AA"
+                    }, {
+                        "prefix": "$",
+                        "input": {
+                            "id": "input_takeaction_rechargeable_batteries_cost_c",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "per C"
+                    }, {
+                        "prefix": "$",
+                        "input": {
+                            "id": "input_takeaction_rechargeable_batteries_cost_d",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "per d"
+                    }, {
+                        "prefix": "$",
+                        "input": {
+                            "id": "input_takeaction_rechargeable_batteries_cost_9v",
+                            "size": "3",
+                            "maxlength": "3"
+                        },
+                        "suffix": "per 9V"
+                    }]
                 }],
                 "rebates": {
                     "url": "http://www.coolcalifornia.org/funding-wizard#search//%255BZipcode%253D%253D94720%255D%255BEligible+Applicants%253D%253DIndividual%255D%255BCategory%253D%253DEnergy%255D/false/none/false/1/12",
@@ -1742,6 +2343,14 @@
                         }]
                     },
                     "suffix": "of my monitors during nights and weekends."
+                }, {
+                    "assumptions": [{
+                        "description": "You save 500 kWh every year from putting computers in sleep mode.",
+                        "text_only": true
+                    }, {
+                        "description": "You save 250 kWh every year from putting your monitors in sleep mode.",
+                        "text_only": true
+                    }]
                 }],
                 "fact": "'Eat up' less energy: A new refrigerator with an ENERGY STAR label beats current federal standards by at least 20%.",
                 "rebates": {
@@ -1803,6 +2412,19 @@
                         "maxlength": "3"
                     },
                     "suffix": "per metric ton of CO2e."
+                }, {
+                    "assumptions": [{
+                        "description": "cost of electricity",
+                        "input": {
+                            "id": "input_takeaction_purchase_green_electricity_kwhcost",
+                            "size": "2",
+                            "maxlength": "2"
+                        },
+                        "suffix": "cents per kWh"
+                    }, {
+                        "description": "Green Power Facts Source: National Renewable Energy Laboratory Report - Voluntary Green Power Market Forecast through 2015. May 2010",
+                        "text_only": true
+                    }]
                 }],
                 "fact": "Voluntary buy-in to EPA-certified green power has soared with 41% annual growth rates since 2004, and one in four utilites now offering the green power upgrade option. If you haven't joined yet, it's a simple and effective way to green your home's power.",
                 "rebates": {
@@ -1895,6 +2517,16 @@
                         "maxlength": "2"
                     },
                     "suffix": "per watt."
+                }, {
+                    "assumptions": [{
+                      "description": "Price of electricity:",
+                      "show": "input_takeaction_assumption_kwhprice",
+                      "suffix": "(cents/kWh)"
+                    },
+                    {
+                      "description": "We assume 1654 kWh per Watt annual generation capacity (average for California). Actual generation capacity will vary by location, panel orientation, tree shading and other factors.",
+                      "text_only": true
+                    }]
                 }],
                 "rebates": {
                     "url": "http://www.coolcalifornia.org/funding-wizard#search/home+electricity//false/none/false/1/12",
@@ -2035,6 +2667,33 @@
                         "size": "4",
                         "maxlength": "4"
                     }
+                }, {
+                    "assumptions": [{
+                      "description": "The cost to heat a gallon of water using natural gas is $",
+                      "input": {
+                          "id": "input_takeaction_low_flow_showerheads_nat_gas_gallon",
+                          "size": "4",
+                          "maxlength": "4"
+                      }
+                    },
+                    {
+                      "description": "We assume that the conventional showerheads use",
+                      "input": {
+                          "id": "input_takeaction_low_flow_showerheads_old_flow",
+                          "size": "4",
+                          "maxlength": "4"
+                      },
+                      "suffix": "gallons per minute"
+                    },
+                    {
+                      "description": "while the new low-flow showerheads use",
+                      "input": {
+                          "id": "input_takeaction_low_flow_showerheads_new_flow",
+                          "size": "4",
+                          "maxlength": "4"
+                      },
+                      "suffix": "gallons per minute"
+                    }]
                 }]
             },
             "low_flow_faucets": {
@@ -2071,6 +2730,34 @@
                         "size": "4",
                         "maxlength": "4"
                     }
+                }, {
+                    "assumptions": [{
+                      "description": "On average, we assume that a faucet is used for",
+                      "input": {
+                          "id": "input_takeaction_low_flow_faucets_minutes",
+                          "size": "4",
+                          "maxlength": "4"
+                      },
+                      "suffix": "per use."
+                    },
+                    {
+                      "description": "We assume that the conventional faucets use",
+                      "input": {
+                          "id": "input_takeaction_low_flow_faucets_conventional",
+                          "size": "4",
+                          "maxlength": "4"
+                      },
+                      "suffix": "gallons per minute"
+                    },
+                    {
+                      "description": "while the new low-flow faucets use",
+                      "input": {
+                          "id": "input_takeaction_low_flow_faucets_efficient",
+                          "size": "4",
+                          "maxlength": "4"
+                      },
+                      "suffix": "gallons per minute."
+                    }]
                 }]
             },
             "low_flow_toilet": {
@@ -2204,6 +2891,15 @@
                         }]
                     },
                     "suffix": "on the line or on a rack."
+                }, {
+                    "assumptions": [{
+                      "description": "Price of electricity (based on energy prices for the location you selected in the Introduction tab):",
+                      "show": "input_takeaction_assumption_kwhprice",
+                      "suffix": "(cents/kWh)"
+                    },
+                    {
+                      "description": "kWh per load: 3.16"
+                    }]
                 }],
                 "fact": "If it's not sunny enough outdoors, consider drying indoors. On top of saving emissions and money, it's nicer for your clothes and helps extend their lifetime.",
                 "rebates": {
@@ -2927,6 +3623,25 @@
                         }]
                     },
                     "suffix": "of my plants are maintained through drip-irrigation."
+                }, {
+                    "assumptions": [{
+                      "description": "We assume that the incremental cost of drip irrigation is $",
+                      "input": {
+                          "id": "input_takeaction_water_efficient_landscaping_cost_drip",
+                          "size": "4",
+                          "maxlength": "4"
+                      },
+                      "suffix": "per square foot"
+                    },
+                    {
+                      "description": "and the incremental cost of drought-tolerant plants is $",
+                      "input": {
+                          "id": "input_takeaction_water_efficient_landscaping_cost_drought",
+                          "size": "4",
+                          "maxlength": "4"
+                      },
+                      "suffix": "per square foot"
+                    }]
                 }]
             },
             "plant_trees": {
@@ -2949,6 +3664,15 @@
                         "size": "4",
                         "maxlength": "4"
                     }
+                }, {
+                    "assumptions": [{
+                      "description": "Each year, you save $10 for every tree planted.",
+                      "text_only": true
+                    },
+                    {
+                      "description": "A large portion of your savings come from reduced AC use as a result of increased shading and a reduction in outside temperature. Trees also reduce heating by lowering wind speed.",
+                      "text_only": true
+                    }]
                 }]
             },
             "reduce_comm_waste": {
@@ -3027,6 +3751,15 @@
                             "text": "100%"
                         }]
                     }
+                }, {
+                    "assumptions": [{
+                      "description": "225 pounds of waste per cubic yard: Source: EPA Warm Model",
+                      "text_only": true
+                    },
+                    {
+                      "description": "0.58 tCO2 (from methane) per short ton of waste: Source: EPA Warm Model",
+                      "text_only": true
+                    }]
                 }]
             },
             "print_double_sided": {
@@ -3039,6 +3772,15 @@
                         "maxlength": "3"
                     },
                     "suffix": "sheets double-sided."
+                }, {
+                    "assumptions": [{
+                      "description": "14,409 lbs CO2 per ton of paper: Source: Calrecycle",
+                      "text_only": true
+                    },
+                    {
+                      "description": "0.006 dollars per sheet of paper",
+                      "text_only": true
+                    }]
                 }]
             }
         },
@@ -3294,6 +4036,11 @@
                     "description": "Total:",
                     "show": "result_takeaction_low_carbon_diet_totalcal",
                     "suffix": "calories/day"
+                }, {
+                    "assumptions": [{
+                      "description": "Food prices are based on average U.S. prices for each category of food items (meat, dairy, fruits & vegetables, cereals and other). The actual carbon footprint and price of food you purchase may vary substantially from these values",
+                      "text_only": true
+                    }]
                 }],
                 "fact": "A third of all food emissions in the United States come from red meat and dairy products, while chicken and vegetables have up to ten times smaller footprints per serving, so small diet switches can make a BIG difference."
             },
@@ -3539,6 +4286,306 @@
                             "text": "0%"
                         }]
                     }
+                }, {
+                    "assumptions": [{
+                      "description": "The carbon footprint of:",
+                      "text_only": true
+                    },
+                    {
+                      "description": "organic produce is",
+                      "select": {
+                          "id": "input_takeaction_go_organic_myproduce",
+                          "options": [{
+                              "value": "1.5",
+                              "text": "150%"
+                          }, {
+                              "value": "1.4",
+                              "text": "140%"
+                          }, {
+                              "value": "1.3",
+                              "text": "130%"
+                          }, {
+                              "value": "1.2",
+                              "text": "120%"
+                          }, {
+                              "value": "1.1",
+                              "text": "110%"
+                          }, {
+                              "value": "1",
+                              "text": "100%"
+                          }, {
+                              "value": "0.9",
+                              "text": "90%"
+                          }, {
+                              "value": "0.8",
+                              "text": "80%"
+                          }, {
+                              "value": "0.7",
+                              "text": "70%"
+                          }, {
+                              "value": "0.6",
+                              "text": "60%"
+                          }, {
+                              "value": "0.5",
+                              "text": "50%"
+                          }]
+                      },
+                      "suffix": "of conventional"
+                    },
+                    {
+                      "description": "organic meat is",
+                      "select": {
+                          "id": "input_takeaction_go_organic_mymeat",
+                          "options": [{
+                              "value": "1.5",
+                              "text": "150%"
+                          }, {
+                              "value": "1.4",
+                              "text": "140%"
+                          }, {
+                              "value": "1.3",
+                              "text": "130%"
+                          }, {
+                              "value": "1.2",
+                              "text": "120%"
+                          }, {
+                              "value": "1.1",
+                              "text": "110%"
+                          }, {
+                              "value": "1",
+                              "text": "100%"
+                          }, {
+                              "value": "0.9",
+                              "text": "90%"
+                          }, {
+                              "value": "0.8",
+                              "text": "80%"
+                          }, {
+                              "value": "0.7",
+                              "text": "70%"
+                          }, {
+                              "value": "0.6",
+                              "text": "60%"
+                          }, {
+                              "value": "0.5",
+                              "text": "50%"
+                          }]
+                      },
+                      "suffix": "of conventional"
+                    },
+                    {
+                      "description": "organic dairy is",
+                      "select": {
+                          "id": "input_takeaction_go_organic_mydairy",
+                          "options": [{
+                              "value": "1.5",
+                              "text": "150%"
+                          }, {
+                              "value": "1.4",
+                              "text": "140%"
+                          }, {
+                              "value": "1.3",
+                              "text": "130%"
+                          }, {
+                              "value": "1.2",
+                              "text": "120%"
+                          }, {
+                              "value": "1.1",
+                              "text": "110%"
+                          }, {
+                              "value": "1",
+                              "text": "100%"
+                          }, {
+                              "value": "0.9",
+                              "text": "90%"
+                          }, {
+                              "value": "0.8",
+                              "text": "80%"
+                          }, {
+                              "value": "0.7",
+                              "text": "70%"
+                          }, {
+                              "value": "0.6",
+                              "text": "60%"
+                          }, {
+                              "value": "0.5",
+                              "text": "50%"
+                          }]
+                      },
+                      "suffix": "of conventional"
+                    },
+                    {
+                      "description": "Price of Organics vs Conventional food products:",
+                      "text_only": true
+                    },
+                    {
+                      "description": "Organic produce costs",
+                      "select": {
+                          "id": "input_takeaction_go_organic_myprodcost",
+                          "options": [{
+                              "value": "3",
+                              "text": "300%"
+                          }, {
+                              "value": "2.8",
+                              "text": "280%"
+                          }, {
+                              "value": "2.6",
+                              "text": "260%"
+                          }, {
+                              "value": "2.4",
+                              "text": "240%"
+                          }, {
+                              "value": "2.2",
+                              "text": "220%"
+                          }, {
+                              "value": "2",
+                              "text": "200%"
+                          }, {
+                              "value": "1.8",
+                              "text": "180%"
+                          }, {
+                              "value": "1.6",
+                              "text": "160%"
+                          }, {
+                              "value": "1.4",
+                              "text": "140%"
+                          }, {
+                              "value": "1.2",
+                              "text": "120%"
+                          }, {
+                              "value": "1",
+                              "text": "100%"
+                          }, {
+                              "value": "0.8",
+                              "text": "80%"
+                          }, {
+                              "value": "0.6",
+                              "text": "60%"
+                          }, {
+                              "value": "0.4",
+                              "text": "40%"
+                          }, {
+                              "value": "0.2",
+                              "text": "20%"
+                          }, {
+                              "value": "0",
+                              "text": "0%"
+                          }]
+                      },
+                      "suffix": "of conventional"
+                    },
+                    {
+                      "description": "Organic meat costs",
+                      "select": {
+                          "id": "input_takeaction_go_organic_mymeatcost",
+                          "options": [{
+                              "value": "3",
+                              "text": "300%"
+                          }, {
+                              "value": "2.8",
+                              "text": "280%"
+                          }, {
+                              "value": "2.6",
+                              "text": "260%"
+                          }, {
+                              "value": "2.4",
+                              "text": "240%"
+                          }, {
+                              "value": "2.2",
+                              "text": "220%"
+                          }, {
+                              "value": "2",
+                              "text": "200%"
+                          }, {
+                              "value": "1.8",
+                              "text": "180%"
+                          }, {
+                              "value": "1.6",
+                              "text": "160%"
+                          }, {
+                              "value": "1.4",
+                              "text": "140%"
+                          }, {
+                              "value": "1.2",
+                              "text": "120%"
+                          }, {
+                              "value": "1",
+                              "text": "100%"
+                          }, {
+                              "value": "0.8",
+                              "text": "80%"
+                          }, {
+                              "value": "0.6",
+                              "text": "60%"
+                          }, {
+                              "value": "0.4",
+                              "text": "40%"
+                          }, {
+                              "value": "0.2",
+                              "text": "20%"
+                          }, {
+                              "value": "0",
+                              "text": "0%"
+                          }]
+                      },
+                      "suffix": "of conventional"
+                    },
+                    {
+                      "description": "Organic dairy costs",
+                      "select": {
+                          "id": "input_takeaction_go_organic_mydairycost",
+                          "options": [{
+                              "value": "3",
+                              "text": "300%"
+                          }, {
+                              "value": "2.8",
+                              "text": "280%"
+                          }, {
+                              "value": "2.6",
+                              "text": "260%"
+                          }, {
+                              "value": "2.4",
+                              "text": "240%"
+                          }, {
+                              "value": "2.2",
+                              "text": "220%"
+                          }, {
+                              "value": "2",
+                              "text": "200%"
+                          }, {
+                              "value": "1.8",
+                              "text": "180%"
+                          }, {
+                              "value": "1.6",
+                              "text": "160%"
+                          }, {
+                              "value": "1.4",
+                              "text": "140%"
+                          }, {
+                              "value": "1.2",
+                              "text": "120%"
+                          }, {
+                              "value": "1",
+                              "text": "100%"
+                          }, {
+                              "value": "0.8",
+                              "text": "80%"
+                          }, {
+                              "value": "0.6",
+                              "text": "60%"
+                          }, {
+                              "value": "0.4",
+                              "text": "40%"
+                          }, {
+                              "value": "0.2",
+                              "text": "20%"
+                          }, {
+                              "value": "0",
+                              "text": "0%"
+                          }]
+                      },
+                      "suffix": "of conventional"
+                    }]
                 }],
                 "fact": "Organic products are available in nearly 20,000 natural foods stores, and are sold in nearly three-quarters of all conventional grocery stores."
             }

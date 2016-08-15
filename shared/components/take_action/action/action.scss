@@ -26,6 +26,10 @@
     margin-top: 15px;
   }
 
+  .action__assumptions-body {
+    color: #696969;
+  }
+
   .action__savings {
     text-align:center;
     > div {
@@ -40,16 +44,23 @@
     }
   }
 
+  .action__fact {
+    color: #009966;
+  }
+
   .table > tbody > tr > td {
     border-top: 0px;
     line-height: 1em;
     vertical-align: middle;
     padding: 3px;
     width: 50%;
+    &:nth-child(2){
+      vertical-align: top;
+    }
   }
 }
 
-.assumption {
+.critical_assumptions {
   margin-top: 15px;
   border: 1px solid #46b8da;
   border-radius: 12px;
@@ -60,7 +71,7 @@
 }
 
 .action,
-.assumption {
+.critical_assumptions {
   .table > tbody > tr > td {
     border-top: 0px;
     line-height: 1em;
