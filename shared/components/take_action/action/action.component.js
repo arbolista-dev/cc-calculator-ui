@@ -44,8 +44,11 @@ class ActionComponent extends Translatable {
 
   get content(){
     console.log('Get content for key: ', this.state.key)
-    let content = this.t(`actions.${this.state.category}.${this.state.key}.content`, {returnObjects: true})
-    return content;
+    return this.t(`actions.${this.state.category}.${this.state.key}.content`, {returnObjects: true});
+  }
+
+  get assumptions_content(){
+    return this.t(`critical_assumptions.content`, {returnObjects: true});
   }
 
   get tons_saved(){
@@ -331,9 +334,10 @@ class ActionComponent extends Translatable {
 }
 
 ActionComponent.propTypes = {
-  action_key: React.PropTypes.string.isRequired,
-  category: React.PropTypes.string.isRequired,
-  show: React.PropTypes.bool.isRequired
+  is_assumption: React.PropTypes.bool.isRequired,
+  action_key: React.PropTypes.string,
+  category: React.PropTypes.string,
+  show: React.PropTypes.bool
 };
 
 ActionComponent.NAME = 'Action';

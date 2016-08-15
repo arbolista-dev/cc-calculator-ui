@@ -23,17 +23,18 @@
     </div>
   </div>
 
-  <!-- <div id="action_shared_assumptions">
+  <div id="action_shared_assumptions">
     <a type="button"
       class="btn btn-sm btn-info"
       onClick="{this.toggleSharedAssumptions.bind(this)}"
        >{this.t('take_action.shared_assumptions')}</a>
-  </div> -->
+       <Action is_assumption={true} show="{this.state.show_shared_assumptions}"></Action>
+  </div>
 
   <div class="cc-component__form">
     <div>
       <rt-virtual rt-repeat="category in this.actions_list">
-        <Action rt-repeat="key in category.keys" action_key="{key}" category="{category.category}" show="{this.showAction(key)}"></Action>
+        <Action rt-repeat="key in category.keys" action_key="{key}" category="{category.category}" show="{this.showAction(key)}" is_assumption={false}></Action>
       </virtual>
     </div>
   </div>

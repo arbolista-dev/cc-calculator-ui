@@ -48,3 +48,24 @@
     width: 50%;
   }
 }
+
+.assumption {
+  margin-top: 15px;
+  border: 1px solid #46b8da;
+  border-radius: 12px;
+  background-color: #eee;
+  .table {
+    margin-top: 20px;
+  }
+}
+
+.action,
+.assumption {
+  .table > tbody > tr > td {
+    border-top: 0px;
+    line-height: 1em;
+    vertical-align: middle;
+    padding: 3px;
+    width: 50%;
+  }
+}

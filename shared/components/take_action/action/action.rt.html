@@ -1,74 +1,104 @@
-<div class="action" rt-class="{hidden: !this.props.show}">
-  <div class="action__heading"
-    rt-class="{'action__heading--taken': this.taken}"
-    onClick="{this.toggleActionDetails.bind(this)}">
-    <h5>{this.display_name}</h5>
-    <div class="action__savings" rt-class="{hidden: !this.is_shown_detailed}">
-      <div>
-        <div class="action__savings-amount">{this.tons_saved}</div>
-        <div class="action__savings-label">{this.t('take_action.tons_saved')}</div>
+<div rt-class="{hidden: !this.props.show}">
+  <div class="action" rt-if="!this.props.is_assumption">
+    <div class="action__heading"
+      rt-class="{'action__heading--taken': this.taken}"
+      onClick="{this.toggleActionDetails.bind(this)}">
+      <h5>{this.display_name}</h5>
+      <div class="action__savings" rt-class="{hidden: !this.is_shown_detailed}">
+        <div>
+          <div class="action__savings-amount">{this.tons_saved}</div>
+          <div class="action__savings-label">{this.t('take_action.tons_saved')}</div>
+        </div>
+        <div>
+          <div class="action__savings-amount">${this.dollars_saved}</div>
+          <div class="action__savings-label">{this.t('take_action.dollars_saved')}</div>
+        </div>
+        <div>
+          <div class="action__savings-amount">${this.upfront_cost}</div>
+          <div class="action__savings-label">{this.t('take_action.upfront_cost')}</div>
+        </div>
+        <button class="btn btn-default"
+          onClick="{this.toggleAction.bind(this, this.action)}">
+          <i class="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
+        </button>
       </div>
-      <div>
-        <div class="action__savings-amount">${this.dollars_saved}</div>
-        <div class="action__savings-label">{this.t('take_action.dollars_saved')}</div>
+    </div>
+    <div class="action__body" rt-class="{hidden: !this.state.detailed}">
+      <div class="action__content">
+        <div class="table-responsive">
+         <table class="table">
+           <tbody>
+             <tr rt-repeat="block in this.content">
+               <td>
+                 <p class="text-right">
+                   <span rt-if="!block.text_url">{block.description}</span>
+                   <a rt-if="block.text_url" href="{block.text_url}">{block.description}</a>
+                 </p>
+               </td>
+               <!-- <td>
+                 <p class="text-right">{block.prefix}</p>
+               </td> -->
+               <td>
+                 <p rt-if="block.select">
+                   {block.prefix}
+                   <select id="{block.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}" value="{this.getSelectedOption(block.select.id)}">
+                    <option rt-repeat="option in this.setSelectOptions(block.select)" value="{option.value}">{option.text}</option>
+                  </select>
+                  {block.suffix}
+                 </p>
+                 <p rt-if="block.input">
+                   <span>{block.prefix} </span>
+                   <input type="text" id="{block.input.id}" value="{this.setInputState(block.input.id)}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
+                   <span> {block.suffix}</span>
+                 </p>
+                 <p rt-if="block.show" id="{block.show}">
+                   <span>{block.prefix} </span>
+                   {this.displayStateValue(block.show, block.suffix)}
+                 </p>
+               </td>
+             </tr>
+           </tbody>
+         </table>
+         <table class="table">
+           <tbody>
+             <tr rt-if="this.fact">
+                 {this.fact}
+             </tr>
+             <tr rt-if="this.rebates">
+                <a href="{this.rebates.url}" target="_blank">{this.rebates.text}</a>
+             </tr>
+           </tbody>
+         </table>
+        </div>
       </div>
-      <div>
-        <div class="action__savings-amount">${this.upfront_cost}</div>
-        <div class="action__savings-label">{this.t('take_action.upfront_cost')}</div>
-      </div>
-      <button class="btn btn-default"
-        onClick="{this.toggleAction.bind(this, this.action)}">
-        <i class="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
-      </button>
     </div>
   </div>
-  <div class="action__body" rt-class="{hidden: !this.state.detailed}">
-    <div class="action__content">
-      <div class="table-responsive">
-       <table class="table">
-         <tbody>
-           <tr rt-repeat="block in this.content">
-             <td>
-               <p class="text-right">
-                 <span rt-if="!block.text_url">{block.description}</span>
-                 <a rt-if="block.text_url" href="{block.text_url}">{block.description}</a>
-               </p>
-             </td>
-             <!-- <td>
-               <p class="text-right">{block.prefix}</p>
-             </td> -->
-             <td>
-               <p rt-if="block.select">
-                 {block.prefix}
-                 <select id="{block.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}" value="{this.getSelectedOption(block.select.id)}">
-                  <option rt-repeat="option in this.setSelectOptions(block.select)" value="{option.value}">{option.text}</option>
-                </select>
-                {block.suffix}
-               </p>
-               <p rt-if="block.input">
-                 <span>{block.prefix} </span>
-                 <input type="text" id="{block.input.id}" value="{this.setInputState(block.input.id)}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
-                 <span> {block.suffix}</span>
-               </p>
-               <p rt-if="block.show" id="{block.show}">
-                 <span>{block.prefix} </span>
-                 {this.displayStateValue(block.show, block.suffix)}
-               </p>
-             </td>
-           </tr>
-         </tbody>
-       </table>
-       <table class="table">
-         <tbody>
-           <tr rt-if="this.fact">
-               {this.fact}
-           </tr>
-           <tr rt-if="this.rebates">
-              <a href="{this.rebates.url}" target="_blank">{this.rebates.text}</a>
-           </tr>
-         </tbody>
-       </table>
-      </div>
+
+  <div class="assumption" rt-if="this.props.is_assumption">
+    <div class="table-responsive">
+     <table class="table">
+       <tbody>
+         <tr rt-repeat="block in this.assumptions_content">
+           <td>
+             <p class="text-right">
+               <span rt-if="!block.text_url">{block.description}</span>
+               <a rt-if="block.text_url" href="{block.text_url}">{block.description}</a>
+             </p>
+           </td>
+           <td>
+             <p rt-if="block.input" class="text-left">
+               <span>{block.prefix} </span>
+               <input type="text" id="{block.input.id}" value="{this.setInputState(block.input.id)}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
+               <span> {block.suffix}</span>
+             </p>
+             <p rt-if="block.show" id="{block.show}" class="text-left">
+               <span>{block.prefix} </span>
+               {this.displayStateValue(block.show, block.suffix)}
+             </p>
+           </td>
+         </tr>
+       </tbody>
+     </table>
     </div>
   </div>
 </div>

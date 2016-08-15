@@ -283,7 +283,7 @@
         }
       }, {
           "description": "Electricity emission factor (gCO2/kWh)",
-          "show": "takeaction_display_gco2perkwh"
+          "show": "input_footprint_housing_gco2_per_kwh"
       }, {
           "description": "Natural gas price",
           "prefix": "($/therm):",
