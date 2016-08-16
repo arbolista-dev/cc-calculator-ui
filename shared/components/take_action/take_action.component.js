@@ -28,7 +28,7 @@ class TakeActionComponent extends Panel {
     take_action.state['input_action_category'] = ACTIONS_LIST[0].category;
     take_action.state['show_actions'] = ACTIONS_LIST[0].keys;
     take_action.state['vehicles'] = take_action.vehicles;
-    take_action.state['show_shared_assumptions'] = false;
+    take_action.state['show_critical_assumptions'] = false;
   }
 
   get vehicles(){
@@ -76,8 +76,8 @@ class TakeActionComponent extends Panel {
     return this.state_manager['result_takeaction_net10yr'];
   }
 
-  get show_shared_assumptions(){
-    return this.state['show_shared_assumptions']
+  get show_critical_assumptions(){
+    return this.state['show_critical_assumptions']
   }
 
   setSelectOptions(select) {
@@ -120,9 +120,9 @@ class TakeActionComponent extends Panel {
     take_action.setActiveActionsByCategory(category);
   }
 
-  toggleSharedAssumptions(){
+  toggleCriticalAssumptions(){
     this.setState({
-      show_shared_assumptions: !this.state.show_shared_assumptions
+      show_critical_assumptions: !this.state.show_critical_assumptions
     })
   }
 

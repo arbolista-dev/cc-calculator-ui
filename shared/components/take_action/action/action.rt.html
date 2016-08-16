@@ -19,7 +19,7 @@
           <div class="action__savings-label">{this.t('take_action.upfront_cost')}</div>
         </div>
         <button class="btn btn-default"
-          onClick="{this.toggleAction.bind(this)}">
+          onClick="{this.toggleAction.bind(this)}"> Pledge
           <i class="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
         </button>
       </div>
@@ -31,13 +31,19 @@
            <tbody>
              <rt-virtual rt-repeat="block in this.content">
                <tr rt-if="!block.assumptions">
-                 <td>
+                 <td colspan="2" rt-if="block.text_only">
+                   <p class="text-center">
+                     <span rt-if="!block.text_url">{block.description}</span>
+                     <a rt-if="block.text_url" href="{block.text_url}">{block.description}</a>
+                   </p>
+                 </td>
+                 <td colspan="0" rt-if="!block.text_only">
                    <p class="text-right">
                      <span rt-if="!block.text_url">{block.description}</span>
                      <a rt-if="block.text_url" href="{block.text_url}">{block.description}</a>
                    </p>
                  </td>
-                 <td>
+                 <td colspan="0" rt-if="!block.text_only">
                    <p rt-if="block.select">
                      {block.prefix}
                      <select id="{block.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}" value="{this.getSelectedOption(block.select.id)}">
@@ -93,12 +99,16 @@
          <table class="table">
            <tbody>
              <tr rt-if="this.fact">
+               <td colspan="2">
                  <p class="action__fact">
                    {this.fact}
                  </p>
+               </td>
              </tr>
              <tr rt-if="this.rebates">
-                <a href="{this.rebates.url}" target="_blank">{this.rebates.text}</a>
+               <td colspan="2">
+                 <a href="{this.rebates.url}" target="_blank">{this.rebates.text}</a>
+               </td>
              </tr>
            </tbody>
          </table>

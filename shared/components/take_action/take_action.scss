@@ -24,9 +24,12 @@
   text-align:center;
 }
 
-#action_shared_assumptions {
+#action_critical_assumptions {
   text-align: center;
   padding-bottom: 15px;
+  .btn {
+    color: #000;
+  }
 }
 
 #action_category_btn_group {

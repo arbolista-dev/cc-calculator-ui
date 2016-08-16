@@ -219,7 +219,7 @@
     "take_action": {
         "title": "Take Action",
         "byline": "Offset your impact",
-        "shared_assumptions": "View Critical Assumptions",
+        "critical_assumptions": "Critical Assumptions",
         "route_path": "take_action",
         "tons_saved": "Tons saved",
         "dollars_saved": "Dollars saved",
@@ -602,7 +602,6 @@
                 "label": "Telecommute to work",
                 "content": [{
                     "description": "I will telecommute to work",
-                    "select": "input_takeaction_telecommute_to_work_days",
                     "select": {
                         "id": "input_takeaction_telecommute_to_work_days",
                         "options": [{
@@ -902,7 +901,6 @@
                     "show": "result_takeaction_maintain_my_vehicles_mpg",
                     "suffix": "miles per gallon."
                 }, {
-                    "description": "",
                     "select": {
                         "id": "input_takeaction_maintain_my_vehicles_tires",
                         "options": [{
@@ -914,7 +912,6 @@
                         }]
                     }
                 }, {
-                    "description": "",
                     "select": {
                         "id": "input_takeaction_maintain_my_vehicles_airfilter",
                         "options": [{
@@ -1224,7 +1221,8 @@
                     "suffix": "hours a day."
                 }, {
                     "description": "CFL's contain mercury so be sure to dispose of them safely. ",
-                    "text_url": "http://www2.epa.gov/cfl/recycling-and-disposal-after-cfl-burns-out"
+                    "text_url": "http://www2.epa.gov/cfl/recycling-and-disposal-after-cfl-burns-out",
+                    "text_only": true
                 }, {
                     "assumptions": [{
                         "description": "Wattage of incandescent bulbs:",
@@ -1689,7 +1687,6 @@
                     "prefix": "$",
                     "show": "result_takeaction_thermostat_summer_dollarsuse"
                 }, {
-                    "description": "",
                     "show": "result_takeaction_thermostat_summer_kwhuse",
                     "suffix": "kWh per year."
                 }, {
@@ -1840,7 +1837,8 @@
                     }
                 }, {
                     "description": "SEER Ratings",
-                    "text_url": "http://energy.gov/energysaver/articles/central-air-conditioning"
+                    "text_url": "http://energy.gov/energysaver/articles/central-air-conditioning",
+                    "text_only": true
                 }, {
                     "assumptions": [{
                         "description": "Price of electricity:",
@@ -1988,7 +1986,8 @@
             "energy_star_fridge": {
                 "label": "Replace refrigerator with Energy Star refrigerator",
                 "content": [{
-                    "description": "The next time I purchase a new refrigerator, I pledge to make it an Energy Star qualified decision."
+                    "description": "The next time I purchase a new refrigerator, I pledge to make it an Energy Star qualified decision.",
+                    "text_only": true
                 }, {
                     "description": "New refrigerator type:",
                     "select": {
@@ -2184,7 +2183,6 @@
                     },
                     "suffix": "AAA"
                 }, {
-                    "description": "",
                     "input": {
                         "id": "input_takeaction_rechargeable_batteries_amount_aa",
                         "size": "3",
@@ -2192,7 +2190,6 @@
                     },
                     "suffix": "AA"
                 }, {
-                    "description": "",
                     "input": {
                         "id": "input_takeaction_rechargeable_batteries_amount_c",
                         "size": "3",
@@ -2200,7 +2197,6 @@
                     },
                     "suffix": "C"
                 }, {
-                    "description": "",
                     "input": {
                         "id": "input_takeaction_rechargeable_batteries_amount_d",
                         "size": "3",
@@ -2208,7 +2204,6 @@
                     },
                     "suffix": "D"
                 }, {
-                    "description": "",
                     "input": {
                         "id": "input_takeaction_rechargeable_batteries_amount_9v",
                         "size": "3",
@@ -2922,9 +2917,11 @@
                     },
                     "suffix": "square feet"
                 }, {
-                    "description": "Water efficient landscapes can be obtained by introducing more drought-tolerant plants to your landscape and maintaining them more efficiently with drip-irrigation."
+                    "description": "Water efficient landscapes can be obtained by introducing more drought-tolerant plants to your landscape and maintaining them more efficiently with drip-irrigation.",
+                    "text_only": true
                 }, {
-                    "description": "<b>Landscape</b>"
+                    "description": "Landscape:",
+                    "text_only": true
                 }, {
                     "description": "The current composition of my landscape is:",
                     "select": {
@@ -3342,7 +3339,8 @@
                     },
                     "suffix": "drought-tolerant plants"
                 }, {
-                    "description": "<b>Irrigation</b>"
+                    "description": "Irrigation:",
+                    "text_only": true
                 }, {
                     "description": "Currently I use drip-irrigation to maintain",
                     "select": {
@@ -3647,7 +3645,8 @@
             "plant_trees": {
                 "label": "Plant trees",
                 "content": [{
-                    "description": "In addition to the direct energy saving benefits, planting trees can increase natural beauty of city landscapes, reduce pollution, cool outside temperatures, as well as provide wood, fruit and other beneficial products."
+                    "description": "In addition to the direct energy saving benefits, planting trees can increase natural beauty of city landscapes, reduce pollution, cool outside temperatures, as well as provide wood, fruit and other beneficial products.",
+                    "text_only": true
                 }, {
                     "description": "I will plant",
                     "input": {
@@ -3788,7 +3787,8 @@
             "low_carbon_diet": {
                 "label": "Eat a low carbon diet",
                 "content": [{
-                    "description": "Use the selectors below to choose your new diet. How much of the following will each person eat daily (calories per day)?"
+                    "description": "Use the selectors below to choose your new diet. How much of the following will each person eat daily (calories per day)?",
+                    "text_only": true
                 }, {
                     "description": "Meat",
                     "select": {
@@ -3982,9 +3982,6 @@
                     "show": "result_takeaction_low_carbon_diet_cerealscal",
                     "suffix": "calories/day"
                 }, {
-                    "show": "result_takeaction_low_carbon_diet_fvcal",
-                    "suffix": "calories/day"
-                }, {
                     "description": "Other",
                     "select": {
                         "id": "input_takeaction_low_carbon_diet_otherfootprint",
@@ -4047,9 +4044,10 @@
             "go_organic": {
                 "label": "Go organic",
                 "content": [{
-                    "description": "Currently, there is not conclusive scientific evidence that organic food, in general, has lower greenhouse gas emissions than conventional products. However, there are a lot of environmental reasons to buy organic food including reducing chemical toxins in the environment and encouraging sustainable farming practices, which frequently accompany organic farming."
+                    "description": "Currently, there is not conclusive scientific evidence that organic food, in general, has lower greenhouse gas emissions than conventional products. However, there are a lot of environmental reasons to buy organic food including reducing chemical toxins in the environment and encouraging sustainable farming practices, which frequently accompany organic farming.",
+                    "text_only": true
                 }, {
-                    "description": "<b>I currently eat:</b>"
+                    "description": "I currently eat:"
                 }, {
                     "description": "Organic produce:",
                     "select": {
@@ -4168,7 +4166,7 @@
                         }]
                     }
                 }, {
-                    "description": "<b>I pledge to eat:</b>"
+                    "description": "I pledge to eat:"
                 }, {
                     "description": "Organic produce:",
                     "select": {

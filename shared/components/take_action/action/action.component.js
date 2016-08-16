@@ -31,7 +31,13 @@ class ActionComponent extends Translatable {
   }
 
   get fact(){
-    return this.t(`actions.${this.state.category}.${this.state.key}.fact`);
+    let fact = this.t(`actions.${this.state.category}.${this.state.key}.fact`, {defaultValue: ""});
+
+    if (fact.length > 0) {
+      return fact
+    } else {
+      return false;
+    }
   }
 
   get rebates(){
