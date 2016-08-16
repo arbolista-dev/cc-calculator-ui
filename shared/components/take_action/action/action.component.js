@@ -43,7 +43,6 @@ class ActionComponent extends Translatable {
   }
 
   get content(){
-    console.log('Get content for key: ', this.state.key)
     return this.t(`actions.${this.state.category}.${this.state.key}.content`, {returnObjects: true});
   }
 
@@ -85,13 +84,13 @@ class ActionComponent extends Translatable {
   }
 
 
-  toggleAction(selected_action){
+  toggleAction(){
     let action = this,
       update = {};
-    if (selected_action.taken){
-      update[selected_action.api_key] = 0;
+    if (this.taken){
+      update[this.api_key] = 0;
     } else {
-      update[selected_action.api_key] = 1;
+      update[this.api_key] = 1;
     }
     action.setState(update);
     action.updateTakeaction(update);
@@ -116,7 +115,6 @@ class ActionComponent extends Translatable {
     if (id.includes('display_takeaction')) {
       id = id.replace(/display_takeaction/i, 'input_takeaction')
     }
-    console.log(id, '= ', this.state_manager.state.user_footprint[id]);
     if (!suffix) {
       return this.state_manager.state.user_footprint[id]
     } else {
@@ -132,7 +130,6 @@ class ActionComponent extends Translatable {
 
     update[id] = parseInt(val);
     update['input_changed'] = id;
-    console.log('updateActionInput of: ', update)
     action.setState(update);
     action.updateTakeaction(update);
   }
@@ -161,10 +158,6 @@ class ActionComponent extends Translatable {
     action_key = event.target.dataset.action_key,
     id = event.target.id;
 
-    console.log('handleChange action key: ', action_key)
-    console.log('handleChange value: ', i)
-    console.log('handleChange id: ', id)
-
     if (is_vehicle > 0) {
       this.selectVehicle(i, action_key)
     } else {
@@ -173,21 +166,30 @@ class ActionComponent extends Translatable {
       this.setState(update);
       this.updateTakeaction(update);
     }
-
-    // if (action_key === 'reduce_air_travel') {
-    //   let update = {};
-    //   update['input_takeaction_reduce_air_travel_miles_percent'] = i;
-    //   this.setState(update);
-    //   this.updateTakeaction(update);
-    // }
   }
 
   getSelectedOption(id){
-    console.log('getSelectedOption of id', id)
-    console.log('=', this.state_manager.state.user_footprint[id])
+    let is_vehicle = id.lastIndexOf('vehicle_select'),
+    footprint = this.state_manager.state.user_footprint,
+    key = this.state.key,
+    mpg;
 
-    // currently not setting dropdown value --> use getInitialState()
-    return this.state[id]
+    if (is_vehicle > 0) {
+        if (key === 'ride_my_bike' || key ===  'telecommute_to_work' || key ===  'take_public_transportation') {
+          mpg = footprint['input_takeaction_' + key + '_mpg'];
+        } else {
+          mpg = footprint['input_takeaction_' + key + '_mpg_old'];
+        }
+
+        for (let i = 1; i <= 10; i++){
+          let fp_mpg = footprint[`input_footprint_transportation_mpg${i}`];
+          if (fp_mpg === mpg) {
+            return i
+          }
+        }
+    } else {
+      return this.state_manager.state.user_footprint[id]
+    }
   }
 
   selectVehicle(i, action_key){
@@ -210,56 +212,7 @@ class ActionComponent extends Translatable {
       this.setState(update);
       this.updateTakeaction(update);
     }
-
   }
-
-  // calcVehicleTotal(action_key){
-  //
-  //   let footprint = this.state_manager.state.user_footprint,
-  //       no_vehicles = this.state_manager.state.vehicles.length,
-  //       total_miles = 0,
-  //       total_mpg = 0,
-  //       update = {};
-  //
-  //   this.state_manager.state.vehicles.forEach((v) => {
-  //     total_miles += parseInt(v.miles);
-  //     total_mpg += parseInt(v.mpg);
-  //   });
-  //
-  //   if (action_key === 'practice_eco_driving') {
-  //     let newmpg = 'result_takeaction_practice_eco_driving_newmpg',
-  //     galsaved = 'result_takeaction_practice_eco_driving_galsaved';
-  //
-  //     // update['result_takeaction_practice_eco_driving_dispmiles'] = total_miles;
-  //     // update[newmpg] = Math.round(footprint[newmpg]);
-  //     // update[galsaved] = Math.round(footprint[galsaved]);
-  //     // update['result_takeaction_practice_eco_driving_mpg'] = total_mpg / no_vehicles;
-  //     // this.setState(update);
-  //     // this.updateTakeaction(update);
-  //
-  //     // footprint['result_takeaction_practice_eco_driving_dispmiles'] = total_miles;
-  //     // $('#result_takeaction_practice_eco_driving_dispmiles').text(total_miles).append(' ' + this.t(`travel.miles_abbr`));
-  //     //
-  //     // footprint['result_takeaction_practice_eco_driving_mpg'] = total_mpg / no_vehicles;
-  //     // $('#result_takeaction_practice_eco_driving_mpg').text(total_mpg / no_vehicles).append(' ' + this.t(`travel.miles_per_gallon`));
-  //     //
-  //     //
-  //     // $('#' + newmpg).text(Math.round(footprint[newmpg])).append(' ' + this.t(`travel.miles_per_gallon`));
-  //     // $('#' + galsaved).text(Math.round(footprint[galsaved])).append(' ' + this.t(`travel.gallons_per_year`));
-  //
-  //   } else {
-  //     $('#result_takeaction_maintain_my_vehicles_dispmiles').text(total_miles).append(' ' + this.t(`travel.miles_abbr`));
-  //     $('#result_takeaction_maintain_my_vehicles_mpg').text(total_mpg / no_vehicles).append(' ' + this.t(`travel.miles_per_gallon`));
-  //
-  //   }
-  // }
-
-  // getAirTotal(){
-  //   let footprint = this.state_manager.state.user_footprint;
-  //
-  //   $('#result_takeaction_reduce_air_travel_totalmiles').text(footprint['result_takeaction_reduce_air_travel_totalmiles']).append(' ' + this.t(`travel.miles_per_year`));
-  //   $('#result_takeaction_reduce_air_travel_pounds_from_flight').text(footprint['result_takeaction_reduce_air_travel_pounds_from_flight']).append(' ' + this.t(`travel.co2_per_year`));
-  // }
 
   userApiValue(api_key){
     return this.state_manager.user_footprint[api_key];
@@ -283,16 +236,6 @@ class ActionComponent extends Translatable {
 
   updateFootprintParams(params){
     this.state_manager.updateFootprintParams(params);
-  }
-
-  updateTakeactionInput(event){
-    let action = this,
-        api_key = event.target.dataset.api_key,
-        update = {
-          [api_key]: event.target.value
-        };
-    action.setState(update);
-    action.updateTakeaction(update);
   }
 
   updateTakeaction(params){
@@ -323,8 +266,6 @@ class ActionComponent extends Translatable {
 
   componentDidMount(){
     if (this.category === 'transportation') this.selectVehicle(1, this.key);
-    // if (this.key === 'practice_eco_driving' || this.key === 'maintain_my_vehicles') this.calcVehicleTotal(this.key);
-    // if (this.key === 'reduce_air_travel') this.getAirTotal();
   }
 
   render(){

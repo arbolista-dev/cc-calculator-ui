@@ -106,7 +106,6 @@ class TakeActionComponent extends Panel {
     let update = {};
     this.actions_list.forEach((group) => {
       if(category === group.category) {
-        console.log('show Category: ',   group);
         update['show_actions'] = group.keys;
         this.setState(update);
       }
@@ -140,13 +139,13 @@ class TakeActionComponent extends Panel {
     this.setActiveActionsByCategory(this.state['input_action_category']);
   }
 
-  shouldComponentUpdate(nextProps, nextState){
-    if (Object.is(this.state, nextState)) {
-      return false
-    } else {
-      return true
-    }
-  }
+  // shouldComponentUpdate(nextProps, nextState){
+  //   if (Object.is(this.state, nextState)) {
+  //     return false
+  //   } else {
+  //     return true
+  //   }
+  // }
 
   render(){
     return template.call(this);

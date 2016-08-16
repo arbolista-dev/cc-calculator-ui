@@ -1,9 +1,10 @@
 <div rt-class="{hidden: !this.props.show}">
   <div class="action" rt-if="!this.props.is_assumption">
     <div class="action__heading"
-      rt-class="{'action__heading--taken': this.taken}"
-      onClick="{this.toggleActionDetails.bind(this)}">
-      <h5>{this.display_name}</h5>
+      rt-class="{'action__heading--taken': this.taken}">
+      <div class="action__title" onClick="{this.toggleActionDetails.bind(this)}">
+        <h5>{this.display_name}</h5>
+      </div>
       <div class="action__savings" rt-class="{hidden: !this.is_shown_detailed}">
         <div>
           <div class="action__savings-amount">{this.tons_saved}</div>
@@ -18,7 +19,7 @@
           <div class="action__savings-label">{this.t('take_action.upfront_cost')}</div>
         </div>
         <button class="btn btn-default"
-          onClick="{this.toggleAction.bind(this, this.action)}">
+          onClick="{this.toggleAction.bind(this)}">
           <i class="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
         </button>
       </div>

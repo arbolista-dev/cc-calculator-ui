@@ -4,13 +4,17 @@
   .action__heading {
     border-bottom:1px solid lightgrey;
     background-color:#F2F2F2;
-    cursor:pointer;
-    padding:4px;
     border-radius:5px;
   }
+
   .action__heading--taken {
     color:white;
     background-color:#449D44;
+  }
+
+  .action__title {
+    cursor:pointer;
+    padding: 4px;
   }
 
   .action__savings-amount {
@@ -26,8 +30,10 @@
     margin-top: 15px;
   }
 
+  .action__assumptions-header,
   .action__assumptions-body {
     color: #696969;
+    background-color: rgba(49, 176, 213, 0.1)
   }
 
   .action__savings {
