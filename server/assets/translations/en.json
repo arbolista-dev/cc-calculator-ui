@@ -155,7 +155,7 @@
     "title": "Your Footprint",
     "route_path": "footprint",
     "your_footprint": "Your household footprint",
-    "average_footprint": "Average household"
+    "average_footprint": "Similar household"
   },
   "take_action": {
     "title": "Take Action",
@@ -200,7 +200,7 @@
   "categories": {
     "result_transport_total": "Travel",
     "result_housing_total": "Home",
-    "result_food_total": "Dining",
+    "result_food_total": "Food",
     "result_goods_total": "Goods",
     "result_services_total": "Services"
   },
