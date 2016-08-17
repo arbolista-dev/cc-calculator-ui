@@ -93,7 +93,7 @@ class GraphsComponent extends Panel {
   }
 
   shouldShowTotal(){
-    if (this.current_route_name === 'GetStarted') {
+    if (this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint') {
       return false;
     } else {
       return true;

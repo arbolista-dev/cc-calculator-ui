@@ -198,7 +198,7 @@
     "average_action_savings": "Average Savings"
   },
   "categories": {
-    "result_transport_total": "Travel",
+  "result_transport_total": "Travel",
     "result_housing_total": "Home",
     "result_food_total": "Food",
     "result_goods_total": "Goods",
@@ -213,7 +213,7 @@
     "ride_my_bike": {"label": "Ride my bike"},
     "take_public_transportation": {"label": "Take public transportation"},
     "practice_eco_driving": {"label": "Practice eco driving"},
-    "maintain_my_vehicles": {"label": "Maintaine my vehicles"},
+    "maintain_my_vehicles": {"label": "Maintain my vehicles"},
     "carpool_to_work": {"label": "Carpool to work"},
     "reduce_air_travel": {"label": "Reduce air travel"},
     "switch_to_cfl": {"label": "Switch to CFL"},
