@@ -5,7 +5,7 @@ import React from 'react';
 import Panel from './../../lib/base_classes/panel';
 import template from './take_action.rt.html'
 
-export const ACTIONS_LIST = [{
+export const ACTIONS = [{
     "category": "transportation", "title": "Transportation",
     "keys": ["more_efficient_vehicle", "alternativefuel_vehicle", "electric_vehicle", "hybrid_vehicle", "telecommute_to_work", "ride_my_bike", "take_public_transportation", "practice_eco_driving", "maintain_my_vehicles", "carpool_to_work", "reduce_air_travel"]
 }, {
@@ -25,8 +25,8 @@ class TakeActionComponent extends Panel {
     take_action.action_keys = Object.keys(take_action.result_takeaction_pounds)
       .filter(key=> !/^offset_/.test(key));
     take_action.state = take_action.userApiState();
-    take_action.state['input_action_category'] = ACTIONS_LIST[0].category;
-    take_action.state['show_actions'] = ACTIONS_LIST[0].keys;
+    take_action.state['input_action_category'] = ACTIONS[0].category;
+    take_action.state['show_actions'] = ACTIONS[0].keys;
     take_action.state['vehicles'] = take_action.vehicles;
     take_action.state['show_critical_assumptions'] = false;
   }
@@ -47,12 +47,8 @@ class TakeActionComponent extends Panel {
     return vehicles;
   }
 
-  get action_categories(){
-    return ACTION_CATEGORIES;
-  }
-
   get actions_list(){
-    return ACTIONS_LIST;
+    return ACTIONS;
   }
 
   get relevant_api_keys(){
@@ -138,14 +134,6 @@ class TakeActionComponent extends Panel {
   componentWillMount(){
     this.setActiveActionsByCategory(this.state['input_action_category']);
   }
-
-  // shouldComponentUpdate(nextProps, nextState){
-  //   if (Object.is(this.state, nextState)) {
-  //     return false
-  //   } else {
-  //     return true
-  //   }
-  // }
 
   render(){
     return template.call(this);

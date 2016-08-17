@@ -44,6 +44,10 @@ class ActionComponent extends Translatable {
     return this.t(`actions.${this.state.category}.${this.state.key}.rebates`, {returnObjects: true});
   }
 
+  get taken(){
+    return parseInt(this.userApiValue(this.api_key)) === 1;
+  }
+
   get is_shown_detailed(){
     return this.state.detailed
   }
@@ -84,11 +88,6 @@ class ActionComponent extends Translatable {
     return this.numberWithCommas(
       Math.round(this.result_takeaction_net10yr[this.state.key]));
   }
-
-  get taken(){
-    return parseInt(this.userApiValue(this.api_key)) === 1;
-  }
-
 
   toggleAction(){
     let action = this,
@@ -206,13 +205,11 @@ class ActionComponent extends Translatable {
     update = {};
 
     if (action_key === 'ride_my_bike' || action_key ===  'telecommute_to_work' || action_key ===  'take_public_transportation') {
-
       update['input_takeaction_' + action_key + '_mpg'] = parseInt(v_mpg);
       this.setState(update);
       this.updateTakeaction(update);
 
     } else {
-
       update['input_takeaction_' + action_key + '_mpg_old'] = parseInt(v_mpg);
       update['input_takeaction_' + action_key + '_miles_old'] = parseInt(v_miles);
       this.setState(update);
@@ -250,13 +247,11 @@ class ActionComponent extends Translatable {
     action.state_manager.update_in_progress = true;
     action.updateFootprintParams(params);
 
-    // debounce updating take action results by 500ms.
     if (action.$update_takeaction) {
       clearTimeout(action.$update_takeaction);
     }
 
     action.$update_takeaction = setTimeout(()=>{
-      // This will also make necessary update to user footprint.
       action.state_manager.updateTakeactionResults()
         .then(()=>{
           let user_api_state = action.userApiState();
