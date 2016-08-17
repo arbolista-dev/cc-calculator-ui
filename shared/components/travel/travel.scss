@@ -19,9 +19,11 @@
   margin-left: 16%;
   .input-group-btn {
     display: inline;
+    &.open {
+      z-index: 9999 !important;
+    }
     .dropdown-menu {
       margin: 10px 0 0;
     }
   }
 }
-
