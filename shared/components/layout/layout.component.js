@@ -32,7 +32,7 @@ class LayoutComponent extends mixin(Translatable, routable) {
   }
 
   get alert_list() {
-    return this.state_manager.state.alerts;
+    return this.state_manager.state.alerts.shared;
   }
 
   get graphing_route(){

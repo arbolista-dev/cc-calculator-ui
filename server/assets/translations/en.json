@@ -17,7 +17,7 @@
     "submit": "Login"
   },
   "logout": {
-    "submit": "Logout"
+    "title": "Logout"
   },
   "forgot_password": {
     "title": "Forgot password",

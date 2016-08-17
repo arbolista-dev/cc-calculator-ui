@@ -38,7 +38,7 @@
 	<div rt-if="this.external_offset.banner_url" id="external_banner">
 		<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
 	</div>
-	<FlashMessage alerts="{this.alert_list}"></FlashMessage>
+	<FlashMessage alerts="{this.alert_list}" type="shared"></FlashMessage>
 	<main>
 		<ForgotPassword
 			rt-if="this.current_route_name === 'ForgotPassword'"
