@@ -12,7 +12,7 @@
 <rt-require dependency="./../settings/settings.component" as="Settings"/>
 <div id="cc_calculator_ui">
 	<nav class="navbar navbar-default">
-			<div id="cc_nav">
+			<div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.show_settings}">
 				<div
 					rt-repeat="route in this.router.main_routes"
 					class="cc-nav__item"
@@ -28,6 +28,7 @@
 					class="cc-nav__item"
 					id="settings_nav_item"
 					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
+					rt-if="this.show_settings"
 					onClick="{this.goToSettings.bind(this)}">
 				  <img src="/assets/img/settings.png"/>
 					<div>{this.t(`Settings`)}</div>
@@ -72,6 +73,23 @@
 		></Missing>
 	</main>
 	<Graphs rt-if="this.graphing_route"></Graphs>
+	<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
+		<a type="button"
+			class="btn btn-default"
+			data-toggle="modal" data-target="#forget_user_answers_content" href="#"><i class="fa fa-eraser" aria-hidden="true"></i></a>
+	</div>
+	<div rt-if="this.show_user_answers_reset" class="modal fade" id="forget_user_answers_content" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<p>{this.t('get_started.restore_defaults')}</p>
+					<p>
+						<a type="button" class="btn btn-default btn-danger" onClick="{this.setUserAnswersToDefault.bind(this)}" data-dismiss="modal" >{this.t('get_started.restore_defaults_button')}</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
   <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
 	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info btn-lg btn-block desktop">
 	    	{this.t('Take action now')}

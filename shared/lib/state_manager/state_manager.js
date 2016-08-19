@@ -34,7 +34,8 @@ export default class StateManager {
       chart: {
         show: true,
         type: 'bar'
-      }
+      },
+      show_settings: true
     };
   }
 
@@ -131,6 +132,15 @@ export default class StateManager {
     }
   }
 
+  setShowSettings(){
+    let state_manager = this;
+    if (state_manager.state.external_offset.hasOwnProperty('show_settings')) {
+      if (!state_manager.state.external_offset.show_settings) {
+        state_manager.state.show_settings = false;
+      }
+    }
+  }
+
   setRoute(route){
     let state_manager = this;
     state_manager.state.route = route;
@@ -145,14 +155,17 @@ export default class StateManager {
       // if(event.origin !== 'http://localhost:8080') return;
 
       let data = JSON.parse(event.data);
-      Object.assign(state_manager.state.external_offset, data)
+      console.log('receiveExternalOffset data: ', data);
+      Object.assign(state_manager.state.external_offset, data);
+      state_manager.setShowSettings();
+      state_manager.syncLayout();
     }),false);
 
   }
 
   getInitialData(){
     let state_manager = this;
-    state_manager.receiveExternalOffset()
+    state_manager.receiveExternalOffset();
 
     // we'll load past user answers and get CC results here.
     return state_manager.checkLocalStorage();
