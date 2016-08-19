@@ -1,10 +1,12 @@
-<div class="panel panel-coolclimate" id="login">
+<rt-require dependency="./../../flash_message/flash_message.component" as="FlashMessage"/>
 
+<div class="panel panel-coolclimate" id="login">
     <div class="panel-heading">
         {this.t('login.title')}
     </div>
 
     <div class="panel-body cc-component__form form-horizontal">
+      	<FlashMessage alerts="{this.alert_list}" type="login"></FlashMessage>
         <div class="cc-component__auth">
             <div class="form-group">
                 <label for="inputEmail" class="control-label">{this.t(`login.email`)}</label>

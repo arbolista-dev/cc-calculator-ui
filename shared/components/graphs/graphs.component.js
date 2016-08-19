@@ -93,7 +93,7 @@ class GraphsComponent extends Panel {
   }
 
   shouldShowTotal(){
-    if (this.current_route_name === 'GetStarted') {
+    if (this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint') {
       return false;
     } else {
       return true;
@@ -125,7 +125,9 @@ class GraphsComponent extends Panel {
   resize(){
     let graphs = this;
     graphs.bar_chart.redraw(graphs.graph_dimensions);
-    graphs.pie_chart.redraw(graphs.graph_dimensions);
+    if (graphs.pie_chart){
+      graphs.pie_chart.redraw(graphs.graph_dimensions);
+    }
   }
 
   get graph_dimensions(){

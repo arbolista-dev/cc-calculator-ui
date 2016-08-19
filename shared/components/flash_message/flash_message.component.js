@@ -19,17 +19,15 @@ class FlashMessageComponent extends Translatable {
 
   componentDidUpdate(){
     let flash_message = this;
-
-
     if (flash_message.alerts_not_empty) {
       let current_route = flash_message.router.current_route.key
 
-      for (let i = 0; i < flash_message.state_manager.state.alerts.length; i++ ) {
-        if (!flash_message.state_manager.state.alerts[i].initial_route) {
-          flash_message.state_manager.state.alerts[i].initial_route = current_route
+      for (let i = 0; i < flash_message.state_manager.state.alerts[this.props.type].length; i++ ) {
+        if (!flash_message.state_manager.state.alerts[this.props.type][i].initial_route) {
+          flash_message.state_manager.state.alerts[this.props.type][i].initial_route = current_route
         }
-        if (flash_message.state_manager.state.alerts[i].initial_route !== current_route) {
-          flash_message.state_manager.state.alerts.splice(i, 1);
+        if (flash_message.state_manager.state.alerts[this.props.type][i].initial_route !== current_route) {
+          flash_message.state_manager.state.alerts[this.props.type].splice(i, 1);
           flash_message.state_manager.syncLayout();
         }
       }
@@ -49,7 +47,8 @@ class FlashMessageComponent extends Translatable {
 }
 
 FlashMessageComponent.propTypes = {
-  alerts: React.PropTypes.array.isRequired
+  alerts: React.PropTypes.array.isRequired,
+  type: React.PropTypes.string.isRequired
 };
 
 FlashMessageComponent.NAME = 'FlashMessage';

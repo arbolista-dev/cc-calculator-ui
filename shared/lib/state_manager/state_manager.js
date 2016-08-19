@@ -25,7 +25,12 @@ export default class StateManager {
       user_footprint: {},
       external_offset: {},
       auth: {},
-      alerts: [],
+      alerts: {
+        sign_up: [],
+        login: [],
+        forgot_password: [],
+        shared: []
+      },
       chart: {
         show: true,
         type: 'bar'

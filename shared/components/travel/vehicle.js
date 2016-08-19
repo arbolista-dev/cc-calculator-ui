@@ -2,10 +2,23 @@ import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
 export default class Vehicle {
 
-  constructor(values, travel){
+  constructor(values, travel, consumption_unit){
     let vehicle = this;
     vehicle.travel = travel;
     vehicle.id = Vehicle.current_id;
+    vehicle.consumption_unit = consumption_unit;
+    vehicle.params = {
+      mpg: {
+        tick_values: [10, 25, 40, 55, 70, 85, 100, 115],
+        abs_min: 10,
+        abs_max: 115
+      },
+      kml: {
+        tick_values: [2, 6, 10, 14, 18, 22, 26, 30],
+        abs_min: 2,
+        abs_max: 30
+      }
+    };
 
     Object.assign(vehicle, values || {});
     Vehicle.current_id += 1;
@@ -38,7 +51,7 @@ export default class Vehicle {
     if (vehicle.slider) return false;
     vehicle.slider = new SimpleSlider({
       container: '#' + vehicle.slider_id,
-      tick_values: [0, 20, 40, 60, 80, 100],
+      tick_values: vehicle.params[vehicle.consumption_unit].tick_values,
       outer_height: 60,
       outer_width: vehicle.travel.slider_width,
       margin: {left: 10, right: 15, top: 0, bottom: 10},
@@ -49,16 +62,23 @@ export default class Vehicle {
       }
     })
     vehicle.slider.drawData({
-      abs_min: 0,
-      abs_max: 100,
+      abs_min: vehicle.params[vehicle.consumption_unit].abs_min,
+      abs_max: vehicle.params[vehicle.consumption_unit].abs_max,
       current_value: vehicle.mpg
     });
   }
 
   updateConsumptionSlider(){
-    this.slider.setValue(this.mpg, {exec_callback: false});
+    let vehicle = this;
+    vehicle.slider.redraw({
+      tick_values: vehicle.params[vehicle.consumption_unit].tick_values,
+      data: {
+        abs_min: vehicle.params[vehicle.consumption_unit].abs_min,
+        abs_max: vehicle.params[vehicle.consumption_unit].abs_max,
+        current_value: vehicle.mpg
+      }
+    });
   }
-
 }
 
 Vehicle.current_id = 0;
