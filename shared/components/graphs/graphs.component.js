@@ -191,7 +191,7 @@ class GraphsComponent extends Panel {
       placement: 'top',
       html: true,
       container: 'body',
-      trigger: 'click',
+      trigger: 'hover',
       content: function(){
         let klasses = window.jQuery(this)
           .attr('class').split(' '),
@@ -251,7 +251,7 @@ class GraphsComponent extends Panel {
       placement: 'top',
       html: true,
       container: 'body',
-      trigger: 'click',
+      trigger: 'hover',
       content: function(){
         let category = window.jQuery(this)
           .closest('.d3-value-arc')
