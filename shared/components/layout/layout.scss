@@ -82,7 +82,12 @@ a { cursor: pointer; }
   }
 }
 
-
+#forget_user_answers {
+	position: fixed;
+	left: 4px;
+	top: 35%;
+	display: block;
+}
 
 
 .container-md {
@@ -157,6 +162,7 @@ main > header {
 }
 
 #external_banner {
+	margin-top: 8px;
 	text-align:center;
 }
 

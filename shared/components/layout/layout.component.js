@@ -47,12 +47,26 @@ class LayoutComponent extends mixin(Translatable, routable) {
     return this.state_manager.state.show_settings;
   }
 
+  get show_user_answers_reset(){
+    if (this.current_route_name === 'GetStarted') {
+      return this.state_manager.user_footprint_storage.hasOwnProperty('input_size');
+    } else {
+      return false;
+    }
+  }
+
   get show_take_action_now(){
     return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
   }
 
   goToSettings(){
     this.router.goToRouteByName('Settings');
+  }
+
+  setUserAnswersToDefault(){
+    let layout = this;
+    layout.state_manager.setUserFootprintStorageToDefault();
+    layout.state_manager.state.alerts.shared.push({type: 'success', message: layout.t('success.answers_reset')});
   }
 
   componentDidMount() {

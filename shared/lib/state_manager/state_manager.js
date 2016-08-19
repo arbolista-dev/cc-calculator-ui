@@ -155,6 +155,7 @@ export default class StateManager {
       // if(event.origin !== 'http://localhost:8080') return;
 
       let data = JSON.parse(event.data);
+      console.log('receiveExternalOffset data: ', data);
       Object.assign(state_manager.state.external_offset, data);
       state_manager.setShowSettings();
       state_manager.syncLayout();
