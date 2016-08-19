@@ -68,11 +68,6 @@ class GetStartedComponent extends Panel {
     return LOCATION_MODES;
   }
 
-  get user_footprint_storage_set(){
-    let get_started = this;
-    return get_started.state_manager.user_footprint_storage
-  }
-
   get show_location_suggestions(){
     return this.state.show_location_suggestions;
   }

@@ -44,7 +44,8 @@
     },
     "United States": "United States",
     "average_household_size": "Avg (2.5)",
-    "forget_answers": "Forget my answers"
+    "restore_defaults": "Your answers are saved in browser storage.",
+    "restore_defaults_button": "Click here to reset to defaults"
   },
   "travel": {
     "title": "Travel",
