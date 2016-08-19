@@ -77,6 +77,10 @@ class GetStartedComponent extends Panel {
     return this.state.show_location_suggestions;
   }
 
+  get show_user_answers_reset(){
+    return !this.state_manager.state.show_settings;
+  }
+
   updateDefaults(default_params){
     let get_started = this;
 
@@ -167,6 +171,23 @@ class GetStartedComponent extends Panel {
       show_location_suggestions: false
     });
   }
+
+  setUserAnswersToDefault(){
+    let get_started = this;
+    get_started.state_manager.setUserFootprintStorageToDefault().then((res) => {
+      get_started.income_slider.drawData({
+        abs_min: 1,
+        abs_max: 11,
+        current_value: get_started.input_income
+      });
+      get_started.size_slider.drawData({
+        abs_min: 0,
+        abs_max: 5,
+        current_value: get_started.input_size
+      });
+    });
+    get_started.state_manager.state.alerts.shared.push({type: 'success', message: get_started.t('success.answers_reset')});
+    }
 
   /*
    * Income and Household Size UI

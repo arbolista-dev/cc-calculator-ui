@@ -6,6 +6,18 @@ a { cursor: pointer; }
 		div:first-child {
 			margin-left: 40px;
 		}
+
+		&.cc-nav__no-settings {
+			div:first-child {
+				margin-left: 1%;
+			}
+
+			.cc-nav__item,
+			#settings_nav_item {
+				width: 95px;
+				font-size: 14px;
+			}
+		}
 	}
 	.cc-nav__item {
 		cursor: pointer;
@@ -168,12 +180,12 @@ main > header {
 			div:first-child {
 				margin-left: 2%;
 			}
-		}
 
-		.cc-nav__item,
-		#settings_nav_item {
-			width: 80px;
-			font-size: 12px;
+			.cc-nav__item,
+			#settings_nav_item {
+				width: 80px;
+				font-size: 12px;
+			}
 		}
 	}
 }
