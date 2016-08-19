@@ -125,7 +125,9 @@ class GraphsComponent extends Panel {
   resize(){
     let graphs = this;
     graphs.bar_chart.redraw(graphs.graph_dimensions);
-    graphs.pie_chart.redraw(graphs.graph_dimensions);
+    if (graphs.pie_chart){
+      graphs.pie_chart.redraw(graphs.graph_dimensions);
+    }
   }
 
   get graph_dimensions(){
