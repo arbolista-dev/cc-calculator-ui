@@ -5,7 +5,7 @@ const updateLocation = createAction('Default action for updating url.');
 
 export { updateLocation };
 
-const BLANK_SESSION = { token: null };
+const BLANK_SESSION = { auth: null };
 
 /*
 {

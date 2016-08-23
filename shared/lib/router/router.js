@@ -23,15 +23,20 @@ export default class Router {
 
     router.update_in_progress = true;
     // router.state_manager = state_manager;
+
   }
 
   get default_update_location_action(){
     return extend(true, {}, DEFAULT_UPDATE_LOCATION_ACTION);
   }
-
-  get current_route(){
-    return this.state_manager.state.route;
-  }
+  //
+  // get current_route(){
+  //   return this.state_manager.state.route;
+  // }
+  //
+  // get main_routes(){
+  //   return this.routes.filter((route)=>{ return route.route_name !== 'Missing'; })
+  // }
 
   get main_routes(){
     return this.routes.filter((route)=>{
@@ -56,12 +61,14 @@ export default class Router {
 
   findRoute(pathname){
     let router = this;
+    console.log('findRoute - router, ', router)
     return router.routes.find((route) => {
       return route.matchesLocation(pathname);
     });
   }
 
   parseLocation(new_location){
+    console.log('parseLocation new_location: ', new_location);
     let route = this.findRoute(new_location.pathname),
         location = {
           pathname: new_location.pathname,
@@ -80,6 +87,10 @@ export default class Router {
   pushRoute(route_name, action, payload){
     let router = this,
         route = router.routes.getRoute(route_name);
+
+    console.log('pushRoute name: ', route_name);
+    console.log('pushRoute route: ', route);
+    console.log('pushRoute action: ', action);
 
     action = {
       type: action ? action.getType() : updateLocation.getType(),
@@ -145,7 +156,6 @@ export default class Router {
     return defineRoutes(i18n);
   }
 
-
   // locale(){
   //   let router = this;
   //   return router.current_route.params.locale;
@@ -172,7 +182,6 @@ export default class Router {
   // }
 
 
-  //
   // setLocation(location) {
   //   let router = this,
   //       new_route = router.findRoute(location);

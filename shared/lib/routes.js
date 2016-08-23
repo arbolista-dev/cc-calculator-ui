@@ -10,7 +10,7 @@ import Travel from './routes/travel/travel';
 import Settings from './routes/settings/settings';
 
 export function defineRoutes(i18n) {
-  return [
+  return includeHelpers([
     new GetStarted({
       path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('get_started.route_path')})?$`),
       parameters: {2: 'locale'}
@@ -51,5 +51,17 @@ export function defineRoutes(i18n) {
       path: new RegExp(`^\/?((\\w{2})\/)?.*$`),
       parameters: {2: 'locale'}
     })
-  ]
-};
+  ]);
+}
+
+export function includeHelpers(routes){
+  Object.defineProperty(routes, 'getRoute', {
+    value: function(route_name){
+      return this.find(route => route.route_name === route_name)
+    },
+    enumerable: false,
+    configurable: false
+  });
+
+  return routes;
+}

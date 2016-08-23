@@ -33,7 +33,7 @@ export default function(createHistory) {
   var state_manager = new StateManager(),
       router, i18n;
 
-  setTranslations(router)
+  setTranslations()
     .then((_i18n)=>{
       i18n = _i18n;
       router = new Router(i18n);
@@ -45,6 +45,7 @@ export default function(createHistory) {
           initial_state = state_manager.initialState({
             location: initial_location_state
           });
+      console.log('currentWindowLocation: ', location);
       console.log('initial_location_state: ', initial_location_state);
       console.log('initial_state: ', initial_state);
       return state_manager.initializeStore(initial_state);
@@ -61,7 +62,7 @@ export default function(createHistory) {
         document.getElementById('root'));
     })
     .catch((err)=>{
-      console.error(err);
+      console.error(err.stack);
     });
 
   // setTranslations(router)
