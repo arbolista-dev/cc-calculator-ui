@@ -83,7 +83,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      api: __dirname + '/../../api/real'
+      api: __dirname + '/../../api/real',
+      shared: __dirname + '/../../../shared'
     }
   }
 }

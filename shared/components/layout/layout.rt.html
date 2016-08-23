@@ -35,12 +35,12 @@
 
 			</div>
 	</nav>
-	<div rt-if="this.external_offset.banner_url" id="external_banner">
+	<!-- <div rt-if="this.external_offset.banner_url" id="external_banner">
 		<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
-	</div>
-	<FlashMessage alerts="{this.alert_list}"></FlashMessage>
+	</div> -->
+	<!-- <FlashMessage alerts="{this.alert_list}"></FlashMessage> -->
 	<main>
-		<ForgotPassword
+		<!-- <ForgotPassword
 			rt-if="this.current_route_name === 'ForgotPassword'"
 		></ForgotPassword>
 		<Settings
@@ -60,8 +60,8 @@
 		></Food>
 		<Shopping
 			rt-if="this.current_route_name === 'Shopping'"
-		></Shopping>
-		<Footprint
+		></Shopping> -->
+		<!-- <Footprint
 			rt-if="this.current_route_name === 'Footprint'"
 		></Footprint>
 		<TakeAction
@@ -69,15 +69,15 @@
 		></TakeAction>
 		<Missing
 			rt-if="this.current_route_name === 'Missing'"
-		></Missing>
+		></Missing> -->
 	</main>
 	<Graphs rt-if="this.graphing_route"></Graphs>
-  <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
+  <!-- <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
 	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info btn-lg btn-block desktop">
 	    	{this.t('Take action now')}
 	    </button>
 	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info btn-block mobile">
 	    	{this.t('Take action now')}
 	    </button>
-  </div>
+  </div> -->
 </div>

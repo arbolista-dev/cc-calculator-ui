@@ -28,27 +28,32 @@ function validateParameter(parameter) {
 }
 
 function getLocalStorageItem(specifier) {
-  if (specifier !== 'take_action'){
-    let item = localStorage.getItem(specifier);
-    if (item) {
-      return JSON.parse(item);
+  try {
+    if (specifier !== 'take_action'){
+      let item = localStorage.getItem(specifier);
+      if (item) {
+        return JSON.parse(item);
+      } else {
+        return false;
+      }
     } else {
-      return false;
-    }
-  } else {
-    let results = {
-        dollars: localStorage.getItem('result_takeaction_dollars'),
-        net10yr: localStorage.getItem('result_takeaction_net10yr'),
-        pounds: localStorage.getItem('result_takeaction_pounds')
-      },
-      results_exist = Object.values(results).filter(result => result != null);
+      let results = {
+          dollars: localStorage.getItem('result_takeaction_dollars'),
+          net10yr: localStorage.getItem('result_takeaction_net10yr'),
+          pounds: localStorage.getItem('result_takeaction_pounds')
+        },
+        results_exist = Object.values(results).filter(result => result != null);
 
-    if(results_exist.length !== 0){
-      return results;
-    } else {
-      return false;
+      if(results_exist.length !== 0){
+        return results;
+      } else {
+        return false;
+      }
     }
+  } catch (err) {
+    return false;
   }
+
 }
 
 export { tokenIsValid, validateParameter, getLocalStorageItem };

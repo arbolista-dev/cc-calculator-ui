@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import XHR from 'i18next-xhr-backend';
+import { fromJS } from 'immutable';
 
 import ApplicationComponent from './components/application/application.component';
 import StateManager from './lib/state_manager/state_manager';
@@ -35,19 +36,26 @@ export default function(createHistory) {
   setTranslations(router)
     .then((_i18n)=>{
       i18n = _i18n;
-      router = new Router(state_manager, i18n);
+      router = new Router(i18n);
       return state_manager.getInitialData();
     })
     .then(()=>{
-      return router.setLocationToCurrentUrl();
+      let location = Router.currentWindowLocation(),
+          initial_location_state = fromJS(router.parseLocation(location)),
+          initial_state = state_manager.initialState({
+            location: initial_location_state
+          });
+      console.log('initial_location_state: ', initial_location_state);
+      console.log('initial_state: ', initial_state);
+      return state_manager.initializeStore(initial_state);
     })
     .then(() => {
-      var initial_props = Object.assign({
+      var initial_props = {
         state_manager: state_manager,
         router: router,
         createHistory: createHistory,
         i18n: i18n
-      }, state_manager.state);
+      };
       ReactDOM.render(
         React.createElement(ApplicationComponent, initial_props),
         document.getElementById('root'));
@@ -55,4 +63,28 @@ export default function(createHistory) {
     .catch((err)=>{
       console.error(err);
     });
+
+  // setTranslations(router)
+  //   .then((_i18n)=>{
+  //     i18n = _i18n;
+  //     router = new Router(state_manager, i18n);
+  //     return state_manager.getInitialData();
+  //   })
+  //   .then(()=>{
+  //     return router.setLocationToCurrentUrl();
+  //   })
+  //   .then(() => {
+  //     var initial_props = Object.assign({
+  //       state_manager: state_manager,
+  //       router: router,
+  //       createHistory: createHistory,
+  //       i18n: i18n
+  //     }, state_manager.state);
+  //     ReactDOM.render(
+  //       React.createElement(ApplicationComponent, initial_props),
+  //       document.getElementById('root'));
+  //   })
+  //   .catch((err)=>{
+  //     console.error(err);
+  //   });
 }
