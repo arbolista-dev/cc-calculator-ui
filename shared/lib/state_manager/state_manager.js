@@ -29,6 +29,7 @@ export default class StateManager {
         sign_up: [],
         login: [],
         forgot_password: [],
+        leaders: [],
         shared: []
       },
       chart: {

@@ -1,3 +1,5 @@
+<rt-require dependency="./../flash_message/flash_message.component" as="FlashMessage"/>
+
 <div class="cc-component" id="leaders">
   <div class="cc-component__form">
     <div class="panel panel-coolclimate">
@@ -18,6 +20,7 @@
           </div>
       </div>
       <div class="panel-body">
+        <FlashMessage alerts="{this.alert_list}" type="leaders"></FlashMessage>
         <table class="table">
           <thead>
             <tr>

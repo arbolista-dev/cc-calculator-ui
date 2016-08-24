@@ -109,6 +109,10 @@ class LeadersComponent extends Panel {
     return this.state.show_locations_list;
   }
 
+  get alert_list() {
+    return this.state_manager.state.alerts.leaders;
+  }
+
   componentDidMount() {
     let leaders = this;
     if (leaders.state_manager.state.leaders_chart.show) {
@@ -135,7 +139,7 @@ class LeadersComponent extends Panel {
       if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
     }).catch((err) => {
       if (err === "total_count=0") {
-        leaders.state_manager.state.alerts.push({type: 'danger', message: leaders.t('leaders.empty')});
+        leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.empty')});
         leaders.state_manager.syncLayout();
       }
     });
@@ -196,7 +200,7 @@ class LeadersComponent extends Panel {
             reject("total_count=0");
           }
         } else {
-          leaders.state_manager.state.alerts.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
+          leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
           leaders.state_manager.syncLayout();
           reject();
         }
@@ -295,11 +299,11 @@ class LeadersComponent extends Panel {
             locations: locations,
           });
         } else {
-          leaders.state_manager.state.alerts.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
+          leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
           leaders.state_manager.syncLayout();
         }
       } else {
-        leaders.state_manager.state.alerts.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
+        leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
         leaders.state_manager.syncLayout();
       }
     });
