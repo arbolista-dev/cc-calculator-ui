@@ -127,7 +127,7 @@ class LeadersComponent extends Panel {
     if (leaders.state_manager.state.leaders_chart.current_route != leaders.current_route_name) {
       leaders.state_manager.state.leaders_chart.current_route = leaders.current_route_name
       leaders.state_manager.state.leaders_chart.show = false;
-      $(window).off("scroll", leaders.detectScroll());
+      $(window).off('scroll', leaders.detectScroll());
       leaders.state_manager.syncLayout();
     }
   }
@@ -218,7 +218,7 @@ class LeadersComponent extends Panel {
       show_locations_list: true
     });
 
-    $(document).on('click', function(event) {
+    $(document).on('click.hideLocations', function(event) {
       if (!$(event.target).closest('#leaders_locations_list').length) {
         leaders.setState({
           show_locations_list: false
@@ -307,6 +307,11 @@ class LeadersComponent extends Panel {
         leaders.state_manager.syncLayout();
       }
     });
+  }
+
+  componentWillUnmount(){
+    $(window).off('scroll', this.detectScroll());
+    $(document).off('click.hideLocations');
   }
 
   render(){

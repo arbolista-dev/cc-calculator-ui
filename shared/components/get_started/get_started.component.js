@@ -60,6 +60,8 @@ class GetStartedComponent extends Panel {
     let get_started = this;
     if (get_started.country_mode){
       return get_started.t('get_started.United States');
+    } else if (get_started.state_manager.state.display_location) {
+      return get_started.state_manager.state.display_location;
     } else {
       return get_started.state.input_location;
     }
@@ -122,6 +124,7 @@ class GetStartedComponent extends Panel {
       show_location_suggestions: false
     });
 
+    get_started.state_manager.state.display_location = suggestion;
     get_started.updateDefaults({input_location: zipcode});
 
     if (get_started.state_manager.user_authenticated) {

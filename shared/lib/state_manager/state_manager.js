@@ -40,7 +40,8 @@ export default class StateManager {
       leaders_chart: {
         show: false,
         category: ""
-      }
+      },
+      display_location: ""
     };
   }
 
