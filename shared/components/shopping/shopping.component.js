@@ -68,6 +68,14 @@ class ShoppingComponent extends Panel {
     }
   }
 
+  toggleLeadersChart() {
+    let shopping = this;
+    shopping.state_manager.state.leaders_chart.show = true;
+    shopping.state_manager.state.leaders_chart.category = "shopping";
+    shopping.state_manager.syncLayout();
+    window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
+  }
+
   /*
    * Callbacks
    */

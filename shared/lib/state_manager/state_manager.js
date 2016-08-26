@@ -29,13 +29,19 @@ export default class StateManager {
         sign_up: [],
         login: [],
         forgot_password: [],
+        leaders: [],
         shared: []
       },
       chart: {
         show: true,
         type: 'bar'
       },
-      show_settings: true
+      show_settings: true,
+      leaders_chart: {
+        show: false,
+        category: ""
+      },
+      display_location: ""
     };
   }
 

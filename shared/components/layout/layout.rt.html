@@ -9,6 +9,7 @@
 <rt-require dependency="./../take_action/take_action.component" as="TakeAction"/>
 <rt-require dependency="./../missing/missing.component" as="Missing"/>
 <rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
+<rt-require dependency="./../leaders/leaders.component" as="Leaders"/>
 <rt-require dependency="./../settings/settings.component" as="Settings"/>
 <div id="cc_calculator_ui">
 	<nav class="navbar navbar-default">
@@ -31,7 +32,7 @@
 					rt-if="this.show_settings"
 					onClick="{this.goToSettings.bind(this)}">
 				  <img src="/assets/img/settings.png"/>
-					<div>{this.t(`Settings`)}</div>
+					<div>{this.t(`settings.title`)}</div>
 				</div>
 
 			</div>
@@ -44,6 +45,9 @@
 		<ForgotPassword
 			rt-if="this.current_route_name === 'ForgotPassword'"
 		></ForgotPassword>
+		<Leaders
+			rt-if="this.current_route_name === 'Leaders'"
+		></Leaders>
 		<Settings
 			rt-if="this.current_route_name === 'Settings'"
 		></Settings>
@@ -73,6 +77,9 @@
 		></Missing>
 	</main>
 	<Graphs rt-if="this.graphing_route"></Graphs>
+	<div class="cc_leaders">
+		<Leaders rt-if="this.show_leaders_comparison"></Leaders>
+	</div>
 	<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
 		<a type="button"
 			class="btn btn-default"

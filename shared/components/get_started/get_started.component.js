@@ -6,6 +6,7 @@ import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 import Panel from './../../lib/base_classes/panel';
 import template from './get_started.rt.html'
 import CalculatorApi from 'api/calculator.api';
+import { setLocation } from 'api/user.api';
 
 const LOCATION_MODES = [[5, 'Country'], [1, 'Zipcode'], [4, 'State'], [2, 'City'], [3, 'County']];
 
@@ -59,6 +60,8 @@ class GetStartedComponent extends Panel {
     let get_started = this;
     if (get_started.country_mode){
       return get_started.t('get_started.United States');
+    } else if (get_started.state_manager.state.display_location) {
+      return get_started.state_manager.state.display_location;
     } else {
       return get_started.state.input_location;
     }
@@ -102,6 +105,9 @@ class GetStartedComponent extends Panel {
 
   setLocationMode(location_mode){
     let get_started = this;
+    if (location_mode !== this.state.input_location_mode){
+      get_started.state_manager.state.display_location = '';
+    }
     get_started.setState({
       input_location_mode: location_mode,
       input_location: undefined,
@@ -115,11 +121,30 @@ class GetStartedComponent extends Panel {
     let get_started = this,
         zipcode = event.target.dataset.zipcode,
         suggestion = event.target.dataset.suggestion;
+
     get_started.setState({
       input_location: suggestion,
       show_location_suggestions: false
     });
+
+    get_started.state_manager.state.display_location = suggestion;
     get_started.updateDefaults({input_location: zipcode});
+
+    if (get_started.state_manager.user_authenticated) {
+      let index = get_started.state.locations.data.findIndex(l => l === zipcode),
+          location_data = get_started.state.locations.selected_location[index];
+
+      get_started.setUserLocation(location_data)
+    }
+  }
+
+  setUserLocation(location){
+    let get_started = this,
+        token = get_started.state_manager.state.auth.token;
+
+    return setLocation(location, token).then((res) => {
+      if (res.success) console.log('Location updated in DB')
+    })
   }
 
   // called when input_location input changed.
@@ -130,6 +155,7 @@ class GetStartedComponent extends Panel {
           input_location_mode: get_started.state.input_location_mode,
           input_location: event.target.value
         };
+        get_started.state_manager.state.display_location = event.target.value;
     get_started.setState({
       input_location: event.target.value,
       show_location_suggestions: true

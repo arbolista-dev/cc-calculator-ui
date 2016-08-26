@@ -3,7 +3,7 @@
 import queryString from 'query-string';
 import {defineRoutes} from '../routes';
 
-const NON_MAIN_ROUTES = ['Settings', 'MissingRoute', 'ForgotPassword'];
+const NON_MAIN_ROUTES = ['Leaders', 'Settings', 'MissingRoute', 'ForgotPassword'];
 
 export default class Router {
 

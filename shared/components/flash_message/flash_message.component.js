@@ -31,7 +31,6 @@ class FlashMessageComponent extends Translatable {
           flash_message.state_manager.syncLayout();
         }
       }
-
       // Hide Flash Message after 15 seconds
       // setTimeout(() => {
       //    flash_message.state_manager.state.alerts = [];
