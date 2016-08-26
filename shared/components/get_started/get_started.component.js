@@ -105,6 +105,9 @@ class GetStartedComponent extends Panel {
 
   setLocationMode(location_mode){
     let get_started = this;
+    if (location_mode !== this.state.input_location_mode){
+      get_started.state_manager.state.display_location = '';
+    }
     get_started.setState({
       input_location_mode: location_mode,
       input_location: undefined,
@@ -152,6 +155,7 @@ class GetStartedComponent extends Panel {
           input_location_mode: get_started.state.input_location_mode,
           input_location: event.target.value
         };
+        get_started.state_manager.state.display_location = event.target.value;
     get_started.setState({
       input_location: event.target.value,
       show_location_suggestions: true

@@ -113,6 +113,19 @@ class LeadersComponent extends Panel {
     return this.state_manager.state.alerts.leaders;
   }
 
+  get filtered_locations(){
+    return this.state.locations.filter(location=>  !!location.city)
+  }
+
+  displayCityState(location_object){
+    if (location_object.city){
+      return `${location_object.city}, ${location_object.state}`
+    } else if (location_object.state){
+      return location_object.state;
+    }
+    return '';
+  }
+
   componentDidMount() {
     let leaders = this;
     if (leaders.state_manager.state.leaders_chart.show) {
@@ -139,6 +152,9 @@ class LeadersComponent extends Panel {
       if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
     }).catch((err) => {
       if (err === "total_count=0") {
+        leaders.setState({
+          is_loading: false
+        })
         leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.empty')});
         leaders.state_manager.syncLayout();
       }
