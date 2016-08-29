@@ -103,4 +103,3 @@ class CalculatorApi {
 }
 
 export default CalculatorApi;
-

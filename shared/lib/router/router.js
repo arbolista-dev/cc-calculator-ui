@@ -3,7 +3,7 @@
 import queryString from 'query-string';
 import extend from 'extend';
 
-import { updateLocation } from 'shared/reducers/location/location.reducer';
+import { updateLocation } from 'shared/reducers/location/location.actions';
 import { defineRoutes } from '../routes';
 
 const NON_MAIN_ROUTES = ['Settings', 'MissingRoute', 'ForgotPassword'];
@@ -30,9 +30,9 @@ export default class Router {
     return extend(true, {}, DEFAULT_UPDATE_LOCATION_ACTION);
   }
   //
-  // get current_route(){
-  //   return this.state_manager.state.route;
-  // }
+  get current_route(){
+    return this.findRoute(Router.currentWindowLocation().pathname);
+  }
   //
   // get main_routes(){
   //   return this.routes.filter((route)=>{ return route.route_name !== 'Missing'; })
@@ -104,8 +104,23 @@ export default class Router {
     });
   }
 
+
   pushHistory(location){
     this.history.push(location);
+  }
+
+  next(){
+
+  //   let router = this,
+  //     current_i = router.routes.indexOf(router.current_route),
+  //     next_route = router.routes[current_i + 1];
+  // return router.goToRoute(next_route);
+    console.log('current ', this.current_route);
+    let router = this,
+      current_i = router.routes.indexOf(router.current_route),
+      next_route = router.routes[current_i + 1];
+      console.log('next ', next_route);
+      return router.pushRoute(next_route);
   }
 
   onLocationChange(store, new_location){

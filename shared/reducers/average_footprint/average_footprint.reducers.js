@@ -1,10 +1,8 @@
 import * as Immutable from 'immutable';
 import { loop, Effects } from 'redux-loop';
-import { createAction, createReducer } from 'redux-act';
+import { createReducer } from 'redux-act';
 
-const ensureAverageFootprint = createAction('Ensure average footprint is in store.');
-
-export { ensureAverageFootprint };
+import { ensureAverageFootprint } from './average_footprint.actions'
 
 const ACTIONS = {
 

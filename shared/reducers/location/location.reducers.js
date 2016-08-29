@@ -1,9 +1,5 @@
 import * as Immutable from 'immutable';
-import { createAction } from 'redux-act';
-
-const updateLocation = createAction('Default action for updating url.');
-
-export { updateLocation };
+import { updateLocation } from './location.actions';
 
 const BLANK_SESSION = { auth: null };
 

@@ -1,13 +1,9 @@
 import { connect } from 'react-redux';
 
-import { ensureDefaults } from 'shared/reducers/defaults_and_results/defaults_and_results.actions';
-import { ensureComputeFootprint } from 'shared/reducers/compute_footprint/compute_footprint.actions';
-
 const mapStateToProps = (state) => {
   return {
-    location: state['location'],
-    user_footprint: state['user_footprint'],
-    defaults: state['defaults']
+    defaults: state['defaults'],
+    user_footprint: state['user_footprint']
   };
 }
 
@@ -24,9 +20,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-const layoutContainer = connect(
+const getStartedContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )
 
-export default layoutContainer;
+export default getStartedContainer;

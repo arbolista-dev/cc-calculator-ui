@@ -3,7 +3,9 @@ import { install, combineReducers } from 'redux-loop';
 import { fromJS } from 'immutable';
 
 import Router from 'shared/lib/router/router';
-import locationReducer from 'shared/reducers/location/location.reducer';
+import locationReducers from 'shared/reducers/location/location.reducers';
+import defaultsReducers from 'shared/reducers/defaults_and_results/defaults_and_results.reducers';
+import computeFootprintReducers from 'shared/reducers/compute_footprint/compute_footprint.reducers';
 // import CalculatorApi from 'api/calculator.api';
 // import { updateAnswers } from 'api/user.api';
 import { tokenIsValid, getLocalStorageItem } from '../utils/utils';
@@ -40,12 +42,47 @@ export default class StateManager {
     return Router;
   }
 
+  get default_inputs(){
+    let state_manager = this,
+        location;
+    // if (!state_manager.user_footprint_set){
+      location = DEFAULT_LOCATION;
+    // } else {
+    //   location = {
+    //     input_location_mode: state_manager.input_location_mode,
+    //     input_location: state_manager.state.user_footprint['input_location'],
+    //     input_income: state_manager.state.user_footprint['input_income'],
+    //     input_size: state_manager.state.user_footprint['input_size']
+    //   };
+    // }
+    return location;
+  }
+
+  get user_footprint_storage(){
+    return getLocalStorageItem('user_footprint');
+  }
+
+  get average_footprint_storage(){
+    return getLocalStorageItem('average_footprint');
+  }
+
+  get take_action_storage(){
+    return getLocalStorageItem('take_action');
+  }
+
+  get auth_storage(){
+    return getLocalStorageItem('auth');
+  }
+
   initializeStore(initial_state){
+    let state_manager = this;
     let reducer = combineReducers({
-      // session: sessionReducer,
-      location: locationReducer
+      defaults: defaultsReducers,
+      location: locationReducers,
+      user_footprint: computeFootprintReducers
     });
-    this.store = createStore(reducer, initial_state, install());
+    state_manager.store = createStore(reducer, initial_state, install());
+    console.log('initializeStore - state', state_manager.store.getState());
 
     // @ToDo: use this to persist state to localStorage
     // store.subscribe(() => {
@@ -56,8 +93,14 @@ export default class StateManager {
   }
 
   initialState(opts){
+    let state_manager = this;
     return Object.assign({
-      auth: fromJS({auth: getLocalStorageItem('auth')})
+      auth: fromJS(state_manager.auth_storage || {}),
+      defaults: fromJS({average_footprint: state_manager.average_footprint_storage || {}}),
+      user_footprint:  fromJS(state_manager.user_footprint_storage || {}),
+      result_takeaction_dollars: fromJS(state_manager.take_action_storage.dollars || {}),
+      result_takeaction_net10yr: fromJS(state_manager.take_action_storage.net10yr || {}),
+      result_takeaction_pounds:  fromJS(state_manager.take_action_storage.pounds || {})
     }, opts);
   }
 
@@ -86,6 +129,35 @@ export default class StateManager {
     //   return state_manager.updateDefaults();
     // }
   }
+
+  // updateDefaults(){
+  //   let state_manager = this;
+
+
+    // console.log('updateDefaults store', state_manager.store.getState());
+    //
+    // return CalculatorApi.getDefaultsAndResults(state_manager.default_inputs)
+    //   .then((_defaults)=>{
+    //     defaults = _defaults
+    //     state_manager.state.average_footprint = defaults;
+    //     return CalculatorApi.computeFootprint(defaults)
+    //   })
+    //   .then((default_footprint)=>{
+    //
+    //     // Set average footprint and save to storage.
+    //     Object.assign(state_manager.state.average_footprint, default_footprint);
+    //     state_manager.updateAverageFootprintStorage();
+    //
+    //     if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
+    //       state_manager.parseFootprintResult(defaults);
+    //       return undefined;
+    //     } else {
+    //       // If user footprint has been defined, update it with new location.
+    //       Object.assign(state_manager.user_footprint, state_manager.inputs);
+    //       return state_manager.updateFootprint();
+    //     }
+    //   });
+  // }
 
   // get category_colors(){
   //   return CATEGORY_COLORS;
@@ -245,31 +317,6 @@ export default class StateManager {
   //   state_manager.updateUserFootprintStorage();
   // }
   //
-  // updateDefaults(){
-  //   let state_manager = this, defaults;
-  //
-  //   return CalculatorApi.getDefaultsAndResults(state_manager.default_inputs)
-  //     .then((_defaults)=>{
-  //       defaults = _defaults
-  //       state_manager.state.average_footprint = defaults;
-  //       return CalculatorApi.computeFootprint(defaults)
-  //     })
-  //     .then((default_footprint)=>{
-  //
-  //       // Set average footprint and save to storage.
-  //       Object.assign(state_manager.state.average_footprint, default_footprint);
-  //       state_manager.updateAverageFootprintStorage();
-  //
-  //       if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
-  //         state_manager.parseFootprintResult(defaults);
-  //         return undefined;
-  //       } else {
-  //         // If user footprint has been defined, update it with new location.
-  //         Object.assign(state_manager.user_footprint, state_manager.inputs);
-  //         return state_manager.updateFootprint();
-  //       }
-  //     });
-  // }
   //
   // updateUserFootprintStorage() {
   //   let state_manager = this;

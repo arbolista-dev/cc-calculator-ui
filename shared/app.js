@@ -45,9 +45,6 @@ export default function(createHistory) {
           initial_state = state_manager.initialState({
             location: initial_location_state
           });
-      console.log('currentWindowLocation: ', location);
-      console.log('initial_location_state: ', initial_location_state);
-      console.log('initial_state: ', initial_state);
       return state_manager.initializeStore(initial_state);
     })
     .then(() => {

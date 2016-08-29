@@ -5,6 +5,7 @@ import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 
 import Panel from './../../lib/base_classes/panel';
 import template from './get_started.rt.html'
+import container from './get_started.container';
 import CalculatorApi from 'api/calculator.api';
 
 const LOCATION_MODES = [[5, 'Country'], [1, 'Zipcode'], [4, 'State'], [2, 'City'], [3, 'County']];
@@ -31,6 +32,7 @@ class GetStartedComponent extends Panel {
     let get_started = this;
     get_started.initializeSizeSlider();
     get_started.initializeIncomeSlider();
+    console.log('get started', get_started);
   }
 
   componentDidUpdate(){
@@ -274,6 +276,13 @@ class GetStartedComponent extends Panel {
 
 }
 
+GetStartedComponent.propTypes = {
+  defaults: React.PropTypes.object,
+  user_footprint: React.PropTypes.object,
+  ensureDefaults: React.PropTypes.func.isRequired,
+  ensureComputeFootprint: React.PropTypes.func.isRequired
+};
+
 GetStartedComponent.NAME = 'GetStarted';
 
-module.exports = GetStartedComponent;
+module.exports = container(GetStartedComponent);

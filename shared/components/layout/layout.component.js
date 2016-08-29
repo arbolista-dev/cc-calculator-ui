@@ -2,10 +2,8 @@
 
 import React from 'react';
 
+import { fromJS } from 'immutable';
 import StateManager from './../../lib/state_manager/state_manager';
-// import mixin from './../../lib/mixin';
-// import Translatable from './../../lib/base_classes/translatable';
-// import {routable} from './../../lib/mixins/routable';
 import Panel from './../../lib/base_classes/panel';
 import layoutContainer from './layout.container';
 import template from './layout.rt.html';
@@ -21,6 +19,12 @@ class LayoutComponent extends Panel {
     // context.state_manager.layout = layout;
   }
 
+  componentWillMount(){
+    // console.log('this.props.average_footprint', this.props.ensureDefaults(this.state_manager.default_inputs));
+    this.props.ensureDefaults(this.state_manager.default_inputs)
+    // this.props.ensureComputeFootprint(this.average_footprint);
+  }
+
   render() {
     return template.call(this);
   }
@@ -29,9 +33,14 @@ class LayoutComponent extends Panel {
   //   return this.state_manager.state.route.key;
   // }
   //
-  // get current_route_name() {
-  //   return this.state_manager.state.route.route_name;
-  // }
+
+  get average_footprint(){
+    return this.props.defaults.get('average_footprint').toObject();
+  }
+
+  get user_footprint(){
+    return this.props.user_footprint.toObject();
+  }
 
   get route_name(){
     return this.props.location.get('route_name');
@@ -42,13 +51,17 @@ class LayoutComponent extends Panel {
   }
 
   get current_route(){
-    console.log('layout component, route_name: ', this.route_name)
-    console.log('get route: ', this.router.routes.getRoute(this.route_name));
+    console.log('layout component, current route: ', this.route_name)
     return this.router.routes.getRoute(this.route_name);
   }
 
   goToRoute(route_name){
+    // console.log('average_footprint', this.average_footprint);
+    console.log('user_footprint', this.user_footprint);
+
     let router = this;
+
+
 
     window.jQuery("[data-toggle='popover']").popover('hide');
     window.jQuery("html, body").animate({ scrollTop: 0 }, 500, ()=>{
@@ -105,7 +118,11 @@ class LayoutComponent extends Panel {
 
 }
 LayoutComponent.propTypes = {
-  location: React.PropTypes.object.isRequired
+  location: React.PropTypes.object.isRequired,
+  defaults: React.PropTypes.object,
+  user_footprint: React.PropTypes.object,
+  ensureDefaults: React.PropTypes.func.isRequired,
+  ensureComputeFootprint: React.PropTypes.func.isRequired
 };
 
 module.exports = layoutContainer(LayoutComponent);
