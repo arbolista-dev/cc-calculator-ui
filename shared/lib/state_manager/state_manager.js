@@ -160,11 +160,17 @@ export default class StateManager {
       // optional origin check:
       // if(event.origin !== 'http://localhost:8080') return;
 
-      let data = JSON.parse(event.data);
-      console.log('receiveExternalOffset data: ', data);
-      Object.assign(state_manager.state.external_offset, data);
-      state_manager.setShowSettings();
-      state_manager.syncLayout();
+      try {
+        let data = JSON.parse(event.data);
+        if (data.carbon_price_per_ton) {
+          Object.assign(state_manager.state.external_offset, data);
+          state_manager.setShowSettings();
+          state_manager.syncLayout();
+        }
+      } catch (e) {
+        // console.log('receiveExternalOffset err: ', e);
+      }
+
     }),false);
 
   }
