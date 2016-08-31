@@ -3,9 +3,11 @@
 import React from 'react';
 
 import { fromJS } from 'immutable';
-import StateManager from './../../lib/state_manager/state_manager';
-import Panel from './../../lib/base_classes/panel';
-import layoutContainer from './layout.container';
+import StateManager from 'shared/lib/state_manager/state_manager';
+import Panel from 'shared/lib/base_classes/panel';
+// import layoutContainer from './layout.container';
+import footprintContainer from '../../containers/footprint.container';
+import { footprintPropTypes } from '../../containers/footprint.container';
 import template from './layout.rt.html';
 
 const NON_GRAPH_PANELS = ['Settings', 'ForgotPassword', 'Footprint']
@@ -35,11 +37,11 @@ class LayoutComponent extends Panel {
   //
 
   get average_footprint(){
-    return this.props.defaults.get('average_footprint').toObject();
+    // return this.props.defaults.get('average_footprint').toObject();
   }
 
   get user_footprint(){
-    return this.props.user_footprint.toObject();
+    // return this.props.user_footprint.toObject();
   }
 
   get route_name(){
@@ -117,12 +119,6 @@ class LayoutComponent extends Panel {
   // }
 
 }
-LayoutComponent.propTypes = {
-  location: React.PropTypes.object.isRequired,
-  defaults: React.PropTypes.object,
-  user_footprint: React.PropTypes.object,
-  ensureDefaults: React.PropTypes.func.isRequired,
-  ensureComputeFootprint: React.PropTypes.func.isRequired
-};
+LayoutComponent.propTypes = footprintPropTypes;
 
-module.exports = layoutContainer(LayoutComponent);
+module.exports = footprintContainer(LayoutComponent);

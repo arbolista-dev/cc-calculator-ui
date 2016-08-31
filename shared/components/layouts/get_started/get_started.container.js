@@ -5,9 +5,8 @@ import { ensureComputeFootprint } from 'shared/reducers/compute_footprint/comput
 
 const mapStateToProps = (state) => {
   return {
-    location: state['location'],
-    user_footprint: state['user_footprint'],
-    average_footprint: state['average_footprint']
+    defaults: state['defaults'],
+    user_footprint: state['user_footprint']
   };
 }
 
@@ -24,9 +23,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-const layoutContainer = connect(
+const getStartedContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )
 
-export default layoutContainer;
+export default getStartedContainer;

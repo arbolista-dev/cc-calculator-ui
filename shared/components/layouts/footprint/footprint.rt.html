@@ -1,0 +1,15 @@
+<rt-require dependency="../../graphs/graphs.component" as="Graphs"/>
+<main class="cc-component container container-md" id="footprint">
+  <header class="cc-component__header">
+    <div>
+      <img src="/assets/img/{this.route_key}-black.svg"/>
+      <h4>{this.t('footprint.title')}</h4>
+    </div>
+  </header>
+
+  <Graphs></Graphs>
+  <div class="cc-component__nav">
+    <a onClick="{this.router.previous.bind(this.router)}">{this.t('Previous')}</a>
+    <a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
+  </div>
+</main>

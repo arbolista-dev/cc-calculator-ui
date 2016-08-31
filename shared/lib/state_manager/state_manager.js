@@ -4,8 +4,10 @@ import { fromJS } from 'immutable';
 
 import Router from 'shared/lib/router/router';
 import locationReducers from 'shared/reducers/location/location.reducers';
-import defaultsReducers from 'shared/reducers/defaults_and_results/defaults_and_results.reducers';
+import defaultsReducers from 'shared/reducers/average_footprint/average_footprint.reducers';
 import computeFootprintReducers from 'shared/reducers/compute_footprint/compute_footprint.reducers';
+import authReducers from 'shared/reducers/auth/auth.reducers';
+
 // import CalculatorApi from 'api/calculator.api';
 // import { updateAnswers } from 'api/user.api';
 import { tokenIsValid, getLocalStorageItem } from '../utils/utils';
@@ -77,12 +79,12 @@ export default class StateManager {
   initializeStore(initial_state){
     let state_manager = this;
     let reducer = combineReducers({
-      defaults: defaultsReducers,
       location: locationReducers,
-      user_footprint: computeFootprintReducers
+      average_footprint: defaultsReducers,
+      user_footprint: computeFootprintReducers,
+      auth: authReducers
     });
     state_manager.store = createStore(reducer, initial_state, install());
-    console.log('initializeStore - state', state_manager.store.getState());
 
     // @ToDo: use this to persist state to localStorage
     // store.subscribe(() => {
@@ -95,9 +97,9 @@ export default class StateManager {
   initialState(opts){
     let state_manager = this;
     return Object.assign({
-      auth: fromJS(state_manager.auth_storage || {}),
-      defaults: fromJS({average_footprint: state_manager.average_footprint_storage || {}}),
-      user_footprint:  fromJS(state_manager.user_footprint_storage || {}),
+      auth: fromJS({data: state_manager.auth_storage || {}}),
+      average_footprint: fromJS({data: state_manager.average_footprint_storage || {}}),
+      user_footprint:  fromJS({data: state_manager.user_footprint_storage || {}}),
       result_takeaction_dollars: fromJS(state_manager.take_action_storage.dollars || {}),
       result_takeaction_net10yr: fromJS(state_manager.take_action_storage.net10yr || {}),
       result_takeaction_pounds:  fromJS(state_manager.take_action_storage.pounds || {})

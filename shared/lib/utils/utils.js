@@ -53,7 +53,14 @@ function getLocalStorageItem(specifier) {
   } catch (err) {
     return false;
   }
-
 }
 
-export { tokenIsValid, validateParameter, getLocalStorageItem };
+function setLocalStorageItem(specifier, data) {
+  try {
+    localStorage.setItem(specifier, JSON.stringify(data));
+  } catch (err) {
+    console.log('setLocalStorageItem error', err);
+  }
+}
+
+export { tokenIsValid, validateParameter, getLocalStorageItem, setLocalStorageItem };

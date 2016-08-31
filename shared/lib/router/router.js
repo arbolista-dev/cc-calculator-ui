@@ -61,14 +61,12 @@ export default class Router {
 
   findRoute(pathname){
     let router = this;
-    console.log('findRoute - router, ', router)
     return router.routes.find((route) => {
       return route.matchesLocation(pathname);
     });
   }
 
   parseLocation(new_location){
-    console.log('parseLocation new_location: ', new_location);
     let route = this.findRoute(new_location.pathname),
         location = {
           pathname: new_location.pathname,
@@ -89,8 +87,6 @@ export default class Router {
         route = router.routes.getRoute(route_name);
 
     console.log('pushRoute name: ', route_name);
-    console.log('pushRoute route: ', route);
-    console.log('pushRoute action: ', action);
 
     action = {
       type: action ? action.getType() : updateLocation.getType(),
@@ -115,11 +111,9 @@ export default class Router {
   //     current_i = router.routes.indexOf(router.current_route),
   //     next_route = router.routes[current_i + 1];
   // return router.goToRoute(next_route);
-    console.log('current ', this.current_route);
     let router = this,
       current_i = router.routes.indexOf(router.current_route),
       next_route = router.routes[current_i + 1];
-      console.log('next ', next_route);
       return router.pushRoute(next_route);
   }
 

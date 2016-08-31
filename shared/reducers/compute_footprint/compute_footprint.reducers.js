@@ -3,43 +3,52 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureComputeFootprint, computeFootprintRetrieved, computeFootprintRetrievalError, parseFootprintResult } from './compute_footprint.actions'
+import { ensureComputeFootprint, computeFootprintRetrieved, computeFootprintRetrievalError, parseFootprintResult } from './compute_footprint.actions';
+import { setLocalStorageItem } from 'shared/lib/utils/utils';
+
+
+/*
+{
+  data: <Object>,
+
+  loading: <Boolean>,
+  load_error: <Boolean>
+}
+*/
+
+const DEFAULT_STATE = {
+  data: undefined,
+  loading: false,
+  load_error: false
+}
 
 const ACTIONS = {
 
   // Load initial defaults from API.
-  [ensureComputeFootprint]: (init_data, action)=>{
-    console.log('ensureComputeFootprint - init_data', init_data);
-    console.log('ensureComputeFootprint - defaults', action);
+  [ensureComputeFootprint]: (state, payload)=>{
+    console.log('ensureComputeFootprint - state', state);
+    console.log('ensureComputeFootprint - payload', payload);
     return loop(
-      null,
+      fromJS({data: payload, loading: true}),
       Effects.promise(()=>{
-        return CalculatorApi.computeFootprint(action.payload)
-          .then((api_data) => {
-            return computeFootprintRetrieved(api_data)
-          })
-          .then((api_data) => {
-            return parseFootprintResult(api_data)
-          })
-          .catch((err) => {
-            return computeFootprintRetrievalError(err)
-          })
+        return CalculatorApi.computeFootprint(payload)
+          .then(computeFootprintRetrieved)
+          .catch(computeFootprintRetrievalError)
       })
     )
   },
 
-  [computeFootprintRetrieved]: (_init_data, api_data)=>{
-    // return Immutable.fromJS({average_footprint, api_data})
-    // return loop(
-    //     null,
-    //     fromJS({average_footprint: api_data})
-    // )
+  [computeFootprintRetrieved]: (state, api_data)=>{
+    console.log('computeFootprintRetrieved - state', state.toJS());
     console.log('computeFootprintRetrieved - api_data', api_data);
-    return fromJS(api_data)
+
+    let merged_data = state.get('data').merge(api_data).toJS();
+    setLocalStorageItem('user_footprint', merged_data);
+    console.log('computeFootprintRetrieved - merged data: ', merged_data);
+    return fromJS({data: merged_data, loading: false})
   },
 
   [computeFootprintRetrievalError]: (_init_data, _result)=>{
-    // @ToDo: create error functions
     return fromJS({load_error: true});
   },
 
@@ -59,6 +68,6 @@ const ACTIONS = {
 
 };
 
-const REDUCER = createReducer(ACTIONS, 0);
+const REDUCER = createReducer(ACTIONS, DEFAULT_STATE);
 
 export default REDUCER;

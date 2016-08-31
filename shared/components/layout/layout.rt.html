@@ -1,15 +1,15 @@
-<rt-require dependency="./../_user/forgot_password/forgot_password.component" as="ForgotPassword"/>
-<rt-require dependency="./../flash_message/flash_message.component" as="FlashMessage"/>
-<rt-require dependency="./../get_started/get_started.component" as="GetStarted"/>
-<rt-require dependency="./../travel/travel.component" as="Travel"/>
-<rt-require dependency="./../home/home.component" as="Home"/>
-<rt-require dependency="./../food/food.component" as="Food"/>
-<rt-require dependency="./../shopping/shopping.component" as="Shopping"/>
-<rt-require dependency="./../footprint/footprint.component" as="Footprint"/>
-<rt-require dependency="./../take_action/take_action.component" as="TakeAction"/>
-<rt-require dependency="./../missing/missing.component" as="Missing"/>
+<rt-require dependency="./../layouts/settings/user/forgot_password/forgot_password.component" as="ForgotPassword"/>
+<rt-require dependency="./../alerts/alerts.component" as="Alerts"/>
+<rt-require dependency="./../layouts/get_started/get_started.component" as="GetStarted"/>
+<rt-require dependency="./../layouts/travel/travel.component" as="Travel"/>
+<rt-require dependency="./../layouts/home/home.component" as="Home"/>
+<rt-require dependency="./../layouts/food/food.component" as="Food"/>
+<rt-require dependency="./../layouts/shopping/shopping.component" as="Shopping"/>
+<rt-require dependency="./../layouts/footprint/footprint.component" as="Footprint"/>
+<rt-require dependency="./../layouts/take_action/take_action.component" as="TakeAction"/>
+<rt-require dependency="./../layouts/missing/missing.component" as="Missing"/>
 <rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
-<rt-require dependency="./../settings/settings.component" as="Settings"/>
+<rt-require dependency="./../layouts/settings/settings.component" as="Settings"/>
 <div id="cc_calculator_ui">
 	<nav class="navbar navbar-default">
 			<div id="cc_nav">
@@ -38,7 +38,7 @@
 	<!-- <div rt-if="this.external_offset.banner_url" id="external_banner">
 		<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
 	</div> -->
-	<!-- <FlashMessage alerts="{this.alert_list}"></FlashMessage> -->
+	<!-- <Alerts alerts="{this.alert_list}"></Alerts> -->
 	<main>
 		<!-- <ForgotPassword
 			rt-if="this.current_route_name === 'ForgotPassword'"
