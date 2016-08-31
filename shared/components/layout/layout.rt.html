@@ -13,7 +13,7 @@
 <rt-require dependency="./../settings/settings.component" as="Settings"/>
 <div id="cc_calculator_ui">
 	<nav class="navbar navbar-default">
-			<div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.show_settings}">
+			<div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.connect_to_api}">
 				<div
 					rt-repeat="route in this.router.main_routes"
 					class="cc-nav__item"
@@ -29,7 +29,7 @@
 					class="cc-nav__item"
 					id="settings_nav_item"
 					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
-					rt-if="this.show_settings"
+					rt-if="this.connect_to_api"
 					onClick="{this.goToSettings.bind(this)}">
 				  <img src="/assets/img/settings.png"/>
 					<div>{this.t(`settings.title`)}</div>
