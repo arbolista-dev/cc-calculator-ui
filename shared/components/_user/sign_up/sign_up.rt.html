@@ -34,6 +34,11 @@
                 <input type="checkbox"  onChange="{this.updateCheckbox.bind(this)}" data-api_key="public" checked="{this.state.public}"/> {this.t(`sign_up.public`)}
               </label>
             </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"  onChange="{this.updateCheckbox.bind(this)}" data-api_key="public" checked="{this.state.public}"> {this.t(`sign_up.public`)}
+              </label>
+            </div>
             <div class="cc-component__auth-submit">
                 <button class="btn btn-default"
                     onClick="{this.submitSignup.bind(this)}">{this.t(`sign_up.submit`)}

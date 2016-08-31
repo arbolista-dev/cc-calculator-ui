@@ -2,9 +2,20 @@
 
 import React from 'react';
 
-import Action from './action';
 import Panel from './../../lib/base_classes/panel';
 import template from './take_action.rt.html'
+
+export const ACTIONS = [{
+    "category": "transportation", "title": "Transportation",
+    "keys": ["more_efficient_vehicle", "alternativefuel_vehicle", "electric_vehicle", "hybrid_vehicle", "telecommute_to_work", "ride_my_bike", "take_public_transportation", "practice_eco_driving", "maintain_my_vehicles", "carpool_to_work", "reduce_air_travel"]
+}, {
+    "category": "housing", "title": "Housing",
+    "keys": ["switch_to_cfl", "turn_off_lights", "T12toT8", "tankless_water_heater", "thermostat_winter", "thermostat_summer", "purchase_high_efficiency_cooling", "purchase_high_efficiency_heating", "energy_star_fridge", "energy_star_printers", "energy_star_copiers", "energy_star_desktops", "rechargeable_batteries", "power_mgmt_comp", "purchase_green_electricity", "install_PV_panels", "install_solar_heating", "low_flow_showerheads", "low_flow_faucets", "low_flow_toilet", "line_dry_clothing", "water_efficient_landscaping", "plant_trees", "reduce_comm_waste", "print_double_sided"]
+}, {
+    "category": "shopping", "title": "Shopping",
+    "keys": ["low_carbon_diet", "go_organic"]
+}];
+
 
 class TakeActionComponent extends Panel {
 
@@ -13,13 +24,31 @@ class TakeActionComponent extends Panel {
     let take_action = this;
     take_action.action_keys = Object.keys(take_action.result_takeaction_pounds)
       .filter(key=> !/^offset_/.test(key));
-    take_action.actions = take_action
-      .action_keys
-      .map((action_key)=>{
-        return new Action(action_key, take_action);
-      });
     take_action.state = take_action.userApiState();
-    take_action.state['actions'] = take_action.actions;
+    take_action.state['input_action_category'] = ACTIONS[0].category;
+    take_action.state['show_actions'] = ACTIONS[0].keys;
+    take_action.state['vehicles'] = take_action.vehicles;
+    take_action.state['show_critical_assumptions'] = false;
+  }
+
+  get vehicles(){
+    let footprint = this.state_manager.state.user_footprint,
+        num = footprint['input_footprint_transportation_num_vehicles'],
+        vehicles = [];
+
+    for (let i=1; i<=num; i++){
+      let vehicle = {};
+      vehicle.miles = footprint[`input_footprint_transportation_miles${i}`];
+      vehicle.mpg = footprint[`input_footprint_transportation_mpg${i}`];
+      vehicles.push(vehicle);
+    }
+
+    this.state_manager.state.vehicles = vehicles.slice();
+    return vehicles;
+  }
+
+  get actions_list(){
+    return ACTIONS;
   }
 
   get relevant_api_keys(){
@@ -43,46 +72,68 @@ class TakeActionComponent extends Panel {
     return this.state_manager['result_takeaction_net10yr'];
   }
 
-  toggleActionDetails(action){
-    let take_action = this;
+  get show_critical_assumptions(){
+    return this.state['show_critical_assumptions']
+  }
 
-    action.detailed = !action.detailed;
-    take_action.setState({
-      actions: take_action.actions
+  setSelectOptions(select) {
+    if (select.type === 'vehicle') {
+
+      let options = [], i = 1;
+      this.vehicles.forEach((v) => {
+        let vehicle = {};
+        vehicle.value = i;
+        vehicle.text = 'Vehicle ' + i;
+        i++;
+        options.push(vehicle);
+      })
+      return options;
+
+    } else {
+      return select.options
+    }
+  }
+
+  isCategoryActive(category){
+    return this.state.input_action_category === category;
+  }
+
+  setActiveActionsByCategory(category){
+    let update = {};
+    this.actions_list.forEach((group) => {
+      if(category === group.category) {
+        update['show_actions'] = group.keys;
+        this.setState(update);
+      }
     })
   }
 
-  toggleAction(action){
-    let take_action = this,
-      update = {};
-    if (action.taken){
-      update[action.api_key] = 0;
-    } else {
-      update[action.api_key] = 1;
-    }
-    take_action.setState(update);
-    take_action.updateTakeaction(update);
-  }
-
-  updateTakeaction(params){
+  setCategory(category){
     let take_action = this;
-    take_action.updateFootprintParams(params);
-
-    // debounce updating take action results by 500ms.
-    if (take_action.$update_takeaction) {
-      clearTimeout(take_action.$update_takeaction);
-    }
-
-    take_action.$update_takeaction = setTimeout(()=>{
-      // This will also make necessary update to user footprint.
-      take_action.state_manager.updateTakeactionResults()
-        .then(()=>{
-          let user_api_state = take_action.userApiState();
-          take_action.setState(user_api_state);
-        });
-    }, 500);
+    take_action.setState({
+      input_action_category: category
+    });
+    take_action.setActiveActionsByCategory(category);
   }
 
+  toggleCriticalAssumptions(){
+    this.setState({
+      show_critical_assumptions: !this.state.show_critical_assumptions
+    })
+  }
+
+  showAction(key){
+    let show =  this.state['show_actions'];
+    if (show.includes(key)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  componentWillMount(){
+    this.setActiveActionsByCategory(this.state['input_action_category']);
+  }
 
   render(){
     return template.call(this);

@@ -36,11 +36,12 @@ export default class StateManager {
         show: true,
         type: 'bar'
       },
-      show_settings: true,
+      connect_to_api: true,
       leaders_chart: {
         show: false,
         category: ""
       },
+      vehicles: [],
       display_location: ""
     };
   }
@@ -138,11 +139,11 @@ export default class StateManager {
     }
   }
 
-  setShowSettings(){
+  setConnectToApi(){
     let state_manager = this;
-    if (state_manager.state.external_offset.hasOwnProperty('show_settings')) {
-      if (!state_manager.state.external_offset.show_settings) {
-        state_manager.state.show_settings = false;
+    if (state_manager.state.external_offset.hasOwnProperty('connect_to_api')) {
+      if (!state_manager.state.external_offset.connect_to_api) {
+        state_manager.state.connect_to_api = false;
       }
     }
   }
@@ -164,7 +165,7 @@ export default class StateManager {
         let data = JSON.parse(event.data);
         if (data.carbon_price_per_ton) {
           Object.assign(state_manager.state.external_offset, data);
-          state_manager.setShowSettings();
+          state_manager.setConnectToApi();
           state_manager.syncLayout();
         }
       } catch (e) {
@@ -350,6 +351,8 @@ export default class StateManager {
   updateTakeactionResults(){
     let state_manager = this,
         action_inputs = Object.assign({}, state_manager.average_footprint, state_manager.user_footprint);
+
+    console.log('updateTakeactionResults action_inputs: ', action_inputs)
     return CalculatorApi.computeTakeactionResults(action_inputs)
       .then((res)=>{
         state_manager.parseTakeactionResult(res);

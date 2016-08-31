@@ -9,42 +9,6 @@
   }
 }
 
-.take-action__savings-amount {
-  font-size:1.25em;
-}
-
-.take-action__savings-label {
-  font-weight:bold;
-  font-size:0.9em;
-}
-
-.take-action__action-heading {
-  border-bottom:1px solid lightgrey;
-  background-color:#F2F2F2;
-  cursor:pointer;
-  padding:4px;
-  border-radius:5px;
-}
-.take-action__action-heading--taken {
-  color:white;
-  background-color:#449D44;
-}
-
-.take-action__action-body {
-  border-bottom:1px solid lightgrey;
-  text-align:center;
-  > div {
-    display:inline-block;
-    padding:4px;
-    margin-left:4px;
-    margin-right:4px;
-  }
-  > button {
-    margin-top:3px;
-    float:right;
-  }
-}
-
 #take_action_savings {
   bottom:5px;
   h3 { margin-top:7px; margin-bottom:0px; }
@@ -53,6 +17,36 @@
   }
   .desktop {
     display:inline-block;
+  }
+}
+
+#action_category_btn_group_container {
+  text-align:center;
+}
+
+#action_critical_assumptions {
+  text-align: center;
+  padding-bottom: 15px;
+  .btn {
+    color: #000;
+  }
+}
+
+#action_category_btn_group {
+  white-space:nowrap;
+  max-width:100%;
+  overflow-x:auto;
+  a {
+    float:none;
+  }
+}
+
+@media (max-width: 600px) {
+  #action_category_btn_group {
+    a {
+      font-size:0.8em;
+      width:95px;
+    }
   }
 }
 

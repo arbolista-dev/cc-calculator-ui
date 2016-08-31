@@ -57,7 +57,7 @@ export default class Vehicle {
       margin: {left: 10, right: 15, top: 0, bottom: 10},
       handle_r: 16,
       onChange: (new_value)=>{
-        vehicle.mpg = new_value;
+        vehicle.mpg = Math.round(new_value);
         vehicle.travel.updateVehicleFootprint();
       }
     })
