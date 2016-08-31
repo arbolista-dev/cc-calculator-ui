@@ -133,7 +133,7 @@ class ActionComponent extends Translatable {
         id = event.target.id,
         update = {};
 
-    update[id] = parseInt(val);
+    update[id] = val;
     update['input_changed'] = id;
     action.setState(update);
     action.updateTakeaction(update);

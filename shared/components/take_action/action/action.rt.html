@@ -29,7 +29,7 @@
         <div class="table-responsive">
          <table class="table">
            <tbody>
-             <rt-virtual rt-repeat="block in this.content">
+             <rt-virtual rt-repeat="block in this.content" key="{blockIndex}">
                <tr rt-if="!block.assumptions">
                  <td colspan="2" rt-if="block.text_only">
                    <p class="text-center">
@@ -47,7 +47,9 @@
                    <p rt-if="block.select">
                      {block.prefix}
                      <select id="{block.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}" value="{this.getSelectedOption(block.select.id)}">
-                      <option rt-repeat="option in this.setSelectOptions(block.select)" value="{option.value}">{option.text}</option>
+                      <option rt-repeat="option in this.setSelectOptions(block.select)"
+                        value="{option.value}"
+                        key="{optionIndex}">{option.text}</option>
                     </select>
                     {block.suffix}
                    </p>
@@ -63,7 +65,9 @@
                  </td>
                </tr>
                <tr rt-if="block.assumptions" class="action__assumptions-header"><td colspan="2"><h4 class="text-center">Assumptions:</h4></td></tr>
-               <tr rt-if="block.assumptions" rt-repeat="a in block.assumptions" class="action__assumptions-body">
+               <tr rt-if="block.assumptions" rt-repeat="a in block.assumptions"
+                class="action__assumptions-body"
+                key="{aIndex}">
                  <td colspan="2" rt-if="a.text_only">
                    <p class="text-center">
                      {a.description}
@@ -78,7 +82,9 @@
                    <p rt-if="a.select">
                      {a.prefix}
                      <select id="{a.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}" value="{this.getSelectedOption(a.select.id)}">
-                      <option rt-repeat="option in this.setSelectOptions(a.select)" value="{option.value}">{option.text}</option>
+                      <option rt-repeat="option in this.setSelectOptions(a.select)"
+                        value="{option.value}"
+                        key="{optionIndex}">{option.text}</option>
                     </select>
                     {a.suffix}
                    </p>
@@ -121,7 +127,7 @@
     <div class="table-responsive">
      <table class="table">
        <tbody>
-         <tr rt-repeat="block in this.assumptions_content">
+         <tr rt-repeat="block in this.assumptions_content" key="{blockIndex}">
            <td>
              <p class="text-right">
                <span rt-if="!block.text_url">{block.description}</span>
