@@ -363,8 +363,6 @@ class GraphsComponent extends Panel {
         return graphs.t('summaries.average_food_footprint')
       case 'Shopping':
         return graphs.t('summaries.average_shopping_footprint')
-      case 'TakeAction':
-        return graphs.t('summaries.average_action_savings')
       default:
         return graphs.t('summaries.average_footprint')
     }

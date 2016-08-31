@@ -254,8 +254,7 @@
         "average_food_footprint": "Average Food Footprint",
         "average_shopping_footprint": "Average Shopping Footprint",
         "comparison": "Comparison",
-        "total_action_savings": "Annual Savings",
-        "average_action_savings": "Average Savings"
+        "total_action_savings": "Annual Savings"
     },
     "categories": {
         "result_transport_total": "Travel",

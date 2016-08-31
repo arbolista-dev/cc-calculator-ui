@@ -314,7 +314,7 @@ export default class StateManager {
           }
         });
 
-    console.log(JSON.stringify(differences, null, 2))
+    // console.log(JSON.stringify(differences, null, 2))
   }
 
   parseFootprintResult(result){
@@ -352,7 +352,6 @@ export default class StateManager {
     let state_manager = this,
         action_inputs = Object.assign({}, state_manager.average_footprint, state_manager.user_footprint);
 
-    console.log('updateTakeactionResults action_inputs: ', action_inputs)
     return CalculatorApi.computeTakeactionResults(action_inputs)
       .then((res)=>{
         state_manager.parseTakeactionResult(res);
@@ -382,7 +381,7 @@ export default class StateManager {
 
     return updateAnswers(state_manager.user_footprint, token)
             .then((res) => {
-              if (res.success) console.log('Updated user answers in DB.');
+              // if (res.success) console.log('Updated user answers in DB.');
             })
   }
 
