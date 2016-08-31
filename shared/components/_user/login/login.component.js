@@ -22,8 +22,8 @@ class LoginComponent extends Panel {
     };
   }
 
-  componentDidMount() {
-    let login = this;
+  get alert_list() {
+    return this.state_manager.state.alerts.login;
   }
 
   paramValid(param){
@@ -43,7 +43,7 @@ class LoginComponent extends Panel {
     for (let key in login.valid) {
       let value = login.valid[key]
       if (value === false) {
-        login.state_manager.state.alerts.push({type: 'danger', message: login.t('login.' + key) + " " + login.t('errors.invalid')});
+        login.state_manager.state.alerts.login.push({type: 'danger', message: login.t('login.' + key) + " " + login.t('errors.invalid')});
         login.state_manager.syncLayout();
       }
     }
@@ -71,7 +71,8 @@ class LoginComponent extends Panel {
   submitLogin(event) {
     event.preventDefault();
     let login = this;
-    login.state_manager.state.alerts = [];
+    login.state_manager.state.alerts.login = [];
+    login.state_manager.state.alerts.shared = [];
 
     if (login.validateAll()) {
       loginUser(login.state).then((res)=>{
@@ -90,12 +91,12 @@ class LoginComponent extends Panel {
           }
 
 
-          login.state_manager.state.alerts.push({type: 'success', message: login.t('success.login')});
-          login.router.goToUri('GetStarted');
+          login.state_manager.state.alerts.shared.push({type: 'success', message: login.t('success.login')});
+          login.router.goToRouteByName('GetStarted');
         } else {
           let err = JSON.parse(res.error);
 
-          login.state_manager.state.alerts.push({type: 'danger', message: login.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
+          login.state_manager.state.alerts.login.push({type: 'danger', message: login.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
           login.state_manager.syncLayout();
         }
         return res
@@ -106,7 +107,7 @@ class LoginComponent extends Panel {
   }
 
   goToForgotPassword() {
-    this.router.goToUri('ForgotPassword')
+    this.router.goToRouteByName('ForgotPassword')
   }
 
   render() {

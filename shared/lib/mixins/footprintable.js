@@ -48,7 +48,7 @@ export let footprintable = {
       case 'home':
         key = 'result_housing_total';
         break;
-      case 'dining':
+      case 'food':
         key = 'result_food_total';
         break;
       case 'services':

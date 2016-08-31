@@ -60,6 +60,8 @@ class GetStartedComponent extends Panel {
     let get_started = this;
     if (get_started.country_mode){
       return get_started.t('get_started.United States');
+    } else if (get_started.state_manager.state.display_location) {
+      return get_started.state_manager.state.display_location;
     } else {
       return get_started.state.input_location;
     }
@@ -67,11 +69,6 @@ class GetStartedComponent extends Panel {
 
   get location_modes(){
     return LOCATION_MODES;
-  }
-
-  get user_footprint_storage_set(){
-    let get_started = this;
-    return get_started.state_manager.user_footprint_storage
   }
 
   get show_location_suggestions(){
@@ -108,6 +105,9 @@ class GetStartedComponent extends Panel {
 
   setLocationMode(location_mode){
     let get_started = this;
+    if (location_mode !== this.state.input_location_mode){
+      get_started.state_manager.state.display_location = '';
+    }
     get_started.setState({
       input_location_mode: location_mode,
       input_location: undefined,
@@ -127,6 +127,7 @@ class GetStartedComponent extends Panel {
       show_location_suggestions: false
     });
 
+    get_started.state_manager.state.display_location = suggestion;
     get_started.updateDefaults({input_location: zipcode});
 
     if (get_started.state_manager.user_authenticated) {
@@ -154,6 +155,7 @@ class GetStartedComponent extends Panel {
           input_location_mode: get_started.state.input_location_mode,
           input_location: event.target.value
         };
+        get_started.state_manager.state.display_location = event.target.value;
     get_started.setState({
       input_location: event.target.value,
       show_location_suggestions: true

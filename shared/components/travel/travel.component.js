@@ -22,8 +22,8 @@ class TravelComponent extends Panel {
       simple: true,
       consumption_unit: 'mpg',
       vehicles: [
-        new Vehicle(travel.newVehicleParams(1), travel),
-        new Vehicle(travel.newVehicleParams(2), travel)
+        new Vehicle(travel.newVehicleParams(1), travel, 'mpg'),
+        new Vehicle(travel.newVehicleParams(2), travel, 'mpg')
       ]
     }, travel.userApiState());
   }
@@ -190,12 +190,13 @@ class TravelComponent extends Panel {
     event.preventDefault();
     let travel = this;
     if (new_unit !== this.state.consumption_unit){
-      travel.vehicles.forEach((vehicle)=>{
+      travel.state.vehicles.forEach((vehicle)=>{
         if (new_unit === 'mpg'){
           vehicle.mpg = travel.convertMetricConsumptionToMPG(vehicle.mpg);
         } else {
           vehicle.mpg = travel.convertMPGToMetric(vehicle.mpg);
         }
+        vehicle.consumption_unit = new_unit;
         vehicle.updateConsumptionSlider();
       });
       travel.setState({

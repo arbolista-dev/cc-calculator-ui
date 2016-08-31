@@ -4,7 +4,11 @@
       <img src="/assets/img/{this.route_key}-black.svg"/>
       <h4>{this.t('food.title')}</h4>
     </div>
-    <p><a class="cc-component__compare btn btn-default" onClick="{this.toggleLeadersChart.bind(this)}"> {this.t('component.compare')} <i class="fa fa-sort-amount-asc" aria-hidden="true"></i></a></p>
+    <p><a class="cc-component__compare btn btn-default"
+      onClick="{this.toggleLeadersChart.bind(this)}"
+      rt-if="this.show_settings">
+      {this.t('component.compare')} <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+    </a></p>
     <h3 class="cc-component__byline">{this.t('food.byline')}</h3>
     <div>
       <span class="cc-component__simple-toggle"

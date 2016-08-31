@@ -109,6 +109,23 @@ class LeadersComponent extends Panel {
     return this.state.show_locations_list;
   }
 
+  get alert_list() {
+    return this.state_manager.state.alerts.leaders;
+  }
+
+  get filtered_locations(){
+    return this.state.locations.filter(location=>  !!location.city)
+  }
+
+  displayCityState(location_object){
+    if (location_object.city){
+      return `${location_object.city}, ${location_object.state}`
+    } else if (location_object.state){
+      return location_object.state;
+    }
+    return '';
+  }
+
   componentDidMount() {
     let leaders = this;
     if (leaders.state_manager.state.leaders_chart.show) {
@@ -123,7 +140,7 @@ class LeadersComponent extends Panel {
     if (leaders.state_manager.state.leaders_chart.current_route != leaders.current_route_name) {
       leaders.state_manager.state.leaders_chart.current_route = leaders.current_route_name
       leaders.state_manager.state.leaders_chart.show = false;
-      $(window).off("scroll", leaders.detectScroll());
+      $(window).off('scroll', leaders.detectScroll());
       leaders.state_manager.syncLayout();
     }
   }
@@ -135,7 +152,10 @@ class LeadersComponent extends Panel {
       if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
     }).catch((err) => {
       if (err === "total_count=0") {
-        leaders.state_manager.state.alerts.push({type: 'danger', message: leaders.t('leaders.empty')});
+        leaders.setState({
+          is_loading: false
+        })
+        leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.empty')});
         leaders.state_manager.syncLayout();
       }
     });
@@ -196,7 +216,7 @@ class LeadersComponent extends Panel {
             reject("total_count=0");
           }
         } else {
-          leaders.state_manager.state.alerts.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
+          leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
           leaders.state_manager.syncLayout();
           reject();
         }
@@ -214,7 +234,7 @@ class LeadersComponent extends Panel {
       show_locations_list: true
     });
 
-    $(document).on('click', function(event) {
+    $(document).on('click.hideLocations', function(event) {
       if (!$(event.target).closest('#leaders_locations_list').length) {
         leaders.setState({
           show_locations_list: false
@@ -295,14 +315,19 @@ class LeadersComponent extends Panel {
             locations: locations,
           });
         } else {
-          leaders.state_manager.state.alerts.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
+          leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
           leaders.state_manager.syncLayout();
         }
       } else {
-        leaders.state_manager.state.alerts.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
+        leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
         leaders.state_manager.syncLayout();
       }
     });
+  }
+
+  componentWillUnmount(){
+    $(window).off('scroll', this.detectScroll());
+    $(document).off('click.hideLocations');
   }
 
   render(){

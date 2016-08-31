@@ -33,7 +33,7 @@ class LayoutComponent extends mixin(Translatable, routable) {
   }
 
   get alert_list() {
-    return this.state_manager.state.alerts;
+    return this.state_manager.state.alerts.shared;
   }
 
   get graphing_route(){
@@ -43,11 +43,23 @@ class LayoutComponent extends mixin(Translatable, routable) {
   get show_leaders_comparison(){
     let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
 
-    return leaders_route && this.state_manager.state.leaders_chart.show;
+    return this.show_settings && leaders_route && this.state_manager.state.leaders_chart.show;
   }
 
   get external_offset(){
     return this.state_manager.state.external_offset;
+  }
+
+  get show_settings(){
+    return this.state_manager.state.show_settings;
+  }
+
+  get show_user_answers_reset(){
+    if (this.current_route_name === 'GetStarted') {
+      return this.state_manager.user_footprint_storage.hasOwnProperty('input_size');
+    } else {
+      return false;
+    }
   }
 
   get show_take_action_now(){
@@ -56,6 +68,16 @@ class LayoutComponent extends mixin(Translatable, routable) {
 
   goToSettings(){
     this.router.goToRouteByName('Settings');
+  }
+
+  setUserAnswersToDefault(){
+    let layout = this;
+    layout.state_manager.setUserFootprintStorageToDefault();
+    layout.state_manager.state.alerts.shared.push({type: 'success', message: layout.t('success.answers_reset')});
+  }
+
+  goToLeaders(){
+    this.router.goToRouteByName('Leaders');
   }
 
   componentDidMount() {

@@ -6,6 +6,18 @@ a { cursor: pointer; }
 		div:first-child {
 			margin-left: 40px;
 		}
+
+		&.cc-nav__no-settings {
+			div:first-child {
+				margin-left: 1%;
+			}
+
+			.cc-nav__item,
+			#settings_nav_item {
+				width: 95px;
+				font-size: 14px;
+			}
+		}
 	}
 	.cc-nav__item {
 		cursor: pointer;
@@ -72,7 +84,12 @@ a { cursor: pointer; }
   }
 }
 
-
+#forget_user_answers {
+	position: fixed;
+	left: 4px;
+	top: 35%;
+	display: block;
+}
 
 
 .container-md {
@@ -147,6 +164,7 @@ main > header {
 }
 
 #external_banner {
+	margin-top: 8px;
 	text-align:center;
 }
 
@@ -162,6 +180,22 @@ main > header {
 	  .desktop {
 	  	display:block;
 	  }
+}
+
+@media (max-width: 991px) and (min-width: 700px) {
+	#cc_calculator_ui {
+		#cc_nav {
+			div:first-child {
+				margin-left: 2%;
+			}
+
+			.cc-nav__item,
+			#settings_nav_item {
+				width: 80px;
+				font-size: 12px;
+			}
+		}
+	}
 }
 
 @media (max-width: 400px) {

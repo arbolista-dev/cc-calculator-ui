@@ -18,7 +18,7 @@
         "submit": "Login"
     },
     "logout": {
-        "submit": "Logout"
+        "title": "Logout"
     },
     "forgot_password": {
         "title": "Forgot password",
@@ -59,7 +59,8 @@
         },
         "United States": "United States",
         "average_household_size": "Avg (2.5)",
-        "forget_answers": "Forget my answers"
+        "restore_defaults": "Your answers are saved in browser storage.",
+        "restore_defaults_button": "Click here to reset to defaults"
     },
     "travel": {
         "title": "Travel",
@@ -214,7 +215,7 @@
         "title": "Your Footprint",
         "route_path": "footprint",
         "your_footprint": "Your household footprint",
-        "average_footprint": "Average household"
+        "average_footprint": "Similar household"
     },
     "take_action": {
         "title": "Take Action",
@@ -237,7 +238,6 @@
         "total_travel_footprint": "Total Travel Footprint",
         "total_shopping_footprint": "Total Shopping Footprint",
         "total_food_footprint": "Total Food Footprint",
-        "total_home_footprint": "Total Home Footprint",
         "better_than_average": "Better than Average",
         "worse_than_average": "Worse than Average",
         "bar_graph_title": "Household tons CO<sub>2</sub>/year"
@@ -260,7 +260,7 @@
     "categories": {
         "result_transport_total": "Travel",
         "result_housing_total": "Home",
-        "result_food_total": "Dining",
+        "result_food_total": "Food",
         "result_goods_total": "Goods",
         "result_services_total": "Services"
     },

@@ -82,14 +82,6 @@ export default class Router {
     this.goToRoute(route)
   }
 
-  goToUri(uri){
-    let router = this,
-        go_to = this.routes.filter((route) => {
-          return route.route_name === uri;
-        });
-    router.goToRoute(go_to[0])
-  }
-
   // should be used on app initialization.
   setLocationToCurrentUrl() {
     let router = this,

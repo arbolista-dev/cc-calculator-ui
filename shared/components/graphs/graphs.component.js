@@ -94,7 +94,7 @@ class GraphsComponent extends Panel {
   }
 
   shouldShowTotal(){
-    if (this.current_route_name === 'GetStarted') {
+    if (this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint') {
       return false;
     } else {
       return true;
@@ -126,7 +126,9 @@ class GraphsComponent extends Panel {
   resize(){
     let graphs = this;
     graphs.bar_chart.redraw(graphs.graph_dimensions);
-    graphs.pie_chart.redraw(graphs.graph_dimensions);
+    if (graphs.pie_chart){
+      graphs.pie_chart.redraw(graphs.graph_dimensions);
+    }
   }
 
   get graph_dimensions(){
@@ -190,7 +192,7 @@ class GraphsComponent extends Panel {
       placement: 'top',
       html: true,
       container: 'body',
-      trigger: 'click',
+      trigger: 'hover',
       content: function(){
         let klasses = window.jQuery(this)
           .attr('class').split(' '),
@@ -250,7 +252,7 @@ class GraphsComponent extends Panel {
       placement: 'top',
       html: true,
       container: 'body',
-      trigger: 'click',
+      trigger: 'hover',
       content: function(){
         let category = window.jQuery(this)
           .closest('.d3-value-arc')

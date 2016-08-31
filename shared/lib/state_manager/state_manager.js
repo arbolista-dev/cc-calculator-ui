@@ -25,16 +25,24 @@ export default class StateManager {
       user_footprint: {},
       external_offset: {},
       auth: {},
-      alerts: [],
+      alerts: {
+        sign_up: [],
+        login: [],
+        forgot_password: [],
+        leaders: [],
+        shared: []
+      },
       chart: {
         show: true,
         type: 'bar'
       },
+      show_settings: true,
       leaders_chart: {
         show: false,
         category: ""
       },
-      vehicles: []
+      vehicles: [],
+      display_location: ""
     };
   }
 
@@ -131,6 +139,15 @@ export default class StateManager {
     }
   }
 
+  setShowSettings(){
+    let state_manager = this;
+    if (state_manager.state.external_offset.hasOwnProperty('show_settings')) {
+      if (!state_manager.state.external_offset.show_settings) {
+        state_manager.state.show_settings = false;
+      }
+    }
+  }
+
   setRoute(route){
     let state_manager = this;
     state_manager.state.route = route;
@@ -144,15 +161,24 @@ export default class StateManager {
       // optional origin check:
       // if(event.origin !== 'http://localhost:8080') return;
 
-      let data = JSON.parse(event.data);
-      Object.assign(state_manager.state.external_offset, data)
+      try {
+        let data = JSON.parse(event.data);
+        if (data.carbon_price_per_ton) {
+          Object.assign(state_manager.state.external_offset, data);
+          state_manager.setShowSettings();
+          state_manager.syncLayout();
+        }
+      } catch (e) {
+        // console.log('receiveExternalOffset err: ', e);
+      }
+
     }),false);
 
   }
 
   getInitialData(){
     let state_manager = this;
-    state_manager.receiveExternalOffset()
+    state_manager.receiveExternalOffset();
 
     // we'll load past user answers and get CC results here.
     return state_manager.checkLocalStorage();
