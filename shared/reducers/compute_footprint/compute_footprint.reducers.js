@@ -3,7 +3,7 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureComputeFootprint, computeFootprintRetrieved, computeFootprintRetrievalError, parseFootprintResult } from './compute_footprint.actions';
+import { ensureComputeFootprint, computeFootprintRetrieved, computeFootprintRetrievalError, parseFootprintResult, userFootprintUpdated } from './compute_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
@@ -79,6 +79,15 @@ const ACTIONS = {
     console.log('parseFootprintResult - result data', merged_data);
 
     setLocalStorageItem('user_footprint', merged_data);
+    return fromJS({data: merged_data, loading: false})
+  },
+
+  [userFootprintUpdated]: (state, api_data)=>{
+    let merged_data = state.get('data').merge(api_data);
+
+    console.log('userFootprintUpdated: ', merged_data);
+    setLocalStorageItem('user_footprint', merged_data);
+
     return fromJS({data: merged_data, loading: false})
   }
 

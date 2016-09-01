@@ -3,7 +3,7 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureDefaults, defaultsRetrieved, defaultsRetrievalError, defaultsUpdated } from './average_footprint.actions';
+import { ensureDefaults, defaultsRetrieved, defaultsRetrievalError, averageFootprintUpdated } from './average_footprint.actions';
 import { ensureComputeFootprint } from './../compute_footprint/compute_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
@@ -51,10 +51,13 @@ const ACTIONS = {
     return fromJS({load_error: true, loading: false});
   },
 
-  [defaultsUpdated]: (_defaults_data, api_data)=>{
-    console.log('defaultsUpdated - data: ', api_data);
-    setLocalStorageItem('average_footprint', api_data);
-    return fromJS({data: api_data, loading: false})
+  [averageFootprintUpdated]: (state, api_data)=>{
+    let merged_data = state.get('data').merge(api_data);
+
+    console.log('averageFootprintUpdated: ', merged_data);
+    setLocalStorageItem('average_footprint', merged_data);
+
+    return fromJS({data: merged_data, loading: false})
   }
 
 };

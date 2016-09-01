@@ -12,14 +12,6 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     this.router.pushRoute(route_name, action, payload);
   }
 
-  // get route_key() {
-  //   return this.state_manager.state.route.key;
-  // }
-  //
-  // get current_route_name() {
-  //   return this.state_manager.state.route.route_name;
-  // }
-
   get slider_width(){
     let width = window.innerWidth * 0.8;
     width = Math.min(MAX_SLIDER_WIDTH, width);

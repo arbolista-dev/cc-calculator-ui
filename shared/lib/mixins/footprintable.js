@@ -89,8 +89,12 @@ export let footprintable = {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   },
 
-  updateFootprintParams(params){
-    this.state_manager.updateFootprintParams(params);
+  // updateFootprintParams(params){
+  //   this.state_manager.updateFootprintParams(params);
+  // },
+  updateFootprintParams(updated_params){
+    this.props.averageFootprintUpdated(updated_params);
+    this.props.userFootprintUpdated(updated_params);
   },
 
   updateFootprintInput: function(event){

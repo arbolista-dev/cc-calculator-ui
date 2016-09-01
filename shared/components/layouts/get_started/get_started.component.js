@@ -20,10 +20,10 @@ class GetStartedComponent extends Panel {
     get_started.initResizeListener();
     get_started.state = {
       locations: {},
-      input_location_mode: parseInt(get_started.state_manager.input_location_mode),
-      input_location: get_started.userApiValue('input_location'),
+      input_location_mode: undefined,
       show_location_suggestions: false
     };
+
   }
 
   /*
@@ -32,9 +32,8 @@ class GetStartedComponent extends Panel {
 
   componentDidMount(){
     let get_started = this;
-    // console.log('user_footprint', this.props.user_footprint.getIn(['data', 'input_income']));
-    // get_started.initializeSizeSlider();
-    // get_started.initializeIncomeSlider();
+    get_started.initializeSizeSlider();
+    get_started.initializeIncomeSlider();
   }
 
   // componentDidUpdate(){
@@ -60,7 +59,7 @@ class GetStartedComponent extends Panel {
    }
 
    get country_mode(){
-    return this.state.input_location_mode === 5;
+    return this.userApiValue('input_location_mode') === 5;
    }
 
    get input_location_display(){
@@ -68,7 +67,7 @@ class GetStartedComponent extends Panel {
     if (get_started.country_mode){
       return get_started.t('get_started.United States');
     } else {
-      return get_started.state.input_location;
+      return get_started.userApiValue('input_location');
     }
    }
 
@@ -88,29 +87,25 @@ class GetStartedComponent extends Panel {
   updateDefaults(default_params){
     let get_started = this;
 
-    // get_started.state_manager.update_in_progress = true;
-    // default_params.input_location_mode = get_started.state.input_location_mode;
-    // get_started.state_manager.updateDefaultParams(default_params)
-    //
-    // // debounce updating defaults by 500ms.
-    // if (get_started.$update_defaults) {
-    //   clearTimeout(get_started.$update_defaults);
-    // }
-    //
-    // get_started.$update_defaults = setTimeout(()=>{
-    //   // This will also make necessary update to user footprint.
-    //   get_started.state_manager.updateDefaults()
-    //     .then(()=>{
-    //       get_started.state_manager.syncLayout();
-    //     })
-    //     .then(()=>{
-    //       get_started.state_manager.update_in_progress = false;
-    //     });
-    // }, 500);
+    default_params.input_location_mode = get_started.state.input_location_mode;
+    get_started.state_manager.updateDefaultParams(default_params)
+
+    // debounce updating defaults by 500ms.
+    if (get_started.$update_defaults) {
+      clearTimeout(get_started.$update_defaults);
+    }
+
+    get_started.$update_defaults = setTimeout(()=>{
+      // This will also make necessary update to user footprint.
+      get_started.state_manager.updateDefaults()
+        .then(()=>{
+          console.log('- get started - updateDefaults success!');
+        })
+    }, 500);
   }
 
   locationModeActive(mode){
-    return this.state.input_location_mode === mode;
+    return this.userApiValue('input_location_mode') === mode;
   }
 
   setLocationMode(location_mode){
@@ -188,13 +183,11 @@ class GetStartedComponent extends Panel {
   // }
 
    get input_income(){
-     console.log('input_income', this.props.user_footprint.get('input_income'));
-
-     return this.props.user_footprint.get('input_income');
+     return this.userApiValue('input_income');
    }
 
    get input_size(){
-     return this.props.user_footprint.get('input_size');
+     return this.userApiValue('input_size');
    }
 
 
