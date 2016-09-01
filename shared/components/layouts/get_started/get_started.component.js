@@ -11,6 +11,8 @@ import { footprintPropTypes } from '../../../containers/footprint.container';
 import CalculatorApi from 'api/calculator.api';
 
 const LOCATION_MODES = [[5, 'Country'], [1, 'Zipcode'], [4, 'State'], [2, 'City'], [3, 'County']];
+const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
+
 
 class GetStartedComponent extends Panel {
 
@@ -36,15 +38,15 @@ class GetStartedComponent extends Panel {
     get_started.initializeIncomeSlider();
   }
 
-  // componentDidUpdate(){
-  //   let component = this;
-  //   if (component.input_income != component.income_slider.current_value){
-  //     component.income_slider.setValue(component.input_income);
-  //   }
-  //   if (component.input_size != component.size_slider.current_value){
-  //     component.size_slider.setValue(component.input_size);
-  //   }
-  // }
+  componentDidUpdate(){
+    let component = this;
+    if (component.input_income != component.income_slider.current_value){
+      component.income_slider.setValue(component.input_income);
+    }
+    if (component.input_size != component.size_slider.current_value){
+      component.size_slider.setValue(component.input_size);
+    }
+  }
 
   render(){
     return template.call(this);
@@ -88,7 +90,7 @@ class GetStartedComponent extends Panel {
     let get_started = this;
 
     default_params.input_location_mode = get_started.state.input_location_mode;
-    get_started.state_manager.updateDefaultParams(default_params)
+    get_started.updateFootprintParams(default_params);
 
     // debounce updating defaults by 500ms.
     if (get_started.$update_defaults) {
@@ -97,10 +99,10 @@ class GetStartedComponent extends Panel {
 
     get_started.$update_defaults = setTimeout(()=>{
       // This will also make necessary update to user footprint.
-      get_started.state_manager.updateDefaults()
-        .then(()=>{
-          console.log('- get started - updateDefaults success!');
-        })
+      get_started.props.ensureDefaults()
+        // .then(()=>{
+        //   console.log('- get started - updateDefaults success!');
+        // })
     }, 500);
   }
 
@@ -174,13 +176,6 @@ class GetStartedComponent extends Panel {
   /*
    * Income and Household Size UI
    */
-
-  //  get input_income(){
-  //     return this.state_manager.state.user_footprint['input_income']
-  //  }
-  // get input_size(){
-  //   return this.state_manager.state.user_footprint['input_size']
-  // }
 
    get input_income(){
      return this.userApiValue('input_income');

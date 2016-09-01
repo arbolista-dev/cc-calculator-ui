@@ -6,68 +6,11 @@
 		</div>
 		<span class="cc-component__byline">{this.t('get_started.byline')}</span>
 	</header>
-	<div class="" rt-if="!this.data_loaded">
-		<h3>LOADING</h3>
+	<div rt-if="!this.data_loaded">
+		<h3>LOADING ...</h3>
 	</div>
 
 	<div class="cc-component__form" rt-if="this.data_loaded">
-
-		<div id="location_mode_btn_group_container" class="cc-component__question">
-			<div id="location_mode_btn_group" class="btn-group" role="group">
-				<a rt-repeat="mode in this.location_modes"
-					rt-class="{'btn-success': this.locationModeActive(mode[0]), 'btn-default': !this.locationModeActive(mode[0])}"
-					key="location_mode_{mode[0]}"
-					type="button"
-					class="btn"
-					 >{this.t(mode[1])}</a>
-			</div>
-		</div>
-
-		<div id="get_started_location_suggestions_container" class="cc-component__question">
-			<input class="form-control"
-				rt-props="{disabled: this.country_mode}"
-				placeholder="{this.t('get_started.location_prompt')}"
-				value="{this.input_location_display}"
-				/>
-			<div rt-if="this.show_location_suggestions" id="get_started_location_suggestions">
-				<div class="get-started__location-suggestion"
-					>{this.t('Hide')}</div>
-				<div rt-repeat="suggestion in this.state.locations.suggestions"
-					key="{this.state.locations.data[suggestionIndex]}"
-					data-zipcode="{this.state.locations.data[suggestionIndex]}"
-					data-suggestion="{suggestion}"
-					class="get-started__location-suggestion"
-					>{suggestion}</div>
-			</div>
-		</div>
-
-		<div class="cc-component__question">
-			<h4>{this.t('get_started.size.label')}</h4>
-			<div class="cc-slider-container" id="size_slider"></div>
-		</div>
-		<div class="cc-component__question">
-			<h4>{this.t('get_started.income.label')}</h4>
-			<div  class="cc-slider-container" id="income_slider"></div>
-		</div>
-
-	</div>
-
-	<div class="cc-component__nav">
-		<a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
-	</div>
-</main>
-<!--
-<main class="cc-component container container-md" id="get_started">
-	<header class="cc-component__header">
-		<div>
-			<img src="/assets/img/{this.route_key}-black.svg"/>
-			<h4>{this.t('get_started.title')}</h4>
-		</div>
-		<span class="cc-component__byline">{this.t('get_started.byline')}</span>
-	</header>
-
-	<div class="cc-component__form">
-
 		<div id="location_mode_btn_group_container" class="cc-component__question">
 			<div id="location_mode_btn_group" class="btn-group" role="group">
 				<a rt-repeat="mode in this.location_modes"
@@ -111,4 +54,4 @@
 	<div class="cc-component__nav">
 		<a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
 	</div>
-</main> -->
+</main>

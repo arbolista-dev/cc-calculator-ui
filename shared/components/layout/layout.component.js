@@ -21,27 +21,28 @@ class LayoutComponent extends Panel {
     // context.state_manager.layout = layout;
   }
 
+  get user_footprint_set(){
+    return Object.keys(this.props.user_footprint.get('data').toJS()).length !== 0
+  }
+
   componentWillMount(){
-    // console.log('this.props.average_footprint', this.props.ensureDefaults(this.state_manager.default_inputs));
-    this.props.ensureDefaults(this.state_manager.default_inputs)
-    // this.props.ensureComputeFootprint(this.average_footprint);
+    let location;
+
+    if (!this.user_footprint_set) {
+      location = this.state_manager.default_inputs;
+    } else {
+      location = {
+        input_location_mode: this.userApiValue('input_location_mode'),
+        input_location: this.userApiValue('input_location'),
+        input_income: this.userApiValue('input_income'),
+        input_size: this.userApiValue('input_size')
+      }
+    }
+    this.props.ensureDefaults(location)
   }
 
   render() {
     return template.call(this);
-  }
-
-  // get route_key() {
-  //   return this.state_manager.state.route.key;
-  // }
-  //
-
-  get average_footprint(){
-    // return this.props.defaults.get('average_footprint').toObject();
-  }
-
-  get user_footprint(){
-    // return this.props.user_footprint.toObject();
   }
 
   get route_name(){
@@ -53,18 +54,11 @@ class LayoutComponent extends Panel {
   }
 
   get current_route(){
-    console.log('layout component, current route: ', this.route_name)
     return this.router.routes.getRoute(this.route_name);
   }
 
   goToRoute(route_name){
-    // console.log('average_footprint', this.average_footprint);
-    console.log('user_footprint', this.user_footprint);
-
     let router = this;
-
-
-
     window.jQuery("[data-toggle='popover']").popover('hide');
     window.jQuery("html, body").animate({ scrollTop: 0 }, 500, ()=>{
       return router.pushRoute(route_name);
@@ -89,23 +83,6 @@ class LayoutComponent extends Panel {
 
   // goToSettings(){
   //   this.router.goToRouteByName('Settings');
-  // }
-
-  // componentDidMount() {
-  //   var layout = this;
-  //   layout.router.initializeHistory(layout);
-  // }
-
-  // syncFromStateManager() {
-  //   var layout = this;
-  //   return new Promise((fnResolve, _fnReject) => {
-  //     layout.forceUpdate(() => {
-  //       // Prerendered data should be consumed after the first time the
-  //       // state is set from the URL.
-  //       layout.destroyPrerenderData();
-  //       fnResolve();
-  //     });
-  //   });
   // }
 
   destroyPrerenderData() {
