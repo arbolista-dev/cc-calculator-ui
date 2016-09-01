@@ -20,8 +20,8 @@ class ForgotPasswordComponent extends Panel {
     };
   }
 
-  componentDidMount() {
-    let forgot_password = this;
+  get alert_list() {
+    return this.state_manager.state.alerts.forgot_password;
   }
 
   paramValid(param){
@@ -41,7 +41,7 @@ class ForgotPasswordComponent extends Panel {
     for (let key in forgot_password.valid) {
       let value = forgot_password.valid[key]
       if (value === false) {
-        forgot_password.state_manager.state.alerts.push({type: 'danger', message: forgot_password.t('forgot_password.' + key) + " " + forgot_password.t('errors.invalid')});
+        forgot_password.state_manager.state.alerts.forgot_password.push({type: 'danger', message: forgot_password.t('forgot_password.' + key) + " " + forgot_password.t('errors.invalid')});
         forgot_password.state_manager.syncLayout();
       }
     }
@@ -69,18 +69,18 @@ class ForgotPasswordComponent extends Panel {
   submitForgotPassword(event) {
     event.preventDefault();
     let forgot_password = this;
-    forgot_password.state_manager.state.alerts = [];
+    forgot_password.state_manager.state.alerts.forgot_password = [];
 
     if (forgot_password.validateAll()) {
       forgotPassword(forgot_password.state).then((res)=>{
         if (res.success) {
 
-          forgot_password.router.goToUri('Login')
+          forgot_password.router.goToRouteByName('Login')
 
-          forgot_password.state_manager.state.alerts.push({type: 'success', message: forgot_password.t('success.forgot_password')});
+          forgot_password.state_manager.state.alerts.forgot_password.push({type: 'success', message: forgot_password.t('success.forgot_password')});
         } else {
           // failed
-          forgot_password.state_manager.state.alerts.push({type: 'danger', message: forgot_password.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
+          forgot_password.state_manager.state.alerts.forgot_password.push({type: 'danger', message: forgot_password.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
           forgot_password.state_manager.syncLayout();
         }
         return res

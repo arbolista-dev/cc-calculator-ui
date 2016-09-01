@@ -20,25 +20,18 @@ class AlertsComponent extends Translatable {
   componentDidUpdate(){
     let alerts = this;
 
-
     if (alerts.not_empty) {
       let current_route = alerts.router.current_route.key
 
-      for (let i = 0; i < alerts.state_manager.state.alerts.length; i++ ) {
-        if (!alerts.state_manager.state.alerts[i].initial_route) {
-          alerts.state_manager.state.alerts[i].initial_route = current_route
+      for (let i = 0; i < alerts.state_manager.state.alerts[this.props.type].length; i++ ) {
+        if (!alerts.state_manager.state.alerts[this.props.type][i].initial_route) {
+          alerts.state_manager.state.alerts[this.props.type][i].initial_route = current_route
         }
-        if (alerts.state_manager.state.alerts[i].initial_route !== current_route) {
-          alerts.state_manager.state.alerts.splice(i, 1);
+        if (alerts.state_manager.state.alerts[this.props.type][i].initial_route !== current_route) {
+          alerts.state_manager.state.alerts[this.props.type].splice(i, 1);
           alerts.state_manager.syncLayout();
         }
       }
-
-      // Hide Flash Message after 15 seconds
-      // setTimeout(() => {
-      //    alerts.state_manager.state.alerts = [];
-      //    alerts.state_manager.syncLayout();
-      // }, 15000);
     }
   }
 
@@ -49,7 +42,8 @@ class AlertsComponent extends Translatable {
 }
 
 AlertsComponent.propTypes = {
-  alerts: React.PropTypes.array.isRequired
+  alerts: React.PropTypes.array.isRequired,
+  type: React.PropTypes.string.isRequired
 };
 
 AlertsComponent.NAME = 'Alerts';

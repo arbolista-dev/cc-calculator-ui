@@ -22,7 +22,7 @@ class LogoutComponent extends Translatable {
     event.preventDefault();
     let logout = this,
         token = logout.state_manager.state.auth.token;
-    logout.state_manager.state.alerts = [];
+    logout.state_manager.state.alerts.shared = [];
 
     if(token) {
       logoutUser(token).then((res)=>{
@@ -32,10 +32,11 @@ class LogoutComponent extends Translatable {
           delete logout.state_manager.state.auth;
           logout.state_manager.state.auth = {};
           localStorage.removeItem('auth');
-          logout.state_manager.state.alerts.push({type: 'success', message: logout.t('success.logout')});
           logout.state_manager.setUserFootprintStorageToDefault().then(() => {
-            logout.router.goToUri('GetStarted')
+            logout.router.goToRouteByName('GetStarted')
+            logout.state_manager.state.alerts.shared.push({type: 'success', message: logout.t('success.logout')});
           })
+
         } else {
           // user logout failed?!
         }

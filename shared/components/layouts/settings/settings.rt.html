@@ -1,7 +1,7 @@
 <rt-require dependency="./user/sign_up/sign_up.component" as="SignUp"/>
 <rt-require dependency="./user/login/login.component" as="Login"/>
 <rt-require dependency="./user/logout/logout.component" as="Logout"/>
-<main class="cc-component" id="settings">
+<main class="cc-component container container-md" id="settings">
   <div class="cc-component__form">
     <Login rt-if="!this.user_authenticated"/>
     <SignUp rt-if="!this.user_authenticated"/>
@@ -24,7 +24,5 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </main>

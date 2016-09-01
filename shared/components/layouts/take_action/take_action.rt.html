@@ -1,8 +1,9 @@
 <rt-require dependency="./external_offset/external_offset.component" as="ExternalOffset"/>
+<rt-require dependency="./action/action.component" as="Action"/>
 <main class="cc-component container container-md" id="take_action">
   <header class="cc-component__header">
     <div>
-      <img src="/assets/img/{this.route_key}-black.svg"/>
+      <img src="/assets/img/{this.route_key}-grey.svg"/>
       <h4>{this.t('take_action.title')}</h4>
     </div>
     <span class="cc-component__byline">{this.t('take_action.byline')}</span>
@@ -10,34 +11,31 @@
 
   <ExternalOffset rt-if="this.external_offset_set"></ExternalOffset>
 
+  <div id="action_category_btn_group_container" class="cc-component__question">
+    <div id="action_category_btn_group" class="btn-group" role="group">
+      <a rt-repeat="category in this.actions_list"
+        rt-class="{'btn-success': this.isCategoryActive(category.category), 'btn-default': !this.isCategoryActive(category.category)}"
+        key="action_category_{category.category}"
+        type="button"
+        class="btn"
+        onClick="{this.setCategory.bind(this, category.category)}"
+         >{this.t(category.title)}</a>
+    </div>
+  </div>
+
+  <div id="action_critical_assumptions">
+    <a type="button"
+      class="btn btn-sm btn-info"
+      onClick="{this.toggleCriticalAssumptions.bind(this)}"
+       >{this.t('take_action.critical_assumptions')}</a>
+       <Action is_assumption={true} show="{this.state.show_critical_assumptions}"></Action>
+  </div>
+
   <div class="cc-component__form">
     <div>
-      <div rt-repeat="action in this.actions"
-        key="{action.key}">
-        <div class="take-action__action-heading"
-          rt-class="{'take-action__action-heading--taken': action.taken}"
-          onClick="{this.toggleActionDetails.bind(this, action)}">
-          <h5>{action.display_name}</h5>
-        </div>
-        <div class="take-action__action-body" rt-class="{hidden: !action.detailed}">
-          <div>
-            <div class="take-action__savings-amount">{action.tons_saved}</div>
-            <div class="take-action__savings-label">{this.t('take_action.tons_saved')}</div>
-          </div>
-          <div>
-            <div class="take-action__savings-amount">${action.dollars_saved}</div>
-            <div class="take-action__savings-label">{this.t('take_action.dollars_saved')}</div>
-          </div>
-          <div>
-            <div class="take-action__savings-amount">${action.upfront_cost}</div>
-            <div class="take-action__savings-label">{this.t('take_action.upfront_cost')}</div>
-          </div>
-          <button class="btn btn-default"
-            onClick="{this.toggleAction.bind(this, action)}">
-            <i class="fa" rt-class="{'fa-check-square-o': !action.taken, 'fa-check-square': action.taken}"></i>
-          </button>
-        </div>
-      </div>
+      <rt-virtual rt-repeat="category in this.actions_list">
+        <Action rt-repeat="key in category.keys" action_key="{key}" category="{category.category}" show="{this.showAction(key)}" is_assumption={false}></Action>
+      </virtual>
     </div>
   </div>
 

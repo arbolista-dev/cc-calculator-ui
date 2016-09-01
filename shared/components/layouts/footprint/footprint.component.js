@@ -13,6 +13,14 @@ class FootprintComponent extends Panel {
     footprint.state = {}
   }
 
+  toggleLeadersChart() {
+    let footprint = this;
+    footprint.state_manager.state.leaders_chart.show = true;
+    footprint.state_manager.state.leaders_chart.category = "";
+    footprint.state_manager.syncLayout();
+    window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
+  }
+
   render(){
     return template.call(this);
   }

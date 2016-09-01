@@ -20,7 +20,7 @@ class SettingsComponent extends Panel {
   setUserFootprintStorageToDefault(){
     let component = this;
     component.state_manager.setUserFootprintStorageToDefault();
-    component.state_manager.state.alerts.push({type: 'success', message: component.t('success.answers_reset')});
+    component.state_manager.state.alerts.shared.push({type: 'success', message: component.t('success.answers_reset')});
   }
 
   componentDidMount() {

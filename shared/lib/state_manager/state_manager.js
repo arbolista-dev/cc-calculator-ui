@@ -25,8 +25,6 @@ const CATEGORY_COLORS = {
 
 export default class StateManager {
 
-  // constructor(){
-  //   var state_manager = this;
   //   state_manager.state = {
   //     average_footprint: {},
   //     user_footprint: {},
@@ -38,26 +36,13 @@ export default class StateManager {
   //       type: 'bar'
   //     }
   //   };
-  // }
 
   get Router(){
     return Router;
   }
 
   get default_inputs(){
-    let state_manager = this,
-        location;
-    // if (!state_manager.user_footprint_set){
-      location = DEFAULT_LOCATION;
-    // } else {
-    //   location = {
-    //     input_location_mode: state_manager.input_location_mode,
-    //     input_location: state_manager.state.user_footprint['input_location'],
-    //     input_income: state_manager.state.user_footprint['input_income'],
-    //     input_size: state_manager.state.user_footprint['input_size']
-    //   };
-    // }
-    return location;
+    return DEFAULT_LOCATION;
   }
 
   get user_footprint_storage(){
@@ -76,8 +61,53 @@ export default class StateManager {
     return getLocalStorageItem('auth');
   }
 
+  // @ToDo Refactor:
+  // get category_colors(){
+  //   return CATEGORY_COLORS;
+  // }
+  //
+  // get cool_climate_keys(){
+  //   return Object.keys(this.state.user_footprint)
+  // }
+  //
+  // get footprint_not_updated(){
+  //   return this.user_footprint['input_changed'] != 1;
+  // }
+  //
+  // get actions_not_updated(){
+  //   return this.result_takeaction_pounds === undefined;
+  // }
+  //
+  // get result_takeaction_pounds(){
+  //   return this.state['result_takeaction_pounds']
+  // }
+  //
+  // get result_takeaction_dollars(){
+  //   return this.state['result_takeaction_dollars']
+  // }
+  //
+  // get result_takeaction_net10yr(){
+  //   return this.state['result_takeaction_net10yr']
+  // }
+  // get user_authenticated(){
+  //   if (this.state.auth.hasOwnProperty('token')) {
+  //     return tokenIsValid(this.state.auth.token);
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  // @ToDo Refactor:
+  // setConnectToApi(){
+  //   let state_manager = this;
+  //   if (state_manager.state.external_offset.hasOwnProperty('connect_to_api')) {
+  //     if (!state_manager.state.external_offset.connect_to_api) {
+  //       state_manager.state.connect_to_api = false;
+  //     }
+  //   }
+  // }
+
   initializeStore(initial_state){
-    let state_manager = this;
     let reducer = combineReducers({
       location: locationReducers,
       average_footprint: defaultsReducers,
@@ -86,7 +116,7 @@ export default class StateManager {
     });
     state_manager.store = createStore(reducer, initial_state, install());
 
-    // @ToDo: use this to persist state to localStorage
+    // @ToDo: use this to persist state to localStorage, needed?
     // store.subscribe(() => {
     //   saveState({
     //      user_footprint: store.getState().user_footprint
@@ -104,10 +134,37 @@ export default class StateManager {
       result_takeaction_net10yr: fromJS(state_manager.take_action_storage.net10yr || {}),
       result_takeaction_pounds:  fromJS(state_manager.take_action_storage.pounds || {})
     }, opts);
+
   }
+
+  // @ToDo Refactor:
+  // receiveExternalOffset() {
+  //   let state_manager = this;
+  //
+  //   window.addEventListener('message', ((event) => {
+  //     // optional origin check:
+  //     // if(event.origin !== 'http://localhost:8080') return;
+  //
+  //     try {
+  //       let data = JSON.parse(event.data);
+  //       if (data.carbon_price_per_ton) {
+  //         Object.assign(state_manager.state.external_offset, data);
+  //         state_manager.setConnectToApi();
+  //         state_manager.syncLayout();
+  //       }
+  //     } catch (e) {
+  //       // console.log('receiveExternalOffset err: ', e);
+  //     }
+  //
+  //   }),false);
+  //
+  // }
+
 
   getInitialData(){
     let state_manager = this;
+
+    // @ToDo Refactor:
     // state_manager.receiveExternalOffset()
 
     // we'll load past user answers and get CC results here.
@@ -117,214 +174,9 @@ export default class StateManager {
   checkLocalStorage(){
     let state_manager = this;
     return Promise.resolve();
-    // if (state_manager.take_action_storage) {
-    //   state_manager.state['result_takeaction_dollars'] = JSON.parse(state_manager.take_action_storage.dollars);
-    //   state_manager.state['result_takeaction_net10yr'] = JSON.parse(state_manager.take_action_storage.net10yr);
-    //   state_manager.state['result_takeaction_pounds'] = JSON.parse(state_manager.take_action_storage.pounds);
-    // }
-    // if (state_manager.auth_storage) Object.assign(state_manager.state.auth, state_manager.auth_storage)
-    // if (state_manager.average_footprint_storage && state_manager.user_footprint_storage) {
-    //   Object.assign(state_manager.state.average_footprint, state_manager.average_footprint_storage)
-    //   Object.assign(state_manager.state.user_footprint, state_manager.user_footprint_storage)
-    //   return Promise.resolve();
-    // } else {
-    //   return state_manager.updateDefaults();
-    // }
   }
 
-  // updateDefaults(){
-  //   let state_manager = this;
-
-
-    // console.log('updateDefaults store', state_manager.store.getState());
-    //
-    // return CalculatorApi.getDefaultsAndResults(state_manager.default_inputs)
-    //   .then((_defaults)=>{
-    //     defaults = _defaults
-    //     state_manager.state.average_footprint = defaults;
-    //     return CalculatorApi.computeFootprint(defaults)
-    //   })
-    //   .then((default_footprint)=>{
-    //
-    //     // Set average footprint and save to storage.
-    //     Object.assign(state_manager.state.average_footprint, default_footprint);
-    //     state_manager.updateAverageFootprintStorage();
-    //
-    //     if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
-    //       state_manager.parseFootprintResult(defaults);
-    //       return undefined;
-    //     } else {
-    //       // If user footprint has been defined, update it with new location.
-    //       Object.assign(state_manager.user_footprint, state_manager.inputs);
-    //       return state_manager.updateFootprint();
-    //     }
-    //   });
-  // }
-
-  // get category_colors(){
-  //   return CATEGORY_COLORS;
-  // }
-  //
-  // get params(){
-  //   return this.state.route.params;
-  // }
-  //
-  // get user_footprint(){
-  //   return this.state.user_footprint;
-  // }
-  //
-  // get average_footprint(){
-  //   return this.state.average_footprint;
-  // }
-  //
-  // get user_footprint_storage(){
-  //   return getLocalStorageItem('user_footprint');
-  // }
-  //
-  // get average_footprint_storage(){
-  //   return getLocalStorageItem('average_footprint');
-  // }
-  //
-  // get auth_storage(){
-  //   return getLocalStorageItem('auth');
-  // }
-  //
-  // get take_action_storage(){
-  //   return getLocalStorageItem('take_action');
-  // }
-  //
-  // get cool_climate_keys(){
-  //   return Object.keys(this.state.user_footprint)
-  // }
-  //
-  // get footprint_not_updated(){
-  //   return this.user_footprint['input_changed'] != 1;
-  // }
-  //
-  // get actions_not_updated(){
-  //   return this.result_takeaction_pounds === undefined;
-  // }
-  //
-  // get user_footprint_set(){
-  //   let state_manager = this;
-  //   return Object.keys(state_manager.state.user_footprint).length !== 0
-  // }
-  //
-  // get default_inputs(){
-  //   let state_manager = this,
-  //       location;
-  //   if (!state_manager.user_footprint_set){
-  //     location = DEFAULT_LOCATION;
-  //   } else {
-  //     location = {
-  //       input_location_mode: state_manager.input_location_mode,
-  //       input_location: state_manager.state.user_footprint['input_location'],
-  //       input_income: state_manager.state.user_footprint['input_income'],
-  //       input_size: state_manager.state.user_footprint['input_size']
-  //     };
-  //   }
-  //   return location;
-  // }
-  //
-  // get input_location_mode(){
-  //   return this.state.user_footprint['input_location_mode'];
-  // }
-  //
-  // get result_takeaction_pounds(){
-  //   return this.state['result_takeaction_pounds']
-  // }
-  //
-  // get result_takeaction_dollars(){
-  //   return this.state['result_takeaction_dollars']
-  // }
-  //
-  // get result_takeaction_net10yr(){
-  //   return this.state['result_takeaction_net10yr']
-  // }
-  //
-  // get inputs(){
-  //   return Object.assign({}, this.user_footprint)
-  // }
-  //
-  // get user_authenticated(){
-  //   if (this.state.auth.hasOwnProperty('token')) {
-  //     return tokenIsValid(this.state.auth.token);
-  //   } else {
-  //     return false;
-  //   }
-  // }
-  //
-  // setRoute(route){
-  //   let state_manager = this;
-  //   state_manager.state.route = route;
-  //   return Promise.resolve();
-  // }
-  //
-  // receiveExternalOffset() {
-  //   let state_manager = this;
-  //
-  //   window.addEventListener('message', ((event) => {
-  //     // optional origin check:
-  //     // if(event.origin !== 'http://localhost:8080') return;
-  //
-  //     let data = JSON.parse(event.data);
-  //     Object.assign(state_manager.state.external_offset, data)
-  //   }),false);
-  //
-  // }
-  //
-  // getInitialData(){
-  //   let state_manager = this;
-  //   state_manager.receiveExternalOffset()
-  //
-  //   // we'll load past user answers and get CC results here.
-  //   return state_manager.checkLocalStorage();
-  // }
-  //
-  // checkLocalStorage(){
-  //   let state_manager = this;
-  //   if (state_manager.take_action_storage) {
-  //     state_manager.state['result_takeaction_dollars'] = JSON.parse(state_manager.take_action_storage.dollars);
-  //     state_manager.state['result_takeaction_net10yr'] = JSON.parse(state_manager.take_action_storage.net10yr);
-  //     state_manager.state['result_takeaction_pounds'] = JSON.parse(state_manager.take_action_storage.pounds);
-  //   }
-  //   if (state_manager.auth_storage) Object.assign(state_manager.state.auth, state_manager.auth_storage)
-  //   if (state_manager.average_footprint_storage && state_manager.user_footprint_storage) {
-  //     Object.assign(state_manager.state.average_footprint, state_manager.average_footprint_storage)
-  //     Object.assign(state_manager.state.user_footprint, state_manager.user_footprint_storage)
-  //     return Promise.resolve();
-  //   } else {
-  //     return state_manager.updateDefaults();
-  //   }
-  // }
-  //
-  // syncLayout(){
-  //   let state_manager = this;
-  //   if (state_manager.layout !== undefined){
-  //     return state_manager.layout.syncFromStateManager()
-  //               .then(()=>{
-  //                 state_manager.update_in_progress = false;
-  //               });
-  //   } else {
-  //     state_manager.update_in_progress = false;
-  //     return undefined;
-  //   }
-  // }
-  //
-  // updateDefaultParams(new_location){
-  //   let state_manager = this;
-  //   Object.assign(state_manager.state.average_footprint, new_location);
-  //   state_manager.updateAverageFootprintStorage();
-  //   Object.assign(state_manager.state.user_footprint, new_location);
-  //   state_manager.updateUserFootprintStorage();
-  // }
-  //
-  //
-  // updateUserFootprintStorage() {
-  //   let state_manager = this;
-  //   localStorage.setItem('user_footprint', JSON.stringify(state_manager.state.user_footprint));
-  // }
-  //
+  // @ToDo - Check which methods are still needed within State Manager
   // setUserFootprint(answers) {
   //   let state_manager = this;
   //   Object.assign(state_manager.state.user_footprint, answers)
@@ -386,7 +238,7 @@ export default class StateManager {
   //         }
   //       });
   //
-  //   console.log(JSON.stringify(differences, null, 2))
+  //   // console.log(JSON.stringify(differences, null, 2))
   // }
   //
   // parseFootprintResult(result){
@@ -423,6 +275,7 @@ export default class StateManager {
   // updateTakeactionResults(){
   //   let state_manager = this,
   //       action_inputs = Object.assign({}, state_manager.average_footprint, state_manager.user_footprint);
+  //
   //   return CalculatorApi.computeTakeactionResults(action_inputs)
   //     .then((res)=>{
   //       state_manager.parseTakeactionResult(res);
@@ -452,9 +305,8 @@ export default class StateManager {
   //
   //   return updateAnswers(state_manager.user_footprint, token)
   //           .then((res) => {
-  //             if (res.success) console.log('Updated user answers in DB.');
+  //             // if (res.success) console.log('Updated user answers in DB.');
   //           })
   // }
-
 
 }

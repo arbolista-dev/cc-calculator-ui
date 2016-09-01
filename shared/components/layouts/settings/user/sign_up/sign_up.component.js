@@ -24,9 +24,13 @@ class SignUpComponent extends Panel {
       last_name: '',
       email: '',
       password: '',
-      answers: ''
+      answers: '',
+      public: true
     };
-    sign_up.alerts = [];
+  }
+
+  get alert_list() {
+    return this.state_manager.state.alerts.sign_up;
   }
 
   componentDidMount() {
@@ -50,7 +54,7 @@ class SignUpComponent extends Panel {
     for (let key in sign_up.valid) {
       let value = sign_up.valid[key]
       if (value === false) {
-        sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('sign_up.' + key) + " " + sign_up.t('errors.invalid')});
+        sign_up.state_manager.state.alerts.sign_up.push({type: 'danger', message: sign_up.t('sign_up.' + key) + " " + sign_up.t('errors.invalid')});
         sign_up.state_manager.syncLayout();
       }
     }
@@ -75,10 +79,16 @@ class SignUpComponent extends Panel {
     sign_up.setState(update);
   }
 
+  updateCheckbox() {
+    this.setState({
+      public: !this.state.public
+    })
+  }
+
   submitSignup(event) {
     event.preventDefault();
     let sign_up = this;
-    sign_up.state_manager.state.alerts = [];;
+    sign_up.state_manager.state.alerts.sign_up = [];
 
     if (sign_up.validateAll()) {
       addUser(sign_up.state).then((res)=>{
@@ -92,16 +102,16 @@ class SignUpComponent extends Panel {
           Object.assign(sign_up.state_manager.state.auth, auth_res);
           localStorage.setItem('auth', JSON.stringify(auth_res));
 
-          sign_up.state_manager.state.alerts.push({type: 'success', message: sign_up.t('success.sign_up')});
-          sign_up.router.goToUri('GetStarted');
+          sign_up.state_manager.state.alerts.sign_up.push({type: 'success', message: sign_up.t('success.sign_up')});
+          sign_up.router.goToRouteByName('GetStarted');
         } else {
           let err;
           try {
             err = JSON.parse(res.error);
-            sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
+            sign_up.state_manager.state.alerts.sign_up.push({type: 'danger', message: sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
             sign_up.state_manager.syncLayout();
           } catch (err){
-            sign_up.state_manager.state.alerts.push({type: 'danger', message: sign_up.t('errors.email.non-unique')});
+            sign_up.state_manager.state.alerts.sign_up.push({type: 'danger', message: sign_up.t('errors.email.non-unique')});
             sign_up.state_manager.syncLayout();
           }
         }

@@ -10,7 +10,8 @@ import footprintContainer from '../../containers/footprint.container';
 import { footprintPropTypes } from '../../containers/footprint.container';
 import template from './layout.rt.html';
 
-const NON_GRAPH_PANELS = ['Settings', 'ForgotPassword', 'Footprint']
+const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint'];
+const NON_LEADERS_PANELS = ['GetStarted', 'Settings', 'ForgotPassword'];
 
 class LayoutComponent extends Panel {
 
@@ -57,6 +58,7 @@ class LayoutComponent extends Panel {
     return this.router.routes.getRoute(this.route_name);
   }
 
+
   goToRoute(route_name){
     let router = this;
     window.jQuery("[data-toggle='popover']").popover('hide');
@@ -65,35 +67,76 @@ class LayoutComponent extends Panel {
     });
   }
 
-  // get alert_list() {
-  //   return this.state_manager.state.alerts;
-  // }
+  get alert_list() {
+    return this.state_manager.state.alerts.shared;
+  }
 
-  // get graphing_route(){
-  //   return NON_GRAPH_PANELS.indexOf(this.current_route_name) < 0;
-  // }
+  get graphing_route(){
+    return NON_GRAPH_PANELS.indexOf(this.current_route_name) < 0;
+  }
 
-  // get external_offset(){
-  //   return this.state_manager.state.external_offset;
-  // }
+  get show_leaders_comparison(){
+    let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
 
-  // get show_take_action_now(){
-  //   return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
-  // }
+    return this.connect_to_api && leaders_route && this.state_manager.state.leaders_chart.show;
+  }
 
-  // goToSettings(){
-  //   this.router.goToRouteByName('Settings');
-  // }
+  get external_offset(){
+    return this.state_manager.state.external_offset;
+  }
+
+  get connect_to_api(){
+    return this.state_manager.state.connect_to_api;
+  }
+
+  get show_user_answers_reset(){
+    if (this.current_route_name === 'GetStarted') {
+      return this.state_manager.user_footprint_storage.hasOwnProperty('input_size');
+    } else {
+      return false;
+    }
+  }
+
+  get show_take_action_now(){
+    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
+  }
+
+  get external_offset(){
+    return this.state_manager.state.external_offset;
+  }
+
+  get show_take_action_now(){
+    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
+  }
+
+  setUserAnswersToDefault(){
+    let layout = this;
+    layout.state_manager.setUserFootprintStorageToDefault();
+    layout.state_manager.state.alerts.shared.push({type: 'success', message: layout.t('success.answers_reset')});
+  }
+
+  goToLeaders(){
+    this.router.goToRouteByName('Leaders');
+  }
+
+  componentDidMount() {
+    var layout = this;
+    layout.router.initializeHistory(layout);
+  }
+
+  goToSettings(){
+    this.router.goToRouteByName('Settings');
+  }
+
+  goToTakeAction(){
+    this.router.goToRouteByName('TakeAction');
+  }
 
   destroyPrerenderData() {
     var prerender_data = document.getElementById('prerender_data');
     window.PrerenderData = undefined;
     if (prerender_data) prerender_data.parentNode.removeChild(prerender_data);
   }
-
-  // goToTakeAction(){
-  //   this.router.goToRouteByName('TakeAction');
-  // }
 
 }
 LayoutComponent.propTypes = footprintPropTypes;
