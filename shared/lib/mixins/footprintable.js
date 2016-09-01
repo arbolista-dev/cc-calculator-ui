@@ -10,11 +10,12 @@ export let footprintable = {
   },
 
   userApiValue: function(api_key){
-    return this.state_manager.user_footprint[api_key];
+    console.log('userApiValue for: ' + api_key + '=' + this.props.user_footprint.getIn(['data', api_key]));
+    return this.props.user_footprint.getIn(['data', api_key]);
   },
 
   defaultApiValue: function(api_key){
-    return this.state_manager.average_footprint[api_key];
+    return this.props.average_footprint.getIn(['data', api_key]);
   },
 
   userApiState: function(){

@@ -5,7 +5,9 @@ import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './get_started.rt.html'
-import container from './get_started.container';
+// import container from './get_started.container';
+import footprintContainer from '../../../containers/footprint.container';
+import { footprintPropTypes } from '../../../containers/footprint.container';
 import CalculatorApi from 'api/calculator.api';
 
 const LOCATION_MODES = [[5, 'Country'], [1, 'Zipcode'], [4, 'State'], [2, 'City'], [3, 'County']];
@@ -28,12 +30,9 @@ class GetStartedComponent extends Panel {
    * React Events
    */
 
-  componentWillMount(){
-    // this.props.ensureDefaults(this.state_manager.default_inputs);
-  }
-
   componentDidMount(){
     let get_started = this;
+    // console.log('user_footprint', this.props.user_footprint.getIn(['data', 'input_income']));
     // get_started.initializeSizeSlider();
     // get_started.initializeIncomeSlider();
   }
@@ -293,13 +292,8 @@ class GetStartedComponent extends Panel {
 
 }
 
-GetStartedComponent.propTypes = {
-  average_footprint: React.PropTypes.object,
-  user_footprint: React.PropTypes.object,
-  ensureDefaults: React.PropTypes.func.isRequired,
-  ensureComputeFootprint: React.PropTypes.func.isRequired
-};
+GetStartedComponent.propTypes = footprintPropTypes;
 
 GetStartedComponent.NAME = 'GetStarted';
 
-module.exports = container(GetStartedComponent);
+module.exports = footprintContainer(GetStartedComponent);

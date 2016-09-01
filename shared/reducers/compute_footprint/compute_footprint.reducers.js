@@ -8,12 +8,11 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
 /*
-{
-  data: <Object>,
-
-  loading: <Boolean>,
-  load_error: <Boolean>
-}
+  user_footprint: {
+    data: <Object>,
+    loading: <Boolean>,
+    load_error: <Boolean>
+  }
 */
 
 const DEFAULT_STATE = {
@@ -28,8 +27,11 @@ const ACTIONS = {
   [ensureComputeFootprint]: (state, payload)=>{
     console.log('ensureComputeFootprint - state', state);
     console.log('ensureComputeFootprint - payload', payload);
+
+    // does data passed from average_footprint need to be merged into data?!
+    // fromJS({data: payload, loading: true}),
     return loop(
-      fromJS({data: payload, loading: true}),
+      fromJS({loading: true}),
       Effects.promise(()=>{
         return CalculatorApi.computeFootprint(payload)
           .then(computeFootprintRetrieved)
@@ -42,27 +44,42 @@ const ACTIONS = {
     console.log('computeFootprintRetrieved - state', state.toJS());
     console.log('computeFootprintRetrieved - api_data', api_data);
 
-    let merged_data = state.get('data').merge(api_data).toJS();
-    setLocalStorageItem('user_footprint', merged_data);
-    console.log('computeFootprintRetrieved - merged data: ', merged_data);
-    return fromJS({data: merged_data, loading: false})
+    // let merged_data = state.get('data').merge(api_data);
+    // console.log('computeFootprintRetrieved - merged data: ', merged_data.toJS());
+
+    setLocalStorageItem('user_footprint', api_data);
+
+
+    if (!state.data) {
+      // user_footprint has not been set
+      console.log('- User footprint has not been set!');
+      return loop(
+        fromJS({data: api_data, loading: false}),
+        Effects.constant(parseFootprintResult(api_data))
+      )
+    } else {
+
+    }
+
   },
 
-  [computeFootprintRetrievalError]: (_init_data, _result)=>{
-    return fromJS({load_error: true});
+  [computeFootprintRetrievalError]: (_state, _result)=>{
+    return fromJS({load_error: true, loading: false});
   },
 
-  [parseFootprintResult]: (_init_data, data)=>{
-    let result = data.payload;
-    console.log('result:', result);
+  [parseFootprintResult]: (state, result)=>{
     result = Object.keys(result).reduce((hash, api_key)=>{
       if (!/^(result|input)_takeaction/.test(api_key)){
         hash[api_key] = result[api_key]
       }
       return hash;
     }, {});
-    console.log('parseFootprintResult - data', result);
-    return fromJS(result)
+
+    let merged_data = state.get('data').merge(result);
+    console.log('parseFootprintResult - result data', merged_data);
+
+    setLocalStorageItem('user_footprint', merged_data);
+    return fromJS({data: merged_data, loading: false})
   }
 
 
