@@ -23,10 +23,10 @@ class GetStartedComponent extends Panel {
     get_started.initResizeListener();
     get_started.state = {
       locations: {},
-      input_location_mode: undefined,
+      display_location: "",
+      input_location_mode: 5,
       show_location_suggestions: false
     };
-
   }
 
   /*
@@ -35,6 +35,7 @@ class GetStartedComponent extends Panel {
 
   componentDidMount(){
     let get_started = this;
+    console.log('componentDidMount');
     get_started.initializeSizeSlider();
     get_started.initializeIncomeSlider();
   }
@@ -49,6 +50,14 @@ class GetStartedComponent extends Panel {
     }
   }
 
+  componentWillReceiveProps(){
+    console.log('componentWillReceiveProps');
+  }
+
+  componentWillUpdate(){
+    console.log('componentWillUpdate');
+  }
+
   render(){
     return template.call(this);
   }
@@ -58,19 +67,21 @@ class GetStartedComponent extends Panel {
    */
 
    get data_loaded(){
-     return !!this.props.user_footprint && !this.props.user_footprint.get('load_error')
+     console.log('data loaded: ', this.props.user_footprint.get('loading') === false);
+     return !!this.props.user_footprint && (this.props.user_footprint.get('loading') === false)
    }
 
    get country_mode(){
-    return this.userApiValue('input_location_mode') === 5;
+    return this.state.input_location_mode === 5;
    }
 
    get input_location_display(){
     let get_started = this;
+    console.log('input_location_display - display_location', get_started.state.display_location);
     if (get_started.country_mode){
       return get_started.t('get_started.United States');
-    } else if (get_started.state_manager.state.display_location) {
-      return get_started.state_manager.state.display_location;
+    } else if (get_started.state.display_location) {
+      return get_started.state.display_location;
     } else {
       return get_started.userApiValue('input_location');
     }
@@ -86,9 +97,9 @@ class GetStartedComponent extends Panel {
 
   updateDefaults(default_params){
     let get_started = this;
-
+    console.log('updateDefaults');
     default_params.input_location_mode = get_started.state.input_location_mode;
-    get_started.updateFootprintParams(default_params);
+    // get_started.updateFootprintParams(default_params);
 
     // debounce updating defaults by 500ms.
     if (get_started.$update_defaults) {
@@ -96,22 +107,20 @@ class GetStartedComponent extends Panel {
     }
 
     get_started.$update_defaults = setTimeout(()=>{
-      // This will also make necessary update to user footprint.
-      get_started.props.ensureDefaults()
-        // .then(()=>{
-        //   console.log('- get started - updateDefaults success!');
-        // })
+      get_started.props.ensureDefaults(default_params)
     }, 500);
   }
 
   locationModeActive(mode){
-    return this.userApiValue('input_location_mode') === mode;
+    return this.state.input_location_mode === mode;
   }
 
   setLocationMode(location_mode){
     let get_started = this;
-    if (location_mode !== this.state.input_location_mode){
-      get_started.state_manager.state.display_location = '';
+    if (location_mode !== get_started.state.input_location_mode){
+      get_started.setState({
+        display_location: ""
+      });
     }
     get_started.setState({
       input_location_mode: location_mode,
@@ -128,19 +137,21 @@ class GetStartedComponent extends Panel {
         suggestion = event.target.dataset.suggestion;
 
     get_started.setState({
+      display_location: suggestion,
       input_location: suggestion,
       show_location_suggestions: false
     });
+    // debugger;
+    get_started.updateDefaults({input_location: zipcode, input_location_mode: get_started.state.input_location});
+    get_started.props.userLocationUpdated(suggestion);
 
-    get_started.state_manager.state.display_location = suggestion;
-    get_started.updateDefaults({input_location: zipcode});
-
-    if (get_started.state_manager.user_authenticated) {
-      let index = get_started.state.locations.data.findIndex(l => l === zipcode),
-          location_data = get_started.state.locations.selected_location[index];
-
-      get_started.setUserLocation(location_data)
-    }
+    // @ToDo: Refactor
+    // if (get_started.state_manager.user_authenticated) {
+    //   let index = get_started.state.locations.data.findIndex(l => l === zipcode),
+    //       location_data = get_started.state.locations.selected_location[index];
+    //
+    //   get_started.setUserLocation(location_data)
+    // }
   }
 
   setUserLocation(location){
@@ -160,7 +171,7 @@ class GetStartedComponent extends Panel {
           input_location_mode: get_started.state.input_location_mode,
           input_location: event.target.value
         };
-        get_started.state_manager.state.display_location = event.target.value;
+        // get_started.props.userLocationUpdated(event.target.value);
     get_started.setState({
       input_location: event.target.value,
       show_location_suggestions: true

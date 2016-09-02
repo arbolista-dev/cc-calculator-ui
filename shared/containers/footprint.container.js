@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
-import { ensureComputeFootprint, userFootprintUpdated } from 'shared/reducers/compute_footprint/compute_footprint.actions';
+import { ensureComputeFootprint, userFootprintUpdated, userLocationUpdated } from 'shared/reducers/compute_footprint/compute_footprint.actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -30,6 +30,10 @@ const mapDispatchToProps = (dispatch) => {
     userFootprintUpdated: (updated_params) => {
       userFootprintUpdated.assignTo(dispatch);
       userFootprintUpdated(updated_params);
+    },
+    userLocationUpdated: (data) => {
+      userLocationUpdated.assignTo(dispatch);
+      userLocationUpdated(data);
     }
   };
 }
@@ -47,7 +51,10 @@ const footprintPropTypes = {
   user_footprint: React.PropTypes.object,
   auth: React.PropTypes.object,
   ensureDefaults: React.PropTypes.func.isRequired,
-  ensureComputeFootprint: React.PropTypes.func.isRequired
+  ensureComputeFootprint: React.PropTypes.func.isRequired,
+  userLocationUpdated: React.PropTypes.func.isRequired,
+  averageFootprintUpdated: React.PropTypes.func.isRequired,
+  userFootprintUpdated: React.PropTypes.func.isRequired
 };
 
 export { footprintPropTypes };

@@ -40,8 +40,11 @@ const ACTIONS = {
   [defaultsRetrieved]: (_defaults_data, api_data)=>{
     console.log('defaultsRetrieved - data: ', api_data);
     setLocalStorageItem('average_footprint', api_data);
+
+    // implications for not setting loading to false?
+    // is ensureDefaults called without afterwards updating user_footprint ?
     return loop(
-      fromJS({data: api_data, loading: false}),
+      fromJS({data: api_data}),
       Effects.constant(ensureComputeFootprint(api_data))
     )
   },

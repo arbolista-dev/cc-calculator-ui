@@ -1,57 +1,70 @@
-<rt-require dependency="./../_user/forgot_password/forgot_password.component" as="ForgotPassword"/>
+<rt-require dependency="./../layouts/get_started/get_started.component" as="GetStarted"/>
+<rt-require dependency="./../layouts/travel/travel.component" as="Travel"/>
+<rt-require dependency="./../layouts/home/home.component" as="Home"/>
+<rt-require dependency="./../layouts/food/food.component" as="Food"/>
+<rt-require dependency="./../layouts/shopping/shopping.component" as="Shopping"/>
+<rt-require dependency="./../layouts/footprint/footprint.component" as="Footprint"/>
+<rt-require dependency="./../layouts/take_action/take_action.component" as="TakeAction"/>
+<rt-require dependency="./../layouts/missing/missing.component" as="Missing"/>
+<rt-require dependency="./../layouts/settings/user/forgot_password/forgot_password.component" as="ForgotPassword"/>
+<rt-require dependency="./../layouts/settings/settings.component" as="Settings"/>
 <rt-require dependency="./../alerts/alerts.component" as="Alerts"/>
-<rt-require dependency="./../get_started/get_started.component" as="GetStarted"/>
-<rt-require dependency="./../travel/travel.component" as="Travel"/>
-<rt-require dependency="./../home/home.component" as="Home"/>
-<rt-require dependency="./../food/food.component" as="Food"/>
-<rt-require dependency="./../shopping/shopping.component" as="Shopping"/>
-<rt-require dependency="./../footprint/footprint.component" as="Footprint"/>
-<rt-require dependency="./../take_action/take_action.component" as="TakeAction"/>
-<rt-require dependency="./../missing/missing.component" as="Missing"/>
 <rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
 <rt-require dependency="./../leaders/leaders.component" as="Leaders"/>
-<rt-require dependency="./../settings/settings.component" as="Settings"/>
 <div id="cc_calculator_ui">
 	<nav class="navbar navbar-default">
-			<div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.connect_to_api}">
+			<!-- @ToDo: replace this after refactoring connect_to_api -->
+			<!-- <div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.connect_to_api}"> -->
+			<div id="cc_nav">
 				<div
 					rt-repeat="route in this.router.main_routes"
 					class="cc-nav__item"
 					key="{route.key}"
 					rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
-					onClick="{this.goToRoute.bind(this, route)}">
+					onClick="{this.goToRoute.bind(this, route.route_name)}">
 					<img rt-if="(route.route_name !== this.current_route_name)" src="/assets/img/{route.key}-green.svg"/>
 					<img rt-if="(route.route_name === this.current_route_name)" src="/assets/img/{route.key}-filled.svg"/>
 					<div>{this.t(`${route.key}.title`)}</div>
 				</div>
 
+
 				<div
 					class="cc-nav__item"
 					id="settings_nav_item"
 					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
-					rt-if="this.connect_to_api"
-					onClick="{this.goToSettings.bind(this)}">
-				  <img src="/assets/img/settings.png"/>
+					onClick="{this.goToRoute.bind(this, 'Settings')}">
+					<img src="/assets/img/settings.png"/>
 					<div>{this.t(`settings.title`)}</div>
 				</div>
 
+				<!-- @ToDo: replace this after refactoring connect_to_api -->
+				<!-- <div
+					class="cc-nav__item"
+					id="settings_nav_item"
+					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
+					rt-if="this.connect_to_api"
+					onClick="{this.goToRoute.bind(this, 'Settings')}">
+				  <img src="/assets/img/settings.png"/>
+					<div>{this.t(`settings.title`)}</div>
+				</div> -->
+
 			</div>
 	</nav>
-	<div rt-if="this.external_offset.banner_url" id="external_banner">
+	<!-- <div rt-if="this.external_offset.banner_url" id="external_banner">
 		<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
-	</div>
-	<Alerts alerts="{this.alert_list}" type="shared"></Alerts>
+	</div> -->
+	<!-- <Alerts alerts="{this.alert_list}" type="shared"></Alerts> -->
 	<main>
-		<ForgotPassword
+		<!-- <ForgotPassword
 			rt-if="this.current_route_name === 'ForgotPassword'"
 		></ForgotPassword>
 		<Settings
 			rt-if="this.current_route_name === 'Settings'"
-		></Settings>
+		></Settings> -->
 		<GetStarted
 			rt-if="this.current_route_name === 'GetStarted'"
 		></GetStarted>
-		<Travel
+		<!-- <Travel
 			rt-if="this.current_route_name === 'Travel'"
 		></Travel>
 		<Home
@@ -71,10 +84,10 @@
 		></TakeAction>
 		<Missing
 			rt-if="this.current_route_name === 'Missing'"
-		></Missing>
+		></Missing> -->
 	</main>
 	<Graphs rt-if="this.graphing_route"></Graphs>
-	<div class="cc_leaders">
+	<!-- <div class="cc_leaders">
 		<Leaders rt-if="this.show_leaders_comparison"></Leaders>
 	</div>
 	<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
@@ -95,11 +108,11 @@
 		</div>
 	</div>
   <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
-	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info btn-lg btn-block desktop">
+	    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-lg btn-block desktop">
 	    	{this.t('Take action now')}
 	    </button>
-	    <button onClick="{this.goToTakeAction.bind(this)}" class="btn btn-info btn-block mobile">
+	    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-block mobile">
 	    	{this.t('Take action now')}
 	    </button>
-  </div>
+  </div> -->
 </div>

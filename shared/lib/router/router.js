@@ -6,7 +6,7 @@ import extend from 'extend';
 import { updateLocation } from 'shared/reducers/location/location.actions';
 import { defineRoutes } from '../routes';
 
-const NON_MAIN_ROUTES = ['Leaders', 'Settings', 'MissingRoute', 'ForgotPassword'];
+const NON_MAIN_ROUTES = ['Settings', 'MissingRoute', 'ForgotPassword'];
 
 const DEFAULT_UPDATE_LOCATION_ACTION = {
   type: updateLocation.getType(),
@@ -79,8 +79,6 @@ export default class Router {
   pushRoute(route_name, action, payload){
     let router = this,
         route = router.routes.getRoute(route_name);
-
-    console.log('pushRoute name: ', route_name);
 
     action = {
       type: action ? action.getType() : updateLocation.getType(),

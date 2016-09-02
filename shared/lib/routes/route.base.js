@@ -40,7 +40,7 @@ export default class RouteBase {
     return params;
   }
 
-  // route sohuld override if it must use state to generate url
+  // route should override if it must use state to generate url
   url(_action, i18n){
     let route = this,
         route_path = i18n.t(`${route.key}.route_path`);

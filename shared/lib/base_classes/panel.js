@@ -8,6 +8,10 @@ const MAX_SLIDER_WIDTH = 600,
 
 export default class Panel extends mixin(Translatable, footprintable, resizable) {
 
+  get route_key() {
+    return this.router.current_route.key
+  }
+
   pushRoute(route_name, action, payload){
     this.router.pushRoute(route_name, action, payload);
   }

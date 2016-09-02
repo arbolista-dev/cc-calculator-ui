@@ -108,6 +108,7 @@ export default class StateManager {
   // }
 
   initializeStore(initial_state){
+    let state_manager = this;
     let reducer = combineReducers({
       location: locationReducers,
       average_footprint: defaultsReducers,
