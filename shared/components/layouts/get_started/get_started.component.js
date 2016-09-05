@@ -66,9 +66,9 @@ class GetStartedComponent extends Panel {
    * Location UI
    */
 
-   get data_loaded(){
-     console.log('data loaded: ', this.props.user_footprint.get('loading') === false);
-     return !!this.props.user_footprint && (this.props.user_footprint.get('loading') === false)
+   get initial_load_done(){
+     console.log('data loaded: ', this.props.average_footprint.get('initial_load_done') === false);
+     return (this.props.average_footprint.get('initial_load_done') === true)
    }
 
    get country_mode(){
@@ -97,9 +97,9 @@ class GetStartedComponent extends Panel {
 
   updateDefaults(default_params){
     let get_started = this;
-    console.log('updateDefaults');
+    console.log('updateDefaults params: ', default_params);
     default_params.input_location_mode = get_started.state.input_location_mode;
-    // get_started.updateFootprintParams(default_params);
+    get_started.updateFootprintParams(default_params);
 
     // debounce updating defaults by 500ms.
     if (get_started.$update_defaults) {
@@ -107,7 +107,7 @@ class GetStartedComponent extends Panel {
     }
 
     get_started.$update_defaults = setTimeout(()=>{
-      get_started.props.ensureDefaults(default_params)
+      get_started.props.ensureDefaults(get_started.getDefaultInputs())
     }, 500);
   }
 
@@ -141,9 +141,8 @@ class GetStartedComponent extends Panel {
       input_location: suggestion,
       show_location_suggestions: false
     });
-    // debugger;
+
     get_started.updateDefaults({input_location: zipcode, input_location_mode: get_started.state.input_location});
-    get_started.props.userLocationUpdated(suggestion);
 
     // @ToDo: Refactor
     // if (get_started.state_manager.user_authenticated) {
@@ -229,7 +228,11 @@ class GetStartedComponent extends Panel {
         1: '1', 2: '2', 3: '3', 4: '4', 5: '5+'
       },
       onSnap: function(selected_size) {
-        if (selected_size != this.input_size){
+        console.log('initializeSizeSlider');
+        console.log('selected_size', selected_size);
+        console.log('input_size', get_started.input_size);
+        if (selected_size != get_started.input_size){
+          console.log('updateDefaults from size slider init');
           get_started.updateDefaults({input_size: selected_size});
         }
       }
@@ -286,7 +289,8 @@ class GetStartedComponent extends Panel {
       tick_labels: get_started.income_tick_labels,
       handle_r: 14,
       onSnap: function(selected_income) {
-        if (selected_income != this.input_income){
+        if (selected_income != get_started.input_income){
+          console.log('updateDefaults from income slider init');
           get_started.updateDefaults({input_income: selected_income});
         }
       }

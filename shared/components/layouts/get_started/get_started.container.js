@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ensureDefaults } from 'shared/reducers/average_footprint/average_footprint.actions';
-import { ensureComputeFootprint } from 'shared/reducers/compute_footprint/compute_footprint.actions';
+import { ensureUserFootprintComputed } from 'shared/reducers/user_footprint/user_footprint.actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -16,9 +16,9 @@ const mapDispatchToProps = (dispatch) => {
       ensureDefaults.assignTo(dispatch);
       ensureDefaults(default_basic_inputs);
     },
-    ensureComputeFootprint: (defaults) => {
-      ensureComputeFootprint.assignTo(dispatch);
-      ensureComputeFootprint(defaults);
+    ensureUserFootprintComputed: (defaults) => {
+      ensureUserFootprintComputed.assignTo(dispatch);
+      ensureUserFootprintComputed(defaults);
     }
   };
 }

@@ -4,7 +4,7 @@ import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
 import { ensureDefaults, defaultsRetrieved, defaultsRetrievalError, averageFootprintUpdated } from './average_footprint.actions';
-import { ensureComputeFootprint } from './../compute_footprint/compute_footprint.actions';
+import { ensureUserFootprintComputed } from './../user_footprint/user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
@@ -19,6 +19,7 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
 const DEFAULT_STATE = {
   data: {},
   loading: false,
+  initial_load_done: false,
   load_error: false
 }
 
@@ -43,10 +44,14 @@ const ACTIONS = {
 
     // implications for not setting loading to false?
     // is ensureDefaults called without afterwards updating user_footprint ?
-    return loop(
-      fromJS({data: api_data}),
-      Effects.constant(ensureComputeFootprint(api_data))
-    )
+    if (!api_data.failed) {
+      return loop(
+        fromJS({data: api_data, initial_load_done: true}),
+        Effects.constant(ensureUserFootprintComputed(api_data))
+      )
+    } else {
+      return Effects.constant(defaultsRetrievalError(api_data))
+    }
   },
 
   [defaultsRetrievalError]: (_defaults_data, result)=>{

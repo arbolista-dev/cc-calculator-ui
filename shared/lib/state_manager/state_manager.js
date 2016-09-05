@@ -5,7 +5,7 @@ import { fromJS } from 'immutable';
 import Router from 'shared/lib/router/router';
 import locationReducers from 'shared/reducers/location/location.reducers';
 import defaultsReducers from 'shared/reducers/average_footprint/average_footprint.reducers';
-import computeFootprintReducers from 'shared/reducers/compute_footprint/compute_footprint.reducers';
+import computeFootprintReducers from 'shared/reducers/user_footprint/user_footprint.reducers';
 import authReducers from 'shared/reducers/auth/auth.reducers';
 
 // import CalculatorApi from 'api/calculator.api';
@@ -43,6 +43,17 @@ export default class StateManager {
 
   get default_inputs(){
     return DEFAULT_LOCATION;
+    // if (!this.user_footprint_set) {
+    //   default_inputs = this.state_manager.default_inputs;
+    // } else {
+    //   default_inputs = {
+    //     input_location_mode: this.userApiValue('input_location_mode'),
+    //     input_location: this.userApiValue('input_location'),
+    //     input_income: this.userApiValue('input_income'),
+    //     input_size: this.userApiValue('input_size')
+    //   }
+    // }
+    // return default_inputs;
   }
 
   get user_footprint_storage(){
@@ -126,10 +137,11 @@ export default class StateManager {
   }
 
   initialState(opts){
-    let state_manager = this;
+    let state_manager = this,
+        average_footprint_state;
     return Object.assign({
       auth: fromJS({data: state_manager.auth_storage || {}}),
-      average_footprint: fromJS({data: state_manager.average_footprint_storage || {}}),
+      average_footprint: fromJS({data: state_manager.average_footprint_storage || state_manager.default_inputs}),
       user_footprint:  fromJS({data: state_manager.user_footprint_storage || {}}),
       result_takeaction_dollars: fromJS(state_manager.take_action_storage.dollars || {}),
       result_takeaction_net10yr: fromJS(state_manager.take_action_storage.net10yr || {}),

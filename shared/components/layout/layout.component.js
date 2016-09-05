@@ -27,19 +27,10 @@ class LayoutComponent extends Panel {
   }
 
   componentWillMount(){
-    let location;
+    let default_inputs = this.getDefaultInputs();
 
-    if (!this.user_footprint_set) {
-      location = this.state_manager.default_inputs;
-    } else {
-      location = {
-        input_location_mode: this.userApiValue('input_location_mode'),
-        input_location: this.userApiValue('input_location'),
-        input_income: this.userApiValue('input_income'),
-        input_size: this.userApiValue('input_size')
-      }
-    }
-    this.props.ensureDefaults(location)
+    console.log('ensureDefaults from layout component! params: ', default_inputs);
+    this.props.ensureDefaults(default_inputs)
   }
 
   render() {

@@ -3,7 +3,7 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureComputeFootprint, computeFootprintRetrieved, computeFootprintRetrievalError, parseFootprintResult, userFootprintUpdated, userLocationUpdated } from './compute_footprint.actions';
+import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, userFootprintUpdated, userLocationUpdated } from './user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
@@ -26,9 +26,9 @@ const DEFAULT_STATE = {
 const ACTIONS = {
 
   // Load initial defaults from API.
-  [ensureComputeFootprint]: (state, payload)=>{
-    console.log('ensureComputeFootprint - state', state);
-    console.log('ensureComputeFootprint - payload', payload);
+  [ensureUserFootprintComputed]: (state, payload)=>{
+    console.log('ensureUserFootprintComputed - state', state);
+    console.log('ensureUserFootprintComputed - payload', payload);
 
     // does data passed from average_footprint need to be merged into data?!
     // fromJS({data: payload, loading: true}),
@@ -36,18 +36,18 @@ const ACTIONS = {
       fromJS({data: payload, loading: true}),
       Effects.promise(()=>{
         return CalculatorApi.computeFootprint(payload)
-          .then(computeFootprintRetrieved)
-          .catch(computeFootprintRetrievalError)
+          .then(ensureUserFootprintRetrieved)
+          .catch(ensureUserFootprintError)
       })
     )
   },
 
-  [computeFootprintRetrieved]: (state, api_data)=>{
-    console.log('computeFootprintRetrieved - state', state.toJS());
-    console.log('computeFootprintRetrieved - api_data', api_data);
+  [ensureUserFootprintRetrieved]: (state, api_data)=>{
+    console.log('ensureUserFootprintRetrieved - state', state.toJS());
+    console.log('ensureUserFootprintRetrieved - api_data', api_data);
 
     let merged_data = state.get('data').merge(api_data);
-    console.log('computeFootprintRetrieved - merged data: ', merged_data.toJS());
+    console.log('ensureUserFootprintRetrieved - merged data: ', merged_data.toJS());
     setLocalStorageItem('user_footprint', merged_data);
 
 
@@ -63,7 +63,7 @@ const ACTIONS = {
     }
   },
 
-  [computeFootprintRetrievalError]: (_state, _result)=>{
+  [ensureUserFootprintError]: (_state, _result)=>{
     return fromJS({load_error: true, loading: false});
   },
 

@@ -1,5 +1,24 @@
 export let footprintable = {
 
+  isUserFootprintSet(){
+    return Object.keys(this.props.user_footprint.get('data').toJS()).length !== 0
+  },
+
+  getDefaultInputs(){
+    let default_inputs;
+    if (!this.isUserFootprintSet()) {
+      default_inputs = this.state_manager.default_inputs;
+    } else {
+      default_inputs = {
+        input_location_mode: this.userApiValue('input_location_mode'),
+        input_location: this.userApiValue('input_location'),
+        input_income: this.userApiValue('input_income'),
+        input_size: this.userApiValue('input_size')
+      }
+    }
+    return default_inputs;
+  },
+
   apiKey: function(key_end){
     return `${this.api_key_base}_${key_end}`;
   },
@@ -10,8 +29,13 @@ export let footprintable = {
   },
 
   userApiValue: function(api_key){
-    console.log('userApiValue for: ' + api_key + '=' + this.props.user_footprint.getIn(['data', api_key]));
-    return this.props.user_footprint.getIn(['data', api_key]);
+    let value = this.props.user_footprint.getIn(['data', api_key]);
+    let number = parseInt(value);
+    if (isNaN(number)) {
+      return value;
+    } else {
+      return number;
+    }
   },
 
   defaultApiValue: function(api_key){
@@ -95,7 +119,7 @@ export let footprintable = {
   updateFootprintParams(updated_params){
     console.log('footprintable - updateFootprintParams');
     this.props.averageFootprintUpdated(updated_params);
-    this.props.userFootprintUpdated(updated_params);
+    // this.props.userFootprintUpdated(updated_params);
   },
 
   updateFootprintInput: function(event){
