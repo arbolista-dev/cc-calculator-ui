@@ -3,8 +3,8 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureDefaults, defaultsRetrieved, defaultsRetrievalError, averageFootprintUpdated } from './average_footprint.actions';
-import { ensureUserFootprintComputed } from './../user_footprint/user_footprint.actions';
+import { ensureDefaults, defaultsRetrieved, defaultsRetrievalError, averageFootprintCalculated, averageFootprintUpdated } from './average_footprint.actions';
+import { ensureUserFootprintRetrieved } from './../user_footprint/user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
@@ -19,8 +19,8 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
 const DEFAULT_STATE = {
   data: {},
   loading: false,
-  initial_load_done: false,
-  load_error: false
+  load_error: false,
+  initial_load: true,
 }
 
 const ACTIONS = {
@@ -38,16 +38,21 @@ const ACTIONS = {
     )
   },
 
-  [defaultsRetrieved]: (_defaults_data, api_data)=>{
-    console.log('defaultsRetrieved - data: ', api_data);
+  [defaultsRetrieved]: (defaults_data, api_data)=>{
+    console.log('defaultsRetrieved - _defaults_data state: ', defaults_data);
+    console.log('defaultsRetrieved - api_data payload: ', api_data);
     setLocalStorageItem('average_footprint', api_data);
 
     // implications for not setting loading to false?
     // is ensureDefaults called without afterwards updating user_footprint ?
     if (!api_data.failed) {
       return loop(
-        fromJS({data: api_data, initial_load_done: true}),
-        Effects.constant(ensureUserFootprintComputed(api_data))
+        fromJS({data: api_data}),
+        Effects.promise(()=>{
+          return CalculatorApi.computeFootprint(api_data)
+            .then(averageFootprintUpdated)
+            .catch(defaultsRetrievalError)
+        })
       )
     } else {
       return Effects.constant(defaultsRetrievalError(api_data))
@@ -65,7 +70,10 @@ const ACTIONS = {
     console.log('averageFootprintUpdated: ', merged_data);
     setLocalStorageItem('average_footprint', merged_data);
 
-    return fromJS({data: merged_data, loading: false})
+    return loop(
+      fromJS({data: merged_data, loading: false}),
+      Effects.constant(ensureUserFootprintRetrieved(merged_data))
+    )
   }
 
 };
