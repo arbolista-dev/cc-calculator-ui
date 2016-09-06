@@ -12,6 +12,10 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     return this.router.current_route.key
   }
 
+  get current_route_name(){
+    return this.props.location.get('route_name');
+  }
+
   pushRoute(route_name, action, payload){
     this.router.pushRoute(route_name, action, payload);
   }

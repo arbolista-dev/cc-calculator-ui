@@ -66,11 +66,6 @@ class GetStartedComponent extends Panel {
    * Location UI
    */
 
-   get initial_load_done(){
-     console.log('data loaded: ', this.props.average_footprint.get('initial_load_done') === false);
-     return (this.props.average_footprint.get('initial_load_done') === true)
-   }
-
    get country_mode(){
     return this.state.input_location_mode === 5;
    }

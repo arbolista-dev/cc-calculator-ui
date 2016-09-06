@@ -39,7 +39,13 @@ export let footprintable = {
   },
 
   defaultApiValue: function(api_key){
-    return this.props.average_footprint.getIn(['data', api_key]);
+    let value = this.props.average_footprint.getIn(['data', api_key]);
+    let number = parseInt(value);
+    if (isNaN(number)) {
+      return value;
+    } else {
+      return number;
+    }
   },
 
   userApiState: function(){

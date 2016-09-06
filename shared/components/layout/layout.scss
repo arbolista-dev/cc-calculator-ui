@@ -182,6 +182,21 @@ main > header {
 	  }
 }
 
+.loader {
+	width: 40px;
+	height: 40px;
+	margin: 25% auto;
+	border: 6px solid #f3f3f3;
+	border-top: 6px solid #6ebb6c;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+}
+
 @media (max-width: 991px) and (min-width: 700px) {
 	#cc_calculator_ui {
 		#cc_nav {

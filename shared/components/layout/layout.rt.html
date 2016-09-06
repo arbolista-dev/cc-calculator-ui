@@ -11,108 +11,111 @@
 <rt-require dependency="./../alerts/alerts.component" as="Alerts"/>
 <rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
 <rt-require dependency="./../leaders/leaders.component" as="Leaders"/>
-<div id="cc_calculator_ui">
-	<nav class="navbar navbar-default">
-			<!-- @ToDo: replace this after refactoring connect_to_api -->
-			<!-- <div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.connect_to_api}"> -->
-			<div id="cc_nav">
-				<div
-					rt-repeat="route in this.router.main_routes"
-					class="cc-nav__item"
-					key="{route.key}"
-					rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
-					onClick="{this.goToRoute.bind(this, route.route_name)}">
-					<img rt-if="(route.route_name !== this.current_route_name)" src="/assets/img/{route.key}-green.svg"/>
-					<img rt-if="(route.route_name === this.current_route_name)" src="/assets/img/{route.key}-filled.svg"/>
-					<div>{this.t(`${route.key}.title`)}</div>
-				</div>
-
-
-				<div
-					class="cc-nav__item"
-					id="settings_nav_item"
-					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
-					onClick="{this.goToRoute.bind(this, 'Settings')}">
-					<img src="/assets/img/settings.png"/>
-					<div>{this.t(`settings.title`)}</div>
-				</div>
-
+<div>
+	<div rt-if="!this.initial_load_done" class="loader"></div>
+	<div id="cc_calculator_ui" rt-if="this.initial_load_done">
+		<nav class="navbar navbar-default">
 				<!-- @ToDo: replace this after refactoring connect_to_api -->
-				<!-- <div
-					class="cc-nav__item"
-					id="settings_nav_item"
-					rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
-					rt-if="this.connect_to_api"
-					onClick="{this.goToRoute.bind(this, 'Settings')}">
-				  <img src="/assets/img/settings.png"/>
-					<div>{this.t(`settings.title`)}</div>
-				</div> -->
+				<!-- <div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.connect_to_api}"> -->
+				<div id="cc_nav">
+					<div
+						rt-repeat="route in this.router.main_routes"
+						class="cc-nav__item"
+						key="{route.key}"
+						rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
+						onClick="{this.goToRoute.bind(this, route.route_name)}">
+						<img rt-if="(route.route_name !== this.current_route_name)" src="/assets/img/{route.key}-green.svg"/>
+						<img rt-if="(route.route_name === this.current_route_name)" src="/assets/img/{route.key}-filled.svg"/>
+						<div>{this.t(`${route.key}.title`)}</div>
+					</div>
 
-			</div>
-	</nav>
-	<!-- <div rt-if="this.external_offset.banner_url" id="external_banner">
-		<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
-	</div> -->
-	<!-- <Alerts alerts="{this.alert_list}" type="shared"></Alerts> -->
-	<main>
-		<!-- <ForgotPassword
-			rt-if="this.current_route_name === 'ForgotPassword'"
-		></ForgotPassword>
-		<Settings
-			rt-if="this.current_route_name === 'Settings'"
-		></Settings> -->
-		<GetStarted
-			rt-if="this.current_route_name === 'GetStarted'"
-		></GetStarted>
-		<!-- <Travel
-			rt-if="this.current_route_name === 'Travel'"
-		></Travel>
-		<Home
-			rt-if="this.current_route_name === 'Home'"
-		></Home>
-		<Food
-			rt-if="this.current_route_name === 'Food'"
-		></Food>
-		<Shopping
-			rt-if="this.current_route_name === 'Shopping'"
-		></Shopping>
-		<Footprint
-			rt-if="this.current_route_name === 'Footprint'"
-		></Footprint>
-		<TakeAction
-			rt-if="this.current_route_name === 'TakeAction'"
-		></TakeAction>
-		<Missing
-			rt-if="this.current_route_name === 'Missing'"
-		></Missing> -->
-	</main>
-	<Graphs rt-if="this.graphing_route"></Graphs>
-	<!-- <div class="cc_leaders">
-		<Leaders rt-if="this.show_leaders_comparison"></Leaders>
-	</div>
-	<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
-		<a type="button"
-			class="btn btn-default"
-			data-toggle="modal" data-target="#forget_user_answers_content" href="#"><i class="fa fa-eraser" aria-hidden="true"></i></a>
-	</div>
-	<div rt-if="this.show_user_answers_reset" class="modal fade" id="forget_user_answers_content" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<div class="modal-body">
-					<p>{this.t('get_started.restore_defaults')}</p>
-					<p>
-						<a type="button" class="btn btn-default btn-danger" onClick="{this.setUserAnswersToDefault.bind(this)}" data-dismiss="modal" >{this.t('get_started.restore_defaults_button')}</a>
-					</p>
+
+					<div
+						class="cc-nav__item"
+						id="settings_nav_item"
+						rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
+						onClick="{this.goToRoute.bind(this, 'Settings')}">
+						<img src="/assets/img/settings.png"/>
+						<div>{this.t(`settings.title`)}</div>
+					</div>
+
+					<!-- @ToDo: replace this after refactoring connect_to_api -->
+					<!-- <div
+						class="cc-nav__item"
+						id="settings_nav_item"
+						rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
+						rt-if="this.connect_to_api"
+						onClick="{this.goToRoute.bind(this, 'Settings')}">
+					  <img src="/assets/img/settings.png"/>
+						<div>{this.t(`settings.title`)}</div>
+					</div> -->
+
+				</div>
+		</nav>
+		<!-- <div rt-if="this.external_offset.banner_url" id="external_banner">
+			<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
+		</div> -->
+		<!-- <Alerts alerts="{this.alert_list}" type="shared"></Alerts> -->
+		<main>
+			<!-- <ForgotPassword
+				rt-if="this.current_route_name === 'ForgotPassword'"
+			></ForgotPassword>
+			<Settings
+				rt-if="this.current_route_name === 'Settings'"
+			></Settings> -->
+			<GetStarted
+				rt-if="this.current_route_name === 'GetStarted'"
+			></GetStarted>
+			<!-- <Travel
+				rt-if="this.current_route_name === 'Travel'"
+			></Travel>
+			<Home
+				rt-if="this.current_route_name === 'Home'"
+			></Home>
+			<Food
+				rt-if="this.current_route_name === 'Food'"
+			></Food>
+			<Shopping
+				rt-if="this.current_route_name === 'Shopping'"
+			></Shopping>
+			<Footprint
+				rt-if="this.current_route_name === 'Footprint'"
+			></Footprint>
+			<TakeAction
+				rt-if="this.current_route_name === 'TakeAction'"
+			></TakeAction>
+			<Missing
+				rt-if="this.current_route_name === 'Missing'"
+			></Missing> -->
+		</main>
+		<Graphs rt-if="this.graphing_route"></Graphs>
+		<!-- <div class="cc_leaders">
+			<Leaders rt-if="this.show_leaders_comparison"></Leaders>
+		</div>
+		<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
+			<a type="button"
+				class="btn btn-default"
+				data-toggle="modal" data-target="#forget_user_answers_content" href="#"><i class="fa fa-eraser" aria-hidden="true"></i></a>
+		</div>
+		<div rt-if="this.show_user_answers_reset" class="modal fade" id="forget_user_answers_content" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p>{this.t('get_started.restore_defaults')}</p>
+						<p>
+							<a type="button" class="btn btn-default btn-danger" onClick="{this.setUserAnswersToDefault.bind(this)}" data-dismiss="modal" >{this.t('get_started.restore_defaults_button')}</a>
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
+	  <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
+		    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-lg btn-block desktop">
+		    	{this.t('Take action now')}
+		    </button>
+		    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-block mobile">
+		    	{this.t('Take action now')}
+		    </button>
+	  </div> -->
 	</div>
-  <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
-	    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-lg btn-block desktop">
-	    	{this.t('Take action now')}
-	    </button>
-	    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-block mobile">
-	    	{this.t('Take action now')}
-	    </button>
-  </div> -->
 </div>

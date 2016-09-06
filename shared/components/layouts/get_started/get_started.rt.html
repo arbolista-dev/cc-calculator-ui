@@ -6,11 +6,8 @@
 		</div>
 		<span class="cc-component__byline">{this.t('get_started.byline')}</span>
 	</header>
-	<div rt-if="!this.initial_load_done">
-		<h3>LOADING ...</h3>
-	</div>
 
-	<div class="cc-component__form" rt-if="this.initial_load_done">
+	<div class="cc-component__form">
 		<div id="location_mode_btn_group_container" class="cc-component__question">
 			<div id="location_mode_btn_group" class="btn-group" role="group">
 				<a rt-repeat="mode in this.location_modes"

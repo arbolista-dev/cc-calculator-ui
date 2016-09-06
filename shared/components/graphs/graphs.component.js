@@ -6,6 +6,8 @@ import ComparativePie from 'd3-object-charts/src/pie/comparative';
 
 import Panel from '../../lib/base_classes/panel';
 import template from './graphs.rt.html'
+import footprintContainer from '../../containers/footprint.container';
+import { footprintPropTypes } from '../../containers/footprint.container';
 
 const CATEGORIES = ['result_transport_total', 'result_housing_total',
   'result_food_total', 'result_goods_total', 'result_services_total'],
@@ -19,33 +21,36 @@ class GraphsComponent extends Panel {
     let graphs = this;
     graphs.state = {
       show_chart: true,
-      chart_type: 'bar'
+      chart_type: 'bar',
     };
     graphs.initResizeListener();
   }
 
   get show_pie_chart(){
-    return this.state_manager.state.chart.show &&
-      this.state_manager.state.chart.type === 'pie';
+    return this.state.show_chart &&
+      this.state.chart_type === 'pie';
   }
 
   get show_bar_chart(){
-    return this.state_manager.state.chart.show &&
-      this.state_manager.state.chart.type === 'bar';
+    return this.state.show_chart &&
+      this.state.chart_type === 'bar';
   }
 
   toggleChartType(type){
     this.hidePopovers()
-    if (this.state_manager.state.chart.type === type){
-      this.state_manager.state.chart.show = false;
-      this.state_manager.state.chart.type = undefined;
+    if (this.state.chart_type === type){
+      this.setState({
+        show_chart: false,
+        chart_type: undefined
+      })
     } else {
-      this.state_manager.state.chart.show = true;
-      this.state_manager.state.chart.type = type;
-
+      this.setState({
+        show_chart: true,
+        chart_type: type
+      })
     }
 
-    this.state_manager.syncLayout();
+    // this.state_manager.syncLayout();
     setTimeout(()=>{
       if (this.show_pie_chart){
         this.drawPieChart();
@@ -57,24 +62,25 @@ class GraphsComponent extends Panel {
   }
 
   componentDidMount() {
+    console.log('Graphs componentDidMount');
     let graphs = this;
     if (window.innerWidth < 992) {
       graphs.setState({
         show_chart: false
       });
     }
-    if (this.show_pie_chart){
+    if (graphs.show_pie_chart){
       graphs.drawPieChart();
-    } else if (this.show_bar_chart) {
+    } else if (graphs.show_bar_chart) {
       graphs.initializeOverallBarChart();
     }
   }
 
   componentDidUpdate(){
     let graphs = this;
-    if (this.show_pie_chart){
+    if (graphs.show_pie_chart){
       graphs.drawPieChart();
-    } else if (this.show_bar_chart) {
+    } else if (graphs.show_bar_chart) {
       graphs.initializeOverallBarChart();
     }
     graphs.hidePopovers();
@@ -115,6 +121,16 @@ class GraphsComponent extends Panel {
       hash[translated] = graphs.state_manager.category_colors[category_key];
       return hash;
     }, {});
+  }
+
+  get user_footprint(){
+    // console.log('user_footprint', this.props.user_footprint.get('data').toJS());
+    return this.props.user_footprint.get('data').toJS()
+  }
+
+  get average_footprint(){
+    // console.log('average_footprint', JSON.stringify(this.props.average_footprint.get('data').toJS()));
+    return this.props.average_footprint.get('data').toJS()
   }
 
   generateData(footprint){
@@ -176,10 +192,10 @@ class GraphsComponent extends Panel {
       series: [
         {
           name: graphs.t('graphs.your_footprint'),
-          values: graphs.generateData(graphs.state_manager.user_footprint)
+          values: graphs.generateData(graphs.user_footprint)
         }, {
           name: graphs.t('graphs.average_footprint'),
-          values: graphs.generateData(graphs.state_manager.average_footprint)
+          values: graphs.generateData(graphs.average_footprint)
         }
       ]
     });
@@ -201,6 +217,17 @@ class GraphsComponent extends Panel {
       }
 
     });
+    // $(window).scroll(function(){
+    //     var $container = $(this);
+    //     console.log('scrollhello');
+    //     $(this).find('.popover').each(function () {
+    //
+    //       console.log('scrollTop container', $container.scrollTop());
+    //         $(this).css({
+    //             top:  - $container.scrollTop()
+    //         });
+    //     });
+    // });
   }
 
   /*
@@ -217,7 +244,7 @@ class GraphsComponent extends Panel {
   }
 
   get average_footprint_total(){
-    return this.state_manager.average_footprint['result_grand_total'];
+    return this.defaultApiValue('result_grand_total');
   }
 
   // Don't redraw pie data. The average and user values
@@ -240,7 +267,7 @@ class GraphsComponent extends Panel {
     });
     component.pie_chart.drawData({
       categories: component.categories,
-      values: component.generateData(component.state_manager.user_footprint),
+      values: component.generateData(component.user_footprint),
       comparative_sum: component.average_footprint_total
     })
     component.initializePiePopovers();
@@ -312,7 +339,7 @@ class GraphsComponent extends Panel {
 
   get display_category_percent(){
     let graphs = this;
-    if (graphs.state_manager.footprint_not_updated){
+    if (graphs.userApiValue('input_changed') != 1){
       return 0;
     } else {
       return Math.round(Math.abs(
@@ -375,8 +402,7 @@ class GraphsComponent extends Panel {
 
 }
 
-GraphsComponent.propTypes = {};
-
+GraphsComponent.propTypes = footprintPropTypes;
 GraphsComponent.NAME = 'Graphs';
 
-module.exports = GraphsComponent;
+module.exports = footprintContainer(GraphsComponent);

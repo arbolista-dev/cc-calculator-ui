@@ -22,10 +22,6 @@ class LayoutComponent extends Panel {
     // context.state_manager.layout = layout;
   }
 
-  get user_footprint_set(){
-    return Object.keys(this.props.user_footprint.get('data').toJS()).length !== 0
-  }
-
   componentWillMount(){
     let default_inputs = this.getDefaultInputs();
 
@@ -35,6 +31,10 @@ class LayoutComponent extends Panel {
 
   render() {
     return template.call(this);
+  }
+
+  get initial_load_done(){
+    return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false
   }
 
   get route_name(){
@@ -49,6 +49,9 @@ class LayoutComponent extends Panel {
     return this.router.routes.getRoute(this.route_name);
   }
 
+  get graphing_route(){
+    return NON_GRAPH_PANELS.indexOf(this.current_route_name) < 0;
+  }
 
   goToRoute(route_name){
     let router = this;
@@ -62,9 +65,7 @@ class LayoutComponent extends Panel {
   //   return this.state_manager.state.alerts.shared;
   // }
   //
-  // get graphing_route(){
-  //   return NON_GRAPH_PANELS.indexOf(this.current_route_name) < 0;
-  // }
+
   //
   // get show_leaders_comparison(){
   //   let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;

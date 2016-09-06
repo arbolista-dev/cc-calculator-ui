@@ -25,17 +25,15 @@ const CATEGORY_COLORS = {
 
 export default class StateManager {
 
-  //   state_manager.state = {
-  //     average_footprint: {},
-  //     user_footprint: {},
-  //     external_offset: {},
-  //     auth: {},
-  //     alerts: [],
-  //     chart: {
-  //       show: true,
-  //       type: 'bar'
-  //     }
-  //   };
+  constructor(){
+    var state_manager = this;
+    state_manager.state = {
+      chart: {
+        show: true,
+        type: 'bar'
+      }
+    };
+  }
 
   get Router(){
     return Router;
@@ -43,17 +41,10 @@ export default class StateManager {
 
   get default_inputs(){
     return DEFAULT_LOCATION;
-    // if (!this.user_footprint_set) {
-    //   default_inputs = this.state_manager.default_inputs;
-    // } else {
-    //   default_inputs = {
-    //     input_location_mode: this.userApiValue('input_location_mode'),
-    //     input_location: this.userApiValue('input_location'),
-    //     input_income: this.userApiValue('input_income'),
-    //     input_size: this.userApiValue('input_size')
-    //   }
-    // }
-    // return default_inputs;
+  }
+
+  get category_colors(){
+    return CATEGORY_COLORS;
   }
 
   get user_footprint_storage(){
@@ -72,10 +63,54 @@ export default class StateManager {
     return getLocalStorageItem('auth');
   }
 
+  initializeStore(initial_state){
+    let state_manager = this;
+    let reducer = combineReducers({
+      location: locationReducers,
+      average_footprint: defaultsReducers,
+      user_footprint: computeFootprintReducers,
+      auth: authReducers
+    });
+    console.log('initializeStore initial_state', initial_state);
+    state_manager.store = createStore(reducer, initial_state, install());
+
+    // @ToDo: use this to persist state to localStorage, needed?
+    // store.subscribe(() => {
+    //   saveState({
+    //      user_footprint: store.getState().user_footprint
+    //    });
+    // });
+  }
+
+  initialState(opts){
+    let state_manager = this,
+        average_footprint_state;
+    return Object.assign({
+      auth: fromJS({data: state_manager.auth_storage || {}}),
+      average_footprint: fromJS({data: state_manager.average_footprint_storage || state_manager.default_inputs}),
+      user_footprint:  fromJS({data: state_manager.user_footprint_storage || {}}),
+      result_takeaction_dollars: fromJS(state_manager.take_action_storage.dollars || {}),
+      result_takeaction_net10yr: fromJS(state_manager.take_action_storage.net10yr || {}),
+      result_takeaction_pounds:  fromJS(state_manager.take_action_storage.pounds || {})
+    }, opts);
+  }
+
+  getInitialData(){
+    let state_manager = this;
+
+    // @ToDo Refactor:
+    // state_manager.receiveExternalOffset()
+
+    // we'll load past user answers and get CC results here.
+    return state_manager.checkLocalStorage();
+  }
+
+  checkLocalStorage(){
+    let state_manager = this;
+    return Promise.resolve();
+  }
+
   // @ToDo Refactor:
-  // get category_colors(){
-  //   return CATEGORY_COLORS;
-  // }
   //
   // get cool_climate_keys(){
   //   return Object.keys(this.state.user_footprint)
@@ -118,37 +153,6 @@ export default class StateManager {
   //   }
   // }
 
-  initializeStore(initial_state){
-    let state_manager = this;
-    let reducer = combineReducers({
-      location: locationReducers,
-      average_footprint: defaultsReducers,
-      user_footprint: computeFootprintReducers,
-      auth: authReducers
-    });
-    state_manager.store = createStore(reducer, initial_state, install());
-
-    // @ToDo: use this to persist state to localStorage, needed?
-    // store.subscribe(() => {
-    //   saveState({
-    //      user_footprint: store.getState().user_footprint
-    //    });
-    // });
-  }
-
-  initialState(opts){
-    let state_manager = this,
-        average_footprint_state;
-    return Object.assign({
-      auth: fromJS({data: state_manager.auth_storage || {}}),
-      average_footprint: fromJS({data: state_manager.average_footprint_storage || state_manager.default_inputs}),
-      user_footprint:  fromJS({data: state_manager.user_footprint_storage || {}}),
-      result_takeaction_dollars: fromJS(state_manager.take_action_storage.dollars || {}),
-      result_takeaction_net10yr: fromJS(state_manager.take_action_storage.net10yr || {}),
-      result_takeaction_pounds:  fromJS(state_manager.take_action_storage.pounds || {})
-    }, opts);
-
-  }
 
   // @ToDo Refactor:
   // receiveExternalOffset() {
@@ -173,21 +177,6 @@ export default class StateManager {
   //
   // }
 
-
-  getInitialData(){
-    let state_manager = this;
-
-    // @ToDo Refactor:
-    // state_manager.receiveExternalOffset()
-
-    // we'll load past user answers and get CC results here.
-    return state_manager.checkLocalStorage();
-  }
-
-  checkLocalStorage(){
-    let state_manager = this;
-    return Promise.resolve();
-  }
 
   // @ToDo - Check which methods are still needed within State Manager
   // setUserFootprint(answers) {
