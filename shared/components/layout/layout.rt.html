@@ -29,7 +29,6 @@
 						<div>{this.t(`${route.key}.title`)}</div>
 					</div>
 
-
 					<div
 						class="cc-nav__item"
 						id="settings_nav_item"
@@ -66,10 +65,10 @@
 			<GetStarted
 				rt-if="this.current_route_name === 'GetStarted'"
 			></GetStarted>
-			<!-- <Travel
+			<Travel
 				rt-if="this.current_route_name === 'Travel'"
 			></Travel>
-			<Home
+			<!-- <Home
 				rt-if="this.current_route_name === 'Home'"
 			></Home>
 			<Food
@@ -89,9 +88,10 @@
 			></Missing> -->
 		</main>
 		<Graphs rt-if="this.graphing_route"></Graphs>
-		<!-- <div class="cc_leaders">
+ 		<div class="cc_leaders">
 			<Leaders rt-if="this.show_leaders_comparison"></Leaders>
 		</div>
+		<!--
 		<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
 			<a type="button"
 				class="btn btn-default"

@@ -101,7 +101,14 @@ export default class Router {
     let router = this,
       current_i = router.routes.indexOf(router.current_route),
       next_route = router.routes[current_i + 1];
-      return router.pushRoute(next_route);
+      return router.pushRoute(next_route.route_name);
+  }
+
+  previous(){
+    let router = this,
+      current_i = router.routes.indexOf(router.current_route),
+      next_route = router.routes[current_i - 1];
+      return router.pushRoute(next_route.route_name);
   }
 
   onLocationChange(store, new_location){

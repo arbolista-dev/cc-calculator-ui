@@ -5,6 +5,8 @@ import React from 'react';
 import { listLeaders, listLocations } from 'api/user.api';
 import Panel from './../../lib/base_classes/panel';
 import template from './leaders.rt.html';
+import footprintContainer from './../../containers/footprint.container';
+import { footprintPropTypes } from './../../containers/footprint.container';
 
 class LeadersComponent extends Panel {
 
@@ -110,7 +112,8 @@ class LeadersComponent extends Panel {
   }
 
   get alert_list() {
-    return this.state_manager.state.alerts.leaders;
+    console.log('get alert_list', this.props.ui.getIn(['alerts', 'leaders']));
+    return this.props.ui.getIn(['alerts', 'leaders']) || [];
   }
 
   get filtered_locations(){
@@ -127,21 +130,38 @@ class LeadersComponent extends Panel {
   }
 
   componentDidMount() {
-    let leaders = this;
-    if (leaders.state_manager.state.leaders_chart.show) {
+    console.log('---Leaders component did mount');
+
+    let leaders = this,
+    ui = {};
+    if (leaders.props.ui.getIn(['leaders_chart', 'show'])) {
       leaders.retrieveLocations();
       leaders.retrieveAndShow();
     }
-    leaders.state_manager.state.leaders_chart.current_route = leaders.current_route_name;
+
+    ui.id = 'leaders_chart';
+    ui.data = {
+      category: leaders.current_route_name
+    };
+    leaders.props.setUIState(ui);
   }
 
   componentDidUpdate() {
+    console.log('---Leaders component did update');
     let leaders = this;
-    if (leaders.state_manager.state.leaders_chart.current_route != leaders.current_route_name) {
-      leaders.state_manager.state.leaders_chart.current_route = leaders.current_route_name
-      leaders.state_manager.state.leaders_chart.show = false;
+    console.log('UI state category', leaders.props.ui.getIn(['leaders_chart', 'category']));
+    console.log('Current route name', leaders.current_route_name);
+
+
+    if (leaders.props.ui.getIn(['leaders_chart', 'category']) != leaders.current_route_name) {
+      let ui = {};
+      ui.id = 'leaders_chart';
+      ui.data = {
+        category: leaders.current_route_name,
+        show: false
+      };
+      leaders.props.setUIState(ui);
       $(window).off('scroll', leaders.detectScroll());
-      leaders.state_manager.syncLayout();
     }
   }
 
@@ -155,8 +175,9 @@ class LeadersComponent extends Panel {
         leaders.setState({
           is_loading: false
         })
-        leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.empty')});
-        leaders.state_manager.syncLayout();
+        // @ToDo: Replace alerts
+        // leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.empty')});
+        // leaders.state_manager.syncLayout();
       }
     });
   }
@@ -196,9 +217,10 @@ class LeadersComponent extends Panel {
   }
 
   retrieveLeaders() {
-    let leaders = this;
+    let leaders = this,
+    category = leaders.props.ui.getIn(['leaders_chart', 'category']);
     return new Promise((resolve, reject) => {
-      listLeaders(leaders.state.limit, leaders.state.offset, leaders.state_manager.state.leaders_chart.category, leaders.state.selected_location.city, leaders.state.selected_location.state).then((res) => {
+      listLeaders(leaders.state.limit, leaders.state.offset, category, leaders.state.selected_location.city, leaders.state.selected_location.state).then((res) => {
         if (res.success) {
           if (res.data.list != null) {
             leaders.setState({
@@ -216,8 +238,9 @@ class LeadersComponent extends Panel {
             reject("total_count=0");
           }
         } else {
-          leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
-          leaders.state_manager.syncLayout();
+          // @ToDo: Refactor alerts
+          // leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
+          // leaders.state_manager.syncLayout();
           reject();
         }
       })
@@ -315,17 +338,20 @@ class LeadersComponent extends Panel {
             locations: locations,
           });
         } else {
-          leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
-          leaders.state_manager.syncLayout();
+          // @ToDo: Refactor alerts
+          // leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
+          // leaders.state_manager.syncLayout();
         }
       } else {
-        leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
-        leaders.state_manager.syncLayout();
+        // @ToDo: Refactor alerts
+        // leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
+        // leaders.state_manager.syncLayout();
       }
     });
   }
 
   componentWillUnmount(){
+    console.log('---Leaders component will unmount');
     $(window).off('scroll', this.detectScroll());
     $(document).off('click.hideLocations');
   }
@@ -335,6 +361,8 @@ class LeadersComponent extends Panel {
   }
 }
 
+LeadersComponent.propTypes = footprintPropTypes;
+
 LeadersComponent.NAME = 'Leaders';
 
-module.exports = LeadersComponent;
+module.exports = footprintContainer(LeadersComponent);

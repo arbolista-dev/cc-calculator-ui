@@ -7,6 +7,7 @@ import locationReducers from 'shared/reducers/location/location.reducers';
 import defaultsReducers from 'shared/reducers/average_footprint/average_footprint.reducers';
 import computeFootprintReducers from 'shared/reducers/user_footprint/user_footprint.reducers';
 import authReducers from 'shared/reducers/auth/auth.reducers';
+import uiReducers from 'shared/reducers/ui/ui.reducers';
 
 // import CalculatorApi from 'api/calculator.api';
 // import { updateAnswers } from 'api/user.api';
@@ -63,13 +64,32 @@ export default class StateManager {
     return getLocalStorageItem('auth');
   }
 
+  get default_ui_state(){
+    let ui_state = {
+      leaders_chart: {
+         show: false,
+         category: ''
+      },
+      alerts: {
+        sign_up: [],
+        login: [],
+        forgot_password: [],
+        leaders: [],
+        shared: []
+      }
+    }
+    console.log('default_ui_state', ui_state);
+    return ui_state
+  }
+
   initializeStore(initial_state){
     let state_manager = this;
     let reducer = combineReducers({
       location: locationReducers,
       average_footprint: defaultsReducers,
       user_footprint: computeFootprintReducers,
-      auth: authReducers
+      auth: authReducers,
+      ui: uiReducers
     });
     console.log('initializeStore initial_state', initial_state);
     state_manager.store = createStore(reducer, initial_state, install());
@@ -91,7 +111,8 @@ export default class StateManager {
       user_footprint:  fromJS({data: state_manager.user_footprint_storage || {}}),
       result_takeaction_dollars: fromJS(state_manager.take_action_storage.dollars || {}),
       result_takeaction_net10yr: fromJS(state_manager.take_action_storage.net10yr || {}),
-      result_takeaction_pounds:  fromJS(state_manager.take_action_storage.pounds || {})
+      result_takeaction_pounds:  fromJS(state_manager.take_action_storage.pounds || {}),
+      ui: fromJS(state_manager.default_ui_state)
     }, opts);
   }
 

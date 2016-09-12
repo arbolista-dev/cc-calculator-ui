@@ -5,7 +5,6 @@ import React from 'react';
 import { fromJS } from 'immutable';
 import StateManager from 'shared/lib/state_manager/state_manager';
 import Panel from 'shared/lib/base_classes/panel';
-// import layoutContainer from './layout.container';
 import footprintContainer from '../../containers/footprint.container';
 import { footprintPropTypes } from '../../containers/footprint.container';
 import template from './layout.rt.html';
@@ -19,7 +18,6 @@ class LayoutComponent extends Panel {
     super(props, context);
     var layout = this;
     layout.state = {};
-    // context.state_manager.layout = layout;
   }
 
   componentWillMount(){
@@ -60,18 +58,20 @@ class LayoutComponent extends Panel {
       return router.pushRoute(route_name);
     });
   }
+
+  get show_leaders_comparison(){
+    let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
+
+    console.log('get leaders_chart show', this.props.ui.getIn(['leaders_chart', 'show']));
+    return this.connect_to_api && leaders_route && this.props.ui.getIn(['leaders_chart', 'show'])
+  }
+
   //
   // get alert_list() {
   //   return this.state_manager.state.alerts.shared;
   // }
   //
 
-  //
-  // get show_leaders_comparison(){
-  //   let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
-  //
-  //   return this.connect_to_api && leaders_route && this.state_manager.state.leaders_chart.show;
-  // }
   //
   // get external_offset(){
   //   return this.state_manager.state.external_offset;

@@ -4,6 +4,8 @@ import React from 'react';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './travel.rt.html';
+import footprintContainer from '../../../containers/footprint.container';
+import { footprintPropTypes } from '../../../containers/footprint.container';
 import Vehicle from './vehicle';
 
 
@@ -96,10 +98,15 @@ class TravelComponent extends Panel {
   }
 
   toggleLeadersChart() {
-    let travel = this;
-    travel.state_manager.state.leaders_chart.show = true;
-    travel.state_manager.state.leaders_chart.category = "transport";
-    travel.state_manager.syncLayout();
+    let travel = this,
+    ui = {};
+
+    ui.id = 'leaders_chart';
+    ui.data = {
+      show: true,
+      category: 'transport'
+    };
+    travel.props.setUIState(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 
@@ -283,8 +290,8 @@ class TravelComponent extends Panel {
 
 }
 
-TravelComponent.propTypes = {};
+TravelComponent.propTypes = footprintPropTypes;
 
 TravelComponent.NAME = 'Travel';
 
-module.exports = TravelComponent;
+module.exports = footprintContainer(TravelComponent);

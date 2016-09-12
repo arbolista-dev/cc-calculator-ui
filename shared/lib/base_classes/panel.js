@@ -28,7 +28,8 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
   }
 
   get connect_to_api(){
-    return this.state_manager.state.connect_to_api;
+    // return this.props.getState.get('connect_to_api').toJS()
+    return true;
   }
 
   routeComponent(route_name){
