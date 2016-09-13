@@ -126,10 +126,17 @@ export let footprintable = {
   // updateFootprintParams(params){
   //   this.state_manager.updateFootprintParams(params);
   // },
-  updateFootprintParams(updated_params){
+
+  updateAverageFootprintParams(updated_params){
     console.log('footprintable - updateFootprintParams');
     this.props.averageFootprintUpdated(updated_params);
     // this.props.userFootprintUpdated(updated_params);
+  },
+
+  updateFootprintParams(updated_params){
+    console.log('footprintable - updateFootprintParams');
+    // this.props.averageFootprintUpdated(updated_params);
+    this.props.userFootprintUpdated(updated_params);
   },
 
   updateFootprintInput: function(event){

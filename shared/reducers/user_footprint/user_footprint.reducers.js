@@ -3,13 +3,12 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, userFootprintUpdated, userLocationUpdated } from './user_footprint.actions';
+import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, userFootprintUpdated } from './user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
 /*
   user_footprint: {
-    user_location: <String>,
     data: <Object>,
     loading: <Boolean>,
     load_error: <Boolean>
@@ -17,7 +16,6 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
 */
 
 const DEFAULT_STATE = {
-  user_location: undefined,
   data: undefined,
   loading: false,
   load_error: false
@@ -43,17 +41,18 @@ const ACTIONS = {
   },
 
   [ensureUserFootprintRetrieved]: (state, api_data)=>{
-    console.log('ensureUserFootprintRetrieved - state', state.toJS());
+    console.log('ensureUserFootprintRetrieved - state', state);
     console.log('ensureUserFootprintRetrieved - api_data', api_data);
 
-    let merged_data = state.get('data').merge(api_data);
-    console.log('ensureUserFootprintRetrieved - merged data: ', merged_data.toJS());
+    let merged_data = state.get('data')
+                           .merge(api_data);
     setLocalStorageItem('user_footprint', merged_data);
 
+    console.log('ensureUserFootprintRetrieved - merged data: ',  merged_data);
 
-    if (!state.data) {
-      // user_footprint has not been set
-      console.log('- User footprint has not been set!');
+    if (!state.get('data').toJS()) {
+      console.log('User footprint has not been set!');
+
       return loop(
         fromJS({data: merged_data, loading: false}),
         Effects.constant(parseFootprintResult(merged_data))
@@ -63,8 +62,12 @@ const ACTIONS = {
     }
   },
 
-  [ensureUserFootprintError]: (_state, _result)=>{
-    return fromJS({load_error: true, loading: false});
+  [ensureUserFootprintError]: (state, _result)=>{
+
+    let updated = state.set('load_error', true)
+                       .set('loading', false);
+    return fromJS(updated);
+
   },
 
   [parseFootprintResult]: (state, result)=>{
@@ -75,29 +78,26 @@ const ACTIONS = {
       return hash;
     }, {});
 
-    let merged_data = state.get('data').merge(result);
-    console.log('parseFootprintResult - result data', merged_data);
-
+    let merged_data = state.get('data')
+                           .merge(result);
     setLocalStorageItem('user_footprint', merged_data);
+
+    console.log('parseFootprintResult - result data', merged_data);
     return fromJS({data: merged_data, loading: false})
   },
 
   [userFootprintUpdated]: (state, api_data)=>{
-    let merged_data = state.get('data').merge(api_data);
 
-    console.log('userFootprintUpdated: ', merged_data);
+    let merged_data = state.get('data')
+                           .merge(api_data);
     setLocalStorageItem('user_footprint', merged_data);
 
+    console.log('userFootprintUpdated state', state);
+    console.log('userFootprintUpdated api_data', api_data);
+    console.log('userFootprintUpdated: ', merged_data);
+
     return fromJS({data: merged_data, loading: false})
-  },
-
-  [userLocationUpdated]: (state, data)=>{
-    console.log('userLocationUpdated - state', state.toJS());
-    console.log('userLocationUpdated - api_data', data);
-
-    return fromJS({user_location: data})
   }
-
 
 };
 

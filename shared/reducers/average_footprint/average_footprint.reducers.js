@@ -72,7 +72,7 @@ const ACTIONS = {
 
     return loop(
       fromJS({data: merged_data, loading: false}),
-      Effects.constant(ensureUserFootprintRetrieved(merged_data))
+      Effects.constant(ensureUserFootprintRetrieved(merged_data.toJS()))
     )
   }
 

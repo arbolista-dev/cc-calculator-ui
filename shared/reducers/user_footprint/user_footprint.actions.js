@@ -4,6 +4,6 @@ const ensureUserFootprintComputed = createAction('Ensure compute footprint resul
     ensureUserFootprintRetrieved = createAction('Compute footprint results retrieved from Calc API.'),
     ensureUserFootprintError = createAction('Error retrieving compute footprint results from Calc API.'),
     parseFootprintResult = createAction('Error retrieving compute footprint results from Calc API.'),
-    userLocationUpdated = createAction('Set user location.');
+    userFootprintUpdated = createAction('Update user footprint parameters.');
 
-export { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, userLocationUpdated };
+export { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, userFootprintUpdated };

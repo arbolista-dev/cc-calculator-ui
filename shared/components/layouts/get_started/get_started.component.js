@@ -94,7 +94,7 @@ class GetStartedComponent extends Panel {
     let get_started = this;
     console.log('updateDefaults params: ', default_params);
     default_params.input_location_mode = get_started.state.input_location_mode;
-    get_started.updateFootprintParams(default_params);
+    get_started.updateAverageFootprintParams(default_params);
 
     // debounce updating defaults by 500ms.
     if (get_started.$update_defaults) {

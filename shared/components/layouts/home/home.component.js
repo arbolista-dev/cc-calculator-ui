@@ -5,6 +5,8 @@ import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './home.rt.html'
+import footprintContainer from '../../../containers/footprint.container';
+import { footprintPropTypes } from '../../../containers/footprint.container';
 
 const RELEVANT_API_KEYS = [
   'watersewage', 'cleanpercent', 'squarefeet',
@@ -64,10 +66,15 @@ class HomeComponent extends Panel {
   }
 
   toggleLeadersChart() {
-    let home = this;
-    home.state_manager.state.leaders_chart.show = true;
-    home.state_manager.state.leaders_chart.category = "housing";
-    home.state_manager.syncLayout();
+    let home = this,
+    ui = {};
+
+    ui.id = 'leaders_chart';
+    ui.data = {
+      show: true,
+      category: 'housing'
+    };
+    home.props.setUIState(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 
@@ -164,6 +171,7 @@ class HomeComponent extends Panel {
             update = {
               [api_key]: cleanpercent
             };
+        console.log('cleanpercent slider update:', update);
 
         home.setState(update);
         home.updateFootprint(update);
@@ -178,6 +186,7 @@ class HomeComponent extends Panel {
 
 }
 
+HomeComponent.propTypes = footprintPropTypes;
 HomeComponent.NAME = 'Home';
 
-module.exports = HomeComponent;
+module.exports = footprintContainer(HomeComponent);

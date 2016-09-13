@@ -19,13 +19,20 @@ const ACTIONS = {
     console.log('UI setState state', state);
     console.log('UI setState payload', payload);
     let merged = state.get(payload.id).merge(payload.data).toJS();
-    return fromJS({[payload.id]: merged})
+    // return fromJS(state.set([payload.id], merged))
+    // try Object.assign({}, state, {[payload.id]: merged})
+    console.log('UI updated state', Object.assign({}, state.get(), {[payload.id]: merged}));
+    return fromJS(Object.assign({}, state, {[payload.id]: merged}))
+    // return fromJS({[payload.id]: merged})
   },
 
   [pushUIAlarm]: (state, payload)=>{
-    console.log('UI setState state', state);
-    console.log('UI setState payload', payload);
-    return fromJS({alerts: payload})
+    console.log('UI pushUIAlarm state', state.toJS());
+    console.log('UI pushUIAlarm payload', payload);
+
+    console.log('pushUIAlarm update', state.setIn(['alerts', payload.id], (l) => l.push(payload.data)));
+    // return fromJS({alerts: payload})
+    return state
   }
 
 };

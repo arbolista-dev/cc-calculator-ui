@@ -175,6 +175,14 @@ class LeadersComponent extends Panel {
         leaders.setState({
           is_loading: false
         })
+
+        let alarm = {};
+        alarm.id = 'leaders';
+        alarm.data = {
+          type: 'danger',
+          message: leaders.t('leaders.empty')
+        };
+        leaders.props.pushUIAlarm(alarm);
         // @ToDo: Replace alerts
         // leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.empty')});
         // leaders.state_manager.syncLayout();
