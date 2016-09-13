@@ -1,12 +1,13 @@
 /*global module*/
 
 import React from 'react';
-import _ from 'lodash';
-import mixin from 'shared/lib/mixin';
+import { upperFirst as _upperFirst } from 'lodash';
 import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './food.rt.html'
+import footprintContainer from '../../../containers/footprint.container';
+import { footprintPropTypes } from '../../../containers/footprint.container';
 
 const RELEVANT_API_KEYS = ['meatfisheggs', 'meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry',
                     'cereals', 'dairy', 'fruitvegetables', 'otherfood'],
@@ -34,10 +35,15 @@ class FoodComponent extends Panel {
   }
 
   toggleLeadersChart() {
-    let food = this;
-    food.state_manager.state.leaders_chart.show = true;
-    food.state_manager.state.leaders_chart.category = "food";
-    food.state_manager.syncLayout();
+    let food = this,
+    ui = {};
+
+    ui.id = 'leaders_chart';
+    ui.data = {
+      show: true,
+      category: 'food'
+    };
+    food.props.setUIState(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 
@@ -105,7 +111,7 @@ class FoodComponent extends Panel {
    */
 
   get household_size(){
-    let size = parseInt(this.state_manager.state.user_footprint['input_size']);
+    let size = parseInt(this.userApiValue('input_size'));
     return size === 0 ? AVERAGE_HOUSEHOLD_SIZE : size;
   }
 
@@ -129,7 +135,7 @@ class FoodComponent extends Panel {
       handle_r: 15,
       tick_labels: {
         0: '0',
-        1: _.upperFirst(food.t('average')),
+        1: _upperFirst(food.t('average')),
         2: '2x',
         3: '3x',
         4: '4x',
@@ -190,8 +196,7 @@ class FoodComponent extends Panel {
 
 }
 
-FoodComponent.propTypes = {};
-
+FoodComponent.propTypes = footprintPropTypes;
 FoodComponent.NAME = 'Food';
 
-module.exports = FoodComponent;
+module.exports = footprintContainer(FoodComponent);

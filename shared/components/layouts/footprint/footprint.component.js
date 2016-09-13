@@ -3,7 +3,9 @@
 import React from 'react';
 
 import Panel from 'shared/lib/base_classes/panel';
-import template from './footprint.rt.html'
+import template from './footprint.rt.html';
+import footprintContainer from '../../../containers/footprint.container';
+import { footprintPropTypes } from '../../../containers/footprint.container';
 
 class FootprintComponent extends Panel {
 
@@ -14,10 +16,15 @@ class FootprintComponent extends Panel {
   }
 
   toggleLeadersChart() {
-    let footprint = this;
-    footprint.state_manager.state.leaders_chart.show = true;
-    footprint.state_manager.state.leaders_chart.category = "";
-    footprint.state_manager.syncLayout();
+    let footprint = this,
+    ui = {};
+    
+    ui.id = 'leaders_chart';
+    ui.data = {
+      show: true,
+      category: ''
+    };
+    footprint.props.setUIState(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 
@@ -26,10 +33,7 @@ class FootprintComponent extends Panel {
   }
 }
 
-FootprintComponent.propTypes = {
-
-};
-
+FootprintComponent.propTypes = footprintPropTypes;
 FootprintComponent.NAME = 'Footprint';
 
-module.exports = FootprintComponent;
+module.exports = footprintContainer(FootprintComponent);

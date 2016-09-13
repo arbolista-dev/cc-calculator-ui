@@ -1,11 +1,13 @@
 /*global module*/
 
 import React from 'react';
-import _ from 'lodash';
+import { upperFirst as _upperFirst} from 'lodash';
 import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './shopping.rt.html'
+import footprintContainer from '../../../containers/footprint.container';
+import { footprintPropTypes } from '../../../containers/footprint.container';
 
 // We are ignoring goods_other_total - if advanced selected,
 // user must answer advanced other good questions.
@@ -69,10 +71,15 @@ class ShoppingComponent extends Panel {
   }
 
   toggleLeadersChart() {
-    let shopping = this;
-    shopping.state_manager.state.leaders_chart.show = true;
-    shopping.state_manager.state.leaders_chart.category = "shopping";
-    shopping.state_manager.syncLayout();
+    let shopping = this,
+    ui = {};
+
+    ui.id = 'leaders_chart';
+    ui.data = {
+      show: true,
+      category: 'shopping'
+    };
+    shopping.props.setUIState(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 
@@ -163,7 +170,7 @@ class ShoppingComponent extends Panel {
       margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
-        1: _.upperFirst(shopping.t('average')),
+        1: _upperFirst(shopping.t('average')),
         2: '2x',
         3: '3x',
         4: '4x',
@@ -207,7 +214,7 @@ class ShoppingComponent extends Panel {
       margin: {left: 10, right: 15, top: 0, bottom: 10},
       tick_labels: {
         0: '0',
-        1: _.upperFirst(shopping.t('average')),
+        1: _upperFirst(shopping.t('average')),
         2: '2x',
         3: '3x',
         4: '4x',
@@ -248,8 +255,7 @@ class ShoppingComponent extends Panel {
 
 }
 
-ShoppingComponent.propTypes = {};
-
+ShoppingComponent.propTypes = footprintPropTypes;
 ShoppingComponent.NAME = 'Shopping';
 
-module.exports = ShoppingComponent;
+module.exports = footprintContainer(ShoppingComponent);
