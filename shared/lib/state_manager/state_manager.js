@@ -105,13 +105,14 @@ export default class StateManager {
   initialState(opts){
     let state_manager = this,
         average_footprint_state;
+
     return Object.assign({
       auth: fromJS({data: state_manager.auth_storage || {}}),
       average_footprint: fromJS({data: state_manager.average_footprint_storage || state_manager.default_inputs}),
-      user_footprint:  fromJS({data: state_manager.user_footprint_storage || {}}),
-      result_takeaction_dollars: fromJS(state_manager.take_action_storage.dollars || {}),
-      result_takeaction_net10yr: fromJS(state_manager.take_action_storage.net10yr || {}),
-      result_takeaction_pounds:  fromJS(state_manager.take_action_storage.pounds || {}),
+      user_footprint:  fromJS({
+        data: state_manager.user_footprint_storage || {},
+        result_takeaction_dollars: state_manager.take_action_storage.dollars || {},      result_takeaction_net10yr: state_manager.take_action_storage.net10yr || {},      result_takeaction_pounds:  state_manager.take_action_storage.pounds || {}
+      }),
       ui: fromJS(state_manager.default_ui_state)
     }, opts);
   }

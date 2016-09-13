@@ -26,10 +26,12 @@ const DEFAULT_STATE = {
 const ACTIONS = {
 
   [ensureDefaults]: (state, default_inputs)=>{
-    console.log('ensureDefaults - state', state.toJS());
+    console.log('ensureDefaults - state', state);
     console.log('ensureDefaults - default_inputs', default_inputs);
+    let updated = state.set('loading', true);
+
     return loop(
-      fromJS({loading: true}),
+      fromJS(updated),
       Effects.promise(()=>{
         return CalculatorApi.getDefaultsAndResults(default_inputs)
           .then(defaultsRetrieved)
@@ -38,14 +40,16 @@ const ACTIONS = {
     )
   },
 
-  [defaultsRetrieved]: (defaults_data, api_data)=>{
-    console.log('defaultsRetrieved - _defaults_data state: ', defaults_data);
+  [defaultsRetrieved]: (state, api_data)=>{
+    console.log('defaultsRetrieved - state: ', state);
     console.log('defaultsRetrieved - api_data payload: ', api_data);
     setLocalStorageItem('average_footprint', api_data);
 
     // implications for not setting loading to false?
     // is ensureDefaults called without afterwards updating user_footprint ?
     if (!api_data.failed) {
+      let updated = state.set('data', api_data);
+      console.log('defaultsRetrieved updated', updated);
       return loop(
         fromJS({data: api_data}),
         Effects.promise(()=>{
@@ -59,9 +63,13 @@ const ACTIONS = {
     }
   },
 
-  [defaultsRetrievalError]: (_defaults_data, result)=>{
+  [defaultsRetrievalError]: (state, result)=>{
     console.log('defaultsRetrievalError - _result', result);
-    return fromJS({load_error: true, loading: false});
+
+    let updated = state.set('load_error', true)
+                       .set('loading', false);
+
+    return fromJS(updated);
   },
 
   [averageFootprintUpdated]: (state, api_data)=>{
@@ -70,8 +78,11 @@ const ACTIONS = {
     console.log('averageFootprintUpdated: ', merged_data);
     setLocalStorageItem('average_footprint', merged_data);
 
+    let updated = state.set('data', merged_data)
+                       .set('loading', false);
+
     return loop(
-      fromJS({data: merged_data, loading: false}),
+      fromJS(updated),
       Effects.constant(ensureUserFootprintRetrieved(merged_data.toJS()))
     )
   }

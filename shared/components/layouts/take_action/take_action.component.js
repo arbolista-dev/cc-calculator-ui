@@ -4,6 +4,8 @@ import React from 'react';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './take_action.rt.html'
+import footprintContainer from '../../../containers/footprint.container';
+import { footprintPropTypes } from '../../../containers/footprint.container';
 
 export const ACTIONS = [{
     "category": "transportation", "title": "Transportation",
@@ -142,5 +144,6 @@ class TakeActionComponent extends Panel {
 }
 
 TakeActionComponent.NAME = 'TakeAction';
+TakeActionComponent.propTypes = footprintPropTypes;
 
-module.exports = TakeActionComponent;
+module.exports = footprintContainer(TakeActionComponent);

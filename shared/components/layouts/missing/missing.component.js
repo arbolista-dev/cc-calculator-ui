@@ -19,10 +19,7 @@ class MissingComponent extends Translatable {
 
 }
 
-MissingComponent.propTypes = {
-
-};
-
+MissingComponent.propTypes = {};
 MissingComponent.NAME = 'Missing';
 
 module.exports = MissingComponent;

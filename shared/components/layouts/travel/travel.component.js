@@ -290,8 +290,8 @@ class TravelComponent extends Panel {
 
 }
 
-TravelComponent.propTypes = footprintPropTypes;
 
 TravelComponent.NAME = 'Travel';
+TravelComponent.propTypes = footprintPropTypes;
 
 module.exports = footprintContainer(TravelComponent);

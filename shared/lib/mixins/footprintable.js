@@ -1,7 +1,7 @@
 export let footprintable = {
 
   isUserFootprintSet(){
-    return Object.keys(this.getUserFootprint()).length !== 0
+    return !this.getUserFootprint().isEmpty()
   },
 
   getDefaultInputs(){
@@ -20,7 +20,7 @@ export let footprintable = {
   },
 
   getUserFootprint(){
-    return this.props.user_footprint.get('data').toJS()
+    return this.props.user_footprint.get('data')
   },
 
   apiKey: function(key_end){
