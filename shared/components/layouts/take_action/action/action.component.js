@@ -4,6 +4,8 @@ import React from 'react';
 
 import Translatable from './../../../../lib/base_classes/translatable';
 import template from './action.rt.html'
+import footprintContainer from '../../../../containers/footprint.container';
+import { footprintPropTypes } from '../../../../containers/footprint.container';
 
 class ActionComponent extends Translatable {
 
@@ -67,15 +69,15 @@ class ActionComponent extends Translatable {
   }
 
   get result_takeaction_pounds(){
-    return this.state_manager['result_takeaction_pounds'];
+    return this.props.user_footprint.get('result_takeaction_pounds');
   }
 
   get result_takeaction_dollars(){
-    return this.state_manager['result_takeaction_dollars'];
+    return this.props.user_footprint.get('result_takeaction_dollars');
   }
 
   get result_takeaction_net10yr(){
-    return this.state_manager['result_takeaction_net10yr'];
+    return this.props.user_footprint.get('result_takeaction_net10yr');
   }
 
 
@@ -111,9 +113,7 @@ class ActionComponent extends Translatable {
   }
 
   setInputState(id){
-    let take_action = this,
-    footprint = take_action.state_manager.state.user_footprint;
-    return footprint[id]
+    return this.userApiValue(id)
   }
 
   displayStateValue(id, suffix){
@@ -121,9 +121,9 @@ class ActionComponent extends Translatable {
       id = id.replace(/display_takeaction/i, 'input_takeaction')
     }
     if (!suffix) {
-      return this.state_manager.state.user_footprint[id]
+      return this.userApiValue(id)
     } else {
-      return this.state_manager.state.user_footprint[id] + ' ' + suffix
+      return this.userApiValue(id) + ' ' + suffix
     }
   }
 
@@ -143,13 +143,14 @@ class ActionComponent extends Translatable {
     if (select.type === 'vehicle') {
 
       let options = [], i = 1;
-      this.state_manager.state.vehicles.forEach((v) => {
-        let vehicle = {};
-        vehicle.value = i;
-        vehicle.text = 'Vehicle ' + i;
-        i++;
-        options.push(vehicle);
-      })
+      // @ToDo: Refactor vehicles in UI state?!
+      // this.state_manager.state.vehicles.forEach((v) => {
+      //   let vehicle = {};
+      //   vehicle.value = i;
+      //   vehicle.text = 'Vehicle ' + i;
+      //   i++;
+      //   options.push(vehicle);
+      // })
       return options;
 
     } else {
@@ -175,7 +176,7 @@ class ActionComponent extends Translatable {
 
   getSelectedOption(id){
     let is_vehicle = id.lastIndexOf('vehicle_select'),
-    footprint = this.state_manager.state.user_footprint,
+    footprint = this.getUserFootprint().toJS(),
     key = this.state.key,
     mpg;
 
@@ -193,13 +194,13 @@ class ActionComponent extends Translatable {
           }
         }
     } else {
-      return this.state_manager.state.user_footprint[id]
+      return this.userApiValue(id)
     }
   }
 
   selectVehicle(i, action_key){
 
-    let footprint = this.state_manager.state.user_footprint,
+    let footprint = this.getUserFootprint().toJS(),
     v_miles = footprint[`input_footprint_transportation_miles${i}`],
     v_mpg = footprint[`input_footprint_transportation_mpg${i}`],
     update = {};
@@ -218,13 +219,17 @@ class ActionComponent extends Translatable {
   }
 
   userApiValue(api_key){
-    return this.state_manager.user_footprint[api_key];
+    return this.props.user_footprint.getIn(['data', api_key]);
+  }
+
+  getUserFootprint(){
+    return this.props.user_footprint.get('data')
   }
 
   userApiState(){
     let action = this,
     hash = {},
-    keys = Object.keys(action.state_manager.user_footprint)
+    keys = Object.keys(action.getUserFootprint().toJS())
       .filter(key=> key.includes(action.result_key))
 
     return keys.reduce((hash, api_key)=>{
@@ -238,13 +243,13 @@ class ActionComponent extends Translatable {
   }
 
   updateFootprintParams(params){
-    this.state_manager.updateFootprintParams(params);
+    this.props.userFootprintUpdated(updated_params);
   }
 
   updateTakeaction(params){
     let action = this;
 
-    action.state_manager.update_in_progress = true;
+    // action.state_manager.update_in_progress = true;
     action.updateFootprintParams(params);
 
     if (action.$update_takeaction) {
@@ -275,13 +280,12 @@ class ActionComponent extends Translatable {
 
 }
 
-ActionComponent.propTypes = {
+ActionComponent.NAME = 'Action';
+ActionComponent.propTypes = Object.assign({}, {
   is_assumption: React.PropTypes.bool.isRequired,
   action_key: React.PropTypes.string,
   category: React.PropTypes.string,
   show: React.PropTypes.bool
-};
+}, footprintPropTypes);
 
-ActionComponent.NAME = 'Action';
-
-module.exports = ActionComponent;
+module.exports = footprintContainer(ActionComponent);

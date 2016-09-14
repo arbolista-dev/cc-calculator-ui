@@ -45,8 +45,9 @@ function getLocalStorageItem(specifier) {
         results_exist = Object.values(results).filter(result => result != null);
 
       if(results_exist.length !== 0){
-        return results;
+        return JSON.parse(results);
       } else {
+        console.log('getLocalStorageItem err: no results exist');
         return false;
       }
     }

@@ -50,17 +50,16 @@ const ACTIONS = {
     let merged_data = state.get('data')
                            .merge(api_data);
 
-    setLocalStorageItem('user_footprint', merged_data);
+    setLocalStorageItem('user_footprint', merged_data.toJS());
 
-    console.log('ensureUserFootprintRetrieved - merged data: ',  merged_data);
+    console.log('ensureUserFootprintRetrieved - merged data: ',  merged_data.toJS());
 
-    if (state.get('data').isEmpty()) {
+    if (state.get('data').isEmpty() || state.getIn(['data', 'input_changed']) != 1) {
       // @ToDo: Make sure this decision is made correctly
-      // used to be -> if (!state_manager.user_footprint_set || state_manager.footprint_not_updated){
+      // used to be -> if (!state_manager.user_footprint_set || state_manager.footprint_not_updated)
 
       console.log('User footprint has not been set (user_footprint data empty)!');
-      let updated = state.set('data', merged_data)
-                         .set('loading', false);
+      let updated = state.set('data', merged_data);
 
       return loop(
         fromJS(updated),
@@ -71,7 +70,10 @@ const ACTIONS = {
                          .set('loading', false)
       console.log('User footprint has been set (user_footprint data not empty)!', updated);
 
-      return fromJS(updated);
+      return loop(
+        fromJS(updated),
+        Effects.constant(parseFootprintResult(merged_data))
+      )
     }
   },
 
@@ -86,9 +88,16 @@ const ACTIONS = {
 
   [parseFootprintResult]: (state, result)=>{
     console.log('parseFootprintResult state', state);
-    console.log('parseFootprintResult result', result);
+    console.log('parseFootprintResult result', result.toJS());
 
-    if (!state.has('result_takeaction_pounds') || state.get('result_takeaction_pounds').isEmpty()) {
+    console.log('state has result_takeaction_pounds', state.get('result_takeaction_pounds'));
+    console.log('result has result_takeaction_pounds', result.get('result_takeaction_pounds'));
+
+    console.log('result has properties', !state.get('result_takeaction_pounds').has('more_efficient_vehicle'));
+
+    if (!state.has('result_takeaction_pounds') || !state.get('result_takeaction_pounds').toMap().has('more_efficient_vehicle')) {
+
+      console.log('result_takeaction_pounds NOT set!');
 
       let merged = state.get('data')
                         .merge(result);
@@ -99,9 +108,13 @@ const ACTIONS = {
         fromJS(updated),
         Effects.constant(parseTakeactionResult(result))
       )
+      // @ToDo: Check if authenticated -> updateUserAnswers
 
     } else {
 
+      console.log('result_takeaction_pounds IS set!');
+
+      result = result.toJS();
       result = Object.keys(result).reduce((hash, api_key)=>{
         if (!/^(result|input)_takeaction/.test(api_key)){
           hash[api_key] = result[api_key]
@@ -119,6 +132,7 @@ const ACTIONS = {
                          .set('loading', false);
 
       return fromJS(updated);
+      // @ToDo: Check if authenticated -> updateUserAnswers
     }
   },
 

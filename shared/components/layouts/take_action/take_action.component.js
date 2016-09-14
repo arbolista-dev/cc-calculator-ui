@@ -34,18 +34,18 @@ class TakeActionComponent extends Panel {
   }
 
   get vehicles(){
-    let footprint = this.state_manager.state.user_footprint,
-        num = footprint['input_footprint_transportation_num_vehicles'],
+    let num = this.userApiValue('input_footprint_transportation_num_vehicles'),
         vehicles = [];
 
     for (let i=1; i<=num; i++){
       let vehicle = {};
-      vehicle.miles = footprint[`input_footprint_transportation_miles${i}`];
-      vehicle.mpg = footprint[`input_footprint_transportation_mpg${i}`];
+      vehicle.miles = this.userApiValue(`input_footprint_transportation_miles${i}`);
+      vehicle.mpg = this.userApiValue(`input_footprint_transportation_mpg${i}`);
       vehicles.push(vehicle);
     }
 
-    this.state_manager.state.vehicles = vehicles.slice();
+    // @ToDo: refactor vehicles - put in UI state?!
+    // this.state_manager.state.vehicles = vehicles.slice();
     return vehicles;
   }
 
@@ -58,20 +58,23 @@ class TakeActionComponent extends Panel {
   }
 
   get external_offset_set(){
-    let e_o = this.state_manager.state.external_offset;
-    return Object.keys(e_o).length !== 0 && e_o.constructor === Object
+    // @ToDo: Refactor external offset
+    // let e_o = this.state_manager.state.external_offset;
+    // return Object.keys(e_o).length !== 0 && e_o.constructor === Object
+    return false
   }
 
   get result_takeaction_pounds(){
-    return this.state_manager['result_takeaction_pounds'];
+    console.log('TA result_takeaction_pounds', this.props.user_footprint.get('result_takeaction_pounds'));
+    return this.props.user_footprint.get('result_takeaction_pounds');
   }
 
-  get result_takeaction_dollars(){
-    return this.state_manager['result_takeaction_dollars'];
+get result_takeaction_dollars(){
+    return this.props.user_footprint.get('result_takeaction_dollars');
   }
 
   get result_takeaction_net10yr(){
-    return this.state_manager['result_takeaction_net10yr'];
+    return this.props.user_footprint.get('result_takeaction_net10yr');
   }
 
   get show_critical_assumptions(){
