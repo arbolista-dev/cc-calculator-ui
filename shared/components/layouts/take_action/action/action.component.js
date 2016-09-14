@@ -243,7 +243,7 @@ class ActionComponent extends Translatable {
   }
 
   updateFootprintParams(params){
-    this.props.userFootprintUpdated(updated_params);
+    this.props.userFootprintUpdated(params);
   }
 
   updateTakeaction(params){
@@ -257,16 +257,9 @@ class ActionComponent extends Translatable {
     }
 
     action.$update_takeaction = setTimeout(()=>{
-      action.state_manager.updateTakeactionResults()
-        .then(()=>{
-          let user_api_state = action.userApiState();
-          action.setState(user_api_state, ()=>{
-            action.state_manager.update_in_progress = false;
-          })
-        })
-        .then(()=> {
-          action.state_manager.syncLayout().then(() => {})
-        })
+      action.props.updateTakeactionResults()
+      let user_api_state = action.userApiState();
+      action.setState(user_api_state)
     }, 500);
   }
 

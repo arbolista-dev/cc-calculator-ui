@@ -69,7 +69,7 @@ class TakeActionComponent extends Panel {
     return this.props.user_footprint.get('result_takeaction_pounds');
   }
 
-get result_takeaction_dollars(){
+  get result_takeaction_dollars(){
     return this.props.user_footprint.get('result_takeaction_dollars');
   }
 

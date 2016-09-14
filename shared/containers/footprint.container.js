@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
-import { ensureUserFootprintComputed, userFootprintUpdated, userLocationUpdated } from 'shared/reducers/user_footprint/user_footprint.actions';
+import { ensureUserFootprintComputed, userFootprintUpdated, userLocationUpdated, updateTakeactionResults } from 'shared/reducers/user_footprint/user_footprint.actions';
 import { setUIState, pushUIAlarm } from 'shared/reducers/ui/ui.actions'
 
 const mapStateToProps = (state) => {
@@ -33,9 +33,9 @@ const mapDispatchToProps = (dispatch) => {
       userFootprintUpdated.assignTo(dispatch);
       userFootprintUpdated(updated_params);
     },
-    userLocationUpdated: (data) => {
-      userLocationUpdated.assignTo(dispatch);
-      userLocationUpdated(data);
+    updateTakeactionResults: () => {
+      updateTakeactionResults.assignTo(dispatch);
+      updateTakeactionResults();
     },
     setUIState: (payload) => {
       setUIState.assignTo(dispatch);
@@ -63,7 +63,7 @@ const footprintPropTypes = {
   ui: React.PropTypes.object,
   ensureDefaults: React.PropTypes.func.isRequired,
   ensureUserFootprintComputed: React.PropTypes.func.isRequired,
-  userLocationUpdated: React.PropTypes.func.isRequired,
+  updateTakeactionResults: React.PropTypes.func.isRequired,
   averageFootprintUpdated: React.PropTypes.func.isRequired,
   userFootprintUpdated: React.PropTypes.func.isRequired,
   setUIState: React.PropTypes.func.isRequired,

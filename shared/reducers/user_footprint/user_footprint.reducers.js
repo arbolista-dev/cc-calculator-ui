@@ -1,9 +1,9 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated } from './user_footprint.actions';
+import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, updateTakeactionResults } from './user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
@@ -141,6 +141,8 @@ const ACTIONS = {
     let merged = state.get('data')
                        .merge(result);
 
+    if(!Map.isMap(result)) result = new Map(result);
+
     let updated = state.set('data', merged)
                        .set('result_takeaction_pounds', JSON.parse(result.get('result_takeaction_pounds')))
                        .set('result_takeaction_dollars', JSON.parse(result.get('result_takeaction_dollars')))
@@ -152,6 +154,7 @@ const ACTIONS = {
     setLocalStorageItem('result_takeaction_pounds', result.get('result_takeaction_pounds'));
     setLocalStorageItem('result_takeaction_dollars', result.get('result_takeaction_dollars'));
     setLocalStorageItem('result_takeaction_net10yr', result.get('result_takeaction_net10yr'));
+    setLocalStorageItem('user_footprint', merged);
 
     return fromJS(updated);
   },
@@ -172,8 +175,22 @@ const ACTIONS = {
     console.log('userFootprintUpdated updated ', updated);
 
     return fromJS(updated);
-  }
+  },
 
+  [updateTakeactionResults]: (state)=>{
+    let action_inputs = state.get('data')
+    console.log('updateTakeactionResults action_inputs', action_inputs);
+
+    return loop(
+      state,
+      Effects.promise(()=>{
+        return CalculatorApi.computeTakeactionResults(action_inputs.toJS())
+          .then(parseTakeactionResult)
+          .catch(ensureUserFootprintError)
+      })
+    )
+
+  }
 };
 
 const REDUCER = createReducer(ACTIONS, DEFAULT_STATE);
