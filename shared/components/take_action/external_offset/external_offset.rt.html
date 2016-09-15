@@ -1,6 +1,10 @@
 <div class="cc-component" id="external_offset">
 
-  <div class="external-offset__impact">
+  <div class="external-offset__title">
+    <span class="cc-component__byline">{this.offset_title}</span>
+  </div>
+  
+  <div class="external-offset__impact" rt-if="this.show_equation">
     <div class="external-offset__footprint">
       <h5>{this.display_total_footprint}</h5>
       <p>{this.t('take_action.external_offset.tons_co2_per_year')}</p>
@@ -20,6 +24,6 @@
   </div>
 
   <div class="external-offset__call-to-action">
-    <a href="{this.offset_url}" target="_top" class="btn btn-success">OFFSET NOW</a>
+    <a href="{this.offset_url}" target="_top" class="btn btn-success">{this.offset_button_title}</a>
   </div>
 </div>
