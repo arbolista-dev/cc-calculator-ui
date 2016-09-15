@@ -163,7 +163,7 @@ export default class StateManager {
 
       try {
         let data = JSON.parse(event.data);
-        if (data.carbon_price_per_ton) {
+        if (data.hasOwnProperty('cta')) {
           Object.assign(state_manager.state.external_offset, data);
           state_manager.setConnectToApi();
           state_manager.syncLayout();
