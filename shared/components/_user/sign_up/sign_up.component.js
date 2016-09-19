@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { addUser } from 'api/user.api';
-import { validateParameter } from './../../../lib/utils/utils';
+import { validateParameter, setLocalStorageItem } from './../../../lib/utils/utils';
 import Panel from './../../../lib/base_classes/panel';
 import template from './sign_up.rt.html';
 
@@ -100,7 +100,7 @@ class SignUpComponent extends Panel {
           };
 
           Object.assign(sign_up.state_manager.state.auth, auth_res);
-          localStorage.setItem('auth', JSON.stringify(auth_res));
+          setLocalStorageItem('auth', auth_res);
 
           sign_up.state_manager.state.alerts.sign_up.push({type: 'success', message: sign_up.t('success.sign_up')});
           sign_up.router.goToRouteByName('GetStarted');

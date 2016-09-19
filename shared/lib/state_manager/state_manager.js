@@ -2,7 +2,7 @@
 
 import CalculatorApi from 'api/calculator.api';
 import { updateAnswers } from 'api/user.api';
-import { tokenIsValid, getLocalStorageItem } from '../utils/utils';
+import { tokenIsValid, getLocalStorageItem, setLocalStorageItem } from '../utils/utils';
 
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
 const DEFAULT_INPUTS = ['input_size', 'input_income', 'input_location', 'input_location_mode'];
@@ -250,7 +250,7 @@ export default class StateManager {
 
   updateUserFootprintStorage() {
     let state_manager = this;
-    localStorage.setItem('user_footprint', JSON.stringify(state_manager.state.user_footprint));
+    setLocalStorageItem('user_footprint', state_manager.state.user_footprint);
   }
 
   setUserFootprint(answers) {
@@ -273,14 +273,14 @@ export default class StateManager {
 
   updateAverageFootprintStorage() {
     let state_manager = this;
-    localStorage.setItem('average_footprint', JSON.stringify(state_manager.state.average_footprint));
+    setLocalStorageItem('average_footprint', state_manager.state.average_footprint);
   }
 
   updateTakeActionResultStorage() {
     let state_manager = this;
-    localStorage.setItem('result_takeaction_dollars', JSON.stringify(state_manager.state['result_takeaction_dollars']));
-    localStorage.setItem('result_takeaction_net10yr', JSON.stringify(state_manager.state['result_takeaction_net10yr']));
-    localStorage.setItem('result_takeaction_pounds', JSON.stringify(state_manager.state['result_takeaction_pounds']));
+    setLocalStorageItem('result_takeaction_dollars', state_manager.state['result_takeaction_dollars']);
+    setLocalStorageItem('result_takeaction_net10yr', state_manager.state['result_takeaction_net10yr']);
+    setLocalStorageItem('result_takeaction_pounds', state_manager.state['result_takeaction_pounds']);
   }
 
   // This should be called to update input parameters that don't
