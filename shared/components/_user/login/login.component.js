@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { loginUser } from 'api/user.api';
-import { validateParameter } from './../../../lib/utils/utils';
+import { validateParameter, setLocalStorageItem } from './../../../lib/utils/utils';
 import Panel from './../../../lib/base_classes/panel';
 import template from './login.rt.html';
 
@@ -84,7 +84,7 @@ class LoginComponent extends Panel {
           }, remote_anwers = JSON.parse(res.data.answers);
 
           Object.assign(login.state_manager.state.auth, auth_res);
-          localStorage.setItem('auth', JSON.stringify(auth_res));
+          setLocalStorageItem('auth', auth_res);
 
           if (remote_anwers.length !== 0) {
             login.state_manager.setUserFootprint(remote_anwers);
