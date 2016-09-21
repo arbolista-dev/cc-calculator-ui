@@ -160,7 +160,6 @@ export default class StateManager {
     window.addEventListener('message', ((event) => {
       // optional origin check:
       // if(event.origin !== 'http://localhost:8080') return;
-
       try {
         let data = JSON.parse(event.data);
         if (data.hasOwnProperty('cta')) {
@@ -169,7 +168,7 @@ export default class StateManager {
           state_manager.syncLayout();
         }
       } catch (e) {
-        // console.log('receiveExternalOffset err: ', e);
+        return null;
       }
 
     }),false);

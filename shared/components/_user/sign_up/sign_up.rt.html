@@ -9,34 +9,34 @@
       <FlashMessage alerts="{this.alert_list}" type="sign_up"></FlashMessage>
         <div class="cc-component__auth">
             <div class="form-group">
-                <label for="inputFirst" class="control-label">{this.t(`sign_up.first_name`)}</label>
-                <input type="text" class="form-control" id="inputFirst" rt-class="{error: !this.paramValid('first_name')}" onChange="{this.updateInput.bind(this)}" value="{this.state.first_name}" data-api_key="first_name" placeholder="{this.t(`sign_up.first_name`)}"/>
+                <label for="inputFirst" class="control-label">{this.t('sign_up.first_name')}</label>
+                <input type="text" class="form-control" id="inputFirst" rt-class="{error: !this.paramValid('first_name')}" onChange="{this.updateInput.bind(this)}" value="{this.state.first_name}" data-api_key="first_name" placeholder="{this.t('sign_up.first_name')}"/>
             </div>
             <div class="form-group">
-                <label for="inputLast" class="control-label">{this.t(`sign_up.last_name`)}</label>
+                <label for="inputLast" class="control-label">{this.t('sign_up.last_name')}</label>
                 <input type="text" class="form-control" id="inputLast"
                 rt-class="{error: !this.paramValid('last_name')}"
-                onChange="{this.updateInput.bind(this)}" data-api_key="last_name" value="{this.state.last_name}" placeholder="{this.t(`sign_up.last_name`)}">
+                onChange="{this.updateInput.bind(this)}" data-api_key="last_name" value="{this.state.last_name}" placeholder="{this.t('sign_up.last_name')}">
             </div>
             <div class="form-group">
-                <label for="inputEmail" class="control-label">{this.t(`sign_up.email`)}</label>
+                <label for="inputEmail" class="control-label">{this.t('sign_up.email')}</label>
                 <input type="email" class="form-control" id="inputEmail"
                 rt-class="{error: !this.paramValid('email')}" onChange="{this.updateInput.bind(this)}" data-api_key="email"
-                value="{this.state.email}" placeholder="{this.t(`sign_up.email`)}"/>
+                value="{this.state.email}" placeholder="{this.t('sign_up.email')}"/>
             </div>
             <div class="form-group">
-                <label for="inputPassword" class="control-label">{this.t(`sign_up.password`)}</label>
+                <label for="inputPassword" class="control-label">{this.t('sign_up.password')}</label>
                 <input type="password" class="form-control"
-                 id="inputPassword" rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}" data-api_key="password" value="{this.state.password}" placeholder="{this.t(`sign_up.password`)}"/>
+                 id="inputPassword" rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}" data-api_key="password" value="{this.state.password}" placeholder="{this.t('sign_up.password')}"/>
             </div>
             <div class="checkbox">
               <label>
-                <input type="checkbox"  onChange="{this.updateCheckbox.bind(this)}" data-api_key="public" checked="{this.state.public}"/> {this.t(`sign_up.public`)}
+                <input type="checkbox"  onChange="{this.updateCheckbox.bind(this)}" data-api_key="public" checked="{this.state.public}"/> {this.t('sign_up.public')}
               </label>
             </div>
             <div class="cc-component__auth-submit">
                 <button class="btn btn-default"
-                    onClick="{this.submitSignup.bind(this)}">{this.t(`sign_up.submit`)}
+                    onClick="{this.submitSignup.bind(this)}">{this.t('sign_up.submit')}
                 </button>
             </div>
         </div>

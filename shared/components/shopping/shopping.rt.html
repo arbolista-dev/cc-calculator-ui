@@ -50,7 +50,7 @@
 					<div rt-repeat="goods_type in this.goods_questions"
 					key="shopping_question_{goods_type}"
 					class="cc-component__question">
-					<h4 class="cc-component__question-label">{this.t(`shopping.${goods_type}.label`)}</h4>
+					<h4 class="cc-component__question-label">{this.getAdvancedLabel(goods_type)}</h4>
 					<div class="input-group">
 						<input
 						onChange="{this.updateMonthlyExpenditure.bind(this)}"
@@ -70,7 +70,7 @@
 					<div rt-repeat="service_type in this.services_questions"
 					key="shopping_question_{service_type}"
 					class="cc-component__question">
-						<h4 class="cc-component__question-label">{this.t(`shopping.${service_type}.label`)}</h4>
+						<h4 class="cc-component__question-label">{this.getAdvancedLabel(service_type)}</h4>
 						<div class="input-group">
 							<input
 							onChange="{this.updateMonthlyExpenditure.bind(this)}"

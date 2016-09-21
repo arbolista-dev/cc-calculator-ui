@@ -12,7 +12,7 @@
 
 	<div class="cc-component__form">
 		<div class="cc-component__question">
-			<h4>{this.t(`home.electricity.label`)}</h4>
+			<h4>{this.t('home.electricity.label')}</h4>
 			<div class="input-group">
 				<input class="form-control"
 				rt-class="{hidden: !this.unitsSet('electricity', 0)}"
@@ -53,14 +53,14 @@
 			</div>
 		</div>
 		<div class="cc-component__question">
-			<div class="cc-component__question-label">{this.t(`home.cleanpercent.label`)}</div>
+			<div class="cc-component__question-label">{this.t('home.cleanpercent.label')}</div>
 			<div class="label-container">
 				<span class="label label-slider">{this.display_cleanpercent} %</span>
 			</div>
 			<div id="home_cleanpercent_slider"></div>
 		</div>
 		<div class="cc-component__question">
-			<h4>{this.t(`home.naturalgas.label`)}</h4>
+			<h4>{this.t('home.naturalgas.label')}</h4>
 			<div class="input-group">
 				<input class="form-control"
 				rt-class="{hidden: !this.unitsSet('naturalgas', 0)}"
@@ -118,7 +118,7 @@
 		</div>
 
 		<div class="cc-component__question">
-			<h4>{this.t(`home.heatingoil.label`)}</h4>
+			<h4>{this.t('home.heatingoil.label')}</h4>
 			<div class="input-group">
 				<input class="form-control"
 				rt-class="{hidden: !this.unitsSet('heatingoil', 0)}"
@@ -161,7 +161,7 @@
 		</div>
 
 		<div class="cc-component__question">
-			<h4>{this.t(`home.squarefeet.label`)}</h4>
+			<h4>{this.t('home.squarefeet.label')}</h4>
 			<input class="form-control"
 			onChange="{this.updateFootprintInput.bind(this)}"
 			value="{this.state.input_footprint_housing_squarefeet}"
@@ -170,7 +170,7 @@
 		</div>
 
 		<div class="cc-component__question">
-			<h4>{this.t(`home.watersewage.label`)}</h4>
+			<h4>{this.t('home.watersewage.label')}</h4>
 			<div class="label-container">
 				<span class="label label-slider">
 					{this.display_annual_water_dollars}

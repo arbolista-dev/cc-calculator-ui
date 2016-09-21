@@ -22,7 +22,7 @@
 					onClick="{this.goToRoute.bind(this, route)}">
 					<img rt-if="(route.route_name !== this.current_route_name)" src="/assets/img/{route.key}-green.svg"/>
 					<img rt-if="(route.route_name === this.current_route_name)" src="/assets/img/{route.key}-filled.svg"/>
-					<div>{this.t(`${route.key}.title`)}</div>
+					<div>{this.getRouteTitle(route)}</div>
 				</div>
 
 				<div
@@ -32,7 +32,7 @@
 					rt-if="this.connect_to_api"
 					onClick="{this.goToSettings.bind(this)}">
 				  <img src="/assets/img/settings.png"/>
-					<div>{this.t(`settings.title`)}</div>
+					<div>{this.t('settings.title')}</div>
 				</div>
 
 			</div>
