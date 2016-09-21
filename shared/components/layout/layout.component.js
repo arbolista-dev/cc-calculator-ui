@@ -66,6 +66,10 @@ class LayoutComponent extends mixin(Translatable, routable) {
     return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
   }
 
+  getRouteTitle(route) {
+    return this.t(`${route.key}.title`);
+  }
+
   goToSettings(){
     this.router.goToRouteByName('Settings');
   }

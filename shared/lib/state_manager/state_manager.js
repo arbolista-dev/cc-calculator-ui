@@ -146,7 +146,6 @@ export default class StateManager {
         state_manager.state.connect_to_api = false;
       }
     }
-    console.log('setConnectToApi state after call', state_manager.state.connect_to_api);
   }
 
   setRoute(route){
@@ -161,17 +160,15 @@ export default class StateManager {
     window.addEventListener('message', ((event) => {
       // optional origin check:
       // if(event.origin !== 'http://localhost:8080') return;
-      console.log('receiveExternalOffset event', event);
       try {
         let data = JSON.parse(event.data);
-        console.log('receiveExternalOffset data', data);
         if (data.hasOwnProperty('cta')) {
           Object.assign(state_manager.state.external_offset, data);
           state_manager.setConnectToApi();
           state_manager.syncLayout();
         }
       } catch (e) {
-        console.log('receiveExternalOffset err: ', e);
+        return null;
       }
 
     }),false);

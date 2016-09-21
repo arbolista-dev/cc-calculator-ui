@@ -24,7 +24,7 @@
     <div rt-repeat="food_type in this.relevant_api_keys"
       key="food_question_{food_type}">
       <div class="cc-component__question" rt-class="{hidden: !this.shouldShow(food_type)}">
-        <h4>{this.t(`food.${food_type}.label`)}</h4>
+        <h4>{this.getFoodLabel(food_type)}</h4>
         <div class="label-container">
           <span class="label label-slider">{this.displayUserCalories(food_type)} <i>{this.t('food.calories')}</i></span>
         </div>

@@ -143,7 +143,7 @@ class GetStartedComponent extends Panel {
         token = get_started.state_manager.state.auth.token;
 
     return setLocation(location, token).then((res) => {
-      if (res.success) console.log('Location updated in DB')
+      // if (res.success) console.log('Location updated in DB')
     })
   }
 

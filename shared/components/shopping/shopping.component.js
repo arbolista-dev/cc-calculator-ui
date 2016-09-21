@@ -58,6 +58,10 @@ class ShoppingComponent extends Panel {
     return this.defaultApiValue('input_footprint_shopping_services_total');
   }
 
+  getAdvancedLabel(type) {
+    return this.t(`shopping.${type}.label`);
+  }
+
   // overriding footprintable method.
   apiKey(type){
     let shopping = this;

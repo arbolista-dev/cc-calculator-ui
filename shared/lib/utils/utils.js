@@ -51,18 +51,15 @@ function getLocalStorageItem(specifier) {
       }
     }
   } catch (err) {
-    console.log('getLocalStorageItem err', err);
     return false;
   }
 }
 
 function setLocalStorageItem(specifier, data) {
   try {
-    console.log('setLocalStorageItem id', specifier);
-    console.log('setLocalStorageItem data', data);
     localStorage.setItem(specifier, JSON.stringify(data));
   } catch (err) {
-    console.log('setLocalStorageItem error', err);
+    // console.log('setLocalStorageItem error', err);
   }
 }
 
