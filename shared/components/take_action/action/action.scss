@@ -13,8 +13,23 @@
   }
 
   .action__title {
-    cursor:pointer;
-    padding: 4px;
+    h5 {
+      cursor:pointer;
+      padding: 14px 4px;
+      display: inline-block;
+      width: 100%;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .narrow {
+      width: 85%;
+    }
+    > button {
+      margin-top:3px;
+      margin-right: 5px;
+      float:right;
+      z-index: 1000;
+    }
   }
 
   .action__savings-amount {
@@ -47,11 +62,7 @@
       margin-left:4px;
       margin-right:4px;
     }
-    > button {
-      margin-top:3px;
-      margin-right: 5px;
-      float:right;
-    }
+
   }
 
   .action__fact {
@@ -88,5 +99,33 @@
     vertical-align: middle;
     padding: 3px;
     width: 50%;
+  }
+}
+
+@media (max-width: 400px) {
+  .action {
+    .action__title {
+      .narrow {
+        width: 70%;
+      }
+    }
+  }
+}
+@media (min-width: 400px) and (max-width: 550px) {
+  .action {
+    .action__title {
+      .narrow {
+        width: 72%;
+      }
+    }
+  }
+}
+@media (min-width: 550px) and  (max-width: 700px) {
+  .action {
+    .action__title {
+      .narrow {
+        width: 80%;
+      }
+    }
   }
 }
