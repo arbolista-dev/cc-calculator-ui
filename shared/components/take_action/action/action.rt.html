@@ -2,8 +2,12 @@
   <div class="action" rt-if="!this.props.is_assumption">
     <div class="action__heading"
       rt-class="{'action__heading--taken': this.taken}">
-      <div class="action__title" onClick="{this.toggleActionDetails.bind(this)}">
-        <h5>{this.display_name}</h5>
+      <div class="action__title">
+        <h5 onClick="{this.toggleActionDetails.bind(this)}" rt-class="{narrow: this.is_shown_detailed}">{this.display_name}</h5>
+        <button class="btn btn-default"
+          onClick="{this.toggleAction.bind(this)}" rt-class="{hidden: !this.is_shown_detailed}"> Pledge
+          <i class="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
+        </button>
       </div>
       <div class="action__savings" rt-class="{hidden: !this.is_shown_detailed}">
         <div>
@@ -18,15 +22,10 @@
           <div class="action__savings-amount">${this.upfront_cost}</div>
           <div class="action__savings-label">{this.t('take_action.upfront_cost')}</div>
         </div>
-        <button class="btn btn-default"
-          onClick="{this.toggleAction.bind(this)}"> Pledge
-          <i class="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
-        </button>
       </div>
     </div>
     <div class="action__body" rt-class="{hidden: !this.state.detailed}">
       <div class="action__content">
-        <div class="table-responsive">
          <table class="table">
            <tbody>
              <rt-virtual rt-repeat="block in this.content" key="{blockIndex}">
@@ -118,13 +117,11 @@
              </tr>
            </tbody>
          </table>
-        </div>
       </div>
     </div>
   </div>
 
   <div class="critical_assumptions" rt-if="this.props.is_assumption">
-    <div class="table-responsive">
      <table class="table">
        <tbody>
          <tr rt-repeat="block in this.assumptions_content" key="{blockIndex}">
@@ -148,6 +145,5 @@
          </tr>
        </tbody>
      </table>
-    </div>
   </div>
 </div>
