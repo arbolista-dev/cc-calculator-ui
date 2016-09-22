@@ -123,19 +123,13 @@ export let footprintable = {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   },
 
-  // updateFootprintParams(params){
-  //   this.state_manager.updateFootprintParams(params);
-  // },
-
   updateAverageFootprintParams(updated_params){
-    console.log('footprintable - updateFootprintParams');
+    console.log('footprintable - updateAverageFootprintParams');
     this.props.averageFootprintUpdated(updated_params);
-    // this.props.userFootprintUpdated(updated_params);
   },
 
   updateFootprintParams(updated_params){
     console.log('footprintable - updateFootprintParams');
-    // this.props.averageFootprintUpdated(updated_params);
     this.props.userFootprintUpdated(updated_params);
   },
 
@@ -152,7 +146,6 @@ export let footprintable = {
   updateFootprint: function(params){
     let component = this;
 
-    // component.state_manager.update_in_progress = true;
     component.updateFootprintParams(params);
 
     // debounce updating footprint by 500ms.

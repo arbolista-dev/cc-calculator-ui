@@ -18,12 +18,20 @@ const ACTIONS = {
   [setUIState]: (state, payload)=>{
     console.log('UI setState state', state);
     console.log('UI setState payload', payload);
-    let merged = state.get(payload.id).merge(payload.data).toJS();
-    // return fromJS(state.set([payload.id], merged))
-    // try Object.assign({}, state, {[payload.id]: merged})
-    console.log('UI updated state', Object.assign({}, state.get(), {[payload.id]: merged}));
-    return fromJS(Object.assign({}, state, {[payload.id]: merged}))
-    // return fromJS({[payload.id]: merged})
+
+    if (state.has(payload.id)) {
+      console.log('UI state has property: ', payload.id);
+      let merged = state.get(payload.id).merge(payload.data);
+
+      let updated = state.set(payload.id, merged)
+      console.log('UI updated state', updated);
+      return fromJS(updated)
+    } else {
+      console.log('UI state does not have property yet: ', payload.id);
+      let updated = state.set(payload.id, payload.data);
+      console.log('UI updated state with new property ',updated);
+      return fromJS(updated);
+    }
   },
 
   [pushUIAlarm]: (state, payload)=>{

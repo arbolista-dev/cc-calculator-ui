@@ -34,18 +34,25 @@ class TakeActionComponent extends Panel {
   }
 
   get vehicles(){
-    let num = this.userApiValue('input_footprint_transportation_num_vehicles'),
-        vehicles = [];
+    let take_action = this,
+    num = take_action.userApiValue('input_footprint_transportation_num_vehicles'),
+    vehicles = [],
+    ui = {};
 
     for (let i=1; i<=num; i++){
       let vehicle = {};
-      vehicle.miles = this.userApiValue(`input_footprint_transportation_miles${i}`);
-      vehicle.mpg = this.userApiValue(`input_footprint_transportation_mpg${i}`);
+      vehicle.miles = take_action.userApiValue(`input_footprint_transportation_miles${i}`);
+      vehicle.mpg = take_action.userApiValue(`input_footprint_transportation_mpg${i}`);
       vehicles.push(vehicle);
     }
 
     // @ToDo: refactor vehicles - put in UI state?!
     // this.state_manager.state.vehicles = vehicles.slice();
+    ui.id = 'vehicles';
+    ui.data = vehicles;
+    take_action.props.setUIState(ui);
+
+    console.log('get vehicles', vehicles);
     return vehicles;
   }
 

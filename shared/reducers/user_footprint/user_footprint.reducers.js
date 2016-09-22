@@ -93,8 +93,6 @@ const ACTIONS = {
     console.log('state has result_takeaction_pounds', state.get('result_takeaction_pounds'));
     console.log('result has result_takeaction_pounds', result.get('result_takeaction_pounds'));
 
-    console.log('result has properties', !state.get('result_takeaction_pounds').has('more_efficient_vehicle'));
-
     if (!state.has('result_takeaction_pounds') || !state.get('result_takeaction_pounds').toMap().has('more_efficient_vehicle')) {
 
       console.log('result_takeaction_pounds NOT set!');
@@ -178,7 +176,7 @@ const ACTIONS = {
   },
 
   [updateTakeactionResults]: (state)=>{
-    let action_inputs = state.get('data')
+    let action_inputs = state.get('data');
     console.log('updateTakeactionResults action_inputs', action_inputs);
 
     return loop(

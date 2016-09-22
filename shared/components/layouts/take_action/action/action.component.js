@@ -142,16 +142,16 @@ class ActionComponent extends Translatable {
   setSelectOptions(select) {
     if (select.type === 'vehicle') {
 
-      let options = [], i = 1;
+      let vehicles = [], i = 1;
       // @ToDo: Refactor vehicles in UI state?!
-      // this.state_manager.state.vehicles.forEach((v) => {
-      //   let vehicle = {};
-      //   vehicle.value = i;
-      //   vehicle.text = 'Vehicle ' + i;
-      //   i++;
-      //   options.push(vehicle);
-      // })
-      return options;
+      this.props.ui.get('vehicles').forEach((v) => {
+        let vehicle = {};
+        vehicle.value = i;
+        vehicle.text = 'Vehicle ' + i;
+        i++;
+        vehicles.push(vehicle);
+      })
+      return vehicles;
 
     } else {
       return select.options
