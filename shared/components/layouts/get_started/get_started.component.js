@@ -35,7 +35,6 @@ class GetStartedComponent extends Panel {
 
   componentDidMount(){
     let get_started = this;
-    console.log('componentDidMount');
     get_started.initializeSizeSlider();
     get_started.initializeIncomeSlider();
   }

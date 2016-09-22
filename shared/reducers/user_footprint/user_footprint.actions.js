@@ -6,6 +6,7 @@ const ensureUserFootprintComputed = createAction('Ensure compute footprint resul
     parseFootprintResult = createAction('Parse result parameters from compute footprint results.'),
     parseTakeactionResult = createAction('Parse take action result from compute footprint results.'),
     userFootprintUpdated = createAction('Update user footprint parameters.'),
+    updatedFootprintComputed = createAction('Compute updated user footprint.'),
     updateTakeactionResults = createAction('Compute and update take action results.');
 
-export { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, updateTakeactionResults };
+export { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, updatedFootprintComputed, updateTakeactionResults };

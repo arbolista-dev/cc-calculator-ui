@@ -3,7 +3,7 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, updateTakeactionResults } from './user_footprint.actions';
+import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, updatedFootprintComputed, updateTakeactionResults } from './user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
@@ -54,6 +54,9 @@ const ACTIONS = {
 
     console.log('ensureUserFootprintRetrieved - merged data: ',  merged_data.toJS());
 
+    console.log('ensureUserFootprintRetrieved - get DATA isEmpty?', (state.get('data').isEmpty()));
+    console.log('ensureUserFootprintRetrieved - get DATA input_changed', (state.getIn(['data', 'input_changed'])));
+
     if (state.get('data').isEmpty() || state.getIn(['data', 'input_changed']) != 1) {
       // @ToDo: Make sure this decision is made correctly
       // used to be -> if (!state_manager.user_footprint_set || state_manager.footprint_not_updated)
@@ -88,50 +91,51 @@ const ACTIONS = {
 
   [parseFootprintResult]: (state, result)=>{
     console.log('parseFootprintResult state', state);
-    console.log('parseFootprintResult result', result.toJS());
+    console.log('parseFootprintResult result', result);
 
     console.log('state has result_takeaction_pounds', state.get('result_takeaction_pounds'));
-    console.log('result has result_takeaction_pounds', result.get('result_takeaction_pounds'));
+    // console.log('result has result_takeaction_pounds', result.get('result_takeaction_pounds'));
 
-    if (!state.has('result_takeaction_pounds') || !state.get('result_takeaction_pounds').toMap().has('more_efficient_vehicle')) {
+    if (state.has('result_takeaction_pounds')) {
+      if (fromJS(state.get('result_takeaction_pounds')).has('more_efficient_vehicle')) {
+            console.log('result_takeaction_pounds IS set!');
 
-      console.log('result_takeaction_pounds NOT set!');
+            if(Map.isMap(result)) result = result.toJS();
 
-      let merged = state.get('data')
-                        .merge(result);
+            result = Object.keys(result).reduce((hash, api_key)=>{
+              if (!/^(result|input)_takeaction/.test(api_key)){
+                hash[api_key] = result[api_key]
+              }
+              return hash;
+            }, {});
 
-      let updated = state.set('data', merged);
+            let merged_data = state.get('data')
+                                   .merge(result);
+            setLocalStorageItem('user_footprint', merged_data);
 
-      return loop(
-        fromJS(updated),
-        Effects.constant(parseTakeactionResult(result))
-      )
-      // @ToDo: Check if authenticated -> updateUserAnswers
+            console.log('parseFootprintResult - result data', merged_data);
 
-    } else {
+            let updated = state.set('data', merged_data)
+                               .set('loading', false);
 
-      console.log('result_takeaction_pounds IS set!');
-
-      result = result.toJS();
-      result = Object.keys(result).reduce((hash, api_key)=>{
-        if (!/^(result|input)_takeaction/.test(api_key)){
-          hash[api_key] = result[api_key]
-        }
-        return hash;
-      }, {});
-
-      let merged_data = state.get('data')
-                             .merge(result);
-      setLocalStorageItem('user_footprint', merged_data);
-
-      console.log('parseFootprintResult - result data', merged_data);
-
-      let updated = state.set('data', merged_data)
-                         .set('loading', false);
-
-      return fromJS(updated);
-      // @ToDo: Check if authenticated -> updateUserAnswers
+            return fromJS(updated);
+            // @ToDo: Check if authenticated -> updateUserAnswers
+      }
     }
+
+    console.log('result_takeaction_pounds NOT set!');
+
+    let merged = state.get('data')
+                      .merge(result);
+
+    let updated = state.set('data', merged);
+
+    return loop(
+      fromJS(updated),
+      Effects.constant(parseTakeactionResult(result))
+    )
+    // @ToDo: Check if authenticated -> updateUserAnswers
+
   },
 
   [parseTakeactionResult]: (state, result)=>{
@@ -168,11 +172,28 @@ const ACTIONS = {
     console.log('userFootprintUpdated merged data ', merged_data);
 
     let updated = state.set('data', merged_data)
+                       .setIn(['data', 'input_changed'], 1)
                        .set('loading', false);
 
     console.log('userFootprintUpdated updated ', updated);
 
     return fromJS(updated);
+  },
+
+  [updatedFootprintComputed]: (state, payload)=>{
+    console.log('updatedFootprintComputed - state', state);
+    console.log('updatedFootprintComputed - payload (user_footprint)', payload);
+
+    // return fromJS(state) is correct?! or needs to be updated again?
+    // possible to not return state and just call Effects.promise?
+    return loop(
+      fromJS(state),
+      Effects.promise(()=>{
+        return CalculatorApi.computeFootprint(payload.toJS())
+          .then(parseFootprintResult)
+          .catch(ensureUserFootprintError)
+      })
+    )
   },
 
   [updateTakeactionResults]: (state)=>{

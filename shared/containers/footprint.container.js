@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
-import { ensureUserFootprintComputed, userFootprintUpdated, userLocationUpdated, updateTakeactionResults } from 'shared/reducers/user_footprint/user_footprint.actions';
+import { ensureUserFootprintComputed, userFootprintUpdated, updatedFootprintComputed, updateTakeactionResults } from 'shared/reducers/user_footprint/user_footprint.actions';
 import { setUIState, pushUIAlarm } from 'shared/reducers/ui/ui.actions'
 
 const mapStateToProps = (state) => {
@@ -32,6 +32,10 @@ const mapDispatchToProps = (dispatch) => {
     userFootprintUpdated: (updated_params) => {
       userFootprintUpdated.assignTo(dispatch);
       userFootprintUpdated(updated_params);
+    },
+    updatedFootprintComputed: (updated_params) => {
+      updatedFootprintComputed.assignTo(dispatch);
+      updatedFootprintComputed(updated_params);
     },
     updateTakeactionResults: () => {
       updateTakeactionResults.assignTo(dispatch);

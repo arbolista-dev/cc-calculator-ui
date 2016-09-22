@@ -130,6 +130,7 @@ export let footprintable = {
 
   updateFootprintParams(updated_params){
     console.log('footprintable - updateFootprintParams');
+    this.props.user_footprint.setIn(['data', 'input_changed'], 1)
     this.props.userFootprintUpdated(updated_params);
   },
 
@@ -155,7 +156,7 @@ export let footprintable = {
 
     component.$update_footprint = setTimeout(()=>{
       // This will also make necessary update to user footprint.
-      component.props.ensureUserFootprintComputed(this.getUserFootprint())
+      component.props.updatedFootprintComputed(this.getUserFootprint())
     }, 500);
   }
 

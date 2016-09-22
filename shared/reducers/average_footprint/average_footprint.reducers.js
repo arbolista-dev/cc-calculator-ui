@@ -48,10 +48,10 @@ const ACTIONS = {
     // implications for not setting loading to false?
     // is ensureDefaults called without afterwards updating user_footprint ?
     if (!api_data.failed) {
-      let updated = state.set('data', api_data);
+      let updated = state.set('data', fromJS(api_data));
       console.log('defaultsRetrieved updated', updated);
       return loop(
-        fromJS({data: api_data}),
+        fromJS(updated),
         Effects.promise(()=>{
           return CalculatorApi.computeFootprint(api_data)
             .then(averageFootprintUpdated)
