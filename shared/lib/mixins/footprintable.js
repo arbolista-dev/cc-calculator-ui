@@ -9,13 +9,15 @@ export let footprintable = {
     if (!this.isUserFootprintSet()) {
       default_inputs = this.state_manager.default_inputs;
     } else {
+      console.log('getDefaultInputs -- user footprint is set!!');
       default_inputs = {
-        input_location_mode: this.userApiValue('input_location_mode'),
-        input_location: this.userApiValue('input_location'),
-        input_income: this.userApiValue('input_income'),
-        input_size: this.userApiValue('input_size')
+        input_location_mode: this.defaultApiValue('input_location_mode'),
+        input_location: this.defaultApiValue('input_location'),
+        input_income: this.defaultApiValue('input_income'),
+        input_size: this.defaultApiValue('input_size')
       }
     }
+    console.log('getDefaultInputs', default_inputs);
     return default_inputs;
   },
 
@@ -130,7 +132,8 @@ export let footprintable = {
 
   updateFootprintParams(updated_params){
     console.log('footprintable - updateFootprintParams');
-    this.props.user_footprint.setIn(['data', 'input_changed'], 1)
+    // set input_changed in reducer
+    // this.props.user_footprint.setIn(['data', 'input_changed'], 1)
     this.props.userFootprintUpdated(updated_params);
   },
 

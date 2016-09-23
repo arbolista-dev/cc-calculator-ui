@@ -28,8 +28,10 @@ const ACTIONS = {
   [ensureDefaults]: (state, default_inputs)=>{
     console.log('ensureDefaults - state', state);
     console.log('ensureDefaults - default_inputs', default_inputs);
+
     let updated = state.set('loading', true);
 
+    // when called throuh sliders, default_inputs doesn't include updated values
     return loop(
       fromJS(updated),
       Effects.promise(()=>{
@@ -48,7 +50,10 @@ const ACTIONS = {
     // implications for not setting loading to false?
     // is ensureDefaults called without afterwards updating user_footprint ?
     if (!api_data.failed) {
-      let updated = state.set('data', fromJS(api_data));
+
+      let merged_data = state.get('data').merge(api_data)
+
+      let updated = state.set('data', merged_data);
       console.log('defaultsRetrieved updated', updated);
       return loop(
         fromJS(updated),

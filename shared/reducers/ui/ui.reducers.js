@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
@@ -20,8 +20,13 @@ const ACTIONS = {
     console.log('UI setState payload', payload);
 
     if (state.has(payload.id)) {
-      console.log('UI state has property: ', payload.id);
-      let merged = state.get(payload.id).merge(payload.data);
+      let merged;
+      
+      if (Map.isMap(state.get(payload.id))) {
+        merged = state.get(payload.id).merge(payload.data);
+      } else {
+        merged = payload.data;
+      }
 
       let updated = state.set(payload.id, merged)
       console.log('UI updated state', updated);

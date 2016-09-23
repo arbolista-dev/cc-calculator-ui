@@ -70,6 +70,7 @@ const footprintPropTypes = {
   updateTakeactionResults: React.PropTypes.func.isRequired,
   averageFootprintUpdated: React.PropTypes.func.isRequired,
   userFootprintUpdated: React.PropTypes.func.isRequired,
+  updatedFootprintComputed: React.PropTypes.func.isRequired,
   setUIState: React.PropTypes.func.isRequired,
   pushUIAlarm: React.PropTypes.func.isRequired
 };

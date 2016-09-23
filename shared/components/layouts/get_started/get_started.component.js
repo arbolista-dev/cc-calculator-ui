@@ -23,8 +23,7 @@ class GetStartedComponent extends Panel {
     get_started.initResizeListener();
     get_started.state = {
       locations: {},
-      display_location: "",
-      input_location_mode: 5,
+      input_location_mode: parseInt(get_started.input_location_mode),
       show_location_suggestions: false
     };
   }
@@ -65,19 +64,22 @@ class GetStartedComponent extends Panel {
    * Location UI
    */
 
+   get input_location_mode(){
+     return this.props.user_footprint.getIn(['data', 'input_location_mode'])
+   }
+
    get country_mode(){
     return this.state.input_location_mode === 5;
    }
 
    get input_location_display(){
     let get_started = this;
-    console.log('input_location_display - display_location', get_started.state.display_location);
     if (get_started.country_mode){
       return get_started.t('get_started.United States');
-    } else if (get_started.state.display_location) {
-      return get_started.state.display_location;
+    } else if (get_started.props.ui.get('display_location')) {
+      return get_started.props.ui.get('display_location');
     } else {
-      return get_started.userApiValue('input_location');
+      return get_started.state.input_location;
     }
    }
 
@@ -93,15 +95,16 @@ class GetStartedComponent extends Panel {
     let get_started = this;
     console.log('updateDefaults params: ', default_params);
     default_params.input_location_mode = get_started.state.input_location_mode;
-    get_started.updateAverageFootprintParams(default_params);
-
+    // get_started.updateAverageFootprintParams(default_params);
+    let params = Object.assign({}, get_started.getDefaultInputs(), default_params);
+    console.log('updateDefaults merged params', params);
     // debounce updating defaults by 500ms.
     if (get_started.$update_defaults) {
       clearTimeout(get_started.$update_defaults);
     }
 
     get_started.$update_defaults = setTimeout(()=>{
-      get_started.props.ensureDefaults(get_started.getDefaultInputs())
+      get_started.props.ensureDefaults(params)
     }, 500);
   }
 
@@ -112,9 +115,11 @@ class GetStartedComponent extends Panel {
   setLocationMode(location_mode){
     let get_started = this;
     if (location_mode !== get_started.state.input_location_mode){
-      get_started.setState({
-        display_location: ""
-      });
+      let ui = {
+        id: 'display_location',
+        data: ''
+      };
+      get_started.props.setUIState(ui);
     }
     get_started.setState({
       input_location_mode: location_mode,
@@ -135,6 +140,12 @@ class GetStartedComponent extends Panel {
       input_location: suggestion,
       show_location_suggestions: false
     });
+
+    let ui = {
+      id: 'display_location',
+      data: suggestion
+    };
+    get_started.props.setUIState(ui);
 
     get_started.updateDefaults({input_location: zipcode, input_location_mode: get_started.state.input_location});
 
@@ -164,7 +175,7 @@ class GetStartedComponent extends Panel {
           input_location_mode: get_started.state.input_location_mode,
           input_location: event.target.value
         };
-        // get_started.props.userLocationUpdated(event.target.value);
+
     get_started.setState({
       input_location: event.target.value,
       show_location_suggestions: true
