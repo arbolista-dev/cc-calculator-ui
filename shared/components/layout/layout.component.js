@@ -16,14 +16,12 @@ class LayoutComponent extends Panel {
 
   constructor(props, context) {
     super(props, context);
-    var layout = this;
+    let layout = this;
     layout.state = {};
   }
 
   componentWillMount(){
     let default_inputs = this.getDefaultInputs();
-
-    console.log('ensureDefaults from layout component! params: ', default_inputs);
     this.props.ensureDefaults(default_inputs)
   }
 
@@ -33,6 +31,10 @@ class LayoutComponent extends Panel {
 
   get initial_load_done(){
     return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false
+  }
+
+  get alert_list(){
+    return this.props.ui.getIn(['alerts', 'shared']).toJS()
   }
 
   get route_name(){
@@ -62,17 +64,33 @@ class LayoutComponent extends Panel {
   get show_leaders_comparison(){
     let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
 
-    console.log('get leaders_chart show', this.props.ui.getIn(['leaders_chart', 'show']));
     return this.connect_to_api && leaders_route && this.props.ui.getIn(['leaders_chart', 'show'])
   }
 
-  //
-  // get alert_list() {
-  //   return this.state_manager.state.alerts.shared;
-  // }
-  //
 
-  //
+  get show_take_action_now(){
+    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
+  }
+
+
+  get show_take_action_now(){
+    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
+  }
+
+  goToSettings(){
+    this.router.goToRouteByName('Settings');
+  }
+
+  goToTakeAction(){
+    this.router.goToRouteByName('TakeAction');
+  }
+
+  destroyPrerenderData() {
+    let prerender_data = document.getElementById('prerender_data');
+    window.PrerenderData = undefined;
+    if (prerender_data) prerender_data.parentNode.removeChild(prerender_data);
+  }
+
   // get external_offset(){
   //   return this.state_manager.state.external_offset;
   // }
@@ -88,39 +106,12 @@ class LayoutComponent extends Panel {
   //     return false;
   //   }
   // }
-
-  get show_take_action_now(){
-    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
-  }
-
-  // get external_offset(){
-  //   return this.state_manager.state.external_offset;
-  // }
-
-  get show_take_action_now(){
-    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
-  }
-
   // setUserAnswersToDefault(){
   //   let layout = this;
   //   layout.state_manager.setUserFootprintStorageToDefault();
   //   layout.state_manager.state.alerts.shared.push({type: 'success', message: layout.t('success.answers_reset')});
   // }
   //
-
-  goToSettings(){
-    this.router.goToRouteByName('Settings');
-  }
-
-  goToTakeAction(){
-    this.router.goToRouteByName('TakeAction');
-  }
-
-  destroyPrerenderData() {
-    var prerender_data = document.getElementById('prerender_data');
-    window.PrerenderData = undefined;
-    if (prerender_data) prerender_data.parentNode.removeChild(prerender_data);
-  }
 
 }
 LayoutComponent.propTypes = footprintPropTypes;

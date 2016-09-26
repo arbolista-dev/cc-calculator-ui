@@ -27,7 +27,7 @@ const CATEGORY_COLORS = {
 export default class StateManager {
 
   constructor(){
-    var state_manager = this;
+    let state_manager = this;
     state_manager.state = {
       chart: {
         show: true,
@@ -78,7 +78,6 @@ export default class StateManager {
         shared: []
       }
     }
-    console.log('default_ui_state', ui_state);
     return ui_state
   }
 
@@ -91,15 +90,7 @@ export default class StateManager {
       auth: authReducers,
       ui: uiReducers
     });
-    console.log('initializeStore initial_state', initial_state);
     state_manager.store = createStore(reducer, initial_state, install());
-
-    // @ToDo: use this to persist state to localStorage, needed?
-    // store.subscribe(() => {
-    //   saveState({
-    //      user_footprint: store.getState().user_footprint
-    //    });
-    // });
   }
 
   initialState(opts){
@@ -133,30 +124,7 @@ export default class StateManager {
   }
 
   // @ToDo Refactor:
-  //
-  // get cool_climate_keys(){
-  //   return Object.keys(this.state.user_footprint)
-  // }
-  //
-  // get footprint_not_updated(){
-  //   return this.user_footprint['input_changed'] != 1;
-  // }
-  //
-  // get actions_not_updated(){
-  //   return this.result_takeaction_pounds === undefined;
-  // }
-  //
-  // get result_takeaction_pounds(){
-  //   return this.state['result_takeaction_pounds']
-  // }
-  //
-  // get result_takeaction_dollars(){
-  //   return this.state['result_takeaction_dollars']
-  // }
-  //
-  // get result_takeaction_net10yr(){
-  //   return this.state['result_takeaction_net10yr']
-  // }
+
   // get user_authenticated(){
   //   if (this.state.auth.hasOwnProperty('token')) {
   //     return tokenIsValid(this.state.auth.token);
@@ -218,107 +186,7 @@ export default class StateManager {
   //     });
   //   })
   // }
-  //
-  // updateAverageFootprintStorage() {
-  //   let state_manager = this;
-  //   localStorage.setItem('average_footprint', JSON.stringify(state_manager.state.average_footprint));
-  // }
-  //
-  // updateTakeActionResultStorage() {
-  //   let state_manager = this;
-  //   localStorage.setItem('result_takeaction_dollars', JSON.stringify(state_manager.state['result_takeaction_dollars']));
-  //   localStorage.setItem('result_takeaction_net10yr', JSON.stringify(state_manager.state['result_takeaction_net10yr']));
-  //   localStorage.setItem('result_takeaction_pounds', JSON.stringify(state_manager.state['result_takeaction_pounds']));
-  // }
-  //
-  // // This should be called to update input parameters that don't
-  // // impact resulting footprint (eg input_footprint_housing_electricity_type).
-  // updateFootprintParams(params){
-  //   let state_manager = this;
-  //   state_manager.user_footprint['input_changed'] = 1;
-  //   Object.assign(state_manager.user_footprint, params);
-  // }
-  //
-  // updateFootprint(){
-  //   let state_manager = this;
-  //   return CalculatorApi.computeFootprint(state_manager.inputs)
-  //     .then((res)=>{
-  //       state_manager.parseFootprintResult(res);
-  //       state_manager.updateUserFootprintStorage();
-  //       if (state_manager.user_authenticated) state_manager.updateUserAnswers();
-  //       return undefined;
-  //     });
-  // }
-  //
-  // logDifferences(input, output){
-  //   let state_manager = this,
-  //       keys = Object.keys(input).sort(),
-  //       differences = [];
-  //       keys.forEach((key)=>{
-  //         let in_v = input[key],
-  //             out_v = output[key];
-  //         if (in_v !== out_v && out_v){
-  //           differences.push([key, in_v, out_v])
-  //         }
-  //       });
-  //
-  //   // console.log(JSON.stringify(differences, null, 2))
-  // }
-  //
-  // parseFootprintResult(result){
-  //   // compute footprint and default calls will 0 out take action inputs/results.
-  //   // do not override those values for user_footprint.
-  //   let state_manager = this;
-  //
-  //   if (state_manager.actions_not_updated){
-  //     state_manager.parseTakeactionResult(result);
-  //   } else {
-  //     result = Object.keys(result).reduce((hash, api_key)=>{
-  //       if (!/^(result|input)_takeaction/.test(api_key)){
-  //         hash[api_key] = result[api_key]
-  //       }
-  //       return hash;
-  //     }, {});
-  //     Object.assign(state_manager.state.user_footprint, result);
-  //   }
-  //   state_manager.updateUserFootprintStorage();
-  // }
-  //
-  // /*
-  //  * Takeaction Results
-  //  */
-  //
-  // get total_vehicle_miles(){
-  //   let sum = 0;
-  //   for (let i=1; i<=10; i++){
-  //     sum += this.user_footprint[`input_footprint_transportation_miles${i}`];
-  //   }
-  //   return sum;
-  // }
-  //
-  // updateTakeactionResults(){
-  //   let state_manager = this,
-  //       action_inputs = Object.assign({}, state_manager.average_footprint, state_manager.user_footprint);
-  //
-  //   return CalculatorApi.computeTakeactionResults(action_inputs)
-  //     .then((res)=>{
-  //       state_manager.parseTakeactionResult(res);
-  //       state_manager.updateUserFootprintStorage();
-  //       return undefined;
-  //     })
-  //     .then(()=>{
-  //       return state_manager.syncLayout();
-  //     });
-  // }
-  //
-  // parseTakeactionResult(result){
-  //   let state_manager = this;
-  //   Object.assign(state_manager.state.user_footprint, result);
-  //   state_manager.state['result_takeaction_pounds'] = JSON.parse(result['result_takeaction_pounds']);
-  //   state_manager.state['result_takeaction_dollars'] = JSON.parse(result['result_takeaction_dollars']);
-  //   state_manager.state['result_takeaction_net10yr'] = JSON.parse(result['result_takeaction_net10yr']);
-  //   state_manager.updateTakeActionResultStorage();
-  // }
+
   //
   // /*
   //  * User API

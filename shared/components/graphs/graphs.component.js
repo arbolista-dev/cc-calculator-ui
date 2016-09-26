@@ -50,7 +50,6 @@ class GraphsComponent extends Panel {
       })
     }
 
-    // this.state_manager.syncLayout();
     setTimeout(()=>{
       if (this.show_pie_chart){
         this.drawPieChart();
@@ -62,7 +61,6 @@ class GraphsComponent extends Panel {
   }
 
   componentDidMount() {
-    console.log('Graphs componentDidMount');
     let graphs = this;
     if (window.innerWidth < 992) {
       graphs.setState({
@@ -124,12 +122,10 @@ class GraphsComponent extends Panel {
   }
 
   get user_footprint(){
-    // console.log('user_footprint', this.props.user_footprint.get('data').toJS());
     return this.props.user_footprint.get('data').toJS()
   }
 
   get average_footprint(){
-    // console.log('average_footprint', JSON.stringify(this.props.average_footprint.get('data').toJS()));
     return this.props.average_footprint.get('data').toJS()
   }
 
@@ -178,7 +174,7 @@ class GraphsComponent extends Panel {
       container: '#overview_bar_chart',
       y_ticks: 5,
       margin:{top: 4, bottom: 30, left: 40, right: 0},
-      seriesClass: function(series){
+      seriesClass: (series)=>{
         return series.name.replace(/\s+/g, '-').toLowerCase();
       }
     });
@@ -209,7 +205,7 @@ class GraphsComponent extends Panel {
       html: true,
       container: 'body',
       trigger: 'hover',
-      content: function(){
+      content: ()=>{
         let klasses = window.jQuery(this)
           .attr('class').split(' '),
           category = klasses[klasses.length - 1];
@@ -217,10 +213,10 @@ class GraphsComponent extends Panel {
       }
 
     });
-    // $(window).scroll(function(){
-    //     var $container = $(this);
+    // $(window).scroll(()=>{
+    //     let $container = $(this);
     //     console.log('scrollhello');
-    //     $(this).find('.popover').each(function () {
+    //     $(this).find('.popover').each(()=>{
     //
     //       console.log('scrollTop container', $container.scrollTop());
     //         $(this).css({
@@ -280,7 +276,7 @@ class GraphsComponent extends Panel {
       html: true,
       container: 'body',
       trigger: 'hover',
-      content: function(){
+      content: ()=>{
         let category = window.jQuery(this)
           .closest('.d3-value-arc')
           .attr('class').split(' ')[1];

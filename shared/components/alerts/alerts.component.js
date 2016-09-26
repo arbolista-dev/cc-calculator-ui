@@ -21,9 +21,9 @@ class AlertsComponent extends Translatable {
     let alerts = this;
 
     if (alerts.not_empty) {
-
       for (let i = 0; i < alerts.props.list.length; i++ ) {
         if (alerts.props.list[i].route !== this.props.currentRoute) {
+          // clear alerts after changing route
           let alarm = {};
           alarm.id = 'leaders';
           alarm.reset = true;

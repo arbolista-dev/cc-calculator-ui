@@ -10,5 +10,9 @@
     "no-console": ["error", {"allow": ["info", "warn", "error"]}],
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
   },
+  "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+  },
   "parser": "babel-eslint"
 }

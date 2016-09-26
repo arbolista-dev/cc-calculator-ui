@@ -171,7 +171,6 @@ class HomeComponent extends Panel {
             update = {
               [api_key]: cleanpercent
             };
-        console.log('cleanpercent slider update:', update);
 
         home.setState(update);
         home.updateFootprint(update);

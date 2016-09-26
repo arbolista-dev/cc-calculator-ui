@@ -54,14 +54,18 @@
 		<!-- <div rt-if="this.external_offset.banner_url" id="external_banner">
 			<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
 		</div> -->
-		<!-- <Alerts alerts="{this.alert_list}" category="shared"></Alerts> -->
+		<Alerts
+			list="{this.alert_list}"
+			category="shared"
+			currentRoute="{this.current_route_name}" pushAlert="{this.props.pushAlert}">
+		</Alerts>
 		<main>
-			<!-- <ForgotPassword
+			<ForgotPassword
 				rt-if="this.current_route_name === 'ForgotPassword'"
 			></ForgotPassword>
 			<Settings
 				rt-if="this.current_route_name === 'Settings'"
-			></Settings> -->
+			></Settings>
 			<GetStarted
 				rt-if="this.current_route_name === 'GetStarted'"
 			></GetStarted>
@@ -87,9 +91,13 @@
 				rt-if="this.current_route_name === 'Missing'"
 			></Missing>
 		</main>
-		<Graphs rt-if="this.graphing_route"></Graphs>
+		<Graphs
+			rt-if="this.graphing_route">
+		</Graphs>
  		<div class="cc_leaders">
-			<Leaders rt-if="this.show_leaders_comparison"></Leaders>
+			<Leaders
+				rt-if="this.show_leaders_comparison">
+			</Leaders>
 		</div>
 		<!--
 		<div id="forget_user_answers" rt-if="this.show_user_answers_reset">

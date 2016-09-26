@@ -9,7 +9,6 @@ export let footprintable = {
     if (!this.isUserFootprintSet()) {
       default_inputs = this.state_manager.default_inputs;
     } else {
-      console.log('getDefaultInputs -- user footprint is set!!');
       default_inputs = {
         input_location_mode: this.defaultApiValue('input_location_mode'),
         input_location: this.defaultApiValue('input_location'),
@@ -17,7 +16,6 @@ export let footprintable = {
         input_size: this.defaultApiValue('input_size')
       }
     }
-    console.log('getDefaultInputs', default_inputs);
     return default_inputs;
   },
 
@@ -25,7 +23,11 @@ export let footprintable = {
     return this.props.user_footprint.get('data')
   },
 
-  apiKey: function(key_end){
+  resetUserFootprint(){
+    this.props.userFootprintReset();
+  },
+
+  apiKey(key_end){
     return `${this.api_key_base}_${key_end}`;
   },
 
@@ -34,7 +36,7 @@ export let footprintable = {
     return Math.round(this.state[api_key]);
   },
 
-  userApiValue: function(api_key){
+  userApiValue(api_key){
     let value = this.props.user_footprint.getIn(['data', api_key]);
     let number = parseInt(value);
     if (isNaN(number)) {
@@ -44,7 +46,7 @@ export let footprintable = {
     }
   },
 
-  defaultApiValue: function(api_key){
+  defaultApiValue(api_key){
     let value = this.props.average_footprint.getIn(['data', api_key]);
     let number = parseInt(value);
     if (isNaN(number)) {
@@ -54,7 +56,7 @@ export let footprintable = {
     }
   },
 
-  userApiState: function(){
+  userApiState(){
     let component = this;
     return component.relevant_api_keys.reduce((hash, api_suffix)=>{
       let api_key = component.apiKey(api_suffix);
@@ -75,7 +77,7 @@ export let footprintable = {
         }, 0) || 0;
   },
 
-  popoverContentForCategory: function(category){
+  popoverContentForCategory(category){
     let component = this,
         key;
     switch(category){
@@ -121,23 +123,21 @@ export let footprintable = {
     return this.numberWithCommas(total);
   },
 
-  numberWithCommas: function(x) {
+  numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   },
 
   updateAverageFootprintParams(updated_params){
-    console.log('footprintable - updateAverageFootprintParams');
     this.props.averageFootprintUpdated(updated_params);
   },
 
   updateFootprintParams(updated_params){
-    console.log('footprintable - updateFootprintParams');
-    // set input_changed in reducer
+    // @ToDo: set input_changed in reducer
     // this.props.user_footprint.setIn(['data', 'input_changed'], 1)
     this.props.userFootprintUpdated(updated_params);
   },
 
-  updateFootprintInput: function(event){
+  updateFootprintInput(event){
     let component = this,
         api_key = event.target.dataset.api_key,
         update = {
@@ -147,12 +147,11 @@ export let footprintable = {
     component.updateFootprint(update);
   },
 
-  updateFootprint: function(params){
+  updateFootprint(params){
     let component = this;
 
     component.updateFootprintParams(params);
 
-    // debounce updating footprint by 500ms.
     if (component.$update_footprint) {
       clearTimeout(component.$update_footprint);
     }

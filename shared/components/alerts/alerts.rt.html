@@ -1,5 +1,8 @@
 <div rt-if="this.not_empty" class="alerts">
     <div class="alert"
       key="{alertIndex}"
-      rt-class="{'alert-success': alert.type === 'success', 'alert-danger': alert.type === 'danger'}" rt-repeat="alert in this.props.list">{alert.message}</div>
+      rt-class="{'alert-success': alert.type === 'success', 'alert-danger': alert.type === 'danger'}"
+      rt-repeat="alert in this.props.list">
+      {alert.message}
+    </div>
 </div>

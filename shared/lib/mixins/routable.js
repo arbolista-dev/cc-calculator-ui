@@ -1,10 +1,10 @@
 export let routable = {
 
-  goTo: function(url){
+  goTo: (url)=>{
     this.router.goTo(url);
   },
 
-  goToRoute: function(route, event){
+  goToRoute: (route, event)=>{
     let component = this;
     if (component.state_manager.update_in_progress) return false;
     return component.router.goToRoute(route);

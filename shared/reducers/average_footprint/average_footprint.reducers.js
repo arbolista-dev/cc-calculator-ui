@@ -26,12 +26,11 @@ const DEFAULT_STATE = {
 const ACTIONS = {
 
   [ensureDefaults]: (state, default_inputs)=>{
-    console.log('ensureDefaults - state', state);
-    console.log('ensureDefaults - default_inputs', default_inputs);
+    // console.log('ensureDefaults - state', state);
+    // console.log('ensureDefaults - default_inputs', default_inputs);
 
     let updated = state.set('loading', true);
 
-    // when called throuh sliders, default_inputs doesn't include updated values
     return loop(
       fromJS(updated),
       Effects.promise(()=>{
@@ -43,8 +42,8 @@ const ACTIONS = {
   },
 
   [defaultsRetrieved]: (state, api_data)=>{
-    console.log('defaultsRetrieved - state: ', state);
-    console.log('defaultsRetrieved - api_data payload: ', api_data);
+    // console.log('defaultsRetrieved - state: ', state);
+    // console.log('defaultsRetrieved - api_data payload: ', api_data);
     setLocalStorageItem('average_footprint', api_data);
 
     // implications for not setting loading to false?
@@ -54,7 +53,6 @@ const ACTIONS = {
       let merged_data = state.get('data').merge(api_data)
 
       let updated = state.set('data', merged_data);
-      console.log('defaultsRetrieved updated', updated);
       return loop(
         fromJS(updated),
         Effects.promise(()=>{
@@ -69,7 +67,7 @@ const ACTIONS = {
   },
 
   [defaultsRetrievalError]: (state, result)=>{
-    console.log('defaultsRetrievalError - _result', result);
+    console.log('defaultsRetrievalError', result);
 
     let updated = state.set('load_error', true)
                        .set('loading', false);
@@ -80,7 +78,6 @@ const ACTIONS = {
   [averageFootprintUpdated]: (state, api_data)=>{
     let merged_data = state.get('data').merge(api_data);
 
-    console.log('averageFootprintUpdated: ', merged_data);
     setLocalStorageItem('average_footprint', merged_data);
 
     let updated = state.set('data', merged_data)

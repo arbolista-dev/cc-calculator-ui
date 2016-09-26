@@ -23,8 +23,8 @@ class LeadersComponent extends Panel {
       is_loading: true,
       all_loaded: false,
       selected_location: {
-        city: "",
-        state: ""
+        city: '',
+        state: ''
       },
       locations: [],
       show_locations_list: false
@@ -33,23 +33,23 @@ class LeadersComponent extends Panel {
 
   get category_identifier() {
     let leaders = this,
-    id;
+        id;
     switch (leaders.current_route_name){
-      case 'Travel':
-        id = 'result_transport_total';
-        break;
-      case 'Home':
-        id = 'result_housing_total';
-        break;
-      case 'Food':
-        id = 'result_food_total';
-        break;
-      case 'Shopping':
-        id = 'result_shopping_total';
-        break;
-      default:
-        id = 'result_grand_total';
-        break;
+    case 'Travel':
+      id = 'result_transport_total';
+      break;
+    case 'Home':
+      id = 'result_housing_total';
+      break;
+    case 'Food':
+      id = 'result_food_total';
+      break;
+    case 'Shopping':
+      id = 'result_shopping_total';
+      break;
+    default:
+      id = 'result_grand_total';
+      break;
     }
     return id;
   }
@@ -78,23 +78,23 @@ class LeadersComponent extends Panel {
 
   get footprint_title(){
     let leaders = this,
-    title;
+        title;
     switch (leaders.current_route_name){
-      case 'Travel':
-        title = leaders.t('leaders.travel_footprint');
-        break;
-      case 'Home':
-        title = leaders.t('leaders.home_footprint');
-        break;
-      case 'Food':
-        title = leaders.t('leaders.food_footprint');
-        break;
-      case 'Shopping':
-        title = leaders.t('leaders.shopping_footprint');
-        break;
-      default:
-        title = leaders.t('leaders.total_footprint');
-        break;
+    case 'Travel':
+      title = leaders.t('leaders.travel_footprint');
+      break;
+    case 'Home':
+      title = leaders.t('leaders.home_footprint');
+      break;
+    case 'Food':
+      title = leaders.t('leaders.food_footprint');
+      break;
+    case 'Shopping':
+      title = leaders.t('leaders.shopping_footprint');
+      break;
+    default:
+      title = leaders.t('leaders.total_footprint');
+      break;
     }
     return title;
   }
@@ -130,7 +130,7 @@ class LeadersComponent extends Panel {
 
   componentDidMount() {
     let leaders = this,
-    ui = {};
+        ui = {};
     if (leaders.props.ui.getIn(['leaders_chart', 'show'])) {
       leaders.retrieveLocations();
       leaders.retrieveAndShow();
@@ -164,7 +164,7 @@ class LeadersComponent extends Panel {
       leaders.showRetrievedLeaders();
       if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
     }).catch((err) => {
-      if (err === "total_count=0") {
+      if (err === 'total_count=0') {
         leaders.setState({
           is_loading: false
         })
@@ -191,7 +191,7 @@ class LeadersComponent extends Panel {
 
   detectScroll() {
     let leaders = this;
-    $(window).scroll(function(){
+    $(window).scroll(()=>{
       let window_top = $(window).scrollTop(), doc_height = $(document).height(), window_height = $(window).height(), scrolltrigger = 0.95;
       leaders.setState({
         scrolled: (window_top/(doc_height-window_height))*100,
@@ -203,7 +203,7 @@ class LeadersComponent extends Panel {
           trigger_update: false
         })
 
-        setTimeout(function() {
+        setTimeout(()=>{
           leaders.retrieveLeaders().then(() => {
             leaders.showRetrievedLeaders();
             leaders.setState({
@@ -217,7 +217,7 @@ class LeadersComponent extends Panel {
 
   retrieveLeaders() {
     let leaders = this,
-    category = leaders.props.ui.getIn(['leaders_chart', 'category']);
+        category = leaders.props.ui.getIn(['leaders_chart', 'category']);
     return new Promise((resolve, reject) => {
       listLeaders(leaders.state.limit, leaders.state.offset, category, leaders.state.selected_location.city, leaders.state.selected_location.state).then((res) => {
         if (res.success) {
@@ -234,7 +234,7 @@ class LeadersComponent extends Panel {
           if (res.data.total_count > 0) {
             resolve();
           } else {
-            reject("total_count=0");
+            reject('total_count=0');
           }
         } else {
           let alert = {};
@@ -252,7 +252,7 @@ class LeadersComponent extends Panel {
   }
 
   scrollToTop(){
-    window.jQuery("html, body").animate({ scrollTop:0 }, 1000);
+    window.jQuery('html, body').animate({ scrollTop:0 }, 1000);
   }
 
   showLocationsList() {
@@ -261,7 +261,7 @@ class LeadersComponent extends Panel {
       show_locations_list: true
     });
 
-    $(document).on('click.hideLocations', function(event) {
+    $(document).on('click.hideLocations', (event)=>{
       if (!$(event.target).closest('#leaders_locations_list').length) {
         leaders.setState({
           show_locations_list: false
@@ -272,7 +272,7 @@ class LeadersComponent extends Panel {
 
   resetLocation(){
     let leaders = this,
-        location = { city: "", state: ""};
+        location = { city: '', state: ''};
 
     leaders.setState({
       selected_location: location,

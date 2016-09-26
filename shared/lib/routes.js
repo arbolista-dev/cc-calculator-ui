@@ -56,7 +56,7 @@ export function defineRoutes(i18n) {
 
 export function includeHelpers(routes){
   Object.defineProperty(routes, 'getRoute', {
-    value: function(route_name){
+    value(route_name){
       return this.find(route => route.route_name === route_name)
     },
     enumerable: false,

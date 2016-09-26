@@ -4,7 +4,7 @@
  */
 export let resizable = {
 
-  initResizeListener: function(){
+  initResizeListener(){
     let component = this;
     component.cachedWidth = window.innerWidth;
     window.addEventListener('resize', ()=>{
@@ -14,7 +14,7 @@ export let resizable = {
   },
 
   // debounce function
-  $resize: function(){
+  $resize(){
     let component = this;
 
     if (component.$on_resize){
@@ -29,7 +29,7 @@ export let resizable = {
     }, component.resize_debounce_ms || 250);
   },
 
-  windowSizeHasChanged: function(){
+  windowSizeHasChanged(){
     return Math.abs((this.cachedWidth - window.innerWidth) / window.innerWidth) > 0.05;
   }
 

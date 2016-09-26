@@ -5,7 +5,6 @@ import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './get_started.rt.html'
-// import container from './get_started.container';
 import footprintContainer from '../../../containers/footprint.container';
 import { footprintPropTypes } from '../../../containers/footprint.container';
 import CalculatorApi from 'api/calculator.api';
@@ -48,14 +47,6 @@ class GetStartedComponent extends Panel {
     }
   }
 
-  componentWillReceiveProps(){
-    console.log('componentWillReceiveProps');
-  }
-
-  componentWillUpdate(){
-    console.log('componentWillUpdate');
-  }
-
   render(){
     return template.call(this);
   }
@@ -93,11 +84,9 @@ class GetStartedComponent extends Panel {
 
   updateDefaults(default_params){
     let get_started = this;
-    console.log('updateDefaults params: ', default_params);
     default_params.input_location_mode = get_started.state.input_location_mode;
-    // get_started.updateAverageFootprintParams(default_params);
     let params = Object.assign({}, get_started.getDefaultInputs(), default_params);
-    console.log('updateDefaults merged params', params);
+
     // debounce updating defaults by 500ms.
     if (get_started.$update_defaults) {
       clearTimeout(get_started.$update_defaults);
@@ -232,12 +221,8 @@ class GetStartedComponent extends Panel {
         0: get_started.t('get_started.average_household_size'),
         1: '1', 2: '2', 3: '3', 4: '4', 5: '5+'
       },
-      onSnap: function(selected_size) {
-        console.log('initializeSizeSlider');
-        console.log('selected_size', selected_size);
-        console.log('input_size', get_started.input_size);
+      onSnap: (selected_size)=>{
         if (selected_size != get_started.input_size){
-          console.log('updateDefaults from size slider init');
           get_started.updateDefaults({input_size: selected_size});
         }
       }
@@ -293,9 +278,8 @@ class GetStartedComponent extends Panel {
       outer_width: get_started.slider_width,
       tick_labels: get_started.income_tick_labels,
       handle_r: 14,
-      onSnap: function(selected_income) {
+      onSnap: (selected_income)=>{
         if (selected_income != get_started.input_income){
-          console.log('updateDefaults from income slider init');
           get_started.updateDefaults({input_income: selected_income});
         }
       }

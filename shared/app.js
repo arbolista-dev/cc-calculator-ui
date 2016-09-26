@@ -30,7 +30,7 @@ function setTranslations(){
 // Pass in an instance of ReactJs History function - with either browser or hash history.
 export default function(createHistory) {
 
-  var state_manager = new StateManager(),
+  let state_manager = new StateManager(),
       router, i18n;
 
   setTranslations()
@@ -48,7 +48,7 @@ export default function(createHistory) {
       return state_manager.initializeStore(initial_state);
     })
     .then(() => {
-      var initial_props = {
+      let initial_props = {
         state_manager: state_manager,
         router: router,
         createHistory: createHistory,
@@ -61,28 +61,4 @@ export default function(createHistory) {
     .catch((err)=>{
       console.error(err.stack);
     });
-
-  // setTranslations(router)
-  //   .then((_i18n)=>{
-  //     i18n = _i18n;
-  //     router = new Router(state_manager, i18n);
-  //     return state_manager.getInitialData();
-  //   })
-  //   .then(()=>{
-  //     return router.setLocationToCurrentUrl();
-  //   })
-  //   .then(() => {
-  //     var initial_props = Object.assign({
-  //       state_manager: state_manager,
-  //       router: router,
-  //       createHistory: createHistory,
-  //       i18n: i18n
-  //     }, state_manager.state);
-  //     ReactDOM.render(
-  //       React.createElement(ApplicationComponent, initial_props),
-  //       document.getElementById('root'));
-  //   })
-  //   .catch((err)=>{
-  //     console.error(err);
-  //   });
 }

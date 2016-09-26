@@ -3,7 +3,9 @@
 import React from 'react';
 
 import Panel from 'shared/lib/base_classes/panel';
-import template from './settings.rt.html'
+import template from './settings.rt.html';
+import footprintContainer from '../../../containers/footprint.container';
+import { footprintPropTypes } from '../../../containers/footprint.container';
 
 class SettingsComponent extends Panel {
 
@@ -13,22 +15,25 @@ class SettingsComponent extends Panel {
     settings.state = {}
   }
 
+  // @ToDo: refactor
   get user_authenticated() {
     return this.state_manager.user_authenticated;
   }
 
   setUserFootprintStorageToDefault(){
-    let component = this;
-    component.state_manager.setUserFootprintStorageToDefault();
-    component.state_manager.state.alerts.shared.push({type: 'success', message: component.t('success.answers_reset')});
-  }
-
-  componentDidMount() {
     let settings = this;
-  }
 
-  updateResults(){
-    let settings = this;
+    settings.resetUserFootprint();
+    settings.updateDefaults();
+
+    let alert = {};
+    alert.id = 'shared';
+    alert.data = {
+      route: settings.current_route_name,
+      type: 'success',
+      message: settings.t('success.answers_reset')
+    };
+    settings.props.pushAlert(alert);
   }
 
   render(){
@@ -37,10 +42,7 @@ class SettingsComponent extends Panel {
 
 }
 
-SettingsComponent.propTypes = {
-
-};
-
+SettingsComponent.propTypes = footprintPropTypes;
 SettingsComponent.NAME = 'Settings';
 
-module.exports = SettingsComponent;
+module.exports = footprintContainer(SettingsComponent);

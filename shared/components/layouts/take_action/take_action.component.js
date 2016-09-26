@@ -46,13 +46,10 @@ class TakeActionComponent extends Panel {
       vehicles.push(vehicle);
     }
 
-    // @ToDo: refactor vehicles - put in UI state?!
-    // this.state_manager.state.vehicles = vehicles.slice();
     ui.id = 'vehicles';
     ui.data = vehicles;
     take_action.props.updateUI(ui);
 
-    console.log('get vehicles', vehicles);
     return vehicles;
   }
 
@@ -72,7 +69,6 @@ class TakeActionComponent extends Panel {
   }
 
   get result_takeaction_pounds(){
-    console.log('TA result_takeaction_pounds', this.props.user_footprint.get('result_takeaction_pounds'));
     return this.props.user_footprint.get('result_takeaction_pounds');
   }
 

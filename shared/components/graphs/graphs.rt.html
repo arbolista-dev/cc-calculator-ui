@@ -25,7 +25,9 @@
           <td>{this.category_user_byline}</td>
           <td>{this.category_average_byline}</td>
           <td>{this.category_percentage_byline}</td>
-          <td rt-class="{hidden: !this.shouldShowTotal()}">{this.t('summaries.total_footprint')}</td>
+          <td rt-class="{hidden: !this.shouldShowTotal()}">
+            {this.t('summaries.total_footprint')}
+          </td>
         </tr>
       </tfoot>
     </table>

@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
-import { ensureUserFootprintComputed, userFootprintUpdated, updatedFootprintComputed, updateTakeactionResults } from 'shared/reducers/user_footprint/user_footprint.actions';
-import { updateUI, pushAlert } from 'shared/reducers/ui/ui.actions'
+import { ensureUserFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResults } from 'shared/reducers/user_footprint/user_footprint.actions';
+import { updateUI, pushAlert } from 'shared/reducers/ui/ui.actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
     auth: state['auth'],
     ui: state['ui']
   };
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -33,6 +33,10 @@ const mapDispatchToProps = (dispatch) => {
       userFootprintUpdated.assignTo(dispatch);
       userFootprintUpdated(updated_params);
     },
+    userFootprintReset: () => {
+      userFootprintReset.assignTo(dispatch);
+      userFootprintReset();
+    },
     updatedFootprintComputed: (updated_params) => {
       updatedFootprintComputed.assignTo(dispatch);
       updatedFootprintComputed(updated_params);
@@ -50,14 +54,12 @@ const mapDispatchToProps = (dispatch) => {
       pushAlert(payload);
     }
   };
-}
+};
 
 const footprintContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)
-
-export default footprintContainer;
+);
 
 const footprintPropTypes = {
   location: React.PropTypes.object.isRequired,
@@ -70,9 +72,11 @@ const footprintPropTypes = {
   updateTakeactionResults: React.PropTypes.func.isRequired,
   averageFootprintUpdated: React.PropTypes.func.isRequired,
   userFootprintUpdated: React.PropTypes.func.isRequired,
+  userFootprintReset: React.PropTypes.func.isRequired,
   updatedFootprintComputed: React.PropTypes.func.isRequired,
   updateUI: React.PropTypes.func.isRequired,
   pushAlert: React.PropTypes.func.isRequired
 };
 
+export default footprintContainer;
 export { footprintPropTypes };

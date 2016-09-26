@@ -3,7 +3,7 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, updatedFootprintComputed, updateTakeactionResults } from './user_footprint.actions';
+import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResults } from './user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
@@ -25,8 +25,8 @@ const ACTIONS = {
 
   // Load initial defaults from API.
   [ensureUserFootprintComputed]: (state, payload)=>{
-    console.log('ensureUserFootprintComputed - state', state);
-    console.log('ensureUserFootprintComputed - payload', payload);
+    // console.log('ensureUserFootprintComputed - state', state);
+    // console.log('ensureUserFootprintComputed - payload', payload);
 
     // does data passed from average_footprint need to be merged into data?!
     // fromJS({data: payload, loading: true}),
@@ -44,26 +44,18 @@ const ACTIONS = {
   },
 
   [ensureUserFootprintRetrieved]: (state, api_data)=>{
-    console.log('ensureUserFootprintRetrieved - state', state);
-    console.log('ensureUserFootprintRetrieved - api_data', api_data);
+    // console.log('ensureUserFootprintRetrieved - state', state);
+    // console.log('ensureUserFootprintRetrieved - api_data', api_data);
 
     let merged_data = state.get('data')
                            .merge(api_data);
-
     setLocalStorageItem('user_footprint', merged_data.toJS());
-
-    console.log('ensureUserFootprintRetrieved - merged data: ',  merged_data.toJS());
-
-    console.log('ensureUserFootprintRetrieved - get DATA isEmpty?', (state.get('data').isEmpty()));
-    console.log('ensureUserFootprintRetrieved - get DATA input_changed', (state.getIn(['data', 'input_changed'])));
 
     if (state.get('data').isEmpty() || state.getIn(['data', 'input_changed']) != 1) {
       // @ToDo: Make sure this decision is made correctly
       // used to be -> if (!state_manager.user_footprint_set || state_manager.footprint_not_updated)
 
-      console.log('User footprint has not been set (user_footprint data empty)!');
       let updated = state.set('data', merged_data);
-
       return loop(
         fromJS(updated),
         Effects.constant(parseFootprintResult(merged_data))
@@ -71,7 +63,6 @@ const ACTIONS = {
     } else {
       let updated = state.set('data', merged_data)
                          .set('loading', false)
-      console.log('User footprint has been set (user_footprint data not empty)!', updated);
 
       return loop(
         fromJS(updated),
@@ -81,6 +72,7 @@ const ACTIONS = {
   },
 
   [ensureUserFootprintError]: (state, _result)=>{
+    console.log('ensureUserFootprintError');
 
     let updated = state.set('load_error', true)
                        .set('loading', false);
@@ -90,16 +82,11 @@ const ACTIONS = {
   },
 
   [parseFootprintResult]: (state, result)=>{
-    console.log('parseFootprintResult state', state);
-    console.log('parseFootprintResult result', result);
-
-    console.log('state has result_takeaction_pounds', state.get('result_takeaction_pounds'));
-    // console.log('result has result_takeaction_pounds', result.get('result_takeaction_pounds'));
+    // console.log('parseFootprintResult state', state);
+    // console.log('parseFootprintResult result', result);
 
     if (state.has('result_takeaction_pounds')) {
       if (fromJS(state.get('result_takeaction_pounds')).has('more_efficient_vehicle')) {
-            console.log('result_takeaction_pounds IS set!');
-
             if(Map.isMap(result)) result = result.toJS();
 
             result = Object.keys(result).reduce((hash, api_key)=>{
@@ -113,8 +100,6 @@ const ACTIONS = {
                                    .merge(result);
             setLocalStorageItem('user_footprint', merged_data);
 
-            console.log('parseFootprintResult - result data', merged_data);
-
             let updated = state.set('data', merged_data)
                                .set('loading', false);
 
@@ -122,8 +107,6 @@ const ACTIONS = {
             // @ToDo: Check if authenticated -> updateUserAnswers
       }
     }
-
-    console.log('result_takeaction_pounds NOT set!');
 
     let merged = state.get('data')
                       .merge(result);
@@ -151,8 +134,6 @@ const ACTIONS = {
                        .set('result_takeaction_net10yr', JSON.parse(result.get('result_takeaction_net10yr')))
                        .set('loading', false);
 
-    console.log('parseTakeactionResult (results previously not set) - updated', updated);
-
     setLocalStorageItem('result_takeaction_pounds', result.get('result_takeaction_pounds'));
     setLocalStorageItem('result_takeaction_dollars', result.get('result_takeaction_dollars'));
     setLocalStorageItem('result_takeaction_net10yr', result.get('result_takeaction_net10yr'));
@@ -167,25 +148,25 @@ const ACTIONS = {
                            .merge(api_data);
     setLocalStorageItem('user_footprint', merged_data);
 
-    console.log('userFootprintUpdated state', state);
-    console.log('userFootprintUpdated api_data', api_data);
-    console.log('userFootprintUpdated merged data ', merged_data);
-
     let updated = state.set('data', merged_data)
                        .setIn(['data', 'input_changed'], 1)
                        .set('loading', false);
 
-    console.log('userFootprintUpdated updated ', updated);
+    return fromJS(updated);
+  },
 
+  [userFootprintReset]: (state, _payload)=>{
+
+    let reset = state.get('data').clear();
+    setLocalStorageItem('user_footprint', reset);
+
+    let updated = state.set('data', reset);
+
+    console.log('userFootprintReset cleared ', updated);
     return fromJS(updated);
   },
 
   [updatedFootprintComputed]: (state, payload)=>{
-    console.log('updatedFootprintComputed - state', state);
-    console.log('updatedFootprintComputed - payload (user_footprint)', payload);
-
-    // return fromJS(state) is correct?! or needs to be updated again?
-    // possible to not return state and just call Effects.promise?
     return loop(
       fromJS(state),
       Effects.promise(()=>{
@@ -198,7 +179,6 @@ const ACTIONS = {
 
   [updateTakeactionResults]: (state)=>{
     let action_inputs = state.get('data');
-    console.log('updateTakeactionResults action_inputs', action_inputs);
 
     return loop(
       state,
