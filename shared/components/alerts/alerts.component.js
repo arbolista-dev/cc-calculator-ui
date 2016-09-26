@@ -17,23 +17,21 @@ class AlertsComponent extends Translatable {
     return this.props.list.length != 0
   }
 
-  // componentDidUpdate(){
-  //   let alerts = this;
-  //
-  //   if (alerts.not_empty) {
-  //     let current_route = alerts.router.current_route.key
-  //
-  //     for (let i = 0; i < alerts.state_manager.state.alerts[this.props.type].length; i++ ) {
-  //       if (!alerts.state_manager.state.alerts[this.props.type][i].initial_route) {
-  //         alerts.state_manager.state.alerts[this.props.type][i].initial_route = current_route
-  //       }
-  //       if (alerts.state_manager.state.alerts[this.props.type][i].initial_route !== current_route) {
-  //         alerts.state_manager.state.alerts[this.props.type].splice(i, 1);
-  //         alerts.state_manager.syncLayout();
-  //       }
-  //     }
-  //   }
-  // }
+  componentDidUpdate(){
+    let alerts = this;
+
+    if (alerts.not_empty) {
+
+      for (let i = 0; i < alerts.props.list.length; i++ ) {
+        if (alerts.props.list[i].route !== this.props.currentRoute) {
+          let alarm = {};
+          alarm.id = 'leaders';
+          alarm.reset = true;
+          alerts.props.pushAlert(alarm);
+        }
+      }
+    }
+  }
 
   render(){
     return template.call(this);
@@ -43,7 +41,9 @@ class AlertsComponent extends Translatable {
 
 AlertsComponent.propTypes = {
   list: React.PropTypes.array.isRequired,
-  type: React.PropTypes.string.isRequired
+  category: React.PropTypes.string.isRequired,
+  currentRoute: React.PropTypes.string.isRequired,
+  pushAlert: React.PropTypes.func.isRequired
 };
 
 AlertsComponent.NAME = 'Alerts';

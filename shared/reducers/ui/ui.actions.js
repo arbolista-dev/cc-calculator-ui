@@ -1,6 +1,6 @@
 import { createAction } from 'redux-act';
 
-const setUIState = createAction('Set UI state item'),
-pushUIAlarm = createAction('Add new UI alarm');
+const updateUI = createAction('Set UI state item'),
+pushAlert = createAction('Add new UI alarm');
 
-export { setUIState, pushUIAlarm };
+export { updateUI, pushAlert };

@@ -74,7 +74,7 @@ class HomeComponent extends Panel {
       show: true,
       category: 'housing'
     };
-    home.props.setUIState(ui);
+    home.props.updateUI(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 

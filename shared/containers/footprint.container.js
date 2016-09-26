@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
 import { ensureUserFootprintComputed, userFootprintUpdated, updatedFootprintComputed, updateTakeactionResults } from 'shared/reducers/user_footprint/user_footprint.actions';
-import { setUIState, pushUIAlarm } from 'shared/reducers/ui/ui.actions'
+import { updateUI, pushAlert } from 'shared/reducers/ui/ui.actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -41,13 +41,13 @@ const mapDispatchToProps = (dispatch) => {
       updateTakeactionResults.assignTo(dispatch);
       updateTakeactionResults();
     },
-    setUIState: (payload) => {
-      setUIState.assignTo(dispatch);
-      setUIState(payload);
+    updateUI: (payload) => {
+      updateUI.assignTo(dispatch);
+      updateUI(payload);
     },
-    pushUIAlarm: (payload) => {
-      pushUIAlarm.assignTo(dispatch);
-      pushUIAlarm(payload);
+    pushAlert: (payload) => {
+      pushAlert.assignTo(dispatch);
+      pushAlert(payload);
     }
   };
 }
@@ -71,8 +71,8 @@ const footprintPropTypes = {
   averageFootprintUpdated: React.PropTypes.func.isRequired,
   userFootprintUpdated: React.PropTypes.func.isRequired,
   updatedFootprintComputed: React.PropTypes.func.isRequired,
-  setUIState: React.PropTypes.func.isRequired,
-  pushUIAlarm: React.PropTypes.func.isRequired
+  updateUI: React.PropTypes.func.isRequired,
+  pushAlert: React.PropTypes.func.isRequired
 };
 
 export { footprintPropTypes };

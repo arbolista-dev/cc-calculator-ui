@@ -106,7 +106,7 @@ class TravelComponent extends Panel {
       show: true,
       category: 'transport'
     };
-    travel.props.setUIState(ui);
+    travel.props.updateUI(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 

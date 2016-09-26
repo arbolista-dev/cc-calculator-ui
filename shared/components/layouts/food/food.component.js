@@ -43,7 +43,7 @@ class FoodComponent extends Panel {
       show: true,
       category: 'food'
     };
-    food.props.setUIState(ui);
+    food.props.updateUI(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 

@@ -24,7 +24,7 @@ class FootprintComponent extends Panel {
       show: true,
       category: ''
     };
-    footprint.props.setUIState(ui);
+    footprint.props.updateUI(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 

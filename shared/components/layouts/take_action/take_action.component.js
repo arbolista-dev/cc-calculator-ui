@@ -50,7 +50,7 @@ class TakeActionComponent extends Panel {
     // this.state_manager.state.vehicles = vehicles.slice();
     ui.id = 'vehicles';
     ui.data = vehicles;
-    take_action.props.setUIState(ui);
+    take_action.props.updateUI(ui);
 
     console.log('get vehicles', vehicles);
     return vehicles;

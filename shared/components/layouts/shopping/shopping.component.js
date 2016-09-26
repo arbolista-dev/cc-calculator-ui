@@ -79,7 +79,7 @@ class ShoppingComponent extends Panel {
       show: true,
       category: 'shopping'
     };
-    shopping.props.setUIState(ui);
+    shopping.props.updateUI(ui);
     window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
   }
 

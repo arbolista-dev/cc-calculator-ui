@@ -119,7 +119,7 @@ class GetStartedComponent extends Panel {
         id: 'display_location',
         data: ''
       };
-      get_started.props.setUIState(ui);
+      get_started.props.updateUI(ui);
     }
     get_started.setState({
       input_location_mode: location_mode,
@@ -145,7 +145,7 @@ class GetStartedComponent extends Panel {
       id: 'display_location',
       data: suggestion
     };
-    get_started.props.setUIState(ui);
+    get_started.props.updateUI(ui);
 
     get_started.updateDefaults({input_location: zipcode, input_location_mode: get_started.state.input_location});
 

@@ -112,8 +112,7 @@ class LeadersComponent extends Panel {
   }
 
   get alert_list() {
-    console.log('get alert_list', this.props.ui.getIn(['alerts', 'leaders']));
-    return this.props.ui.getIn(['alerts', 'leaders']) || [];
+    return this.props.ui.getIn(['alerts', 'leaders']).toJS()
   }
 
   get filtered_locations(){
@@ -130,8 +129,6 @@ class LeadersComponent extends Panel {
   }
 
   componentDidMount() {
-    console.log('---Leaders component did mount');
-
     let leaders = this,
     ui = {};
     if (leaders.props.ui.getIn(['leaders_chart', 'show'])) {
@@ -143,15 +140,11 @@ class LeadersComponent extends Panel {
     ui.data = {
       category: leaders.current_route_name
     };
-    leaders.props.setUIState(ui);
+    leaders.props.updateUI(ui);
   }
 
   componentDidUpdate() {
-    console.log('---Leaders component did update');
     let leaders = this;
-    console.log('UI state category', leaders.props.ui.getIn(['leaders_chart', 'category']));
-    console.log('Current route name', leaders.current_route_name);
-
 
     if (leaders.props.ui.getIn(['leaders_chart', 'category']) != leaders.current_route_name) {
       let ui = {};
@@ -160,7 +153,7 @@ class LeadersComponent extends Panel {
         category: leaders.current_route_name,
         show: false
       };
-      leaders.props.setUIState(ui);
+      leaders.props.updateUI(ui);
       $(window).off('scroll', leaders.detectScroll());
     }
   }
@@ -176,16 +169,14 @@ class LeadersComponent extends Panel {
           is_loading: false
         })
 
-        let alarm = {};
-        alarm.id = 'leaders';
-        alarm.data = {
+        let alert = {};
+        alert.id = 'leaders';
+        alert.data = {
+          route: leaders.current_route_name,
           type: 'danger',
           message: leaders.t('leaders.empty')
         };
-        leaders.props.pushUIAlarm(alarm);
-        // @ToDo: Replace alerts
-        // leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.empty')});
-        // leaders.state_manager.syncLayout();
+        leaders.props.pushAlert(alert);
       }
     });
   }
@@ -246,9 +237,14 @@ class LeadersComponent extends Panel {
             reject("total_count=0");
           }
         } else {
-          // @ToDo: Refactor alerts
-          // leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
-          // leaders.state_manager.syncLayout();
+          let alert = {};
+          alert.id = 'leaders';
+          alert.data = {
+            route: leaders.current_route_name,
+            type: 'danger',
+            message: leaders.t('leaders.retrieval_error')
+          };
+          leaders.props.pushAlert(alert);
           reject();
         }
       })
@@ -346,20 +342,15 @@ class LeadersComponent extends Panel {
             locations: locations,
           });
         } else {
-          // @ToDo: Refactor alerts
-          // leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
-          // leaders.state_manager.syncLayout();
+          // console.log('retrieveLocations: empty list');
         }
       } else {
-        // @ToDo: Refactor alerts
-        // leaders.state_manager.state.alerts.leaders.push({type: 'danger', message: leaders.t('leaders.retrieval_error')});
-        // leaders.state_manager.syncLayout();
+        // console.log('retrieveLocations: can not be retrieved');
       }
     });
   }
 
   componentWillUnmount(){
-    console.log('---Leaders component will unmount');
     $(window).off('scroll', this.detectScroll());
     $(document).off('click.hideLocations');
   }
