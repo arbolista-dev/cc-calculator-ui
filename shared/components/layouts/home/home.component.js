@@ -67,7 +67,7 @@ class HomeComponent extends Panel {
 
   toggleLeadersChart() {
     let home = this,
-    ui = {};
+        ui = {};
 
     ui.id = 'leaders_chart';
     ui.data = {
@@ -75,7 +75,7 @@ class HomeComponent extends Panel {
       category: 'housing'
     };
     home.props.updateUI(ui);
-    window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
+    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
 
   /*
@@ -135,8 +135,8 @@ class HomeComponent extends Panel {
       },
       onChange: (multiplier)=>{
         let update = {
-              [watersewage_api_key]: multiplier * parseFloat(default_watersewage)
-            };
+          [watersewage_api_key]: multiplier * parseFloat(default_watersewage)
+        };
         home.setState(update);
         home.updateFootprint(update);
       }

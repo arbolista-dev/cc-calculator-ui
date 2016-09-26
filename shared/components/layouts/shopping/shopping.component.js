@@ -72,7 +72,7 @@ class ShoppingComponent extends Panel {
 
   toggleLeadersChart() {
     let shopping = this,
-    ui = {};
+        ui = {};
 
     ui.id = 'leaders_chart';
     ui.data = {
@@ -80,7 +80,7 @@ class ShoppingComponent extends Panel {
       category: 'shopping'
     };
     shopping.props.updateUI(ui);
-    window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
+    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
 
   /*
@@ -178,12 +178,12 @@ class ShoppingComponent extends Panel {
       },
       onChange: (multiplier)=>{
         let update_params = SERVICES_QUESTIONS.reduce((hash, service_type)=>{
-            let api_key = shopping.apiKey(service_type),
-                new_value = multiplier * shopping.expendAverage(service_type);
-            hash[api_key] = new_value;
-            return hash;
-          }, {}),
-          total_services = multiplier * shopping.average_services_expend;
+              let api_key = shopping.apiKey(service_type),
+                  new_value = multiplier * shopping.expendAverage(service_type);
+              hash[api_key] = new_value;
+              return hash;
+            }, {}),
+            total_services = multiplier * shopping.average_services_expend;
 
         update_params[total_services_api_key] = total_services;
         shopping.setState(update_params);
@@ -205,7 +205,7 @@ class ShoppingComponent extends Panel {
 
   initializeGoodsSlider(){
     let shopping = this,
-    total_goods_api_key = 'input_footprint_shopping_goods_total';
+        total_goods_api_key = 'input_footprint_shopping_goods_total';
 
     shopping.goods_slider = new SimpleSlider({
       container: '#shopping_goods_slider',
@@ -222,15 +222,15 @@ class ShoppingComponent extends Panel {
       },
       onChange: (multiplier)=>{
         let goods_state = {},
-          update_params = GOODS_QUESTIONS.reduce((hash, goods_type)=>{
-            let api_key = shopping.apiKey(goods_type),
-                new_value = multiplier * shopping.expendAverage(goods_type);
-            goods_state[goods_type] = new_value;
-            hash[api_key] = new_value;
-            return hash;
-          }, {}),
+            update_params = GOODS_QUESTIONS.reduce((hash, goods_type)=>{
+              let api_key = shopping.apiKey(goods_type),
+                  new_value = multiplier * shopping.expendAverage(goods_type);
+              goods_state[goods_type] = new_value;
+              hash[api_key] = new_value;
+              return hash;
+            }, {}),
 
-          total_goods = multiplier * shopping.average_goods_expend;
+            total_goods = multiplier * shopping.average_goods_expend;
         update_params[total_goods_api_key] = total_goods;
         shopping.setState(update_params);
         shopping.updateFootprint(update_params);

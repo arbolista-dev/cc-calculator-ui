@@ -7,8 +7,8 @@ import Missing from './missing.component';
 
 describe('Missing component', ()=>{
   it('renders without problems', (done)=>{
-      missing = TestUtils.renderIntoDocument(React.createElement(Missing) );
-      expect(missing.state).toEqual({});
-      done();
+    missing = TestUtils.renderIntoDocument(React.createElement(Missing) );
+    expect(missing.state).toEqual({});
+    done();
   });
 });

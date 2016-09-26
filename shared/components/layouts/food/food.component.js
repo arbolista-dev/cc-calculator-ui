@@ -11,8 +11,8 @@ import { footprintPropTypes } from '../../../containers/footprint.container';
 
 const RELEVANT_API_KEYS = ['meatfisheggs', 'meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry',
                     'cereals', 'dairy', 'fruitvegetables', 'otherfood'],
-      MEAT_TYPES = ['meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry'],
-      AVERAGE_HOUSEHOLD_SIZE = 2.5;
+    MEAT_TYPES = ['meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry'],
+    AVERAGE_HOUSEHOLD_SIZE = 2.5;
 
 class FoodComponent extends Panel {
 
@@ -36,7 +36,7 @@ class FoodComponent extends Panel {
 
   toggleLeadersChart() {
     let food = this,
-    ui = {};
+        ui = {};
 
     ui.id = 'leaders_chart';
     ui.data = {
@@ -44,7 +44,7 @@ class FoodComponent extends Panel {
       category: 'food'
     };
     food.props.updateUI(ui);
-    window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
+    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
 
   /*
@@ -146,8 +146,8 @@ class FoodComponent extends Panel {
           food.distributeAverageMeatCalories(multiplier);
         } else {
           let update = {
-                [api_key]: food.applyAverageCalorieMultiplier(food_type, multiplier)
-              }
+            [api_key]: food.applyAverageCalorieMultiplier(food_type, multiplier)
+          }
           food.setState(update);
           food.updateFootprint(update);
         }

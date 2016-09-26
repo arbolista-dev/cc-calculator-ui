@@ -87,23 +87,23 @@ const ACTIONS = {
 
     if (state.has('result_takeaction_pounds')) {
       if (fromJS(state.get('result_takeaction_pounds')).has('more_efficient_vehicle')) {
-            if(Map.isMap(result)) result = result.toJS();
+        if(Map.isMap(result)) result = result.toJS();
 
-            result = Object.keys(result).reduce((hash, api_key)=>{
-              if (!/^(result|input)_takeaction/.test(api_key)){
-                hash[api_key] = result[api_key]
-              }
-              return hash;
-            }, {});
+        result = Object.keys(result).reduce((hash, api_key)=>{
+          if (!/^(result|input)_takeaction/.test(api_key)){
+            hash[api_key] = result[api_key]
+          }
+          return hash;
+        }, {});
 
-            let merged_data = state.get('data')
+        let merged_data = state.get('data')
                                    .merge(result);
-            setLocalStorageItem('user_footprint', merged_data);
+        setLocalStorageItem('user_footprint', merged_data);
 
-            let updated = state.set('data', merged_data)
+        let updated = state.set('data', merged_data)
                                .set('loading', false);
 
-            return fromJS(updated);
+        return fromJS(updated);
             // @ToDo: Check if authenticated -> updateUserAnswers
       }
     }

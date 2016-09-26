@@ -25,7 +25,7 @@ class ExternalOffsetComponent extends Translatable {
 
   get display_monthly_offset() {
     let external_offset = this,
-    price_per_ton = external_offset.state_manager.state.external_offset.carbon_price_per_ton;
+        price_per_ton = external_offset.state_manager.state.external_offset.carbon_price_per_ton;
     return Math.round((external_offset.total_footprint * price_per_ton) / 12)
   }
 

@@ -48,7 +48,7 @@ export function defineRoutes(i18n) {
       parameters: {2: 'locale'}
     }),
     new Missing({
-      path: new RegExp(`^\/?((\\w{2})\/)?.*$`),
+      path: new RegExp('^\/?((\\w{2})\/)?.*$'),
       parameters: {2: 'locale'}
     })
   ]);

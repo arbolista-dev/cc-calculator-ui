@@ -81,21 +81,21 @@ export let footprintable = {
     let component = this,
         key;
     switch(category){
-      case 'travel':
-        key = 'result_transport_total';
-        break;
-      case 'home':
-        key = 'result_housing_total';
-        break;
-      case 'food':
-        key = 'result_food_total';
-        break;
-      case 'services':
-        key = 'result_services_total';
-        break;
-      case 'goods':
-        key = 'result_goods_total';
-        break;
+    case 'travel':
+      key = 'result_transport_total';
+      break;
+    case 'home':
+      key = 'result_housing_total';
+      break;
+    case 'food':
+      key = 'result_food_total';
+      break;
+    case 'services':
+      key = 'result_services_total';
+      break;
+    case 'goods':
+      key = 'result_goods_total';
+      break;
     }
     let category_value = component.userApiValue(key),
         total_value = component.userApiValue('result_grand_total'),
@@ -124,7 +124,7 @@ export let footprintable = {
   },
 
   numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   },
 
   updateAverageFootprintParams(updated_params){

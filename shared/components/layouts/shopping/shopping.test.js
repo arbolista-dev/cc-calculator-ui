@@ -7,8 +7,8 @@ import Shopping from './shopping.component';
 
 describe('Shopping component', ()=>{
   it('renders without problems', (done)=>{
-      shopping = TestUtils.renderIntoDocument(React.createElement(Shopping) );
-      expect(shopping.state).toEqual({});
-      done();
+    shopping = TestUtils.renderIntoDocument(React.createElement(Shopping) );
+    expect(shopping.state).toEqual({});
+    done();
   });
 });

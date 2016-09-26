@@ -99,16 +99,16 @@ export default class Router {
 
   next(){
     let router = this,
-      current_i = router.routes.indexOf(router.current_route),
-      next_route = router.routes[current_i + 1];
-      return router.pushRoute(next_route.route_name);
+        current_i = router.routes.indexOf(router.current_route),
+        next_route = router.routes[current_i + 1];
+    return router.pushRoute(next_route.route_name);
   }
 
   previous(){
     let router = this,
-      current_i = router.routes.indexOf(router.current_route),
-      next_route = router.routes[current_i - 1];
-      return router.pushRoute(next_route.route_name);
+        current_i = router.routes.indexOf(router.current_route),
+        next_route = router.routes[current_i - 1];
+    return router.pushRoute(next_route.route_name);
   }
 
   onLocationChange(store, new_location){
@@ -128,7 +128,7 @@ export default class Router {
   }
 
   scrollToTop(){
-    window.jQuery("html, body").animate({ scrollTop: 0 }, "slow");
+    window.jQuery('html, body').animate({ scrollTop: 0 }, 'slow');
   }
 
   static currentWindowLocation(){
@@ -140,7 +140,7 @@ export default class Router {
   // Use this when createHistory is a hash history
   static currentHashLocation(){
     let hash = window.location.hash,
-    match = hash.match(/^#([^\?]+)(\?.+)?/);
+        match = hash.match(/^#([^\?]+)(\?.+)?/);
     return {
       pathname: match ? match[1] : '',
       query: match && match[2] ? match[2] : ''

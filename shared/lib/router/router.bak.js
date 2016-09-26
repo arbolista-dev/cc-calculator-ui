@@ -70,7 +70,7 @@ export default class Router {
         i18n = router.i18n,
         url = `/${i18n.language}/${i18n.t(route_key + '.route_path')}`
     window.jQuery("[data-toggle='popover']").popover('hide');
-    window.jQuery("html, body").animate({ scrollTop: 0 }, 500, ()=>{
+    window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
       return router.history.push(url);
     });
   }

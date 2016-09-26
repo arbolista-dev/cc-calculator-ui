@@ -41,7 +41,7 @@ class ForgotPasswordComponent extends Panel {
     for (let key in forgot_password.valid) {
       let value = forgot_password.valid[key]
       if (value === false) {
-        forgot_password.state_manager.state.alerts.forgot_password.push({type: 'danger', message: forgot_password.t('forgot_password.' + key) + " " + forgot_password.t('errors.invalid')});
+        forgot_password.state_manager.state.alerts.forgot_password.push({type: 'danger', message: forgot_password.t('forgot_password.' + key) + ' ' + forgot_password.t('errors.invalid')});
         forgot_password.state_manager.syncLayout();
       }
     }

@@ -67,8 +67,8 @@ export default class StateManager {
   get default_ui_state(){
     let ui_state = {
       leaders_chart: {
-         show: false,
-         category: ''
+        show: false,
+        category: ''
       },
       alerts: {
         sign_up: [],

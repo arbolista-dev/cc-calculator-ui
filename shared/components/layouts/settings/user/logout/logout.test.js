@@ -7,8 +7,8 @@ import Logout from './logout.component';
 
 describe('Logout component', ()=>{
   it('renders without problems', (done)=>{
-      logout = TestUtils.renderIntoDocument(React.createElement(Logout) );
-      expect(logout.state).toEqual({});
-      done();
+    logout = TestUtils.renderIntoDocument(React.createElement(Logout) );
+    expect(logout.state).toEqual({});
+    done();
   });
 });

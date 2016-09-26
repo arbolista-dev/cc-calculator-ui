@@ -43,7 +43,7 @@ class LoginComponent extends Panel {
     for (let key in login.valid) {
       let value = login.valid[key]
       if (value === false) {
-        login.state_manager.state.alerts.login.push({type: 'danger', message: login.t('login.' + key) + " " + login.t('errors.invalid')});
+        login.state_manager.state.alerts.login.push({type: 'danger', message: login.t('login.' + key) + ' ' + login.t('errors.invalid')});
         login.state_manager.syncLayout();
       }
     }
@@ -79,9 +79,9 @@ class LoginComponent extends Panel {
         if (res.success) {
           // user logged in
           let auth_res = {
-            token: res.data.token,
-            name: res.data.name
-          }, remote_anwers = JSON.parse(res.data.answers);
+                token: res.data.token,
+                name: res.data.name
+              }, remote_anwers = JSON.parse(res.data.answers);
 
           Object.assign(login.state_manager.state.auth, auth_res);
           localStorage.setItem('auth', JSON.stringify(auth_res));

@@ -7,8 +7,8 @@ import Footprint from './footprint.component';
 
 describe('Footprint component', ()=>{
   it('renders without problems', (done)=>{
-      footprint = TestUtils.renderIntoDocument(React.createElement(Footprint) );
-      expect(footprint.state).toEqual({});
-      done();
+    footprint = TestUtils.renderIntoDocument(React.createElement(Footprint) );
+    expect(footprint.state).toEqual({});
+    done();
   });
 });

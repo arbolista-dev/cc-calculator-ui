@@ -99,7 +99,7 @@ class TravelComponent extends Panel {
 
   toggleLeadersChart() {
     let travel = this,
-    ui = {};
+        ui = {};
 
     ui.id = 'leaders_chart';
     ui.data = {
@@ -107,7 +107,7 @@ class TravelComponent extends Panel {
       category: 'transport'
     };
     travel.props.updateUI(ui);
-    window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
+    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
 
   /*

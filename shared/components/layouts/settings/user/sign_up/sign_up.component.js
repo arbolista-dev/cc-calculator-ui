@@ -54,7 +54,7 @@ class SignUpComponent extends Panel {
     for (let key in sign_up.valid) {
       let value = sign_up.valid[key]
       if (value === false) {
-        sign_up.state_manager.state.alerts.sign_up.push({type: 'danger', message: sign_up.t('sign_up.' + key) + " " + sign_up.t('errors.invalid')});
+        sign_up.state_manager.state.alerts.sign_up.push({type: 'danger', message: sign_up.t('sign_up.' + key) + ' ' + sign_up.t('errors.invalid')});
         sign_up.state_manager.syncLayout();
       }
     }

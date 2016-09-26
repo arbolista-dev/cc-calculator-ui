@@ -23,7 +23,7 @@ function i18nFactory(directory, provider, callback) {
 
     backend: {
       // path where resources get loaded from
-      loadPath: `/assets/{{ns}}/{{lng}}.json`,
+      loadPath: '/assets/{{ns}}/{{lng}}.json',
 
       // your backend server supports multiloading
       // /locales/resources.json?lng=de+en&ns=ns1+ns2

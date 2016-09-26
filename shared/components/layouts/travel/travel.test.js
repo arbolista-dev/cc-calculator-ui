@@ -7,8 +7,8 @@ import Travel from './travel.component';
 
 describe('Travel component', ()=>{
   it('renders without problems', (done)=>{
-      travel = TestUtils.renderIntoDocument(React.createElement(Travel) );
-      expect(travel.state).toEqual({});
-      done();
+    travel = TestUtils.renderIntoDocument(React.createElement(Travel) );
+    expect(travel.state).toEqual({});
+    done();
   });
 });

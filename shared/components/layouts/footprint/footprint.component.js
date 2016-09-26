@@ -17,7 +17,7 @@ class FootprintComponent extends Panel {
 
   toggleLeadersChart() {
     let footprint = this,
-    ui = {};
+        ui = {};
     
     ui.id = 'leaders_chart';
     ui.data = {
@@ -25,7 +25,7 @@ class FootprintComponent extends Panel {
       category: ''
     };
     footprint.props.updateUI(ui);
-    window.jQuery("html, body").animate({ scrollTop: $(".cc_leaders").offset().top }, 1000);
+    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
 
   render(){

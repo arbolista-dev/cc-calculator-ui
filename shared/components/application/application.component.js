@@ -35,7 +35,7 @@ class ApplicationComponent extends React.Component {
 
   initializeHistory() {
     let component = this,
-      createHistory = component.props.createHistory;
+        createHistory = component.props.createHistory;
 
     component.router.initializeHistory(createHistory, component.state_manager.store);
   }

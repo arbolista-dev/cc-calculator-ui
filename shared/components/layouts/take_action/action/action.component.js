@@ -13,10 +13,10 @@ class ActionComponent extends Translatable {
     super(props, context);
     let action = this;
     action.state = {
-        key: this.props.action_key,
-        category: this.props.category,
-        show: this.props.show,
-        detailed: false
+      key: this.props.action_key,
+      category: this.props.category,
+      show: this.props.show,
+      detailed: false
     }
   }
 
@@ -33,7 +33,7 @@ class ActionComponent extends Translatable {
   }
 
   get fact(){
-    let fact = this.t(`actions.${this.state.category}.${this.state.key}.fact`, {defaultValue: ""});
+    let fact = this.t(`actions.${this.state.category}.${this.state.key}.fact`, {defaultValue: ''});
 
     if (fact.length > 0) {
       return fact
@@ -59,7 +59,7 @@ class ActionComponent extends Translatable {
   }
 
   get assumptions_content(){
-    return this.t(`critical_assumptions.content`, {returnObjects: true});
+    return this.t('critical_assumptions.content', {returnObjects: true});
   }
 
   get tons_saved(){
@@ -93,7 +93,7 @@ class ActionComponent extends Translatable {
 
   toggleAction(){
     let action = this,
-      update = {};
+        update = {};
     if (this.taken){
       update[this.api_key] = 0;
     } else {
@@ -107,7 +107,7 @@ class ActionComponent extends Translatable {
     let action = this;
 
     let update = {},
-    status = action.state.detailed;
+        status = action.state.detailed;
     update['detailed'] = !status;
     action.setState(update);
   }
@@ -160,9 +160,9 @@ class ActionComponent extends Translatable {
 
   handleChange(event){
     let i = event.target.value,
-    is_vehicle = event.target.id.lastIndexOf('vehicle_select'),
-    action_key = event.target.dataset.action_key,
-    id = event.target.id;
+        is_vehicle = event.target.id.lastIndexOf('vehicle_select'),
+        action_key = event.target.dataset.action_key,
+        id = event.target.id;
 
     if (is_vehicle > 0) {
       this.selectVehicle(i, action_key)
@@ -176,23 +176,23 @@ class ActionComponent extends Translatable {
 
   getSelectedOption(id){
     let is_vehicle = id.lastIndexOf('vehicle_select'),
-    footprint = this.getUserFootprint().toJS(),
-    key = this.state.key,
-    mpg;
+        footprint = this.getUserFootprint().toJS(),
+        key = this.state.key,
+        mpg;
 
     if (is_vehicle > 0) {
-        if (key === 'ride_my_bike' || key ===  'telecommute_to_work' || key ===  'take_public_transportation') {
-          mpg = footprint['input_takeaction_' + key + '_mpg'];
-        } else {
-          mpg = footprint['input_takeaction_' + key + '_mpg_old'];
-        }
+      if (key === 'ride_my_bike' || key ===  'telecommute_to_work' || key ===  'take_public_transportation') {
+        mpg = footprint['input_takeaction_' + key + '_mpg'];
+      } else {
+        mpg = footprint['input_takeaction_' + key + '_mpg_old'];
+      }
 
-        for (let i = 1; i <= 10; i++){
-          let fp_mpg = footprint[`input_footprint_transportation_mpg${i}`];
-          if (fp_mpg === mpg) {
-            return i
-          }
+      for (let i = 1; i <= 10; i++){
+        let fp_mpg = footprint[`input_footprint_transportation_mpg${i}`];
+        if (fp_mpg === mpg) {
+          return i
         }
+      }
     } else {
       return this.userApiValue(id)
     }
@@ -201,9 +201,9 @@ class ActionComponent extends Translatable {
   selectVehicle(i, action_key){
 
     let footprint = this.getUserFootprint().toJS(),
-    v_miles = footprint[`input_footprint_transportation_miles${i}`],
-    v_mpg = footprint[`input_footprint_transportation_mpg${i}`],
-    update = {};
+        v_miles = footprint[`input_footprint_transportation_miles${i}`],
+        v_mpg = footprint[`input_footprint_transportation_mpg${i}`],
+        update = {};
 
     if (action_key === 'ride_my_bike' || action_key ===  'telecommute_to_work' || action_key ===  'take_public_transportation') {
       update['input_takeaction_' + action_key + '_mpg'] = parseInt(v_mpg);
@@ -228,8 +228,8 @@ class ActionComponent extends Translatable {
 
   userApiState(){
     let action = this,
-    hash = {},
-    keys = Object.keys(action.getUserFootprint().toJS())
+        hash = {},
+        keys = Object.keys(action.getUserFootprint().toJS())
       .filter(key=> key.includes(action.result_key))
 
     return keys.reduce((hash, api_key)=>{
@@ -239,7 +239,7 @@ class ActionComponent extends Translatable {
   }
 
   numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   updateFootprintParams(params){

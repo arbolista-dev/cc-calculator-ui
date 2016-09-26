@@ -7,8 +7,8 @@ import Login from './login.component';
 
 describe('Login component', ()=>{
   it('renders without problems', (done)=>{
-      login = TestUtils.renderIntoDocument(React.createElement(Login) );
-      expect(login.state).toEqual({});
-      done();
+    login = TestUtils.renderIntoDocument(React.createElement(Login) );
+    expect(login.state).toEqual({});
+    done();
   });
 });

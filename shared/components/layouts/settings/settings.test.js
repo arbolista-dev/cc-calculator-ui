@@ -7,8 +7,8 @@ import Settings from './settings.component';
 
 describe('Settings component', ()=>{
   it('renders without problems', (done)=>{
-      settings = TestUtils.renderIntoDocument(React.createElement(Settings) );
-      expect(settings.state).toEqual({});
-      done();
+    settings = TestUtils.renderIntoDocument(React.createElement(Settings) );
+    expect(settings.state).toEqual({});
+    done();
   });
 });

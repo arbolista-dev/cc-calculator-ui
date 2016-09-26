@@ -55,15 +55,15 @@ class GetStartedComponent extends Panel {
    * Location UI
    */
 
-   get input_location_mode(){
-     return this.props.user_footprint.getIn(['data', 'input_location_mode'])
-   }
+  get input_location_mode(){
+    return this.props.user_footprint.getIn(['data', 'input_location_mode'])
+  }
 
-   get country_mode(){
+  get country_mode(){
     return this.state.input_location_mode === 5;
-   }
+  }
 
-   get input_location_display(){
+  get input_location_display(){
     let get_started = this;
     if (get_started.country_mode){
       return get_started.t('get_started.United States');
@@ -72,7 +72,7 @@ class GetStartedComponent extends Panel {
     } else {
       return get_started.state.input_location;
     }
-   }
+  }
 
   get location_modes(){
     return LOCATION_MODES;
@@ -202,13 +202,13 @@ class GetStartedComponent extends Panel {
    * Income and Household Size UI
    */
 
-   get input_income(){
-     return this.userApiValue('input_income');
-   }
+  get input_income(){
+    return this.userApiValue('input_income');
+  }
 
-   get input_size(){
-     return this.userApiValue('input_size');
-   }
+  get input_size(){
+    return this.userApiValue('input_size');
+  }
 
 
   initializeSizeSlider(){

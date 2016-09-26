@@ -7,8 +7,8 @@ import TakeAction from './take_action.component';
 
 describe('TakeAction component', ()=>{
   it('renders without problems', (done)=>{
-      take_action = TestUtils.renderIntoDocument(React.createElement(TakeAction) );
-      expect(take_action.state).toEqual({});
-      done();
+    take_action = TestUtils.renderIntoDocument(React.createElement(TakeAction) );
+    expect(take_action.state).toEqual({});
+    done();
   });
 });

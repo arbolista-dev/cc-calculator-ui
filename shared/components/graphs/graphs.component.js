@@ -11,8 +11,8 @@ import { footprintPropTypes } from '../../containers/footprint.container';
 
 const CATEGORIES = ['result_transport_total', 'result_housing_total',
   'result_food_total', 'result_goods_total', 'result_services_total'],
-  MIN_GRAPH_WIDTH = 250,
-  MAX_GRAPH_WIDTH = 800;
+    MIN_GRAPH_WIDTH = 250,
+    MAX_GRAPH_WIDTH = 800;
 
 class GraphsComponent extends Panel {
 
@@ -56,7 +56,7 @@ class GraphsComponent extends Panel {
       } else if (this.show_bar_chart) {
         this.initializeOverallBarChart();
       }
-      window.jQuery("html, body").animate({ scrollTop: window.jQuery(document).height() }, 1000);
+      window.jQuery('html, body').animate({ scrollTop: window.jQuery(document).height() }, 1000);
     }, 400)
   }
 
@@ -89,8 +89,8 @@ class GraphsComponent extends Panel {
   }
 
   hidePopovers(){
-    window.jQuery(".d3-value-arc text").popover('hide');
-    window.jQuery(".your-footprint").popover('hide');
+    window.jQuery('.d3-value-arc text').popover('hide');
+    window.jQuery('.your-footprint').popover('hide');
   }
 
   render(){
@@ -208,7 +208,7 @@ class GraphsComponent extends Panel {
       content: ()=>{
         let klasses = window.jQuery(this)
           .attr('class').split(' '),
-          category = klasses[klasses.length - 1];
+            category = klasses[klasses.length - 1];
         return component.popoverContentForCategory(category)
       }
 
@@ -290,27 +290,27 @@ class GraphsComponent extends Panel {
    * Summary
    */
 
-   get category_keys(){
+  get category_keys(){
     let graphs = this,
-      keys;
+        keys;
     switch (graphs.current_route_name){
-      case 'Travel':
-        keys = ['result_transport_total'];
-        break;
-      case 'Home':
-        keys = ['result_housing_total'];
-        break;
-      case 'Food':
-        keys = ['result_food_total'];
-        break;
-      case 'Shopping':
-        keys = ['result_goods_total', 'result_services_total'];
-        break;
-      default:
-        keys = ['result_grand_total'];
+    case 'Travel':
+      keys = ['result_transport_total'];
+      break;
+    case 'Home':
+      keys = ['result_housing_total'];
+      break;
+    case 'Food':
+      keys = ['result_food_total'];
+      break;
+    case 'Shopping':
+      keys = ['result_goods_total', 'result_services_total'];
+      break;
+    default:
+      keys = ['result_grand_total'];
     }
     return keys;
-   }
+  }
 
   get user_category_footprint(){
     let graphs = this;
@@ -360,34 +360,34 @@ class GraphsComponent extends Panel {
   get category_user_byline(){
     let graphs = this;
     switch (graphs.current_route_name){
-      case 'Travel':
-        return graphs.t('summaries.total_travel_footprint')
-      case 'Home':
-        return graphs.t('summaries.total_home_footprint')
-      case 'Food':
-        return graphs.t('summaries.total_food_footprint')
-      case 'Shopping':
-        return graphs.t('summaries.total_shopping_footprint')
-      case 'TakeAction':
-        return graphs.t('summaries.total_action_savings')
-      default:
-        return graphs.t('summaries.total_footprint')
+    case 'Travel':
+      return graphs.t('summaries.total_travel_footprint')
+    case 'Home':
+      return graphs.t('summaries.total_home_footprint')
+    case 'Food':
+      return graphs.t('summaries.total_food_footprint')
+    case 'Shopping':
+      return graphs.t('summaries.total_shopping_footprint')
+    case 'TakeAction':
+      return graphs.t('summaries.total_action_savings')
+    default:
+      return graphs.t('summaries.total_footprint')
     }
   }
 
   get category_average_byline(){
     let graphs = this;
     switch (graphs.current_route_name){
-      case 'Travel':
-        return graphs.t('summaries.average_travel_footprint')
-      case 'Home':
-        return graphs.t('summaries.average_home_footprint')
-      case 'Food':
-        return graphs.t('summaries.average_food_footprint')
-      case 'Shopping':
-        return graphs.t('summaries.average_shopping_footprint')
-      default:
-        return graphs.t('summaries.average_footprint')
+    case 'Travel':
+      return graphs.t('summaries.average_travel_footprint')
+    case 'Home':
+      return graphs.t('summaries.average_home_footprint')
+    case 'Food':
+      return graphs.t('summaries.average_food_footprint')
+    case 'Shopping':
+      return graphs.t('summaries.average_shopping_footprint')
+    default:
+      return graphs.t('summaries.average_footprint')
     }
   }
 
