@@ -21,7 +21,7 @@ class ForgotPasswordComponent extends Panel {
   }
 
   get alert_list() {
-    return this.state_manager.state.alerts.forgot_password;
+    return this.props.ui.getIn(['alerts', 'forgot_password']).toJS()
   }
 
   paramValid(param){
@@ -41,8 +41,14 @@ class ForgotPasswordComponent extends Panel {
     for (let key in forgot_password.valid) {
       let value = forgot_password.valid[key]
       if (value === false) {
-        forgot_password.state_manager.state.alerts.forgot_password.push({type: 'danger', message: forgot_password.t('forgot_password.' + key) + ' ' + forgot_password.t('errors.invalid')});
-        forgot_password.state_manager.syncLayout();
+        let alert = {};
+        alert.id = 'forgot_password';
+        alert.data = {
+          route: forgot_password.current_route_name,
+          type: 'danger',
+          message: forgot_password.t('forgot_password.' + key) + ' ' + forgot_password.t('errors.invalid')
+        };
+        forgot_password.props.pushAlert(alert);
       }
     }
 
@@ -68,21 +74,35 @@ class ForgotPasswordComponent extends Panel {
 
   submitForgotPassword(event) {
     event.preventDefault();
-    let forgot_password = this;
-    forgot_password.state_manager.state.alerts.forgot_password = [];
+    let forgot_password = this,
+      alert = {};
+
+    alert.id = 'forgot_password';
+    alert.reset = true;
+    forgot_password.props.pushAlert(alert);
 
     if (forgot_password.validateAll()) {
       forgotPassword(forgot_password.state).then((res)=>{
+        let alert = {};
+        alert.id = 'forgot_password';
+        alert.data = {
+          route: forgot_password.current_route_name,
+        };
         if (res.success) {
-
           forgot_password.router.goToRouteByName('Login')
 
-          forgot_password.state_manager.state.alerts.forgot_password.push({type: 'success', message: forgot_password.t('success.forgot_password')});
+          alert.data.type = 'success';
+          alert.data.message = forgot_password.t('success.forgot_password');
         } else {
-          // failed
-          forgot_password.state_manager.state.alerts.forgot_password.push({type: 'danger', message: forgot_password.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
-          forgot_password.state_manager.syncLayout();
+          // failed - most likely email not registered
+          console.log('forgotPassword error', res.error);
+          alert.data.type = 'danger';
+          alert.data.message = res.error;
+          // @ToDo: Return error code from API
+          // let err = JSON.parse(res.error);
+          // alert.data.message = forgot_password.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]);
         }
+        forgot_password.props.pushAlert(alert);
         return res
       })
     } else {

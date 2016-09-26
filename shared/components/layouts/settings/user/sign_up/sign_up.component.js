@@ -30,7 +30,7 @@ class SignUpComponent extends Panel {
   }
 
   get alert_list() {
-    return this.state_manager.state.alerts.sign_up;
+    return this.props.ui.getIn(['alerts', 'sign_up']).toJS()
   }
 
   componentDidMount() {
@@ -54,8 +54,14 @@ class SignUpComponent extends Panel {
     for (let key in sign_up.valid) {
       let value = sign_up.valid[key]
       if (value === false) {
-        sign_up.state_manager.state.alerts.sign_up.push({type: 'danger', message: sign_up.t('sign_up.' + key) + ' ' + sign_up.t('errors.invalid')});
-        sign_up.state_manager.syncLayout();
+        let alert = {};
+        alert.id = 'sign_up';
+        alert.data = {
+          route: sign_up.current_route_name,
+          type: 'danger',
+          message: sign_up.t('sign_up.' + key) + ' ' + sign_up.t('errors.invalid')
+        };
+        sign_up.props.pushAlert(alert);
       }
     }
 
@@ -87,8 +93,12 @@ class SignUpComponent extends Panel {
 
   submitSignup(event) {
     event.preventDefault();
-    let sign_up = this;
-    sign_up.state_manager.state.alerts.sign_up = [];
+    let sign_up = this,
+      alert = {};
+
+    alert.id = 'sign_up';
+    alert.reset = true;
+    sign_up.props.pushAlert(alert);
 
     if (sign_up.validateAll()) {
       addUser(sign_up.state).then((res)=>{
@@ -102,17 +112,35 @@ class SignUpComponent extends Panel {
           Object.assign(sign_up.state_manager.state.auth, auth_res);
           localStorage.setItem('auth', JSON.stringify(auth_res));
 
-          sign_up.state_manager.state.alerts.sign_up.push({type: 'success', message: sign_up.t('success.sign_up')});
+          let alert = {};
+          alert.id = 'sign_up';
+          alert.data = {
+            route: sign_up.current_route_name,
+            type: 'success',
+            message: sign_up.t('success.sign_up')
+          };
+          sign_up.props.pushAlert(alert);
+
+          // @ToDo: refactor goToRouteByName
           sign_up.router.goToRouteByName('GetStarted');
         } else {
-          let err;
+          let err,
+            alert = {};
+          alert.id = 'sign_up';
+          alert.data = {
+            route: sign_up.current_route_name,
+            type: 'danger',
+          };
           try {
             err = JSON.parse(res.error);
-            sign_up.state_manager.state.alerts.sign_up.push({type: 'danger', message: sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
-            sign_up.state_manager.syncLayout();
+            alert.data.message = sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]);
+
           } catch (err){
-            sign_up.state_manager.state.alerts.sign_up.push({type: 'danger', message: sign_up.t('errors.email.non-unique')});
-            sign_up.state_manager.syncLayout();
+            alert.data.message = sign_up.t('errors.email.non-unique');
+
+          } finally {
+            sign_up.props.pushAlert(alert);
+
           }
         }
         return res
@@ -127,5 +155,10 @@ class SignUpComponent extends Panel {
 }
 
 SignUpComponent.NAME = 'SignUp';
+SignUpComponent.propTypes = {
+  ui: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
+  pushAlert: React.PropTypes.func.isRequired
+};
 
 module.exports = SignUpComponent;

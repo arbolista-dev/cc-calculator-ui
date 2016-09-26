@@ -5,7 +5,7 @@ import OverlapBar from 'd3-object-charts/src/bar/overlap';
 import ComparativePie from 'd3-object-charts/src/pie/comparative';
 
 import Panel from '../../lib/base_classes/panel';
-import template from './graphs.rt.html'
+import template from './graphs.rt.html';
 import footprintContainer from '../../containers/footprint.container';
 import { footprintPropTypes } from '../../containers/footprint.container';
 
@@ -205,7 +205,7 @@ class GraphsComponent extends Panel {
       html: true,
       container: 'body',
       trigger: 'hover',
-      content: ()=>{
+      content: function(){
         let klasses = window.jQuery(this)
           .attr('class').split(' '),
             category = klasses[klasses.length - 1];
@@ -276,7 +276,7 @@ class GraphsComponent extends Panel {
       html: true,
       container: 'body',
       trigger: 'hover',
-      content: ()=>{
+      content: function(){
         let category = window.jQuery(this)
           .closest('.d3-value-arc')
           .attr('class').split(' ')[1];

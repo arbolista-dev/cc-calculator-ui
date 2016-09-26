@@ -13,14 +13,16 @@
               </button>
               <div rt-if="this.show_locations_list" id="leaders_locations_list">
                 <div class="leaders__location-suggestion"
-                  onClick="{this.resetLocation.bind(this)}">- {this.t('leaders.reset')} -</div>
+                  onClick="{this.resetLocation.bind(this)}">{this.t('leaders.reset')} <i class="fa fa-undo" aria-hidden="true"></i></div>
                   <div rt-repeat="location in this.filtered_locations" class="leaders__location-suggestion" data-city="{location.city}" data-state="{location.state}" onClick="{this.setLocation.bind(this)}" title="{location.state}" key="{locationIndex}">{this.displayCityState(location)}</div>
               </div>
             </div>
           </div>
       </div>
       <div class="panel-body">
-        <Alerts list="{this.alert_list}" category="leaders" currentRoute="{this.current_route_name}" pushAlert="{this.props.pushAlert}"></Alerts>
+        <Alerts list="{this.alert_list}"
+          category="leaders"
+          currentRoute="{this.current_route_name}" pushAlert="{this.props.pushAlert}"></Alerts>
         <table class="table">
           <thead>
             <tr>

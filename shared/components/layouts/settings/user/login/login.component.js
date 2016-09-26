@@ -23,7 +23,7 @@ class LoginComponent extends Panel {
   }
 
   get alert_list() {
-    return this.state_manager.state.alerts.login;
+    return this.props.ui.getIn(['alerts', 'login']).toJS()
   }
 
   paramValid(param){
@@ -43,8 +43,14 @@ class LoginComponent extends Panel {
     for (let key in login.valid) {
       let value = login.valid[key]
       if (value === false) {
-        login.state_manager.state.alerts.login.push({type: 'danger', message: login.t('login.' + key) + ' ' + login.t('errors.invalid')});
-        login.state_manager.syncLayout();
+        let alert = {};
+        alert.id = 'login';
+        alert.data = {
+          route: login.current_route_name,
+          type: 'danger',
+          message: login.t('login.' + key) + ' ' + login.t('errors.invalid')
+        };
+        login.props.pushAlert(alert);
       }
     }
 
@@ -70,9 +76,16 @@ class LoginComponent extends Panel {
 
   submitLogin(event) {
     event.preventDefault();
-    let login = this;
-    login.state_manager.state.alerts.login = [];
-    login.state_manager.state.alerts.shared = [];
+    let login = this,
+      alert = {};
+
+    alert.id = 'shared';
+    alert.reset = true;
+    login.props.pushAlert(alert);
+    alert.id = 'login';
+    alert.reset = true;
+    login.props.pushAlert(alert);
+
 
     if (login.validateAll()) {
       loginUser(login.state).then((res)=>{
@@ -90,14 +103,28 @@ class LoginComponent extends Panel {
             login.state_manager.setUserFootprint(remote_anwers);
           }
 
-
-          login.state_manager.state.alerts.shared.push({type: 'success', message: login.t('success.login')});
-          login.router.goToRouteByName('GetStarted');
+          let alert = {};
+          alert.id = 'login';
+          alert.data = {
+            route: login.current_route_name,
+            type: 'success',
+            message: login.t('success.login')
+          };
+          login.props.pushAlert(alert);
+          // @ToDo: refactor goToRouteByName
+          // login.router.goToRouteByName('GetStarted');
         } else {
           let err = JSON.parse(res.error);
 
-          login.state_manager.state.alerts.login.push({type: 'danger', message: login.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])});
-          login.state_manager.syncLayout();
+          let alert = {};
+          alert.id = 'login';
+          alert.data = {
+            route: login.current_route_name,
+            type: 'danger',
+            message: login.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])
+          };
+          login.props.pushAlert(alert);
+
         }
         return res
       })
@@ -114,6 +141,12 @@ class LoginComponent extends Panel {
     return template.call(this);
   }
 }
+
 LoginComponent.NAME = 'Login';
+LoginComponent.propTypes = {
+  ui: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
+  pushAlert: React.PropTypes.func.isRequired
+};
 
 module.exports = LoginComponent;

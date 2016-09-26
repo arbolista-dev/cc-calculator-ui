@@ -1,4 +1,4 @@
-<rt-require dependency="./../../../../alerts/alerts.component" as="Alerts"/>
+<rt-require dependency="shared/components/alerts/alerts.component" as="Alerts"/>
 
 <div class="panel panel-coolclimate" id="login">
     <div class="panel-heading">
@@ -6,25 +6,41 @@
     </div>
 
     <div class="panel-body cc-component__form form-horizontal">
-      	<Alerts alerts="{this.alert_list}" category="login"></Alerts>
+      	<Alerts list="{this.alert_list}"
+          category="login"
+          currentRoute="{this.current_route_name}"
+          pushAlert="{this.props.pushAlert}"></Alerts>
         <div class="cc-component__auth">
             <div class="form-group">
-                <label for="inputEmail" class="control-label">{this.t(`login.email`)}</label>
+                <label for="inputEmail" class="control-label">
+                  {this.t(`login.email`)}
+                </label>
                 <input type="email" class="form-control" id="inputEmail"
-                rt-class="{error: !this.paramValid('email')}" onChange="{this.updateInput.bind(this)}" data-api_key="email"
-                value="{this.state.email}" placeholder="{this.t(`login.email`)}">
+                rt-class="{error: !this.paramValid('email')}"
+                onChange="{this.updateInput.bind(this)}"
+                data-api_key="email"
+                value="{this.state.email}"
+                placeholder="{this.t(`login.email`)}">
             </div>
             <div class="form-group">
-                <label for="inputPassword" class="control-label">{this.t(`login.password`)}</label>
-                <input type="password" class="form-control"
-                 id="inputPassword" rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}" data-api_key="password" value="{this.state.password}" placeholder="{this.t(`login.password`)}">
+                <label for="inputPassword" class="control-label">
+                  {this.t(`login.password`)}
+                </label>
+                <input type="password" class="form-control" id="inputPassword"
+                rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}"
+                data-api_key="password"
+                value="{this.state.password}"
+                placeholder="{this.t(`login.password`)}">
             </div>
             <div class="cc-component__auth-password-request">
-                <a onClick="{this.goToForgotPassword.bind(this)}">{this.t(`login.password_request`)}</a>
+                <a onClick="{this.goToForgotPassword.bind(this)}">
+                  {this.t(`login.password_request`)}
+                </a>
             </div>
             <div class="cc-component__auth-submit">
                 <button class="btn btn-default"
-                    onClick="{this.submitLogin.bind(this)}">{this.t(`login.submit`)}
+                onClick="{this.submitLogin.bind(this)}">
+                  {this.t(`login.submit`)}
                 </button>
             </div>
         </div>

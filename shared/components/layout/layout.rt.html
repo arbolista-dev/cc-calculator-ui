@@ -1,16 +1,16 @@
-<rt-require dependency="./../layouts/get_started/get_started.component" as="GetStarted"/>
-<rt-require dependency="./../layouts/travel/travel.component" as="Travel"/>
-<rt-require dependency="./../layouts/home/home.component" as="Home"/>
-<rt-require dependency="./../layouts/food/food.component" as="Food"/>
-<rt-require dependency="./../layouts/shopping/shopping.component" as="Shopping"/>
-<rt-require dependency="./../layouts/footprint/footprint.component" as="Footprint"/>
-<rt-require dependency="./../layouts/take_action/take_action.component" as="TakeAction"/>
-<rt-require dependency="./../layouts/missing/missing.component" as="Missing"/>
-<rt-require dependency="./../layouts/settings/user/forgot_password/forgot_password.component" as="ForgotPassword"/>
-<rt-require dependency="./../layouts/settings/settings.component" as="Settings"/>
-<rt-require dependency="./../alerts/alerts.component" as="Alerts"/>
-<rt-require dependency="./../graphs/graphs.component" as="Graphs"/>
-<rt-require dependency="./../leaders/leaders.component" as="Leaders"/>
+<rt-require dependency="shared/components/layouts/get_started/get_started.component" as="GetStarted"/>
+<rt-require dependency="shared/components/layouts/travel/travel.component" as="Travel"/>
+<rt-require dependency="shared/components/layouts/home/home.component" as="Home"/>
+<rt-require dependency="shared/components/layouts/food/food.component" as="Food"/>
+<rt-require dependency="shared/components/layouts/shopping/shopping.component" as="Shopping"/>
+<rt-require dependency="shared/components/layouts/footprint/footprint.component" as="Footprint"/>
+<rt-require dependency="shared/components/layouts/take_action/take_action.component" as="TakeAction"/>
+<rt-require dependency="shared/components/layouts/missing/missing.component" as="Missing"/>
+<rt-require dependency="shared/components/layouts/settings/user/forgot_password/forgot_password.component" as="ForgotPassword"/>
+<rt-require dependency="shared/components/layouts/settings/settings.component" as="Settings"/>
+<rt-require dependency="shared/components/alerts/alerts.component" as="Alerts"/>
+<rt-require dependency="shared/components/graphs/graphs.component" as="Graphs"/>
+<rt-require dependency="shared/components/leaders/leaders.component" as="Leaders"/>
 <div>
 	<div rt-if="!this.initial_load_done" class="loader"></div>
 	<div id="cc_calculator_ui" rt-if="this.initial_load_done">
@@ -57,11 +57,15 @@
 		<Alerts
 			list="{this.alert_list}"
 			category="shared"
-			currentRoute="{this.current_route_name}" pushAlert="{this.props.pushAlert}">
+			currentRoute="{this.current_route_name}"
+			pushAlert="{this.props.pushAlert}">
 		</Alerts>
 		<main>
 			<ForgotPassword
 				rt-if="this.current_route_name === 'ForgotPassword'"
+				ui="{this.props.ui}"
+	      pushAlert="{this.props.pushAlert}"
+	      location="{this.props.location}"
 			></ForgotPassword>
 			<Settings
 				rt-if="this.current_route_name === 'Settings'"
