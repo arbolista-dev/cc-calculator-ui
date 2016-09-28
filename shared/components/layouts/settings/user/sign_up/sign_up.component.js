@@ -6,7 +6,8 @@ import { addUser } from 'api/user.api';
 import { validateParameter } from 'shared/lib/utils/utils';
 import Panel from 'shared/lib/base_classes/panel';
 import template from './sign_up.rt.html';
-
+import authContainer from 'shared/containers/auth.container';
+import { authPropTypes } from 'shared/containers/auth.container';
 
 class SignUpComponent extends Panel {
 
@@ -29,12 +30,63 @@ class SignUpComponent extends Panel {
     };
   }
 
+  componentWillReceiveProps(){
+
+    // compare props
+    // this.load_finished();
+    if (this.load_finished) this.displayResponseAlert();
+  }
+
   get alert_list() {
     return this.props.ui.getIn(['alerts', 'sign_up']).toJS()
   }
 
-  componentDidMount() {
-    let sign_up = this;
+  get load_finished() {
+    console.log('load_finished?', this.props.auth.get('received') === true && this.props.auth.get('loading') === false);
+    console.log('load_finished state', this.props.auth);
+    return this.props.auth.get('received') === true && this.props.auth.get('loading') === false;
+  }
+
+  // load_finished() {
+  //   let sign_up = this;
+  //
+  //   console.log('auth state', sign_up.props.auth);
+  //   // let loading = sign_up.props.auth.get('loading');
+  //   // console.log('loaded?', loading);
+  //   // console.log('received?', sign_up.props.auth.get('response'));
+  //   if (sign_up.props.auth.get('received') === true && sign_up.props.auth.get('loading') === false) {
+  //     sign_up.displayResponseAlert();
+  //   }
+  // }
+
+  displayResponseAlert(){
+    let sign_up = this,
+      success = sign_up.props.auth.get('success'),
+      alert = {
+        id: 'sign_up'
+      };
+    console.log('displayResponseAlert success:', success);
+    if (success) {
+      alert.data = {
+        route: sign_up.current_route_name,
+        type: 'success',
+        message: sign_up.t('success.sign_up')
+      };
+    } else {
+      let error_msg = sign_up.props.auth.get('error_msg');
+      alert.data = {
+        route: sign_up.current_route_name,
+        type: 'danger',
+      };
+      try {
+        let err = JSON.parse(error_msg);
+        alert.data.message = sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]);
+
+      } catch (err){
+        alert.data.message = sign_up.t('errors.email.non-unique');
+      }
+    }
+    sign_up.props.pushAlert(alert);
   }
 
   paramValid(param){
@@ -101,50 +153,7 @@ class SignUpComponent extends Panel {
     sign_up.props.pushAlert(alert);
 
     if (sign_up.validateAll()) {
-      addUser(sign_up.state).then((res)=>{
-        if (res.success) {
-          // user added
-          let auth_res = {
-            token: res.data.token,
-            name: res.data.name
-          };
-
-          Object.assign(sign_up.state_manager.state.auth, auth_res);
-          localStorage.setItem('auth', JSON.stringify(auth_res));
-
-          let alert = {};
-          alert.id = 'sign_up';
-          alert.data = {
-            route: sign_up.current_route_name,
-            type: 'success',
-            message: sign_up.t('success.sign_up')
-          };
-          sign_up.props.pushAlert(alert);
-
-          // @ToDo: refactor goToRouteByName
-          sign_up.router.goToRouteByName('GetStarted');
-        } else {
-          let err,
-            alert = {};
-          alert.id = 'sign_up';
-          alert.data = {
-            route: sign_up.current_route_name,
-            type: 'danger',
-          };
-          try {
-            err = JSON.parse(res.error);
-            alert.data.message = sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]);
-
-          } catch (err){
-            alert.data.message = sign_up.t('errors.email.non-unique');
-
-          } finally {
-            sign_up.props.pushAlert(alert);
-
-          }
-        }
-        return res
-      })
+      sign_up.props.signup(sign_up.state);
     }
   }
 
@@ -155,10 +164,10 @@ class SignUpComponent extends Panel {
 }
 
 SignUpComponent.NAME = 'SignUp';
-SignUpComponent.propTypes = {
+SignUpComponent.propTypes = Object.assign({}, {
   ui: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
   pushAlert: React.PropTypes.func.isRequired
-};
+}, authPropTypes);
 
-module.exports = SignUpComponent;
+module.exports = authContainer(SignUpComponent);

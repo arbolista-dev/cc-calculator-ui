@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import Translatable from './../../lib/base_classes/translatable';
+import Translatable from 'shared/lib/base_classes/translatable';
 import template from './alerts.rt.html'
 
 class AlertsComponent extends Translatable {

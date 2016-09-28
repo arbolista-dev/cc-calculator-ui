@@ -6,6 +6,8 @@ import { loginUser } from 'api/user.api';
 import { validateParameter } from 'shared/lib/utils/utils';
 import Panel from 'shared/lib/base_classes/panel';
 import template from './login.rt.html';
+import authContainer from 'shared/containers/auth.container';
+import { authPropTypes } from 'shared/containers/auth.container';
 
 class LoginComponent extends Panel {
 
@@ -88,46 +90,55 @@ class LoginComponent extends Panel {
 
 
     if (login.validateAll()) {
-      loginUser(login.state).then((res)=>{
-        if (res.success) {
-          // user logged in
-          let auth_res = {
-                token: res.data.token,
-                name: res.data.name
-              }, remote_anwers = JSON.parse(res.data.answers);
 
-          Object.assign(login.state_manager.state.auth, auth_res);
-          localStorage.setItem('auth', JSON.stringify(auth_res));
+      login.props.login(login.state);
 
-          if (remote_anwers.length !== 0) {
-            login.state_manager.setUserFootprint(remote_anwers);
-          }
+      console.log('after login success', login.props.auth.get('success'));
+      console.log('after login data', login.props.auth.get('data').toJS());
+      // @ToDo: Check auth status to see if login successful
+      // let alert = {};
+      // alert.id = 'login';
+      // alert.data = {
+      //   route: login.current_route_name,
+      //   type: 'success',
+      //   message: login.t('success.login')
+      // };
+      // login.props.pushAlert(alert);
+      // @ToDo: refactor goToRouteByName
+      // login.router.goToRouteByName('GetStarted');
 
-          let alert = {};
-          alert.id = 'login';
-          alert.data = {
-            route: login.current_route_name,
-            type: 'success',
-            message: login.t('success.login')
-          };
-          login.props.pushAlert(alert);
-          // @ToDo: refactor goToRouteByName
-          // login.router.goToRouteByName('GetStarted');
-        } else {
-          let err = JSON.parse(res.error);
-
-          let alert = {};
-          alert.id = 'login';
-          alert.data = {
-            route: login.current_route_name,
-            type: 'danger',
-            message: login.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])
-          };
-          login.props.pushAlert(alert);
-
-        }
-        return res
-      })
+      // old:
+      // loginUser(login.state).then((res)=>{
+      //   if (res.success) {
+      //     // user logged in
+      //     let auth_res = {
+      //           token: res.data.token,
+      //           name: res.data.name
+      //         }, remote_anwers = JSON.parse(res.data.answers);
+      //
+      //     Object.assign(login.state_manager.state.auth, auth_res);
+      //     localStorage.setItem('auth', JSON.stringify(auth_res));
+      //
+      //     if (remote_anwers.length !== 0) {
+      //       login.state_manager.setUserFootprint(remote_anwers);
+      //     }
+      //
+      //
+      //   } else {
+      //     let err = JSON.parse(res.error);
+      //
+      //     let alert = {};
+      //     alert.id = 'login';
+      //     alert.data = {
+      //       route: login.current_route_name,
+      //       type: 'danger',
+      //       message: login.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])
+      //     };
+      //     login.props.pushAlert(alert);
+      //
+      //   }
+      //   return res
+      // })
     } else {
       // input not valid
     }
@@ -143,10 +154,10 @@ class LoginComponent extends Panel {
 }
 
 LoginComponent.NAME = 'Login';
-LoginComponent.propTypes = {
+LoginComponent.propTypes = Object.assign({}, {
   ui: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
   pushAlert: React.PropTypes.func.isRequired
-};
+}, authPropTypes);
 
-module.exports = LoginComponent;
+module.exports = authContainer(LoginComponent);
