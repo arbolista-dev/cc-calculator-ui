@@ -8,7 +8,9 @@ import { updateUI, pushAlert } from './ui.actions'
   ui: {
     alerts: <Map>,
     leaders_chart: <Map>,
-    display_location: <String>
+    display_location: <String>,
+    external_offset: <Map>,
+    connect_to_api: <Boolean>
   }
 */
 

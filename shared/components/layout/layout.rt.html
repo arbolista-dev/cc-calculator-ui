@@ -15,9 +15,7 @@
 	<div rt-if="!this.initial_load_done" class="loader"></div>
 	<div id="cc_calculator_ui" rt-if="this.initial_load_done">
 		<nav class="navbar navbar-default">
-				<!-- @ToDo: replace this after refactoring connect_to_api -->
-				<!-- <div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.connect_to_api}"> -->
-				<div id="cc_nav">
+				<div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.connect_to_api}">
 					<div
 						rt-repeat="route in this.router.main_routes"
 						class="cc-nav__item"
@@ -33,27 +31,16 @@
 						class="cc-nav__item"
 						id="settings_nav_item"
 						rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
-						onClick="{this.goToRoute.bind(this, 'Settings')}">
-						<img src="/assets/img/settings.png"/>
-						<div>{this.t(`settings.title`)}</div>
-					</div>
-
-					<!-- @ToDo: replace this after refactoring connect_to_api -->
-					<!-- <div
-						class="cc-nav__item"
-						id="settings_nav_item"
-						rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
 						rt-if="this.connect_to_api"
 						onClick="{this.goToRoute.bind(this, 'Settings')}">
 					  <img src="/assets/img/settings.png"/>
 						<div>{this.t(`settings.title`)}</div>
-					</div> -->
-
+					</div>
 				</div>
 		</nav>
-		<!-- <div rt-if="this.external_offset.banner_url" id="external_banner">
+		<div rt-if="this.external_offset.banner_url" id="external_banner">
 			<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
-		</div> -->
+		</div>
 		<Alerts
 			list="{this.alert_list}"
 			category="shared"

@@ -22,6 +22,7 @@ class LayoutComponent extends Panel {
 
   componentWillMount(){
     let default_inputs = this.getDefaultInputs();
+    this.receiveExternalOffset()
     this.props.ensureDefaults(default_inputs)
   }
 
@@ -53,14 +54,6 @@ class LayoutComponent extends Panel {
     return NON_GRAPH_PANELS.indexOf(this.current_route_name) < 0;
   }
 
-  goToRoute(route_name){
-    let router = this;
-    window.jQuery("[data-toggle='popover']").popover('hide');
-    window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
-      return router.pushRoute(route_name);
-    });
-  }
-
   get show_leaders_comparison(){
     let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
 
@@ -72,9 +65,20 @@ class LayoutComponent extends Panel {
     return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
   }
 
-
   get show_take_action_now(){
     return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
+  }
+
+  get external_offset(){
+    return this.props.ui.get('external_offset').toJS();
+  }
+
+  goToRoute(route_name){
+    let router = this;
+    window.jQuery("[data-toggle='popover']").popover('hide');
+    window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
+      return router.pushRoute(route_name);
+    });
   }
 
   goToSettings(){
@@ -85,19 +89,33 @@ class LayoutComponent extends Panel {
     this.router.goToRouteByName('TakeAction');
   }
 
+  receiveExternalOffset(){
+    let layout = this;
+    window.addEventListener('message', ((event) => {
+      // optional origin check:
+      // if(event.origin !== 'http://localhost:8080') return;
+      try {
+        let data = JSON.parse(event.data);
+        if (data.hasOwnProperty('cta')) {
+          layout.props.updateUI({id: 'external_offset', data: data});
+          if (data.hasOwnProperty('connect_to_api')) {
+              if (!layout.props.ui.getIn(['external_offset', 'connect_to_api'])) {
+                layout.props.updateUI({id: 'connect_to_api', data: false});
+              }
+          }
+        }
+      } catch (e) {
+        return null;
+      }
+    }),false);
+  }
+
   destroyPrerenderData() {
     let prerender_data = document.getElementById('prerender_data');
     window.PrerenderData = undefined;
     if (prerender_data) prerender_data.parentNode.removeChild(prerender_data);
   }
 
-  // get external_offset(){
-  //   return this.state_manager.state.external_offset;
-  // }
-  //
-  // get connect_to_api(){
-  //   return this.state_manager.state.connect_to_api;
-  // }
   //
   // get show_user_answers_reset(){
   //   if (this.current_route_name === 'GetStarted') {
