@@ -38,6 +38,10 @@ export default class Router {
     })
   }
 
+  get app_routes(){
+    return this.routes.filter((route)=>{ return route.route_name !== 'MissingRoute'; })
+  }
+
   get locale(){
     return Router.locale();
   }

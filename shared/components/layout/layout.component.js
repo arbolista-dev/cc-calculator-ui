@@ -9,7 +9,7 @@ import footprintContainer from '../../containers/footprint.container';
 import { footprintPropTypes } from '../../containers/footprint.container';
 import template from './layout.rt.html';
 
-const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint'];
+const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint', 'MissingRoute'];
 const NON_LEADERS_PANELS = ['GetStarted', 'Settings', 'ForgotPassword'];
 
 class LayoutComponent extends Panel {
@@ -52,6 +52,20 @@ class LayoutComponent extends Panel {
 
   get graphing_route(){
     return NON_GRAPH_PANELS.indexOf(this.current_route_name) < 0;
+  }
+
+  get is_no_app_route(){
+    let result;
+    this.router.app_routes.forEach((route) => {
+      if (route.route_name === this.current_route_name) {
+        result = true;
+      }
+    })
+    if (result === undefined){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   get show_leaders_comparison(){
