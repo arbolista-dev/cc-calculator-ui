@@ -4,10 +4,10 @@ import React from 'react';
 import OverlapBar from 'd3-object-charts/src/bar/overlap';
 import ComparativePie from 'd3-object-charts/src/pie/comparative';
 
-import Panel from '../../lib/base_classes/panel';
+import Panel from 'shared/lib/base_classes/panel';
 import template from './graphs.rt.html';
-import footprintContainer from '../../containers/footprint.container';
-import { footprintPropTypes } from '../../containers/footprint.container';
+import footprintContainer from 'shared/containers/footprint.container';
+import { footprintPropTypes } from 'shared/containers/footprint.container';
 
 const CATEGORIES = ['result_transport_total', 'result_housing_total',
   'result_food_total', 'result_goods_total', 'result_services_total'],

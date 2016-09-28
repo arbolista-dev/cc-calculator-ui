@@ -5,8 +5,8 @@ import React from 'react';
 import { fromJS } from 'immutable';
 import StateManager from 'shared/lib/state_manager/state_manager';
 import Panel from 'shared/lib/base_classes/panel';
-import footprintContainer from '../../containers/footprint.container';
-import { footprintPropTypes } from '../../containers/footprint.container';
+import footprintContainer from 'shared/containers/footprint.container';
+import { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './layout.rt.html';
 
 const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint', 'MissingRoute'];

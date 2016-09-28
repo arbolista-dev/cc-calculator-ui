@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import Translatable from './../../../../lib/base_classes/translatable';
+import Translatable from 'shared/lib/base_classes/translatable';
 import template from './action.rt.html'
-import footprintContainer from '../../../../containers/footprint.container';
-import { footprintPropTypes } from '../../../../containers/footprint.container';
+import footprintContainer from 'shared/containers/footprint.container';
+import { footprintPropTypes } from 'shared/containers/footprint.container';
 
 class ActionComponent extends Translatable {
 

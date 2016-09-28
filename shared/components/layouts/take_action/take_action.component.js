@@ -4,8 +4,8 @@ import React from 'react';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './take_action.rt.html'
-import footprintContainer from '../../../containers/footprint.container';
-import { footprintPropTypes } from '../../../containers/footprint.container';
+import footprintContainer from 'shared/containers/footprint.container';
+import { footprintPropTypes } from 'shared/containers/footprint.container';
 
 export const ACTIONS = [{
   'category': 'transportation', 'title': 'Transportation',

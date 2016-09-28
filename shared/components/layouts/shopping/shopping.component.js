@@ -6,8 +6,8 @@ import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './shopping.rt.html'
-import footprintContainer from '../../../containers/footprint.container';
-import { footprintPropTypes } from '../../../containers/footprint.container';
+import footprintContainer from 'shared/containers/footprint.container';
+import { footprintPropTypes } from 'shared/containers/footprint.container';
 
 // We are ignoring goods_other_total - if advanced selected,
 // user must answer advanced other good questions.

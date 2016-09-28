@@ -4,8 +4,8 @@ import React from 'react';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './footprint.rt.html';
-import footprintContainer from '../../../containers/footprint.container';
-import { footprintPropTypes } from '../../../containers/footprint.container';
+import footprintContainer from 'shared/containers/footprint.container';
+import { footprintPropTypes } from 'shared/containers/footprint.container';
 
 class FootprintComponent extends Panel {
 
@@ -18,7 +18,7 @@ class FootprintComponent extends Panel {
   toggleLeadersChart() {
     let footprint = this,
         ui = {};
-    
+
     ui.id = 'leaders_chart';
     ui.data = {
       show: true,

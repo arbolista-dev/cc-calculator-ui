@@ -3,10 +3,10 @@
 import React from 'react';
 
 import { listLeaders, listLocations } from 'api/user.api';
-import Panel from './../../lib/base_classes/panel';
+import Panel from 'shared/lib/base_classes/panel';
 import template from './leaders.rt.html';
-import footprintContainer from './../../containers/footprint.container';
-import { footprintPropTypes } from './../../containers/footprint.container';
+import footprintContainer from 'shared/containers/footprint.container';
+import { footprintPropTypes } from 'shared/containers/footprint.container';
 
 class LeadersComponent extends Panel {
 

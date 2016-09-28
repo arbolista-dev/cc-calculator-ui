@@ -6,8 +6,8 @@ import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 
 import Panel from 'shared/lib/base_classes/panel';
 import template from './food.rt.html'
-import footprintContainer from '../../../containers/footprint.container';
-import { footprintPropTypes } from '../../../containers/footprint.container';
+import footprintContainer from 'shared/containers/footprint.container';
+import { footprintPropTypes } from 'shared/containers/footprint.container';
 
 const RELEVANT_API_KEYS = ['meatfisheggs', 'meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry',
                     'cereals', 'dairy', 'fruitvegetables', 'otherfood'],
