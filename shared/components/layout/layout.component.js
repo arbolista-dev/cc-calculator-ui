@@ -74,7 +74,6 @@ class LayoutComponent extends Panel {
     return this.connect_to_api && leaders_route && this.props.ui.getIn(['leaders_chart', 'show'])
   }
 
-
   get show_take_action_now(){
     return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
   }
@@ -85,6 +84,14 @@ class LayoutComponent extends Panel {
 
   get external_offset(){
     return this.props.ui.get('external_offset').toJS();
+  }
+
+  get show_user_answers_reset(){
+    if (this.current_route_name === 'GetStarted') {
+      return this.state_manager.user_footprint_storage.hasOwnProperty('input_size');
+    } else {
+      return false;
+    }
   }
 
   goToRoute(route_name){
@@ -124,26 +131,27 @@ class LayoutComponent extends Panel {
     }),false);
   }
 
+  setUserAnswersToDefault(){
+    let layout = this,
+    default_inputs = layout.getDefaultInputs();
+    layout.resetUserFootprint();
+    layout.props.ensureDefaults(default_inputs);
+
+    let alert = {};
+    alert.id = 'shared';
+    alert.data = {
+      route: layout.current_route_name,
+      type: 'success',
+      message: layout.t('success.answers_reset')
+    };
+    layout.props.pushAlert(alert);
+  }
+
   destroyPrerenderData() {
     let prerender_data = document.getElementById('prerender_data');
     window.PrerenderData = undefined;
     if (prerender_data) prerender_data.parentNode.removeChild(prerender_data);
   }
-
-  //
-  // get show_user_answers_reset(){
-  //   if (this.current_route_name === 'GetStarted') {
-  //     return this.state_manager.user_footprint_storage.hasOwnProperty('input_size');
-  //   } else {
-  //     return false;
-  //   }
-  // }
-  // setUserAnswersToDefault(){
-  //   let layout = this;
-  //   layout.state_manager.setUserFootprintStorageToDefault();
-  //   layout.state_manager.state.alerts.shared.push({type: 'success', message: layout.t('success.answers_reset')});
-  // }
-  //
 
 }
 LayoutComponent.propTypes = footprintPropTypes;

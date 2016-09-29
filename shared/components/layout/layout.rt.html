@@ -90,12 +90,16 @@
 				rt-if="this.show_leaders_comparison">
 			</Leaders>
 		</div>
-		<!--
+
 		<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
-			<a type="button"
+			<a type="button" href="#"
 				class="btn btn-default"
-				data-toggle="modal" data-target="#forget_user_answers_content" href="#"><i class="fa fa-eraser" aria-hidden="true"></i></a>
+				data-toggle="modal"
+				data-target="#forget_user_answers_content">
+					<i class="fa fa-eraser" aria-hidden="true"></i>
+				</a>
 		</div>
+
 		<div rt-if="this.show_user_answers_reset" class="modal fade" id="forget_user_answers_content" tabindex="-1" role="dialog">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
@@ -108,13 +112,14 @@
 				</div>
 			</div>
 		</div>
+
 	  <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
-		    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-lg btn-block desktop">
-		    	{this.t('Take action now')}
-		    </button>
-		    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-block mobile">
-		    	{this.t('Take action now')}
-		    </button>
-	  </div> -->
+	    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-lg btn-block desktop">
+	    	{this.t('Take action now')}
+	    </button>
+	    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-block mobile">
+	    	{this.t('Take action now')}
+	    </button>
+	  </div>
 	</div>
 </div>
