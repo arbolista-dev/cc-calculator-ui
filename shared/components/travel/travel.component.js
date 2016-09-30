@@ -21,15 +21,16 @@ class TravelComponent extends Panel {
     travel.state = Object.assign({
       simple: true,
       consumption_unit: 'mpg',
-      vehicles: [
-        new Vehicle(travel.newVehicleParams(1), travel, 'mpg'),
-        new Vehicle(travel.newVehicleParams(2), travel, 'mpg')
-      ]
+      vehicles: travel.createVehicles()
     }, travel.userApiState());
   }
 
   get vehicles(){
     return this.state.vehicles;
+  }
+
+  get amount_of_vehicles(){
+    return parseInt(this.userApiValue('input_footprint_transportation_num_vehicles'));
   }
 
   get vehicles_maxed(){
@@ -106,6 +107,17 @@ class TravelComponent extends Panel {
   /*
    * Vehicle Updates
    */
+
+  createVehicles(){
+    let travel = this,
+    garage = [];
+
+    for (let i=1; i<=travel.amount_of_vehicles; i++) {
+      garage.push(new Vehicle(travel.newVehicleParams(i), travel, 'mpg'))
+    }
+    console.log('garage', garage);
+    return garage;
+  }
 
   newVehicleParams(n){
     let travel = this;
