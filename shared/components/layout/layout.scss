@@ -69,6 +69,22 @@ a { cursor: pointer; }
 			}
 		}
 	}
+	.terms-footer {
+		.content {
+			text-align: right;
+
+			ul > li {
+				display: inline;
+				font-size: 0.8em;
+				&:first-of-type {
+					&::after {
+						content: "·";
+						padding: 0 3px;
+					}
+				}
+			}
+		}
+	}
 }
 
 #cc_nav {
