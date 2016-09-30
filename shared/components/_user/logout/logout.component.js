@@ -32,7 +32,7 @@ class LogoutComponent extends Translatable {
           delete logout.state_manager.state.auth;
           logout.state_manager.state.auth = {};
           localStorage.removeItem('auth');
-          logout.state_manager.setUserFootprintStorageToDefault().then(() => {
+          logout.state_manager.resetStoredUserFootprint().then(() => {
             logout.router.goToRouteByName('GetStarted')
             logout.state_manager.state.alerts.shared.push({type: 'success', message: logout.t('success.logout')});
           })

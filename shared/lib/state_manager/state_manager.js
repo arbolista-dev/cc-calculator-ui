@@ -260,19 +260,17 @@ export default class StateManager {
     state_manager.parseFootprintResult(state_manager.state.user_footprint);
   }
 
-  setUserFootprintStorageToDefault() {
+  resetStoredUserFootprint() {
     let state_manager = this;
-    localStorage.removeItem('user_footprint');
-    localStorage.removeItem('average_footprint');
 
-    state_manager.state.average_footprint = {};
+    localStorage.removeItem('user_footprint');
     state_manager.state.user_footprint = {};
+    state_manager.state.location_reset = true;
+    state_manager.state.display_location = '';
 
     return state_manager.updateDefaults().then(() => {
-      // User footprint reset!
+      // Footprint reset!
       state_manager.syncLayout().then(() => {
-        state_manager.state.location_reset = true;
-        state_manager.state.display_location = '';
       });
     })
   }
@@ -328,7 +326,7 @@ export default class StateManager {
     // do not override those values for user_footprint.
     let state_manager = this;
 
-    if (state_manager.actions_not_updated){
+    if (state_manager.actions_not_updated || state_manager.state.location_reset){
       state_manager.parseTakeactionResult(result);
     } else {
       result = Object.keys(result).reduce((hash, api_key)=>{

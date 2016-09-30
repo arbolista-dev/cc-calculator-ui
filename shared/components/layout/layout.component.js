@@ -76,7 +76,7 @@ class LayoutComponent extends mixin(Translatable, routable) {
 
   setUserAnswersToDefault(){
     let layout = this;
-    layout.state_manager.setUserFootprintStorageToDefault();
+    layout.state_manager.resetStoredUserFootprint();
     layout.state_manager.state.alerts.shared.push({type: 'success', message: layout.t('success.answers_reset')});
   }
 

@@ -17,9 +17,9 @@ class SettingsComponent extends Panel {
     return this.state_manager.user_authenticated;
   }
 
-  setUserFootprintStorageToDefault(){
+  resetStoredUserFootprint(){
     let component = this;
-    component.state_manager.setUserFootprintStorageToDefault();
+    component.state_manager.resetStoredUserFootprint();
     component.state_manager.state.alerts.shared.push({type: 'success', message: component.t('success.answers_reset')});
   }
 
