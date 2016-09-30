@@ -53,6 +53,10 @@ class HomeComponent extends Panel {
     return RELEVANT_API_KEYS;
   }
 
+  displayRoundedValues(value){
+    return Math.round(value);
+  }
+
   userCategoryInput(key_end){
     let home = this;
     return home.userApiValue(home.apiKey(key_end));
@@ -60,7 +64,7 @@ class HomeComponent extends Panel {
 
   defaultCategoryInput(key_end){
     let home = this;
-    return home.defaultApiValue(home.apiKey(key_end));
+    return Math.round(parseInt(home.defaultApiValue(home.apiKey(key_end))));
   }
 
   toggleLeadersChart() {

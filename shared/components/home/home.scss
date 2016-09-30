@@ -1,3 +1,10 @@
 #home {
+  .cc-component__question {
+    .input-group-btn {
+      &.open {
+        z-index: 9999 !important;
+      }
+    }
+  }
 
 }
