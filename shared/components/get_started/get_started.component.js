@@ -58,7 +58,8 @@ class GetStartedComponent extends Panel {
 
    get input_location_display(){
     let get_started = this;
-    if (get_started.country_mode){
+
+    if (get_started.country_mode || get_started.state_manager.state.location_reset){
       return get_started.t('get_started.United States');
     } else if (get_started.state_manager.state.display_location) {
       return get_started.state_manager.state.display_location;
@@ -79,7 +80,13 @@ class GetStartedComponent extends Panel {
     let get_started = this;
 
     get_started.state_manager.update_in_progress = true;
-    default_params.input_location_mode = get_started.state.input_location_mode;
+
+    if (get_started.state_manager.state.location_reset) {
+      default_params.input_location_mode = 5;
+    } else {
+      default_params.input_location_mode = get_started.state.input_location_mode;
+    }
+
     get_started.state_manager.updateDefaultParams(default_params)
 
     // debounce updating defaults by 500ms.
@@ -91,6 +98,13 @@ class GetStartedComponent extends Panel {
       // This will also make necessary update to user footprint.
       get_started.state_manager.updateDefaults()
         .then(()=>{
+          if (get_started.state_manager.state.location_reset) {
+            get_started.setState({
+              input_location_mode: 5,
+              input_location: undefined
+            });
+            get_started.state_manager.state.location_reset = false;
+          }
           get_started.state_manager.syncLayout();
         })
         .then(()=>{

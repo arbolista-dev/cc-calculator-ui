@@ -80,7 +80,7 @@
             <span class="label label-slider">{vehicle.display_mpg} <i>{this.displayConsumptionUnit()}</i></span>
           </div>
           <div class="vehicle-slider__container" id="{vehicle.slider_id}"></div>
-          <hr rt-if="vehicleIndex === 0">
+          <hr rt-if="vehicleIndex !== (this.number_of_vehicles - 1)">
         </div>
       </div>
     </div>

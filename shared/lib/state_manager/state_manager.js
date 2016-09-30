@@ -42,7 +42,8 @@ export default class StateManager {
         category: ""
       },
       vehicles: [],
-      display_location: ""
+      display_location: "",
+      location_reset: false
     };
   }
 
@@ -98,7 +99,7 @@ export default class StateManager {
   get default_inputs(){
     let state_manager = this,
         location;
-    if (!state_manager.user_footprint_set){
+    if (!state_manager.user_footprint_set || state_manager.state.location_reset){
       location = DEFAULT_LOCATION;
     } else {
       location = {
@@ -158,8 +159,6 @@ export default class StateManager {
     let state_manager = this;
 
     window.addEventListener('message', ((event) => {
-      // optional origin check:
-      // if(event.origin !== 'http://localhost:8080') return;
       try {
         let data = JSON.parse(event.data);
         if (data.hasOwnProperty('cta')) {
@@ -170,7 +169,6 @@ export default class StateManager {
       } catch (e) {
         return null;
       }
-
     }),false);
 
   }
@@ -204,9 +202,9 @@ export default class StateManager {
     let state_manager = this;
     if (state_manager.layout !== undefined){
       return state_manager.layout.syncFromStateManager()
-                .then(()=>{
-                  state_manager.update_in_progress = false;
-                });
+        .then(()=>{
+          state_manager.update_in_progress = false;
+        });
     } else {
       state_manager.update_in_progress = false;
       return undefined;
@@ -248,8 +246,7 @@ export default class StateManager {
   }
 
   updateUserFootprintStorage() {
-    let state_manager = this;
-    setLocalStorageItem('user_footprint', state_manager.state.user_footprint);
+    setLocalStorageItem('user_footprint', this.state.user_footprint);
   }
 
   setUserFootprint(answers) {
@@ -259,20 +256,22 @@ export default class StateManager {
     state_manager.parseFootprintResult(state_manager.state.user_footprint);
   }
 
-  setUserFootprintStorageToDefault() {
+  resetStoredUserFootprint() {
     let state_manager = this;
+
     localStorage.removeItem('user_footprint');
     state_manager.state.user_footprint = {};
+    state_manager.state.location_reset = true;
+    state_manager.state.display_location = '';
+
     return state_manager.updateDefaults().then(() => {
-      // User footprint reset!
-      state_manager.syncLayout().then(() => {
-      });
+      // Footprint reset!
+      state_manager.syncLayout()
     })
   }
 
   updateAverageFootprintStorage() {
-    let state_manager = this;
-    setLocalStorageItem('average_footprint', state_manager.state.average_footprint);
+    setLocalStorageItem('average_footprint', this.state.average_footprint);
   }
 
   updateTakeActionResultStorage() {
@@ -312,8 +311,6 @@ export default class StateManager {
             differences.push([key, in_v, out_v])
           }
         });
-
-    // console.log(JSON.stringify(differences, null, 2))
   }
 
   parseFootprintResult(result){
@@ -321,7 +318,7 @@ export default class StateManager {
     // do not override those values for user_footprint.
     let state_manager = this;
 
-    if (state_manager.actions_not_updated){
+    if (state_manager.actions_not_updated || state_manager.state.location_reset){
       state_manager.parseTakeactionResult(result);
     } else {
       result = Object.keys(result).reduce((hash, api_key)=>{
@@ -379,9 +376,6 @@ export default class StateManager {
         token = state_manager.state.auth.token;
 
     return updateAnswers(state_manager.user_footprint, token)
-            .then((res) => {
-              // if (res.success) console.log('Updated user answers in DB.');
-            })
   }
 
 }

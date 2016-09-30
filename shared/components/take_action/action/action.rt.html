@@ -45,7 +45,10 @@
                  <td colspan="0" rt-if="!block.text_only">
                    <p rt-if="block.select">
                      {block.prefix}
-                     <select id="{block.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}" value="{this.getSelectedOption(block.select.id)}">
+                     <select id="{block.select.id}"
+                     data-action_key="{this.state.key}"
+                     onChange="{this.handleChange.bind(this)}"
+                     value="{this.getSelectedOption(block.select.id)}">
                       <option rt-repeat="option in this.setSelectOptions(block.select)"
                         value="{option.value}"
                         key="{optionIndex}">{option.text}</option>
@@ -54,7 +57,11 @@
                    </p>
                    <p rt-if="block.input">
                      <span>{block.prefix} </span>
-                     <input type="text" id="{block.input.id}" value="{this.setInputState(block.input.id)}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
+                     <input type="text" id="{block.input.id}"
+                     value="{this.setInputState(block.input.id)}"
+                     size="{block.input.size}"
+                     maxlength="{block.input.maxlength}"
+                     onChange="{this.updateActionInput.bind(this)}">
                      <span> {block.suffix}</span>
                    </p>
                    <p rt-if="block.show" id="{block.show}">
@@ -63,7 +70,9 @@
                    </p>
                  </td>
                </tr>
-               <tr rt-if="block.assumptions" class="action__assumptions-header"><td colspan="2"><h4 class="text-center">Assumptions:</h4></td></tr>
+               <tr rt-if="block.assumptions" class="action__assumptions-header">
+                 <td colspan="2"><h4 class="text-center">Assumptions:</h4></td>
+               </tr>
                <tr rt-if="block.assumptions" rt-repeat="a in block.assumptions"
                 class="action__assumptions-body"
                 key="{aIndex}">
@@ -80,7 +89,10 @@
                  <td colspan="0" rt-if="!a.text_only">
                    <p rt-if="a.select">
                      {a.prefix}
-                     <select id="{a.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}" value="{this.getSelectedOption(a.select.id)}">
+                     <select id="{a.select.id}"
+                     data-action_key="{this.state.key}"
+                     onChange="{this.handleChange.bind(this)}"
+                     value="{this.getSelectedOption(a.select.id)}">
                       <option rt-repeat="option in this.setSelectOptions(a.select)"
                         value="{option.value}"
                         key="{optionIndex}">{option.text}</option>
@@ -89,7 +101,11 @@
                    </p>
                    <p rt-if="a.input">
                      <span>{a.prefix} </span>
-                     <input type="text" id="{a.input.id}" value="{this.setInputState(a.input.id)}" size="{a.input.size}" maxlength="{a.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
+                     <input type="text" id="{a.input.id}"
+                     value="{this.setInputState(a.input.id)}"
+                     size="{a.input.size}"
+                     maxlength="{a.input.maxlength}"
+                     onChange="{this.updateActionInput.bind(this)}">
                      <span> {a.suffix}</span>
                    </p>
                    <p rt-if="a.show" id="{a.show}">
@@ -134,7 +150,11 @@
            <td>
              <p rt-if="block.input" class="text-left">
                <span>{block.prefix} </span>
-               <input type="text" id="{block.input.id}" value="{this.setInputState(block.input.id)}" size="{block.input.size}" maxlength="{block.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">
+               <input type="text" id="{block.input.id}"
+               value="{this.setInputState(block.input.id)}"
+               size="{block.input.size}"
+               maxlength="{block.input.maxlength}"
+               onChange="{this.updateActionInput.bind(this)}">
                <span> {block.suffix}</span>
              </p>
              <p rt-if="block.show" id="{block.show}" class="text-left">
