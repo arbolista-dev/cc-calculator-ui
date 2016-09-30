@@ -94,7 +94,7 @@ class GraphsComponent extends Panel {
   }
 
   shouldShowTotal(){
-    if (this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint') {
+    if (this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction') {
       return false;
     } else {
       return true;
@@ -292,7 +292,7 @@ class GraphsComponent extends Panel {
   get user_category_footprint(){
     let graphs = this;
     if (graphs.current_route_name === 'TakeAction'){
-      return graphs.displayTakeactionSavings('result_takeaction_pounds');
+      return graphs.userApiValue('result_grand_total') - graphs.displayTakeactionSavings('result_takeaction_pounds');
     } else if (graphs.current_route_name === 'GetStarted'){
       return graphs.userApiValue('result_grand_total');
     } else {
@@ -345,8 +345,6 @@ class GraphsComponent extends Panel {
         return graphs.t('summaries.total_food_footprint')
       case 'Shopping':
         return graphs.t('summaries.total_shopping_footprint')
-      case 'TakeAction':
-        return graphs.t('summaries.total_action_savings')
       default:
         return graphs.t('summaries.total_footprint')
     }

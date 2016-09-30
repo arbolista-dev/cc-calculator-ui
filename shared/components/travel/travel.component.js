@@ -115,7 +115,6 @@ class TravelComponent extends Panel {
     for (let i=1; i<=travel.amount_of_vehicles; i++) {
       garage.push(new Vehicle(travel.newVehicleParams(i), travel, 'mpg'))
     }
-    console.log('garage', garage);
     return garage;
   }
 
