@@ -42,7 +42,8 @@ export default class StateManager {
         category: ""
       },
       vehicles: [],
-      display_location: ""
+      display_location: "",
+      location_reset: false
     };
   }
 
@@ -98,7 +99,7 @@ export default class StateManager {
   get default_inputs(){
     let state_manager = this,
         location;
-    if (!state_manager.user_footprint_set){
+    if (!state_manager.user_footprint_set || state_manager.state.location_reset){
       location = DEFAULT_LOCATION;
     } else {
       location = {
@@ -262,10 +263,16 @@ export default class StateManager {
   setUserFootprintStorageToDefault() {
     let state_manager = this;
     localStorage.removeItem('user_footprint');
+    localStorage.removeItem('average_footprint');
+
+    state_manager.state.average_footprint = {};
     state_manager.state.user_footprint = {};
+
     return state_manager.updateDefaults().then(() => {
       // User footprint reset!
       state_manager.syncLayout().then(() => {
+        state_manager.state.location_reset = true;
+        state_manager.state.display_location = '';
       });
     })
   }
