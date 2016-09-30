@@ -29,7 +29,7 @@ class TravelComponent extends Panel {
     return this.state.vehicles;
   }
 
-  get amount_of_vehicles(){
+  get number_of_vehicles(){
     return parseInt(this.userApiValue('input_footprint_transportation_num_vehicles'));
   }
 
@@ -112,7 +112,7 @@ class TravelComponent extends Panel {
     let travel = this,
     garage = [];
 
-    for (let i=1; i<=travel.amount_of_vehicles; i++) {
+    for (let i=1; i<=travel.number_of_vehicles; i++) {
       garage.push(new Vehicle(travel.newVehicleParams(i), travel, 'mpg'))
     }
     return garage;

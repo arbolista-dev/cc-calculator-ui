@@ -159,8 +159,6 @@ export default class StateManager {
     let state_manager = this;
 
     window.addEventListener('message', ((event) => {
-      // optional origin check:
-      // if(event.origin !== 'http://localhost:8080') return;
       try {
         let data = JSON.parse(event.data);
         if (data.hasOwnProperty('cta')) {
@@ -171,7 +169,6 @@ export default class StateManager {
       } catch (e) {
         return null;
       }
-
     }),false);
 
   }
@@ -205,9 +202,9 @@ export default class StateManager {
     let state_manager = this;
     if (state_manager.layout !== undefined){
       return state_manager.layout.syncFromStateManager()
-                .then(()=>{
-                  state_manager.update_in_progress = false;
-                });
+        .then(()=>{
+          state_manager.update_in_progress = false;
+        });
     } else {
       state_manager.update_in_progress = false;
       return undefined;
@@ -249,8 +246,7 @@ export default class StateManager {
   }
 
   updateUserFootprintStorage() {
-    let state_manager = this;
-    setLocalStorageItem('user_footprint', state_manager.state.user_footprint);
+    setLocalStorageItem('user_footprint', this.state.user_footprint);
   }
 
   setUserFootprint(answers) {
@@ -270,14 +266,12 @@ export default class StateManager {
 
     return state_manager.updateDefaults().then(() => {
       // Footprint reset!
-      state_manager.syncLayout().then(() => {
-      });
+      state_manager.syncLayout()
     })
   }
 
   updateAverageFootprintStorage() {
-    let state_manager = this;
-    setLocalStorageItem('average_footprint', state_manager.state.average_footprint);
+    setLocalStorageItem('average_footprint', this.state.average_footprint);
   }
 
   updateTakeActionResultStorage() {
@@ -317,8 +311,6 @@ export default class StateManager {
             differences.push([key, in_v, out_v])
           }
         });
-
-    // console.log(JSON.stringify(differences, null, 2))
   }
 
   parseFootprintResult(result){
@@ -384,9 +376,6 @@ export default class StateManager {
         token = state_manager.state.auth.token;
 
     return updateAnswers(state_manager.user_footprint, token)
-            .then((res) => {
-              // if (res.success) console.log('Updated user answers in DB.');
-            })
   }
 
 }

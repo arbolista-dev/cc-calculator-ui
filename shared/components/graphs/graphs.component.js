@@ -94,11 +94,7 @@ class GraphsComponent extends Panel {
   }
 
   shouldShowTotal(){
-    if (this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction') {
-      return false;
-    } else {
-      return true;
-    }
+    return !(this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction')
   }
 
   get categories(){

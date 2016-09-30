@@ -113,9 +113,6 @@ class ActionComponent extends Translatable {
   setInputState(id){
     let take_action = this,
     footprint = take_action.state_manager.state.user_footprint;
-    // console.log('footprint', footprint);
-    // console.log('id', id);
-    // console.log('footprint[id]', footprint[id]);
     return footprint[id]
   }
 
