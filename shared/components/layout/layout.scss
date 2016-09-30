@@ -87,7 +87,7 @@ a { cursor: pointer; }
 #forget_user_answers {
 	position: fixed;
 	left: 4px;
-	top: 35%;
+	top: 13%;
 	display: block;
 }
 
@@ -206,5 +206,13 @@ main > header {
 	  .desktop {
 	  	display:none;
 	  }
+	}
+}
+
+@media (max-width: 800px) {
+	#forget_user_answers {
+		.btn {
+			opacity: 0.7;
+		}
 	}
 }
