@@ -49,7 +49,6 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     let alert = {};
     alert.id = 'shared';
     alert.data = [{
-      route: component.current_route_name,
       type: 'success',
       message: component.t('success.answers_reset')
     }];

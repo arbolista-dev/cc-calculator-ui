@@ -59,7 +59,6 @@ class SignUpComponent extends Panel {
         let alert = {};
         alert.id = 'sign_up';
         alert.data = {
-          route: sign_up.current_route_name,
           type: 'danger',
           message: sign_up.t('sign_up.' + key) + ' ' + sign_up.t('errors.invalid')
         };

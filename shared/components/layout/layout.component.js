@@ -95,19 +95,9 @@ class LayoutComponent extends Panel {
     }
   }
 
-  // goToRoute(route_name){
-  //   let router = this;
-  //   window.jQuery("[data-toggle='popover']").popover('hide');
-  //   window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
-  //     return router.pushRoute(route_name);
-  //   });
-  // }
-
   receiveExternalOffset(){
     let layout = this;
     window.addEventListener('message', ((event) => {
-      // optional origin check:
-      // if(event.origin !== 'http://localhost:8080') return;
       try {
         let data = JSON.parse(event.data);
         if (data.hasOwnProperty('cta')) {

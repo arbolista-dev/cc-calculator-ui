@@ -138,18 +138,17 @@ class GetStartedComponent extends Panel {
 
     get_started.updateDefaults({input_location: zipcode, input_location_mode: get_started.state.input_location});
 
-    // @ToDo: Refactor
-    // if (get_started.state_manager.user_authenticated) {
-    //   let index = get_started.state.locations.data.findIndex(l => l === zipcode),
-    //       location_data = get_started.state.locations.selected_location[index];
-    //
-    //   get_started.setUserLocation(location_data)
-    // }
+    if (get_started.user_authenticated) {
+      let index = get_started.state.locations.data.findIndex(l => l === zipcode),
+          location_data = get_started.state.locations.selected_location[index];
+
+      get_started.setUserLocation(location_data)
+    }
   }
 
   setUserLocation(location){
     let get_started = this,
-        token = get_started.state_manager.state.auth.token;
+        token = get_started.props.auth.getIn(['data', 'token']);
 
     return setLocation(location, token).then((res) => {
       if (res.success) console.log('Location updated in DB')

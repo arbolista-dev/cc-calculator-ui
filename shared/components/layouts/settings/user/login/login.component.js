@@ -55,7 +55,6 @@ class LoginComponent extends Panel {
       let value = login.valid[key]
       if (value === false) {
         let item = {
-          route: login.current_route_name,
           type: 'danger',
           message: login.t('login.' + key) + ' ' + login.t('errors.invalid')
         };

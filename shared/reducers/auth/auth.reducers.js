@@ -4,6 +4,7 @@ import { createReducer } from 'redux-act';
 
 import { addUser, loginUser, logoutUser, forgotPassword } from 'api/user.api';
 import { signup, login, loggedIn, signedUp, logout, loggedOut, requestNewPassword, passwordRequested, authError } from './auth.actions';
+import { updatedFootprintComputed } from '../user_footprint/user_footprint.actions';
 import { pushAlert } from '../ui/ui.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
@@ -66,18 +67,13 @@ const ACTIONS = {
           token: api_response.data.token,
           name: api_response.data.name
         },
-        remote_anwers = JSON.parse(api_response.data.answers),
+        remote_answers = JSON.parse(api_response.data.answers),
         res = {
           received: true,
           success: true,
         };
 
       setLocalStorageItem('auth', auth);
-      if (remote_anwers.length !== 0) {
-        console.log('remote answers available -> set user_footprint');
-        // @ToDo: setUserFootprint to answers!
-        // login.state_manager.setUserFootprint(remote_anwers);
-      }
 
       let updated = state.setIn(['data', 'token'], auth.token)
                          .setIn(['data', 'name'], auth.name)
@@ -88,17 +84,29 @@ const ACTIONS = {
       let alert = {
         id: 'shared',
         data: [{
-          route: 'Settings',
           needs_i18n: true,
           type: 'success',
           message: 'success.login'
         }]
       };
 
-      return loop(
-        fromJS(updated),
-        Effects.constant(pushAlert(alert))
-      )
+      console.log('remote_answers', remote_answers);
+      if (remote_answers.length !== 0) {
+        console.log('remote answers available -> set user_footprint');
+
+        return loop(
+          fromJS(updated),
+          Effects.batch([
+            Effects.constant(pushAlert(alert)),
+            Effects.constant(updatedFootprintComputed(remote_answers))
+          ])
+        )
+      } else {
+        return loop(
+          fromJS(updated),
+          Effects.constant(pushAlert(alert))
+        )
+      }
 
     } else {
       let err = JSON.parse(api_response.error);
@@ -111,7 +119,6 @@ const ACTIONS = {
      let alert = {
        id: 'login',
        data: [{
-         route: 'Settings',
          needs_i18n: true,
          type: 'danger',
          message: 'errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]
@@ -156,7 +163,6 @@ const ACTIONS = {
       let alert = {
         id: 'shared',
         data: [{
-          route: 'Settings',
           needs_i18n: true,
           type: 'success',
           message: 'success.sign_up'
@@ -179,7 +185,6 @@ const ACTIONS = {
      let alert = {
        id: 'sign_up',
        data: [{
-         route: 'Settings',
          needs_i18n: true,
          type: 'danger',
          message: 'errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]
@@ -218,7 +223,6 @@ const ACTIONS = {
       let alert = {
         id: 'shared',
         data: [{
-          route: 'Settings',
           needs_i18n: true,
           type: 'success',
           message: 'success.logout'

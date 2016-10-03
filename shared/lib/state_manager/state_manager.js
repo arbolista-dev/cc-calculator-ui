@@ -10,7 +10,7 @@ import authReducers from 'shared/reducers/auth/auth.reducers';
 import uiReducers from 'shared/reducers/ui/ui.reducers';
 
 // import CalculatorApi from 'api/calculator.api';
-// import { updateAnswers } from 'api/user.api';
+import { updateAnswers } from 'api/user.api';
 import { tokenIsValid, getLocalStorageItem } from '../utils/utils';
 
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
@@ -112,65 +112,16 @@ export default class StateManager {
     }, opts);
   }
 
-  getInitialData(){
-    let state_manager = this;
 
-    // @ToDo Refactor:
-    // state_manager.receiveExternalOffset()
-
-    // we'll load past user answers and get CC results here.
-    return state_manager.checkLocalStorage();
+  /*
+   * User API
+   */
+  updateUserAnswers(footprint, token){
+    return updateAnswers(footprint, token)
+      .then((res) => {
+        if (res.success) console.log('Updated user answers in DB.');
+      })
   }
-
-  checkLocalStorage(){
-    let state_manager = this;
-    return Promise.resolve();
-  }
-
-  // @ToDo Refactor:
-
-  // get user_authenticated(){
-  //   if (this.state.auth.hasOwnProperty('token')) {
-  //     return tokenIsValid(this.state.auth.token);
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
-  // @ToDo Refactor:
-  // setConnectToApi(){
-  //   let state_manager = this;
-  //   if (state_manager.state.external_offset.hasOwnProperty('connect_to_api')) {
-  //     if (!state_manager.state.external_offset.connect_to_api) {
-  //       state_manager.state.connect_to_api = false;
-  //     }
-  //   }
-  // }
-
-
-  // @ToDo Refactor:
-  // receiveExternalOffset() {
-  //   let state_manager = this;
-  //
-  //   window.addEventListener('message', ((event) => {
-  //     // optional origin check:
-  //     // if(event.origin !== 'http://localhost:8080') return;
-  //
-  //     try {
-  //       let data = JSON.parse(event.data);
-  //       if (data.carbon_price_per_ton) {
-  //         Object.assign(state_manager.state.external_offset, data);
-  //         state_manager.setConnectToApi();
-  //         state_manager.syncLayout();
-  //       }
-  //     } catch (e) {
-  //       // console.log('receiveExternalOffset err: ', e);
-  //     }
-  //
-  //   }),false);
-  //
-  // }
-
 
   // @ToDo - Check which methods are still needed within State Manager
   // setUserFootprint(answers) {
@@ -191,18 +142,6 @@ export default class StateManager {
   //   })
   // }
 
-  //
-  // /*
-  //  * User API
-  //  */
-  // updateUserAnswers(){
-  //   let state_manager = this,
-  //       token = state_manager.state.auth.token;
-  //
-  //   return updateAnswers(state_manager.user_footprint, token)
-  //           .then((res) => {
-  //             // if (res.success) console.log('Updated user answers in DB.');
-  //           })
-  // }
+
 
 }

@@ -37,7 +37,6 @@ export default function(createHistory) {
     .then((_i18n)=>{
       i18n = _i18n;
       router = new Router(i18n);
-      return state_manager.getInitialData();
     })
     .then(()=>{
       let location = Router.currentWindowLocation(),

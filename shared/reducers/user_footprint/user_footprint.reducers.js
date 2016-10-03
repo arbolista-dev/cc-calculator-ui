@@ -167,10 +167,14 @@ const ACTIONS = {
   },
 
   [updatedFootprintComputed]: (state, payload)=>{
+    console.log('updatedFootprintComputed payload', payload);
+    let params = payload;
+    if(Map.isMap(payload)) params = payload.toJS();
+
     return loop(
       fromJS(state),
       Effects.promise(()=>{
-        return CalculatorApi.computeFootprint(payload.toJS())
+        return CalculatorApi.computeFootprint(params)
           .then(parseFootprintResult)
           .catch(ensureUserFootprintError)
       })

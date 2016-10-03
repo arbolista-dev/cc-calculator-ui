@@ -172,7 +172,6 @@ class LeadersComponent extends Panel {
         let alert = {};
         alert.id = 'leaders';
         alert.data = {
-          route: leaders.current_route_name,
           type: 'danger',
           message: leaders.t('leaders.empty')
         };
@@ -240,7 +239,6 @@ class LeadersComponent extends Panel {
           let alert = {};
           alert.id = 'leaders';
           alert.data = {
-            route: leaders.current_route_name,
             type: 'danger',
             message: leaders.t('leaders.retrieval_error')
           };
