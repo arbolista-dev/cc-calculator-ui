@@ -25,7 +25,12 @@ class LoginComponent extends Panel {
   }
 
   get alert_list() {
-    return this.props.ui.getIn(['alerts', 'login']).toJS()
+    let state_list = this.props.ui.getIn(['alerts', 'login']).toJS();
+    if (state_list.length != 0){
+      return state_list
+    } else {
+      return new Array()
+    }
   }
 
   paramValid(param){
@@ -42,21 +47,24 @@ class LoginComponent extends Panel {
     let login = this,
         all_valid = Object.values(login.valid).filter(item => item === false);
 
+    let alert = {};
+    alert.id = 'login';
+    alert.data = [];
+
     for (let key in login.valid) {
       let value = login.valid[key]
       if (value === false) {
-        let alert = {};
-        alert.id = 'login';
-        alert.data = {
+        let item = {
           route: login.current_route_name,
           type: 'danger',
           message: login.t('login.' + key) + ' ' + login.t('errors.invalid')
         };
-        login.props.pushAlert(alert);
+        alert.data.push(item);
       }
     }
 
     if (all_valid[0] === false) {
+      login.props.pushAlert(alert);
       return false;
     } else {
       return true;
@@ -78,70 +86,7 @@ class LoginComponent extends Panel {
 
   submitLogin(event) {
     event.preventDefault();
-    let login = this,
-      alert = {};
-
-    alert.id = 'shared';
-    alert.reset = true;
-    login.props.pushAlert(alert);
-    alert.id = 'login';
-    alert.reset = true;
-    login.props.pushAlert(alert);
-
-
-    if (login.validateAll()) {
-
-      login.props.login(login.state);
-
-      console.log('after login success', login.props.auth.get('success'));
-      console.log('after login data', login.props.auth.get('data').toJS());
-      // @ToDo: Check auth status to see if login successful
-      // let alert = {};
-      // alert.id = 'login';
-      // alert.data = {
-      //   route: login.current_route_name,
-      //   type: 'success',
-      //   message: login.t('success.login')
-      // };
-      // login.props.pushAlert(alert);
-      // @ToDo: refactor goToRouteByName
-      // login.router.goToRouteByName('GetStarted');
-
-      // old:
-      // loginUser(login.state).then((res)=>{
-      //   if (res.success) {
-      //     // user logged in
-      //     let auth_res = {
-      //           token: res.data.token,
-      //           name: res.data.name
-      //         }, remote_anwers = JSON.parse(res.data.answers);
-      //
-      //     Object.assign(login.state_manager.state.auth, auth_res);
-      //     localStorage.setItem('auth', JSON.stringify(auth_res));
-      //
-      //     if (remote_anwers.length !== 0) {
-      //       login.state_manager.setUserFootprint(remote_anwers);
-      //     }
-      //
-      //
-      //   } else {
-      //     let err = JSON.parse(res.error);
-      //
-      //     let alert = {};
-      //     alert.id = 'login';
-      //     alert.data = {
-      //       route: login.current_route_name,
-      //       type: 'danger',
-      //       message: login.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0])
-      //     };
-      //     login.props.pushAlert(alert);
-      //
-      //   }
-      //   return res
-      // })
-    } else {
-      // input not valid
-    }
+    if (this.validateAll()) this.props.login(this.state);
   }
 
   goToForgotPassword() {

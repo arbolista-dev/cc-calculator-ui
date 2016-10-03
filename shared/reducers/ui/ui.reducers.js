@@ -1,9 +1,8 @@
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
-import { updateUI, pushAlert } from './ui.actions'
-
+import { updateUI, pushAlert, resetAlerts } from './ui.actions'
 /*
   ui: {
     alerts: <Map>,
@@ -17,9 +16,7 @@ import { updateUI, pushAlert } from './ui.actions'
 const ACTIONS = {
 
   [updateUI]: (state, payload)=>{
-
     if (state.has(payload.id)) {
-
       let merged;
       if (Map.isMap(state.get(payload.id))) {
         merged = state.get(payload.id).merge(payload.data);
@@ -37,16 +34,26 @@ const ACTIONS = {
   },
 
   [pushAlert]: (state, payload)=>{
+    let data = payload.data;
+
+    if (!List.isList(data)) data = new List(data);
+    let updated = state.setIn(['alerts', payload.id], data)
+    return fromJS(updated)
+  },
+
+  [resetAlerts]: (state, _payload)=>{
 
     let updated;
-    if (payload.reset) {
-      let cleared = state.getIn(['alerts', payload.id]).clear();
-      updated = state.setIn(['alerts', payload.id], cleared);
-    } else {
-      let pushed = state.getIn(['alerts', payload.id]).push(payload.data);
-      updated = state.setIn(['alerts', payload.id], pushed);
-    }
-    return fromJS(updated);
+    let alerts = state.get('alerts');
+    Object.keys(alerts.toJS()).forEach((type) => {
+      if (alerts.get(type).length !== 0) {
+        updated = state.setIn(['alerts', type], new List())
+      } else {
+        updated = state.setIn(['alerts', type], alerts.get(type))
+      }
+    })
+
+    return fromJS(updated)
   }
 
 };

@@ -99,8 +99,6 @@ export default class StateManager {
     let state_manager = this,
         average_footprint_state;
 
-    console.log('initialState call');
-
     return Object.assign({
       auth: fromJS({data: state_manager.auth_storage || {}}),
       average_footprint: fromJS({data: state_manager.average_footprint_storage || state_manager.default_inputs}),

@@ -1,8 +1,6 @@
 import * as Immutable from 'immutable';
 import { updateLocation } from './location.actions';
 
-const BLANK_SESSION = { auth: null };
-
 /*
 {
   pathname: <String>,

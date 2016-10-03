@@ -17,19 +17,12 @@ class AlertsComponent extends Translatable {
     return this.props.list.length != 0
   }
 
-  componentDidUpdate(){
+  translateAlert(alert){
     let alerts = this;
-
-    if (alerts.not_empty) {
-      for (let i = 0; i < alerts.props.list.length; i++ ) {
-        if (alerts.props.list[i].route !== this.props.currentRoute) {
-          // clear alerts after changing route
-          let alert = {};
-          alert.id = alerts.props.category;
-          alert.reset = true;
-          alerts.props.pushAlert(alert);
-        }
-      }
+    if (alert.needs_i18n) {
+      return alerts.t(alert.message);
+    } else {
+      return alert.message;
     }
   }
 
@@ -40,10 +33,7 @@ class AlertsComponent extends Translatable {
 }
 
 AlertsComponent.propTypes = {
-  list: React.PropTypes.array.isRequired,
-  category: React.PropTypes.string.isRequired,
-  currentRoute: React.PropTypes.string.isRequired,
-  pushAlert: React.PropTypes.func.isRequired
+  list: React.PropTypes.array.isRequired
 };
 
 AlertsComponent.NAME = 'Alerts';

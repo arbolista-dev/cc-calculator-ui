@@ -5,6 +5,8 @@ import React from 'react';
 import { logoutUser } from 'api/user.api';
 import Translatable from 'shared/lib/base_classes/translatable';
 import template from './logout.rt.html';
+import authContainer from 'shared/containers/auth.container';
+import { authPropTypes } from 'shared/containers/auth.container';
 
 class LogoutComponent extends Translatable {
 
@@ -20,43 +22,12 @@ class LogoutComponent extends Translatable {
 
   submitLogout(event) {
     event.preventDefault();
-    let logout = this,
-      token = logout.state_manager.state.auth.token,
-      alert = {};
-
-    alert.id = 'shared';
-    alert.reset = true;
-    logout.props.pushAlert(alert);
-
-    if(token) {
-      logoutUser(token).then((res)=>{
-        if (res.success) {
-          // user logged out
-
-          delete logout.state_manager.state.auth;
-          logout.state_manager.state.auth = {};
-          localStorage.removeItem('auth');
-          logout.state_manager.setUserFootprintStorageToDefault()
-          logout.router.goToRouteByName('GetStarted')
-          let alert = {};
-          alert.id = 'shared';
-          alert.data = {
-            route: logout.current_route_name,
-            type: 'success',
-            message: logout.t('success.logout')
-          };
-          logout.props.pushAlert(alert);
-
-        } else {
-          // user logout failed?!
-        }
-        return res
-      })
-    }
+    this.props.logout();
   }
 
 }
 
 LogoutComponent.NAME = 'Logout';
+LogoutComponent.propTypes = Object.assign({}, authPropTypes);
 
-module.exports = LogoutComponent;
+module.exports = authContainer(LogoutComponent);

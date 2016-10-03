@@ -34,8 +34,13 @@ class LayoutComponent extends Panel {
     return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false
   }
 
-  get alert_list(){
-    return this.props.ui.getIn(['alerts', 'shared']).toJS()
+  get alert_list() {
+    let state_list = this.props.ui.getIn(['alerts', 'shared']).toJS();
+    if (state_list.length != 0){
+      return state_list
+    } else {
+      return new Array()
+    }
   }
 
   get route_name(){
@@ -83,7 +88,9 @@ class LayoutComponent extends Panel {
   }
 
   get external_offset(){
-    return this.props.ui.get('external_offset').toJS();
+    if (this.props.ui.has('external_offset')) {
+      return this.props.ui.get('external_offset').toJS();
+    }
   }
 
   get show_user_answers_reset(){

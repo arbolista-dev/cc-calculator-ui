@@ -215,10 +215,8 @@ class GraphsComponent extends Panel {
     });
     // $(window).scroll(()=>{
     //     let $container = $(this);
-    //     console.log('scrollhello');
     //     $(this).find('.popover').each(()=>{
     //
-    //       console.log('scrollTop container', $container.scrollTop());
     //         $(this).css({
     //             top:  - $container.scrollTop()
     //         });

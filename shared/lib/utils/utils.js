@@ -47,21 +47,16 @@ function getLocalStorageItem(specifier) {
       if(results_exist.length !== 0){
         return JSON.parse(results);
       } else {
-        console.log('getLocalStorageItem err: no results exist');
         return false;
       }
     }
-  } catch (err) {
-    return false;
-  }
+  } catch (err) { return false; }
 }
 
 function setLocalStorageItem(specifier, data) {
   try {
     localStorage.setItem(specifier, JSON.stringify(data));
-  } catch (err) {
-    console.log('setLocalStorageItem error', err);
-  }
+  } catch (err) { }
 }
 
 export { tokenIsValid, validateParameter, getLocalStorageItem, setLocalStorageItem };

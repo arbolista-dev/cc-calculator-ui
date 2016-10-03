@@ -3,6 +3,6 @@
       key="{alertIndex}"
       rt-class="{'alert-success': alert.type === 'success', 'alert-danger': alert.type === 'danger'}"
       rt-repeat="alert in this.props.list">
-      {alert.message}
+      {this.translateAlert(alert)}
     </div>
 </div>

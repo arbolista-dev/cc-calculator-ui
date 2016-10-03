@@ -30,63 +30,13 @@ class SignUpComponent extends Panel {
     };
   }
 
-  componentWillReceiveProps(){
-
-    // compare props
-    // this.load_finished();
-    if (this.load_finished) this.displayResponseAlert();
-  }
-
   get alert_list() {
-    return this.props.ui.getIn(['alerts', 'sign_up']).toJS()
-  }
-
-  get load_finished() {
-    console.log('load_finished?', this.props.auth.get('received') === true && this.props.auth.get('loading') === false);
-    console.log('load_finished state', this.props.auth);
-    return this.props.auth.get('received') === true && this.props.auth.get('loading') === false;
-  }
-
-  // load_finished() {
-  //   let sign_up = this;
-  //
-  //   console.log('auth state', sign_up.props.auth);
-  //   // let loading = sign_up.props.auth.get('loading');
-  //   // console.log('loaded?', loading);
-  //   // console.log('received?', sign_up.props.auth.get('response'));
-  //   if (sign_up.props.auth.get('received') === true && sign_up.props.auth.get('loading') === false) {
-  //     sign_up.displayResponseAlert();
-  //   }
-  // }
-
-  displayResponseAlert(){
-    let sign_up = this,
-      success = sign_up.props.auth.get('success'),
-      alert = {
-        id: 'sign_up'
-      };
-    console.log('displayResponseAlert success:', success);
-    if (success) {
-      alert.data = {
-        route: sign_up.current_route_name,
-        type: 'success',
-        message: sign_up.t('success.sign_up')
-      };
+    let state_list = this.props.ui.getIn(['alerts', 'sign_up']).toJS();
+    if (state_list.length != 0){
+      return state_list
     } else {
-      let error_msg = sign_up.props.auth.get('error_msg');
-      alert.data = {
-        route: sign_up.current_route_name,
-        type: 'danger',
-      };
-      try {
-        let err = JSON.parse(error_msg);
-        alert.data.message = sign_up.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]);
-
-      } catch (err){
-        alert.data.message = sign_up.t('errors.email.non-unique');
-      }
+      return new Array()
     }
-    sign_up.props.pushAlert(alert);
   }
 
   paramValid(param){
@@ -145,16 +95,7 @@ class SignUpComponent extends Panel {
 
   submitSignup(event) {
     event.preventDefault();
-    let sign_up = this,
-      alert = {};
-
-    alert.id = 'sign_up';
-    alert.reset = true;
-    sign_up.props.pushAlert(alert);
-
-    if (sign_up.validateAll()) {
-      sign_up.props.signup(sign_up.state);
-    }
+    if (this.validateAll()) this.props.signup(this.state);
   }
 
   render() {

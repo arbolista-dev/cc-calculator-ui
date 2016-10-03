@@ -6,12 +6,9 @@
     </div>
 
     <div class="panel-body cc-component__form form-horizontal">
-      <Alerts
-        list="{this.alert_list}"
-        category="sign_up"
-        currentRoute="{this.current_route_name}"
-        pushAlert="{this.props.pushAlert}"></Alerts>
+      <Alerts list="{this.alert_list}" />
         <div class="cc-component__auth">
+          <form onsubmit="{this.submitSignup.bind(this)}">
             <div class="form-group">
                 <label for="inputFirst" class="control-label">
                   {this.t(`sign_up.first_name`)}
@@ -68,6 +65,7 @@
                   {this.t(`sign_up.submit`)}
                 </button>
             </div>
+          </form>
         </div>
     </div>
 </main>

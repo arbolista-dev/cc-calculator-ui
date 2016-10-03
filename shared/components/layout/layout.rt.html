@@ -38,15 +38,10 @@
 					</div>
 				</div>
 		</nav>
-		<div rt-if="this.external_offset.banner_url" id="external_banner">
+		<div rt-if="this.external_offset" id="external_banner">
 			<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
 		</div>
-		<Alerts
-			list="{this.alert_list}"
-			category="shared"
-			currentRoute="{this.current_route_name}"
-			pushAlert="{this.props.pushAlert}">
-		</Alerts>
+		<Alerts list="{this.alert_list}" />
 		<main>
 			<ForgotPassword
 				rt-if="this.current_route_name === 'ForgotPassword'"

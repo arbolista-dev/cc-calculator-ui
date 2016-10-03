@@ -26,9 +26,6 @@ const DEFAULT_STATE = {
 const ACTIONS = {
 
   [ensureDefaults]: (state, default_inputs)=>{
-    // console.log('ensureDefaults - state', state);
-    // console.log('ensureDefaults - default_inputs', default_inputs);
-
     let updated = state.set('loading', true);
 
     return loop(
@@ -42,12 +39,8 @@ const ACTIONS = {
   },
 
   [defaultsRetrieved]: (state, api_data)=>{
-    // console.log('defaultsRetrieved - state: ', state);
-    // console.log('defaultsRetrieved - api_data payload: ', api_data);
     setLocalStorageItem('average_footprint', api_data);
 
-    // implications for not setting loading to false?
-    // is ensureDefaults called without afterwards updating user_footprint ?
     if (!api_data.failed) {
 
       let merged_data = state.get('data').merge(api_data)
@@ -67,7 +60,6 @@ const ACTIONS = {
   },
 
   [defaultsRetrievalError]: (state, result)=>{
-    console.log('defaultsRetrievalError', result);
 
     let updated = state.set('load_error', true)
                        .set('loading', false);
