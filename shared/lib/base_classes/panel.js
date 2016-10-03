@@ -40,6 +40,22 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     return this.props.ui.get('connect_to_api')
   }
 
+  setUserAnswersToDefault(){
+    let component = this,
+    default_inputs = component.getDefaultInputs();
+    component.resetUserFootprint();
+    component.props.ensureDefaults(default_inputs);
+
+    let alert = {};
+    alert.id = 'shared';
+    alert.data = [{
+      route: component.current_route_name,
+      type: 'success',
+      message: component.t('success.answers_reset')
+    }];
+    component.props.pushAlert(alert);
+  }
+
   routeComponent(route_name){
     return route_name === this.constructor.NAME;
   }

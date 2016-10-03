@@ -31,7 +31,7 @@
                 placeholder="{this.t(`login.password`)}">
             </div>
             <div class="cc-component__auth-password-request">
-                <a onClick="{this.goToForgotPassword.bind(this)}">
+                <a onClick="{this.router.goToRouteByName.bind(this, 'ForgotPassword')}">
                   {this.t(`login.password_request`)}
                 </a>
             </div>

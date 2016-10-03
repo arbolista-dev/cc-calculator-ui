@@ -15,22 +15,6 @@ class SettingsComponent extends Panel {
     settings.state = {}
   }
 
-  setUserFootprintStorageToDefault(){
-    let settings = this;
-
-    settings.resetUserFootprint();
-    settings.updateDefaults();
-
-    let alert = {};
-    alert.id = 'shared';
-    alert.data = [{
-      route: settings.current_route_name,
-      type: 'success',
-      message: settings.t('success.answers_reset')
-    }];
-    settings.props.pushAlert(alert);
-  }
-
   render(){
     return template.call(this);
   }

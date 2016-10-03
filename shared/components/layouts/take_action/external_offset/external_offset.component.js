@@ -13,30 +13,23 @@ class ExternalOffsetComponent extends Translatable {
     external_offset.state = {}
   }
 
-  get total_footprint() {
-    let external_offset = this;
-    return external_offset.state_manager.state.user_footprint['result_grand_total']
-  }
-
   get display_total_footprint() {
-    let external_offset = this;
-    return Math.round(external_offset.total_footprint)
+    console.log('totalUserFootprint', this.props.totalUserFootprint);
+    return Math.round(this.props.totalUserFootprint)
   }
 
   get display_monthly_offset() {
     let external_offset = this,
-        price_per_ton = external_offset.state_manager.state.external_offset.carbon_price_per_ton;
-    return Math.round((external_offset.total_footprint * price_per_ton) / 12)
+        price_per_ton = external_offset.props.ui.getIn(['external_offset', 'carbon_price_per_ton']);
+    return Math.round((external_offset.props.totalUserFootprint * price_per_ton) / 12);
   }
 
   get display_offset_description() {
-    let external_offset = this;
-    return external_offset.state_manager.state.external_offset.description
+    return external_offset.props.ui.getIn(['external_offset', 'description']);
   }
 
   get offset_url() {
-    let external_offset = this;
-    return external_offset.state_manager.state.external_offset.offset_url
+    return external_offset.props.ui.getIn(['external_offset', 'offset_url']);
   }
 
   render(){
@@ -46,5 +39,9 @@ class ExternalOffsetComponent extends Translatable {
 }
 
 ExternalOffsetComponent.NAME = 'ExternalOffset';
+ExternalOffsetComponent.propTypes = {
+  ui: React.PropTypes.object.isRequired,
+  totalUserFootprint: React.PropTypes.string.isRequired
+}
 
 module.exports = ExternalOffsetComponent;

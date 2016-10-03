@@ -90,6 +90,14 @@ export default class Router {
   // this will cause onLocationChange to fire with
   // the new location.
 
+  goToRouteByName(route_name){
+    let router = this;
+    window.jQuery("[data-toggle='popover']").popover('hide');
+    window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
+      return router.pushRoute(route_name);
+    });
+  }
+
   pushRoute(route_name, action, payload){
     let router = this,
         route = router.routes.getRoute(route_name);

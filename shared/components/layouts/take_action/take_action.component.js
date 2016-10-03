@@ -61,11 +61,9 @@ class TakeActionComponent extends Panel {
     return this.action_keys;
   }
 
-  get external_offset_set(){
-    // @ToDo: Refactor external offset
-    // let e_o = this.state_manager.state.external_offset;
-    // return Object.keys(e_o).length !== 0 && e_o.constructor === Object
-    return false
+  get total_user_footprint(){
+    console.log('get result_grand_total', this.props.user_footprint.get('result_grand_total'));
+    return this.props.user_footprint.get('result_grand_total');
   }
 
   get result_takeaction_pounds(){

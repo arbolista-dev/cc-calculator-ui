@@ -6,6 +6,8 @@ const signup = createAction('Signup user and retrieve token from User API.'),
     signedUp = createAction('User successfully signed up.'),
     logout = createAction('Logout and erase token.'),
     loggedOut = createAction('User successfully logged out.'),
+    requestNewPassword = createAction('Request new password upon forgotten.'),
+    passwordRequested = createAction('New password got requested'),
     authError = createAction('Auth error.');
 
-export { signup, login, loggedIn, signedUp, logout, loggedOut, authError };
+export { signup, login, loggedIn, signedUp, logout, loggedOut, requestNewPassword, passwordRequested, authError };

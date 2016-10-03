@@ -3,7 +3,7 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import { addUser, loginUser, logoutUser, forgotPassword } from 'api/user.api';
-import { signup, login, loggedIn, signedUp, logout, loggedOut, authError } from './user.actions';
+import { signup, login, loggedIn, signedUp, logout, loggedOut, requestNewPassword, passwordRequested, authError } from './auth.actions';
 import { pushAlert } from '../ui/ui.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
@@ -231,6 +231,45 @@ const ACTIONS = {
       )
 
     }
+  },
+
+  [requestNewPassword]: (state, payload)=>{
+    return loop(
+      state.set('loading', true),
+      Effects.promise(()=>{
+        return forgotPassword(payload)
+          .then(passwordRequested)
+          .catch(authError)
+      })
+    )
+  },
+
+  [passwordRequested]: (state, api_response)=>{
+
+    let updated = state.set('loading', false)
+                       .set('received', true);
+    let alert = {
+      id: 'forgot_password'
+    }
+
+    if (api_response.success) {
+      alert.data = [{
+        needs_i18n: true,
+        type: 'success',
+        message: 'success.forgot_password'
+      }];
+    } else {
+      alert.data = [{
+        needs_i18n: true,
+        type: 'danger',
+        message: api_response.error
+      }];
+    }
+
+    return loop(
+      fromJS(updated),
+      Effects.constant(pushAlert(alert))
+    )
   },
 
   [authError]: (state, action)=>{

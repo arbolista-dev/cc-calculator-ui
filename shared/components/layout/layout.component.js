@@ -87,12 +87,6 @@ class LayoutComponent extends Panel {
     return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
   }
 
-  get external_offset(){
-    if (this.props.ui.has('external_offset')) {
-      return this.props.ui.get('external_offset').toJS();
-    }
-  }
-
   get show_user_answers_reset(){
     if (this.current_route_name === 'GetStarted') {
       return this.state_manager.user_footprint_storage.hasOwnProperty('input_size');
@@ -101,21 +95,13 @@ class LayoutComponent extends Panel {
     }
   }
 
-  goToRoute(route_name){
-    let router = this;
-    window.jQuery("[data-toggle='popover']").popover('hide');
-    window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
-      return router.pushRoute(route_name);
-    });
-  }
-
-  goToSettings(){
-    this.router.goToRouteByName('Settings');
-  }
-
-  goToTakeAction(){
-    this.router.goToRouteByName('TakeAction');
-  }
+  // goToRoute(route_name){
+  //   let router = this;
+  //   window.jQuery("[data-toggle='popover']").popover('hide');
+  //   window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
+  //     return router.pushRoute(route_name);
+  //   });
+  // }
 
   receiveExternalOffset(){
     let layout = this;
@@ -136,22 +122,6 @@ class LayoutComponent extends Panel {
         return null;
       }
     }),false);
-  }
-
-  setUserAnswersToDefault(){
-    let layout = this,
-    default_inputs = layout.getDefaultInputs();
-    layout.resetUserFootprint();
-    layout.props.ensureDefaults(default_inputs);
-
-    let alert = {};
-    alert.id = 'shared';
-    alert.data = {
-      route: layout.current_route_name,
-      type: 'success',
-      message: layout.t('success.answers_reset')
-    };
-    layout.props.pushAlert(alert);
   }
 
   destroyPrerenderData() {

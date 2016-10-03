@@ -6,6 +6,8 @@ import { forgotPassword } from 'api/user.api';
 import { validateParameter } from 'shared/lib/utils/utils';
 import Panel from 'shared/lib/base_classes/panel';
 import template from './forgot_password.rt.html';
+import authContainer from 'shared/containers/auth.container';
+import { authPropTypes } from 'shared/containers/auth.container';
 
 class ForgotPasswordComponent extends Panel {
 
@@ -21,7 +23,12 @@ class ForgotPasswordComponent extends Panel {
   }
 
   get alert_list() {
-    return this.props.ui.getIn(['alerts', 'forgot_password']).toJS()
+    let alerts = this.props.ui.getIn(['alerts', 'forgot_password']).toJS();
+    if (alerts.length != 0){
+      return alerts
+    } else {
+      return new Array()
+    }
   }
 
   paramValid(param){
@@ -36,23 +43,23 @@ class ForgotPasswordComponent extends Panel {
 
   validateAll(){
     let forgot_password = this,
-        all_valid = Object.values(forgot_password.valid).filter(item => item === false);
+        all_valid = Object.values(forgot_password.valid).filter(item => item === false),
+        alert = {
+          id: 'forgot_password'
+        };
 
     for (let key in forgot_password.valid) {
       let value = forgot_password.valid[key]
       if (value === false) {
-        let alert = {};
-        alert.id = 'forgot_password';
-        alert.data = {
-          route: forgot_password.current_route_name,
+        alert.data = [{
           type: 'danger',
           message: forgot_password.t('forgot_password.' + key) + ' ' + forgot_password.t('errors.invalid')
-        };
-        forgot_password.props.pushAlert(alert);
+        }];
       }
     }
 
     if (all_valid[0] === false) {
+      forgot_password.props.pushAlert(alert);
       return false;
     } else {
       return true;
@@ -74,40 +81,7 @@ class ForgotPasswordComponent extends Panel {
 
   submitForgotPassword(event) {
     event.preventDefault();
-    let forgot_password = this,
-      alert = {};
-
-    alert.id = 'forgot_password';
-    alert.reset = true;
-    forgot_password.props.pushAlert(alert);
-
-    if (forgot_password.validateAll()) {
-      forgotPassword(forgot_password.state).then((res)=>{
-        let alert = {};
-        alert.id = 'forgot_password';
-        alert.data = {
-          route: forgot_password.current_route_name,
-        };
-        if (res.success) {
-          forgot_password.router.goToRouteByName('Login')
-
-          alert.data.type = 'success';
-          alert.data.message = forgot_password.t('success.forgot_password');
-        } else {
-          // failed - most likely email not registered
-          console.log('forgotPassword error', res.error);
-          alert.data.type = 'danger';
-          alert.data.message = res.error;
-          // @ToDo: Return error code from API
-          // let err = JSON.parse(res.error);
-          // alert.data.message = forgot_password.t('errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]);
-        }
-        forgot_password.props.pushAlert(alert);
-        return res
-      })
-    } else {
-      // input not valid
-    }
+    if (this.validateAll()) this.props.requestNewPassword(this.state);
   }
 
   render() {
@@ -115,5 +89,10 @@ class ForgotPasswordComponent extends Panel {
   }
 }
 ForgotPasswordComponent.NAME = 'ForgotPassword';
+ForgotPasswordComponent.propTypes = Object.assign({}, {
+  ui: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
+  pushAlert: React.PropTypes.func.isRequired
+}, authPropTypes);
 
-module.exports = ForgotPasswordComponent;
+module.exports = authContainer(ForgotPasswordComponent);

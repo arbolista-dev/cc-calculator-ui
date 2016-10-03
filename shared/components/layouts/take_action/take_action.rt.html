@@ -9,7 +9,7 @@
     <span class="cc-component__byline">{this.t('take_action.byline')}</span>
   </header>
 
-  <ExternalOffset rt-if="this.external_offset_set"></ExternalOffset>
+  <ExternalOffset totalUserFootprint={this.total_user_footprint} ui={this.props.ui} rt-if="this.external_offset"></ExternalOffset>
 
   <div id="action_category_btn_group_container" class="cc-component__question">
     <div id="action_category_btn_group" class="btn-group" role="group">

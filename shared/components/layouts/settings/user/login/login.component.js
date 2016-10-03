@@ -89,10 +89,6 @@ class LoginComponent extends Panel {
     if (this.validateAll()) this.props.login(this.state);
   }
 
-  goToForgotPassword() {
-    this.router.goToRouteByName('ForgotPassword')
-  }
-
   render() {
     return template.call(this);
   }

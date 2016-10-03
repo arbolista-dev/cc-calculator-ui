@@ -21,7 +21,7 @@
 						class="cc-nav__item"
 						key="{route.key}"
 						rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
-						onClick="{this.goToRoute.bind(this, route.route_name)}">
+						onClick="{this.router.goToRouteByName.bind(this, route.route_name)}">
 						<img rt-if="(route.route_name !== this.current_route_name)" src="/assets/img/{route.key}-green.svg"/>
 						<img rt-if="(route.route_name === this.current_route_name)" src="/assets/img/{route.key}-filled.svg"/>
 						<div>{this.t(`${route.key}.title`)}</div>
@@ -32,7 +32,7 @@
 						id="settings_nav_item"
 						rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
 						rt-if="this.connect_to_api"
-						onClick="{this.goToRoute.bind(this, 'Settings')}">
+						onClick="{this.router.goToRouteByName.bind(this, 'Settings')}">
 					  <img src="/assets/img/settings.png"/>
 						<div>{this.t(`settings.title`)}</div>
 					</div>
@@ -46,8 +46,8 @@
 			<ForgotPassword
 				rt-if="this.current_route_name === 'ForgotPassword'"
 				ui="{this.props.ui}"
+				location="{this.props.location}"
 	      pushAlert="{this.props.pushAlert}"
-	      location="{this.props.location}"
 			></ForgotPassword>
 			<Settings
 				rt-if="this.current_route_name === 'Settings'"
@@ -109,10 +109,10 @@
 		</div>
 
 	  <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
-	    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-lg btn-block desktop">
+	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" class="btn btn-info btn-lg btn-block desktop">
 	    	{this.t('Take action now')}
 	    </button>
-	    <button onClick="{this.goToRoute.bind(this, 'TakeAction')}" class="btn btn-info btn-block mobile">
+	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" class="btn btn-info btn-block mobile">
 	    	{this.t('Take action now')}
 	    </button>
 	  </div>

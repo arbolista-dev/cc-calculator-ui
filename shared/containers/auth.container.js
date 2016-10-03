@@ -1,7 +1,7 @@
   import { connect } from 'react-redux';
 import React from 'react';
 
-import { signup, login, logout, requestPassword } from 'shared/reducers/user/user.actions';
+import { signup, login, logout, requestNewPassword } from 'shared/reducers/auth/auth.actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -23,9 +23,9 @@ const mapDispatchToProps = (dispatch) => {
       logout.assignTo(dispatch);
       logout();
     },
-    requestPassword: () => {
-      requestPassword.assignTo(dispatch);
-      requestPassword();
+    requestNewPassword: (params) => {
+      requestNewPassword.assignTo(dispatch);
+      requestNewPassword(params);
     }
   };
 };
@@ -40,7 +40,7 @@ const authPropTypes = {
   signup: React.PropTypes.func.isRequired,
   login: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired,
-  requestPassword: React.PropTypes.func.isRequired
+  requestNewPassword: React.PropTypes.func.isRequired
 };
 
 export default authContainer;

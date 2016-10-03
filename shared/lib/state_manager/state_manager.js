@@ -6,7 +6,7 @@ import Router from 'shared/lib/router/router';
 import locationReducers from 'shared/reducers/location/location.reducers';
 import defaultsReducers from 'shared/reducers/average_footprint/average_footprint.reducers';
 import computeFootprintReducers from 'shared/reducers/user_footprint/user_footprint.reducers';
-import authReducers from 'shared/reducers/user/user.reducers';
+import authReducers from 'shared/reducers/auth/auth.reducers';
 import uiReducers from 'shared/reducers/ui/ui.reducers';
 
 // import CalculatorApi from 'api/calculator.api';

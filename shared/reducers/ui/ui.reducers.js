@@ -34,6 +34,7 @@ const ACTIONS = {
   },
 
   [pushAlert]: (state, payload)=>{
+    console.log('pushAlert', payload);
     let data = payload.data;
 
     if (!List.isList(data)) data = new List(data);
