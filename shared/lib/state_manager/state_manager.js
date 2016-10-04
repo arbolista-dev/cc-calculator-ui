@@ -1,4 +1,5 @@
-import { createStore } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
+import createLogger from 'redux-logger';
 import { install, combineReducers } from 'redux-loop';
 import { fromJS } from 'immutable';
 
@@ -85,6 +86,7 @@ export default class StateManager {
 
   initializeStore(initial_state){
     let state_manager = this;
+
     let reducer = combineReducers({
       location: locationReducers,
       average_footprint: defaultsReducers,
@@ -92,7 +94,17 @@ export default class StateManager {
       auth: authReducers,
       ui: uiReducers
     });
-    state_manager.store = createStore(reducer, initial_state, install());
+
+    const enhancer = compose(
+      install(),
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
+
+    state_manager.store = createStore(
+      reducer,
+      initial_state,
+      enhancer
+    );
   }
 
   initialState(opts){
@@ -122,26 +134,4 @@ export default class StateManager {
         if (res.success) console.log('Updated user answers in DB.');
       })
   }
-
-  // @ToDo - Check which methods are still needed within State Manager
-  // setUserFootprint(answers) {
-  //   let state_manager = this;
-  //   Object.assign(state_manager.state.user_footprint, answers)
-  //   state_manager.updateUserFootprintStorage();
-  //   state_manager.parseFootprintResult(state_manager.state.user_footprint);
-  // }
-  //
-  // setUserFootprintStorageToDefault() {
-  //   let state_manager = this;
-  //   localStorage.removeItem('user_footprint');
-  //   state_manager.state.user_footprint = {};
-  //   return state_manager.updateDefaults().then(() => {
-  //     // User footprint reset!
-  //     state_manager.syncLayout().then(() => {
-  //     });
-  //   })
-  // }
-
-
-
 }

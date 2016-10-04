@@ -143,7 +143,6 @@ class ActionComponent extends Translatable {
     if (select.type === 'vehicle') {
 
       let vehicles = [], i = 1;
-      // @ToDo: Refactor vehicles in UI state?!
       this.props.ui.get('vehicles').forEach((v) => {
         let vehicle = {};
         vehicle.value = i;

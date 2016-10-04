@@ -90,10 +90,7 @@ const ACTIONS = {
         }]
       };
 
-      console.log('remote_answers', remote_answers);
       if (remote_answers.length !== 0) {
-        console.log('remote answers available -> set user_footprint');
-
         return loop(
           fromJS(updated),
           Effects.batch([
@@ -134,33 +131,28 @@ const ACTIONS = {
   },
 
   [signedUp]: (state, api_response)=>{
+
+    let updated, alert;
+
     if (api_response.success) {
       let auth = {
           token: api_response.data.token,
           name: api_response.data.name
         },
-        remote_anwers = JSON.parse(api_response.data.answers),
         res = {
           received: true,
           success: true,
         };
 
-      console.log('remote_anwers', remote_anwers);
-
       setLocalStorageItem('auth', auth);
-      if (remote_anwers.length !== 0) {
-        console.log('remote answers available -> set user_footprint');
-        // @ToDo: setUserFootprint to answers!
-        // login.state_manager.setUserFootprint(remote_anwers);
-      }
 
-      let updated = state.setIn(['data', 'token'], auth.token)
-                         .setIn(['data', 'name'], auth.name)
-                         .set('loading', false)
-                         .set('received', true)
-                         .set('success', true);
+      updated = state.setIn(['data', 'token'], auth.token)
+                     .setIn(['data', 'name'], auth.name)
+                     .set('loading', false)
+                     .set('received', true)
+                     .set('success', true);
 
-      let alert = {
+      alert = {
         id: 'shared',
         data: [{
           needs_i18n: true,
@@ -169,20 +161,15 @@ const ACTIONS = {
         }]
       };
 
-      return loop(
-        fromJS(updated),
-        Effects.constant(pushAlert(alert))
-      )
-
     } else {
       let err = JSON.parse(api_response.error);
 
-      let updated = state.set('loading', false)
+      updated = state.set('loading', false)
                          .set('received', true)
                          .set('success', false)
                          .set('error_msg', err);
 
-     let alert = {
+     alert = {
        id: 'sign_up',
        data: [{
          needs_i18n: true,
@@ -191,11 +178,12 @@ const ACTIONS = {
        }]
      };
 
-     return loop(
-       fromJS(updated),
-       Effects.constant(pushAlert(alert))
-     )
-    }
+   }
+
+   return loop(
+     fromJS(updated),
+     Effects.constant(pushAlert(alert))
+   )
 
   },
 

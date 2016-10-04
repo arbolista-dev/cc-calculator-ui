@@ -97,11 +97,11 @@ const ACTIONS = {
         }, {});
 
         let merged_data = state.get('data')
-                                   .merge(result);
+                               .merge(result);
         setLocalStorageItem('user_footprint', merged_data);
 
         let updated = state.set('data', merged_data)
-                               .set('loading', false);
+                           .set('loading', false);
 
         return fromJS(updated);
             // @ToDo: Check if authenticated -> updateUserAnswers
