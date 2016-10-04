@@ -62,7 +62,6 @@ class TakeActionComponent extends Panel {
   }
 
   get total_user_footprint(){
-    console.log('get result_grand_total', this.props.user_footprint.get('result_grand_total'));
     return this.props.user_footprint.get('result_grand_total');
   }
 

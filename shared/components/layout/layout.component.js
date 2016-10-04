@@ -21,7 +21,8 @@ class LayoutComponent extends Panel {
   }
 
   componentWillReceiveProps(nextProps){
-    if (nextProps.average_footprint.get('reset')) this.setUserAnswersToDefault();
+    // passing false to setUserAnswersToDefault means no alerts will be triggered!
+    if (nextProps.average_footprint.get('reset')) this.setUserAnswersToDefault(false);
     if (this.props.location.get('route_name') !== nextProps.location.get('route_name')) this.props.resetAlerts();
 
   }

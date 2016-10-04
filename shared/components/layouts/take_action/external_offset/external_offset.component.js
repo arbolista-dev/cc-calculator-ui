@@ -14,7 +14,6 @@ class ExternalOffsetComponent extends Translatable {
   }
 
   get display_total_footprint() {
-    console.log('totalUserFootprint', this.props.totalUserFootprint);
     return Math.round(this.props.totalUserFootprint)
   }
 

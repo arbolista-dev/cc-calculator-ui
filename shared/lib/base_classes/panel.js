@@ -40,7 +40,9 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     return this.props.ui.get('connect_to_api')
   }
 
-  setUserAnswersToDefault(){
+  setUserAnswersToDefault(show_alert){
+    // show_alert needed here since loggedIn/loggedOut actions otherwise fail (as they also trigger alerts)
+
     let component = this,
     init = true;
 
@@ -49,13 +51,15 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     let default_inputs = component.getDefaultInputs(init);
     component.props.ensureDefaults(default_inputs);
 
-    let alert = {};
-    alert.id = 'shared';
-    alert.data = [{
-      type: 'success',
-      message: component.t('success.answers_reset')
-    }];
-    component.props.pushAlert(alert);
+    if (show_alert) {
+      let alert = {};
+      alert.id = 'shared';
+      alert.data = [{
+        type: 'success',
+        message: component.t('success.answers_reset')
+      }];
+      component.props.pushAlert(alert);
+    }
   }
 
   routeComponent(route_name){

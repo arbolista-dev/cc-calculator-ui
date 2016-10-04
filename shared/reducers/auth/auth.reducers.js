@@ -93,7 +93,7 @@ const ACTIONS = {
 
       console.log('user remote_answers', remote_answers);
 
-      if (remote_answers.length !== 0) {
+      if (Object.keys(remote_answers).length !== 0) {
         return loop(
           fromJS(updated),
           Effects.batch([
@@ -101,6 +101,10 @@ const ACTIONS = {
             Effects.constant(updatedFootprintComputed(remote_answers))
           ])
         )
+        // return loop(
+        //   fromJS(updated),
+        //   Effects.constant(updatedFootprintComputed(remote_answers))
+        // )
       } else {
         return loop(
           fromJS(updated),
@@ -114,7 +118,6 @@ const ACTIONS = {
       let updated = state.set('loading', false)
                          .set('received', true)
                          .set('success', false)
-                         .set('error_msg', err);
 
      let alert = {
        id: 'login',
@@ -170,7 +173,6 @@ const ACTIONS = {
       updated = state.set('loading', false)
                          .set('received', true)
                          .set('success', false)
-                         .set('error_msg', err);
 
      alert = {
        id: 'sign_up',
@@ -209,8 +211,8 @@ const ACTIONS = {
       let updated = state.deleteIn(['data', 'token'])
                          .deleteIn(['data', 'name'])
                          .set('loading', false)
-                         .set('received', true)
-                         .set('success', true);
+                         .delete('received')
+                         .delete('success');
       let alert = {
         id: 'shared',
         data: [{
@@ -227,7 +229,6 @@ const ACTIONS = {
           Effects.constant(pushAlert(alert))
         ])
       )
-
     }
   },
 
