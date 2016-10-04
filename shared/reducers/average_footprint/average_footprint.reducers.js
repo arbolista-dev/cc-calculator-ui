@@ -47,7 +47,7 @@ const ACTIONS = {
 
       let updated = state.set('data', merged_data);
       return loop(
-        state,
+        updated,
         Effects.promise(()=>{
           return CalculatorApi.computeFootprint(api_data)
             .then(averageFootprintUpdated)

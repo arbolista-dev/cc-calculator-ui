@@ -42,8 +42,11 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
 
   setUserAnswersToDefault(){
     let component = this,
-    default_inputs = component.getDefaultInputs();
+    init = true;
+
     component.resetUserFootprint();
+
+    let default_inputs = component.getDefaultInputs(init);
     component.props.ensureDefaults(default_inputs);
 
     let alert = {};

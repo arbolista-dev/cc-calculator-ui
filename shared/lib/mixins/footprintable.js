@@ -4,9 +4,9 @@ export let footprintable = {
     return !this.getUserFootprint().isEmpty()
   },
 
-  getDefaultInputs(){
+  getDefaultInputs(init){
     let default_inputs;
-    if (!this.isUserFootprintSet()) {
+    if (!this.isUserFootprintSet() || init) {
       default_inputs = this.state_manager.default_inputs;
     } else {
       default_inputs = {

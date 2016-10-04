@@ -74,6 +74,10 @@ class GraphsComponent extends Panel {
     }
   }
 
+  shouldComponentUpdate(nextProps){
+    return !nextProps.average_footprint.get('loading') && !nextProps.user_footprint.get('loading')
+  }
+
   componentDidUpdate(){
     let graphs = this;
     if (graphs.show_pie_chart){
@@ -325,7 +329,6 @@ class GraphsComponent extends Panel {
 
   get average_category_footprint(){
     let graphs = this;
-
     return graphs.category_keys.reduce((sum, category_key)=>{
       return sum + parseFloat(graphs.defaultApiValue(category_key));
     }, 0);

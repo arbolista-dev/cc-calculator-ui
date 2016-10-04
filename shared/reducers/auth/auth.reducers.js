@@ -90,6 +90,8 @@ const ACTIONS = {
         }]
       };
 
+      console.log('user remote_answers', remote_answers);
+
       if (remote_answers.length !== 0) {
         return loop(
           fromJS(updated),
