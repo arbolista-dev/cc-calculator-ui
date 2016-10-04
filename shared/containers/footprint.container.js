@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
 import { ensureUserFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResults } from 'shared/reducers/user_footprint/user_footprint.actions';
-import { updateUI, pushAlert } from 'shared/reducers/ui/ui.actions';
+import { updateUI, pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -52,6 +52,10 @@ const mapDispatchToProps = (dispatch) => {
     pushAlert: (payload) => {
       pushAlert.assignTo(dispatch);
       pushAlert(payload);
+    },
+    resetAlerts: () => {
+      resetAlerts.assignTo(dispatch);
+      resetAlerts();
     }
   };
 };
@@ -75,7 +79,8 @@ const footprintPropTypes = {
   userFootprintReset: React.PropTypes.func.isRequired,
   updatedFootprintComputed: React.PropTypes.func.isRequired,
   updateUI: React.PropTypes.func.isRequired,
-  pushAlert: React.PropTypes.func.isRequired
+  pushAlert: React.PropTypes.func.isRequired,
+  resetAlerts: React.PropTypes.func.isRequired
 };
 
 export default footprintContainer;

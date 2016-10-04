@@ -4,18 +4,12 @@ import queryString from 'query-string';
 import extend from 'extend';
 
 import { updateLocation } from 'shared/reducers/location/location.actions';
-import { resetAlerts } from 'shared/reducers/ui/ui.actions';
 import { defineRoutes } from '../routes';
 
 const NON_MAIN_ROUTES = ['Settings', 'MissingRoute', 'ForgotPassword'];
 
 const DEFAULT_UPDATE_LOCATION_ACTION = {
   type: updateLocation.getType(),
-  payload: {}
-};
-
-const DEFAULT_RESET_ALERTS_ACTION = {
-  type: resetAlerts.getType(),
   payload: {}
 };
 
@@ -32,10 +26,6 @@ export default class Router {
 
   get default_update_location_action(){
     return extend(true, {}, DEFAULT_UPDATE_LOCATION_ACTION);
-  }
-
-  get default_reset_alerts_action(){
-    return extend(true, {}, DEFAULT_RESET_ALERTS_ACTION);
   }
 
   get current_route(){
@@ -142,13 +132,6 @@ export default class Router {
     let action = extend(true, {payload: {}}, new_location.state) ||  this.default_update_location_action;
 
     action.payload['location'] = this.parseLocation(new_location);
-    store.dispatch(action);
-
-    router.resetAlerts(store);
-  }
-
-  resetAlerts(store) {
-    let action = this.default_reset_alerts_action;
     store.dispatch(action);
   }
 

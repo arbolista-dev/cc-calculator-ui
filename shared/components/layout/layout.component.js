@@ -22,6 +22,8 @@ class LayoutComponent extends Panel {
 
   componentWillReceiveProps(nextProps){
     if (nextProps.average_footprint.get('reset')) this.setUserAnswersToDefault();
+    if (this.props.location.get('route_name') !== nextProps.location.get('route_name')) this.props.resetAlerts();
+
   }
 
   componentWillMount(){
