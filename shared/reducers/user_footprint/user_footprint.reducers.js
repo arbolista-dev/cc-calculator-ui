@@ -25,11 +25,6 @@ const ACTIONS = {
 
   // Load initial defaults from API.
   [ensureUserFootprintComputed]: (state, payload)=>{
-    // console.log('ensureUserFootprintComputed - state', state);
-    // console.log('ensureUserFootprintComputed - payload', payload);
-
-    // does data passed from average_footprint need to be merged into data?!
-    // fromJS({data: payload, loading: true}),
     let updated = state.set('data', payload)
                        .set('loading', true);
 
@@ -44,9 +39,6 @@ const ACTIONS = {
   },
 
   [ensureUserFootprintRetrieved]: (state, api_data)=>{
-    // console.log('ensureUserFootprintRetrieved - state', state);
-    // console.log('ensureUserFootprintRetrieved - api_data', api_data);
-
     let merged_data = state.get('data')
                            .merge(api_data);
     setLocalStorageItem('user_footprint', merged_data.toJS());
@@ -82,8 +74,6 @@ const ACTIONS = {
   },
 
   [parseFootprintResult]: (state, result)=>{
-    // console.log('parseFootprintResult state', state);
-    // console.log('parseFootprintResult result', result);
 
     if (state.has('result_takeaction_pounds')) {
       if (fromJS(state.get('result_takeaction_pounds')).has('more_efficient_vehicle')) {
@@ -162,17 +152,22 @@ const ACTIONS = {
 
     let updated = state.set('data', reset);
 
-    console.log('userFootprintReset cleared ', updated);
     return fromJS(updated);
   },
 
   [updatedFootprintComputed]: (state, payload)=>{
-    console.log('updatedFootprintComputed payload', payload);
     let params = payload;
     if(Map.isMap(payload)) params = payload.toJS();
 
+    let merged_data = state.get('data')
+                           .merge(payload);
+
+    setLocalStorageItem('user_footprint', merged_data);
+
+    let updated = state.set('data', merged_data);
+
     return loop(
-      fromJS(state),
+      fromJS(updated),
       Effects.promise(()=>{
         return CalculatorApi.computeFootprint(params)
           .then(parseFootprintResult)

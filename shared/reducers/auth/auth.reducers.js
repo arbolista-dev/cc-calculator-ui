@@ -91,6 +91,7 @@ const ACTIONS = {
         }]
       };
 
+      console.log('api_response answers', api_response.data.answers);
       console.log('user remote_answers', remote_answers);
 
       if (Object.keys(remote_answers).length !== 0) {
