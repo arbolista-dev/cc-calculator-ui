@@ -5,6 +5,7 @@ import { createReducer } from 'redux-act';
 import { updateUI, pushAlert, resetAlerts } from './ui.actions'
 /*
   ui: {
+    alert_exists: <Boolean>
     alerts: <Map>,
     leaders_chart: <Map>,
     display_location: <String>,
@@ -34,20 +35,18 @@ const ACTIONS = {
   },
 
   [pushAlert]: (state, payload)=>{
-    console.log('pushAlert state', state);
-    console.log('pushAlert', payload);
-
     let updated = state.setIn(['alerts', payload.id], new List(payload.data))
+                       .set('alert_exists', true);
     return fromJS(updated)
   },
 
   [resetAlerts]: (state, _payload)=>{
-
     let updated;
     let alerts = state.get('alerts');
     Object.keys(alerts.toJS()).forEach((type) => {
         updated = state.setIn(['alerts', type], new List())
     })
+    updated = updated.set('alert_exists', false);
 
     return fromJS(updated)
   }

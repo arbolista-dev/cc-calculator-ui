@@ -23,7 +23,7 @@ class LayoutComponent extends Panel {
   componentWillReceiveProps(nextProps){
     // passing false to setUserAnswersToDefault means no alerts will be triggered!
     if (nextProps.average_footprint.get('reset')) this.setUserAnswersToDefault(false);
-    if (this.props.location.get('route_name') !== nextProps.location.get('route_name')) this.props.resetAlerts();
+    if (this.props.location.get('route_name') !== nextProps.location.get('route_name') && nextProps.ui.get('alert_exists')) this.props.resetAlerts();
 
   }
 
@@ -42,12 +42,7 @@ class LayoutComponent extends Panel {
   }
 
   get alert_list() {
-    let state_list = this.props.ui.getIn(['alerts', 'shared']).toJS();
-    if (state_list.length != 0){
-      return state_list
-    } else {
-      return new Array()
-    }
+    return this.props.ui.getIn(['alerts', 'shared']).toJS()
   }
 
   get route_name(){

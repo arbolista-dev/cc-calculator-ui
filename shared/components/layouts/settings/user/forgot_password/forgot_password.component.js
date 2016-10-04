@@ -23,12 +23,7 @@ class ForgotPasswordComponent extends Panel {
   }
 
   get alert_list() {
-    let alerts = this.props.ui.getIn(['alerts', 'forgot_password']).toJS();
-    if (alerts.length != 0){
-      return alerts
-    } else {
-      return new Array()
-    }
+    return this.props.ui.getIn(['alerts', 'forgot_password']).toJS();
   }
 
   paramValid(param){

@@ -31,12 +31,7 @@ class SignUpComponent extends Panel {
   }
 
   get alert_list() {
-    let state_list = this.props.ui.getIn(['alerts', 'sign_up']).toJS();
-    if (state_list.length != 0){
-      return state_list
-    } else {
-      return new Array()
-    }
+    return  this.props.ui.getIn(['alerts', 'sign_up']).toJS();
   }
 
   paramValid(param){
