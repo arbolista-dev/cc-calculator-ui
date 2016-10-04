@@ -20,6 +20,10 @@ class LayoutComponent extends Panel {
     layout.state = {};
   }
 
+  componentWillReceiveProps(nextProps){
+    if (nextProps.average_footprint.get('reset')) this.setUserAnswersToDefault();
+  }
+
   componentWillMount(){
     let default_inputs = this.getDefaultInputs();
     this.receiveExternalOffset()

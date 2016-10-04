@@ -5,6 +5,7 @@ import { createReducer } from 'redux-act';
 import { addUser, loginUser, logoutUser, forgotPassword } from 'api/user.api';
 import { signup, login, loggedIn, signedUp, logout, loggedOut, requestNewPassword, passwordRequested, authError } from './auth.actions';
 import { updatedFootprintComputed } from '../user_footprint/user_footprint.actions';
+import { averageFootprintResetRequested } from '../average_footprint/average_footprint.actions';
 import { pushAlert } from '../ui/ui.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
@@ -221,7 +222,10 @@ const ACTIONS = {
 
       return loop(
         fromJS(updated),
-        Effects.constant(pushAlert(alert))
+        Effects.batch([
+          Effects.constant(averageFootprintResetRequested()),
+          Effects.constant(pushAlert(alert))
+        ])
       )
 
     }
