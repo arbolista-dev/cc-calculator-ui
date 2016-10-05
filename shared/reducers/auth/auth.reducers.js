@@ -102,10 +102,6 @@ const ACTIONS = {
             Effects.constant(updatedFootprintComputed(remote_answers))
           ])
         )
-        // return loop(
-        //   fromJS(updated),
-        //   Effects.constant(updatedFootprintComputed(remote_answers))
-        // )
       } else {
         return loop(
           fromJS(updated),

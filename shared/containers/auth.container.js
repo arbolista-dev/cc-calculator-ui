@@ -2,15 +2,27 @@
 import React from 'react';
 
 import { signup, login, logout, requestNewPassword } from 'shared/reducers/auth/auth.actions';
+import { pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
+
 
 const mapStateToProps = (state) => {
   return {
-    auth: state['auth']
+    auth: state['auth'],
+    ui: state['ui'],
+    location: state['location']
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    pushAlert: (payload) => {
+      pushAlert.assignTo(dispatch);
+      pushAlert(payload);
+    },
+    resetAlerts: () => {
+      resetAlerts.assignTo(dispatch);
+      resetAlerts();
+    },
     signup: (params) => {
       signup.assignTo(dispatch);
       signup(params);
@@ -37,6 +49,10 @@ const authContainer = connect(
 
 const authPropTypes = {
   auth: React.PropTypes.object.isRequired,
+  ui: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
+  pushAlert: React.PropTypes.func.isRequired,
+  resetAlerts: React.PropTypes.func.isRequired,
   signup: React.PropTypes.func.isRequired,
   login: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired,

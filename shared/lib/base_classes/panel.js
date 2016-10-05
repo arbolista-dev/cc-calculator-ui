@@ -52,12 +52,13 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     component.props.ensureDefaults(default_inputs);
 
     if (show_alert) {
-      let alert = {};
-      alert.id = 'shared';
-      alert.data = [{
-        type: 'success',
-        message: component.t('success.answers_reset')
-      }];
+      let alert = {
+        id: 'shared',
+        data: [{
+          type: 'success',
+          message: component.t('success.answers_reset')
+        }]
+      };
       component.props.pushAlert(alert);
     }
   }

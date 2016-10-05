@@ -35,16 +35,19 @@ const ACTIONS = {
   },
 
   [pushAlert]: (state, payload)=>{
-    let updated = state.setIn(['alerts', payload.id], new List(payload.data))
+    let new_list = new List(payload.data);
+    let updated = state.setIn(['alerts', payload.id], new_list)
                        .set('alert_exists', true);
+
     return fromJS(updated)
   },
 
   [resetAlerts]: (state, _payload)=>{
-    let updated;
-    let alerts = state.get('alerts');
+    let updated = state,
+    alerts = state.get('alerts');
+
     Object.keys(alerts.toJS()).forEach((type) => {
-        updated = state.setIn(['alerts', type], new List())
+        updated = updated.setIn(['alerts', type], new List())
     })
     updated = updated.set('alert_exists', false);
 

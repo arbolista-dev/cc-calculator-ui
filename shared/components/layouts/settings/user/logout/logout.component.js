@@ -28,6 +28,6 @@ class LogoutComponent extends Translatable {
 }
 
 LogoutComponent.NAME = 'Logout';
-LogoutComponent.propTypes = Object.assign({}, authPropTypes);
+LogoutComponent.propTypes = authPropTypes;
 
 module.exports = authContainer(LogoutComponent);

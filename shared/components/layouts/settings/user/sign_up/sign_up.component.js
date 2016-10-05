@@ -46,22 +46,25 @@ class SignUpComponent extends Panel {
 
   validateAll(){
     let sign_up = this,
-        all_valid = Object.values(sign_up.valid).filter(item => item === false);
+        all_valid = Object.values(sign_up.valid).filter(item => item === false),
+        alerts = {
+          id: 'sign_up',
+          data: []
+        };
 
     for (let key in sign_up.valid) {
       let value = sign_up.valid[key]
       if (value === false) {
-        let alert = {};
-        alert.id = 'sign_up';
-        alert.data = {
+        let item = {
           type: 'danger',
           message: sign_up.t('sign_up.' + key) + ' ' + sign_up.t('errors.invalid')
         };
-        sign_up.props.pushAlert(alert);
+        alerts.data.push(item)
       }
     }
 
     if (all_valid[0] === false) {
+      sign_up.props.pushAlert(alerts)
       return false;
     } else {
       return true;
@@ -99,10 +102,6 @@ class SignUpComponent extends Panel {
 }
 
 SignUpComponent.NAME = 'SignUp';
-SignUpComponent.propTypes = Object.assign({}, {
-  ui: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  pushAlert: React.PropTypes.func.isRequired
-}, authPropTypes);
+SignUpComponent.propTypes = authPropTypes;
 
 module.exports = authContainer(SignUpComponent);

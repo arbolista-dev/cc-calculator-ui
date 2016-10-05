@@ -28,9 +28,12 @@ class LayoutComponent extends Panel {
   }
 
   componentWillMount(){
-    let default_inputs = this.getDefaultInputs();
     this.receiveExternalOffset()
-    this.props.ensureDefaults(default_inputs)
+
+    if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage) {
+      let default_inputs = this.getDefaultInputs();
+      this.props.ensureDefaults(default_inputs)
+    }
   }
 
   render() {
@@ -38,7 +41,11 @@ class LayoutComponent extends Panel {
   }
 
   get initial_load_done(){
-    return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false
+    if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage) {
+      return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false
+    } else {
+      return true;
+    }
   }
 
   get alert_list() {

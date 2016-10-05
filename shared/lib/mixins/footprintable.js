@@ -160,6 +160,7 @@ export let footprintable = {
       // This will also make necessary update to user footprint.
       component.props.updatedFootprintComputed(component.getUserFootprint())
       if (component.user_authenticated) component.state_manager.updateUserAnswers(component.getUserFootprint(), component.props.auth.getIn(['data', 'token']))
+
     }, 500);
   }
 

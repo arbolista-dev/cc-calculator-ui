@@ -40,11 +40,11 @@ class LoginComponent extends Panel {
 
   validateAll(){
     let login = this,
-        all_valid = Object.values(login.valid).filter(item => item === false);
-
-    let alert = {};
-    alert.id = 'login';
-    alert.data = [];
+        all_valid = Object.values(login.valid).filter(item => item === false),
+        alerts = {
+          id: 'login',
+          data: []
+        };
 
     for (let key in login.valid) {
       let value = login.valid[key]
@@ -53,12 +53,12 @@ class LoginComponent extends Panel {
           type: 'danger',
           message: login.t('login.' + key) + ' ' + login.t('errors.invalid')
         };
-        alert.data.push(item);
+        alerts.data.push(item);
       }
     }
 
     if (all_valid[0] === false) {
-      login.props.pushAlert(alert);
+      login.props.pushAlert(alerts);
       return false;
     } else {
       return true;
@@ -89,10 +89,6 @@ class LoginComponent extends Panel {
 }
 
 LoginComponent.NAME = 'Login';
-LoginComponent.propTypes = Object.assign({}, {
-  ui: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  pushAlert: React.PropTypes.func.isRequired
-}, authPropTypes);
+LoginComponent.propTypes = authPropTypes;
 
 module.exports = authContainer(LoginComponent);

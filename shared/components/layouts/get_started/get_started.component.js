@@ -94,6 +94,9 @@ class GetStartedComponent extends Panel {
 
     get_started.$update_defaults = setTimeout(()=>{
       get_started.props.ensureDefaults(params)
+      if (get_started.user_authenticated) {
+        get_started.state_manager.updateUserAnswers(get_started.getUserFootprint(), get_started.props.auth.getIn(['data', 'token']))
+      }
     }, 500);
   }
 
