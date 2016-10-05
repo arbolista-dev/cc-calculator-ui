@@ -44,7 +44,7 @@ class LayoutComponent extends Panel {
     if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage) {
       return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false
     } else {
-      return true;
+      return this.isUserFootprintSet()
     }
   }
 
