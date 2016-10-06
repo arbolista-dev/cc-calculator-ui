@@ -84,10 +84,6 @@ class ForgotPasswordComponent extends Panel {
   }
 }
 ForgotPasswordComponent.NAME = 'ForgotPassword';
-ForgotPasswordComponent.propTypes = Object.assign({}, {
-  ui: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  pushAlert: React.PropTypes.func.isRequired
-}, authPropTypes);
+ForgotPasswordComponent.propTypes = authPropTypes;
 
 module.exports = authContainer(ForgotPasswordComponent);

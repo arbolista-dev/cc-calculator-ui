@@ -16,8 +16,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     pushAlert: (payload) => {
-      pushAlert.assignTo(dispatch);
-      pushAlert(payload);
+      dispatch(pushAlert(payload));
     },
     resetAlerts: () => {
       resetAlerts.assignTo(dispatch);

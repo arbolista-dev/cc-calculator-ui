@@ -50,8 +50,7 @@ const mapDispatchToProps = (dispatch) => {
       updateUI(payload);
     },
     pushAlert: (payload) => {
-      pushAlert.assignTo(dispatch);
-      pushAlert(payload);
+      dispatch(pushAlert(payload));
     },
     resetAlerts: () => {
       resetAlerts.assignTo(dispatch);
