@@ -26,11 +26,11 @@ const DEFAULT_STATE = {
 const ACTIONS = {
 
   [ensureDefaults]: (state, default_inputs)=>{
-    let updated = state.set('loading', true)
-                       .set('reset', false);
+    state = state.set('loading', true)
+                 .set('reset', false);
 
     return loop(
-      fromJS(updated),
+      state,
       Effects.promise(()=>{
         return CalculatorApi.getDefaultsAndResults(default_inputs)
           .then(defaultsRetrieved)
@@ -43,14 +43,11 @@ const ACTIONS = {
     setLocalStorageItem('average_footprint', api_data);
 
     if (!api_data.failed) {
-
-      let merged_data = state.get('data').merge(api_data)
-
-      let updated = state.set('data', merged_data)
+      state = state.set('data', state.get('data').merge(api_data))
                          .set('reset', false);
 
       return loop(
-        updated,
+        state,
         Effects.promise(()=>{
           return CalculatorApi.computeFootprint(api_data)
             .then(averageFootprintUpdated)
@@ -67,7 +64,7 @@ const ACTIONS = {
     let updated = state.set('load_error', true)
                        .set('loading', false);
 
-    return fromJS(updated);
+    return updated;
   },
 
   [averageFootprintUpdated]: (state, api_data)=>{

@@ -29,7 +29,7 @@ const ACTIONS = {
                        .set('loading', true);
 
     return loop(
-      fromJS(updated),
+      updated,
       Effects.promise(()=>{
         return CalculatorApi.computeFootprint(payload.toJS())
           .then(ensureUserFootprintRetrieved)
@@ -50,33 +50,13 @@ const ACTIONS = {
       Effects.constant(parseFootprintResult(merged_data))
     )
 
-    // if (state.get('data').isEmpty() || state.getIn(['data', 'input_changed']) != 1) {
-    //   // @ToDo: Make sure this decision is made correctly
-    //   // used to be -> if (!state_manager.user_footprint_set || state_manager.footprint_not_updated)
-    //
-    //   let updated = state.set('data', merged_data);
-    //   return loop(
-    //     fromJS(updated),
-    //     Effects.constant(parseFootprintResult(merged_data))
-    //   )
-    // } else {
-    //   let updated = state.set('data', merged_data)
-    //                      .set('loading', false)
-    //
-    //   return loop(
-    //     fromJS(updated),
-    //     Effects.constant(parseFootprintResult(merged_data))
-    //   )
-    // }
   },
 
   [ensureUserFootprintError]: (state, _result)=>{
-    console.log('ensureUserFootprintError');
-
     let updated = state.set('load_error', true)
                        .set('loading', false);
 
-    return fromJS(updated);
+    return updated;
 
   },
 
@@ -101,17 +81,13 @@ const ACTIONS = {
                            .set('loading', false);
 
         return fromJS(updated);
-            // @ToDo: Check if authenticated -> updateUserAnswers
       }
     }
 
-    let merged = state.get('data')
-                      .merge(result);
-
-    let updated = state.set('data', merged);
+    state = state.set('data', state.get('data').merge(result));
 
     return loop(
-      fromJS(updated),
+      fromJS(state),
       Effects.constant(parseTakeactionResult(result))
     )
     // @ToDo: Check if authenticated -> updateUserAnswers
@@ -184,12 +160,11 @@ const ACTIONS = {
   },
 
   [updateTakeactionResults]: (state)=>{
-    let action_inputs = state.get('data');
 
     return loop(
       state,
       Effects.promise(()=>{
-        return CalculatorApi.computeTakeactionResults(action_inputs.toJS())
+        return CalculatorApi.computeTakeactionResults(state.get('data').toJS())
           .then(parseTakeactionResult)
           .catch(ensureUserFootprintError)
       })
