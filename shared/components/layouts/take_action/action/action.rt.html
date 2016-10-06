@@ -79,15 +79,6 @@
                    </p>
                  </td>
                  <td colspan="0" rt-if="!a.text_only">
-                   <p rt-if="a.select">
-                     {a.prefix}
-                     <select id="{a.select.id}" data-action_key="{this.state.key}" onChange="{this.handleChange.bind(this)}" value="{this.getSelectedOption(a.select.id)}">
-                      <option rt-repeat="option in this.setSelectOptions(a.select)"
-                        value="{option.value}"
-                        key="{optionIndex}">{option.text}</option>
-                    </select>
-                    {a.suffix}
-                   </p>
                    <p rt-if="a.input">
                      <span>{a.prefix} </span>
                      <input type="text" id="{a.input.id}" value="{this.setInputState(a.input.id)}" size="{a.input.size}" maxlength="{a.input.maxlength}" onChange="{this.updateActionInput.bind(this)}">

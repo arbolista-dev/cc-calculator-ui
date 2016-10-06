@@ -19,40 +19,30 @@ const ACTIONS = {
 
   [updateUI]: (state, payload)=>{
     if (state.has(payload.id)) {
-      let merged;
       if (Map.isMap(state.get(payload.id))) {
-        merged = state.get(payload.id).merge(payload.data);
+        return fromJS(state.set(payload.id, state.get(payload.id).merge(payload.data)));
       } else {
-        merged = payload.data;
+        return fromJS(state.set(payload.id, payload.data));
       }
-
-      let updated = state.set(payload.id, merged);
-      return fromJS(updated);
-
     } else {
-      let updated = state.set(payload.id, payload.data);
-      return fromJS(updated);
+      return fromJS(state.set(payload.id, payload.data));
     }
   },
 
   [pushAlert]: (state, payload)=>{
-    let new_list = new List(payload.data);
-    let updated = state.setIn(['alerts', payload.id], new_list)
-                       .set('alert_exists', true);
+    state = state.setIn(['alerts', payload.id], new List(payload.data))
+                 .set('alert_exists', true);
 
-    return fromJS(updated)
+    return state
   },
 
   [resetAlerts]: (state, _payload)=>{
-    let updated = state,
-    alerts = state.get('alerts');
-
-    Object.keys(alerts.toJS()).forEach((type) => {
-        updated = updated.setIn(['alerts', type], new List())
+    Object.keys(state.get('alerts').toJS()).forEach((type) => {
+        state = state.setIn(['alerts', type], new List())
     })
-    updated = updated.set('alert_exists', false);
+    state = state.set('alert_exists', false);
 
-    return fromJS(updated)
+    return state
   }
 
 };

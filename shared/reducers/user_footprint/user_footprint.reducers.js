@@ -90,7 +90,6 @@ const ACTIONS = {
       fromJS(state),
       Effects.constant(parseTakeactionResult(result))
     )
-    // @ToDo: Check if authenticated -> updateUserAnswers
 
   },
 
