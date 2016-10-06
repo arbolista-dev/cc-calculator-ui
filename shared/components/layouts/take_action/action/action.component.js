@@ -20,6 +20,10 @@ class ActionComponent extends Translatable {
     }
   }
 
+  get vehicles_loaded(){
+    return this.props.ui.has('vehicles')
+  }
+
   get api_key(){
     return `input_takeaction_${this.state.key}`;
   }
@@ -63,32 +67,15 @@ class ActionComponent extends Translatable {
   }
 
   get tons_saved(){
-    return this.numberWithCommas(
-      Math.round(this.result_takeaction_pounds[this.state.key] * 100) / 100
-    );
+    return this.numberWithCommas(this.props.user_footprint.getIn(['result_takeaction_pounds', this.state.key]));
   }
-
-  get result_takeaction_pounds(){
-    return this.props.user_footprint.get('result_takeaction_pounds');
-  }
-
-  get result_takeaction_dollars(){
-    return this.props.user_footprint.get('result_takeaction_dollars');
-  }
-
-  get result_takeaction_net10yr(){
-    return this.props.user_footprint.get('result_takeaction_net10yr');
-  }
-
 
   get dollars_saved(){
-    return this.numberWithCommas(
-      Math.round(this.result_takeaction_dollars[this.state.key]));
+    return this.numberWithCommas(this.props.user_footprint.getIn(['result_takeaction_dollars', this.state.key]));
   }
 
   get upfront_cost(){
-    return this.numberWithCommas(
-      Math.round(this.result_takeaction_net10yr[this.state.key]));
+    return this.numberWithCommas(this.props.user_footprint.getIn(['result_takeaction_net10yr', this.state.key]));
   }
 
   toggleAction(){

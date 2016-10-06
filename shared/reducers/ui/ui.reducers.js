@@ -10,7 +10,8 @@ import { updateUI, pushAlert, resetAlerts } from './ui.actions'
     leaders_chart: <Map>,
     display_location: <String>,
     external_offset: <Map>,
-    connect_to_api: <Boolean>
+    connect_to_api: <Boolean>,
+    vehicles: <Map>
   }
 */
 

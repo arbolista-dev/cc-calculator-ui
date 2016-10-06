@@ -43,24 +43,31 @@ const ACTIONS = {
                            .merge(api_data);
     setLocalStorageItem('user_footprint', merged_data.toJS());
 
-    if (state.get('data').isEmpty() || state.getIn(['data', 'input_changed']) != 1) {
-      // @ToDo: Make sure this decision is made correctly
-      // used to be -> if (!state_manager.user_footprint_set || state_manager.footprint_not_updated)
+    let updated = state.set('data', merged_data)
 
-      let updated = state.set('data', merged_data);
-      return loop(
-        fromJS(updated),
-        Effects.constant(parseFootprintResult(merged_data))
-      )
-    } else {
-      let updated = state.set('data', merged_data)
-                         .set('loading', false)
+    return loop(
+      fromJS(updated),
+      Effects.constant(parseFootprintResult(merged_data))
+    )
 
-      return loop(
-        fromJS(updated),
-        Effects.constant(parseFootprintResult(merged_data))
-      )
-    }
+    // if (state.get('data').isEmpty() || state.getIn(['data', 'input_changed']) != 1) {
+    //   // @ToDo: Make sure this decision is made correctly
+    //   // used to be -> if (!state_manager.user_footprint_set || state_manager.footprint_not_updated)
+    //
+    //   let updated = state.set('data', merged_data);
+    //   return loop(
+    //     fromJS(updated),
+    //     Effects.constant(parseFootprintResult(merged_data))
+    //   )
+    // } else {
+    //   let updated = state.set('data', merged_data)
+    //                      .set('loading', false)
+    //
+    //   return loop(
+    //     fromJS(updated),
+    //     Effects.constant(parseFootprintResult(merged_data))
+    //   )
+    // }
   },
 
   [ensureUserFootprintError]: (state, _result)=>{
@@ -76,7 +83,7 @@ const ACTIONS = {
   [parseFootprintResult]: (state, result)=>{
 
     if (state.has('result_takeaction_pounds')) {
-      if (fromJS(state.get('result_takeaction_pounds')).has('more_efficient_vehicle')) {
+      if (state.hasIn(['result_takeaction_pounds', 'more_efficient_vehicle'])) {
         if(Map.isMap(result)) result = result.toJS();
 
         result = Object.keys(result).reduce((hash, api_key)=>{
@@ -114,19 +121,19 @@ const ACTIONS = {
   [parseTakeactionResult]: (state, result)=>{
 
     let merged = state.get('data')
-                       .merge(result);
+                      .merge(result);
 
     if(!Map.isMap(result)) result = new Map(result);
 
     let updated = state.set('data', merged)
-                       .set('result_takeaction_pounds', JSON.parse(result.get('result_takeaction_pounds')))
-                       .set('result_takeaction_dollars', JSON.parse(result.get('result_takeaction_dollars')))
-                       .set('result_takeaction_net10yr', JSON.parse(result.get('result_takeaction_net10yr')))
+                       .set('result_takeaction_pounds', fromJS(JSON.parse(result.get('result_takeaction_pounds'))))
+                       .set('result_takeaction_dollars', fromJS(JSON.parse(result.get('result_takeaction_dollars'))))
+                       .set('result_takeaction_net10yr', fromJS(JSON.parse(result.get('result_takeaction_net10yr'))))
                        .set('loading', false);
 
-    setLocalStorageItem('result_takeaction_pounds', result.get('result_takeaction_pounds'));
-    setLocalStorageItem('result_takeaction_dollars', result.get('result_takeaction_dollars'));
-    setLocalStorageItem('result_takeaction_net10yr', result.get('result_takeaction_net10yr'));
+    setLocalStorageItem('result_takeaction_pounds', fromJS(result.get('result_takeaction_pounds')));
+    setLocalStorageItem('result_takeaction_dollars', fromJS(result.get('result_takeaction_dollars')));
+    setLocalStorageItem('result_takeaction_net10yr', fromJS(result.get('result_takeaction_net10yr')));
     setLocalStorageItem('user_footprint', merged);
 
     return fromJS(updated);

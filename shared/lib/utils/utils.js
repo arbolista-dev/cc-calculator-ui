@@ -38,14 +38,13 @@ function getLocalStorageItem(specifier) {
       }
     } else {
       let results = {
-            dollars: localStorage.getItem('result_takeaction_dollars'),
-            net10yr: localStorage.getItem('result_takeaction_net10yr'),
-            pounds: localStorage.getItem('result_takeaction_pounds')
-          },
-          results_exist = Object.values(results).filter(result => result != null);
+            dollars: JSON.parse(localStorage.getItem('result_takeaction_dollars')),
+            net10yr: JSON.parse(localStorage.getItem('result_takeaction_net10yr')),
+            pounds: JSON.parse(localStorage.getItem('result_takeaction_pounds'))
+      };
 
-      if(results_exist.length !== 0){
-        return JSON.parse(results);
+      if(Object.keys(results.dollars).length !== 0){
+        return results;
       } else {
         return false;
       }
@@ -55,7 +54,8 @@ function getLocalStorageItem(specifier) {
 
 function setLocalStorageItem(specifier, data) {
   try {
-    localStorage.setItem(specifier, JSON.stringify(data));
+    if (typeof data === 'object') data = JSON.stringify(data);
+    localStorage.setItem(specifier, data);
   } catch (err) { }
 }
 

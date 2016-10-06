@@ -67,11 +67,11 @@ export let footprintable = {
 
   totalTakeactionSavings(savings_type){
     let component = this;
-    return Object.keys(component.props.user_footprint.get('result_takeaction_pounds'))
+    return Object.keys(component.props.user_footprint.get('result_takeaction_pounds').toJS())
         .filter(key=> !/^offset_/.test(key))
         .reduce((sum, action_key)=>{
           if (component.userApiValue(`input_takeaction_${action_key}`) == 1){
-            sum += component.props.user_footprint.get(savings_type)[action_key];
+            sum += component.props.user_footprint.getIn([savings_type, action_key]);
           }
           return sum;
         }, 0) || 0;

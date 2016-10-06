@@ -24,7 +24,6 @@ class LayoutComponent extends Panel {
     // passing false to setUserAnswersToDefault means no alerts will be triggered!
     if (nextProps.average_footprint.get('reset')) this.setUserAnswersToDefault(false);
     if (this.props.location.get('route_name') !== nextProps.location.get('route_name') && nextProps.ui.get('alert_exists')) this.props.resetAlerts();
-
   }
 
   componentWillMount(){
@@ -41,7 +40,7 @@ class LayoutComponent extends Panel {
   }
 
   get initial_load_done(){
-    if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage) {
+    if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage || !this.state_manager.take_action_storage) {
       return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false
     } else {
       return this.isUserFootprintSet()
@@ -84,12 +83,7 @@ class LayoutComponent extends Panel {
 
   get show_leaders_comparison(){
     let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
-
     return this.connect_to_api && leaders_route && this.props.ui.getIn(['leaders_chart', 'show'])
-  }
-
-  get show_take_action_now(){
-    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
   }
 
   get show_take_action_now(){

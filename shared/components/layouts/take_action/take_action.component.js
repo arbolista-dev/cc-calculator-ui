@@ -29,28 +29,13 @@ class TakeActionComponent extends Panel {
     take_action.state = take_action.userApiState();
     take_action.state['input_action_category'] = ACTIONS[0].category;
     take_action.state['show_actions'] = ACTIONS[0].keys;
-    take_action.state['vehicles'] = take_action.vehicles;
+    // take_action.state['vehicles'] = take_action.vehicles;
     take_action.state['show_critical_assumptions'] = false;
+    // take_action.setVehicles();
   }
 
-  get vehicles(){
-    let take_action = this,
-        num = take_action.userApiValue('input_footprint_transportation_num_vehicles'),
-        vehicles = [],
-        ui = {};
-
-    for (let i=1; i<=num; i++){
-      let vehicle = {};
-      vehicle.miles = take_action.userApiValue(`input_footprint_transportation_miles${i}`);
-      vehicle.mpg = take_action.userApiValue(`input_footprint_transportation_mpg${i}`);
-      vehicles.push(vehicle);
-    }
-
-    ui.id = 'vehicles';
-    ui.data = vehicles;
-    take_action.props.updateUI(ui);
-
-    return vehicles;
+  componentDidMount(){
+    this.setVehicles();
   }
 
   get actions_list(){
@@ -81,22 +66,22 @@ class TakeActionComponent extends Panel {
     return this.state['show_critical_assumptions']
   }
 
-  setSelectOptions(select) {
-    if (select.type === 'vehicle') {
+  setVehicles(){
+    let take_action = this,
+        num = take_action.userApiValue('input_footprint_transportation_num_vehicles'),
+        vehicles = [],
+        ui = {};
 
-      let options = [], i = 1;
-      this.vehicles.forEach((v) => {
-        let vehicle = {};
-        vehicle.value = i;
-        vehicle.text = 'Vehicle ' + i;
-        i++;
-        options.push(vehicle);
-      })
-      return options;
-
-    } else {
-      return select.options
+    for (let i=1; i<=num; i++){
+      let vehicle = {};
+      vehicle.miles = take_action.userApiValue(`input_footprint_transportation_miles${i}`);
+      vehicle.mpg = take_action.userApiValue(`input_footprint_transportation_mpg${i}`);
+      vehicles.push(vehicle);
     }
+
+    ui.id = 'vehicles';
+    ui.data = vehicles;
+    take_action.props.updateUI(ui);
   }
 
   isCategoryActive(category){
