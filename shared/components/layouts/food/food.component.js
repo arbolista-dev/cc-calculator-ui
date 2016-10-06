@@ -34,6 +34,10 @@ class FoodComponent extends Panel {
     return RELEVANT_API_KEYS;
   }
 
+  getFoodLabel(type) {
+    return this.t(`food.${type}.label`);
+  }
+
   toggleLeadersChart() {
     let food = this,
         ui = {};

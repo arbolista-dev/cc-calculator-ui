@@ -280,7 +280,6 @@ class LeadersComponent extends Panel {
       offset: 0,
       total_count: 0,
       trigger_update: true,
-      trigger_update: true,
       is_loading: true,
       all_loaded: false,
     });
@@ -307,7 +306,6 @@ class LeadersComponent extends Panel {
       limit: 20,
       offset: 0,
       total_count: 0,
-      trigger_update: true,
       trigger_update: true,
       is_loading: true,
       all_loaded: false,

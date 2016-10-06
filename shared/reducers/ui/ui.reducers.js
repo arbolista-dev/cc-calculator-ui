@@ -5,12 +5,13 @@ import { createReducer } from 'redux-act';
 import { updateUI, pushAlert, resetAlerts } from './ui.actions'
 /*
   ui: {
-    alert_exists: <Boolean>
+    external_offset: <Map>,
     alerts: <Map>,
     leaders_chart: <Map>,
     display_location: <String>,
-    external_offset: <Map>,
+    alert_exists: <Boolean>
     connect_to_api: <Boolean>,
+    location_reset: <Boolean>,
     vehicles: <Map>
   }
 */

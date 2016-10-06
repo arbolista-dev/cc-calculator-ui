@@ -30,6 +30,7 @@
     <div class="container" id="root"></div>
     <% if (process.env.NODE_ENV === 'development') { %>
     <script src="http://localhost:3000/webpack-dev-server.js"></script><% } %>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.13.0/polyfill.min.js" charset="utf-8"></script>
     <script src="/assets/app.js"></script>
   </body>
 </html>

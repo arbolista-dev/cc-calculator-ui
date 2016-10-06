@@ -86,6 +86,10 @@ class LayoutComponent extends Panel {
     return this.connect_to_api && leaders_route && this.props.ui.getIn(['leaders_chart', 'show'])
   }
 
+  get external_offset(){
+    return this.props.ui.get('external_offset');
+  }
+
   get show_take_action_now(){
     return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
   }
@@ -96,6 +100,10 @@ class LayoutComponent extends Panel {
     } else {
       return false;
     }
+  }
+
+  getRouteTitle(route) {
+    return this.t(`${route.key}.title`);
   }
 
   receiveExternalOffset(){

@@ -67,10 +67,7 @@ export default class StateManager {
 
   get default_ui_state(){
     let ui_state = {
-      leaders_chart: {
-        show: false,
-        category: ''
-      },
+      external_offset: {},
       alerts: {
         sign_up: [],
         login: [],
@@ -78,8 +75,13 @@ export default class StateManager {
         leaders: [],
         shared: []
       },
+      leaders_chart: {
+        show: false,
+        category: ''
+      },
+      alert_exists: false,
       connect_to_api: true,
-      external_offset: {}
+      location_reset: false,
     }
     return ui_state
   }

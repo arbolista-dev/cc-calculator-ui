@@ -215,7 +215,7 @@
         "title": "Your Footprint",
         "route_path": "footprint",
         "your_footprint": "Your household footprint",
-        "average_footprint": "Similar household"
+        "average_footprint": "Similar households"
     },
     "take_action": {
         "title": "Take Action",
@@ -248,7 +248,7 @@
         "total_home_footprint": "Your Home Footprint",
         "total_food_footprint": "Your Food Footprint",
         "total_shopping_footprint": "Your Shopping Footprint",
-        "average_footprint": "Average Total Footprint",
+        "average_footprint": "Similar Households",
         "average_travel_footprint": "Average Travel Footprint",
         "average_home_footprint": "Average Home Footprint",
         "average_food_footprint": "Average Food Footprint",

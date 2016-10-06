@@ -48,6 +48,8 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
 
     component.resetUserFootprint();
 
+    get_started.props.updateUI({ id: 'location_reset', data: true });
+
     let default_inputs = component.getDefaultInputs(init);
     component.props.ensureDefaults(default_inputs);
 

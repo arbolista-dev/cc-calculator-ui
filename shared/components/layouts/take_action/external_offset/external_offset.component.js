@@ -13,22 +13,34 @@ class ExternalOffsetComponent extends Translatable {
     external_offset.state = {}
   }
 
+  get offset_title() {
+    return this.props.ui.getIn(['external_offset', 'cta', 'title'])
+  }
+
+  get show_equation() {
+    return this.props.ui.getIn(['external_offset', 'cta', 'show_equation'])
+  }
+
   get display_total_footprint() {
     return Math.round(this.props.totalUserFootprint)
   }
 
   get display_monthly_offset() {
     let external_offset = this,
-        price_per_ton = external_offset.props.ui.getIn(['external_offset', 'carbon_price_per_ton']);
+        price_per_ton = external_offset.props.ui.getIn(['external_offset', 'cta', 'carbon_price_per_ton']);
     return Math.round((external_offset.props.totalUserFootprint * price_per_ton) / 12);
   }
 
   get display_offset_description() {
-    return external_offset.props.ui.getIn(['external_offset', 'description']);
+    return this.props.ui.getIn(['external_offset', 'cta', 'description']);
+  }
+
+  get offset_button_title() {
+    return this.props.ui.getIn(['external_offset', 'cta', 'button_title']);
   }
 
   get offset_url() {
-    return external_offset.props.ui.getIn(['external_offset', 'offset_url']);
+    return this.props.ui.getIn(['external_offset', 'cta', 'offset_url']);
   }
 
   render(){

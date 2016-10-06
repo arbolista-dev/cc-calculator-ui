@@ -165,21 +165,31 @@ const ACTIONS = {
       };
 
     } else {
-      let err = JSON.parse(api_response.error);
+
+      let err;
+      alert = {
+        id: 'sign_up',
+        data: []
+      }
+
+      try {
+        err = JSON.parse(api_response.error);
+        alert.data.push({
+          needs_i18n: true,
+          type: 'danger',
+          message: 'errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]
+        });
+      } catch (err){
+        alert.data.push({
+          needs_i18n: true,
+          type: 'danger',
+          message: 'errors.email.non-unique'
+        });
+      }
 
       updated = state.set('loading', false)
-                         .set('received', true)
-                         .set('success', false)
-
-     alert = {
-       id: 'sign_up',
-       data: [{
-         needs_i18n: true,
-         type: 'danger',
-         message: 'errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]
-       }]
-     };
-
+                     .set('received', true)
+                     .set('success', false)
    }
 
    return loop(

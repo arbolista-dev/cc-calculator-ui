@@ -18,13 +18,13 @@
 				<div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.connect_to_api}">
 					<div
 						rt-repeat="route in this.router.main_routes"
-						class="cc-nav__item"
+					class="cc-nav__item"
 						key="{route.key}"
 						rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
 						onClick="{this.router.goToRouteByName.bind(this, route.route_name)}">
 						<img rt-if="(route.route_name !== this.current_route_name)" src="/assets/img/{route.key}-green.svg"/>
 						<img rt-if="(route.route_name === this.current_route_name)" src="/assets/img/{route.key}-filled.svg"/>
-						<div>{this.t(`${route.key}.title`)}</div>
+						<div>{this.getRouteTitle(route)}</div>
 					</div>
 
 					<div
@@ -34,11 +34,11 @@
 						rt-if="this.connect_to_api"
 						onClick="{this.router.goToRouteByName.bind(this, 'Settings')}">
 					  <img src="/assets/img/settings.png"/>
-						<div>{this.t(`settings.title`)}</div>
+						<div>{this.t('settings.title')}</div>
 					</div>
 				</div>
 		</nav>
-		<div rt-if="this.external_offset" id="external_banner">
+		<div rt-if="this.external_offset.banner_url" id="external_banner">
 			<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
 		</div>
 		<Alerts list="{this.alert_list}" />
@@ -58,7 +58,6 @@
  		<div class="cc_leaders">
 			<Leaders rt-if="this.show_leaders_comparison" />
 		</div>
-
 		<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
 			<a type="button" href="#"
 				class="btn btn-default"
@@ -88,6 +87,13 @@
 	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" class="btn btn-info btn-block mobile">
 	    	{this.t('Take action now')}
 	    </button>
-	  </div>
+  </div>
+	<div class="terms-footer">
+		<div class="content">
+			<ul>
+				<li><a href="http://coolclimate.berkeley.edu/terms-of-use">{this.t('Terms of Use')}</a></li>
+				<li><a href="https://goo.gl/5PjjnE">{this.t('Documentation')}</a></li>
+			</ul>
+		</div>
 	</div>
 </div>
