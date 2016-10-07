@@ -76,7 +76,7 @@ class LayoutComponent extends Panel {
   }
 
   get external_offset(){
-    return this.props.ui.get('external_offset');
+    return this.props.ui.get('external_offset').toJS();
   }
 
   get show_take_action_now(){

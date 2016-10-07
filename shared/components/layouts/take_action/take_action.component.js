@@ -44,6 +44,11 @@ class TakeActionComponent extends Panel {
     return template.call(this);
   }
 
+  get external_offset_set(){
+    let offset = this.props.ui.get('external_offset').toJS();
+    return Object.keys(offset).length !== 0;
+  }
+
   get actions_list(){
     return ACTIONS;
   }
@@ -53,7 +58,7 @@ class TakeActionComponent extends Panel {
   }
 
   get total_user_footprint(){
-    return this.props.user_footprint.get('result_grand_total');
+    return this.props.user_footprint.getIn(['data', 'result_grand_total']);
   }
 
   get result_takeaction_pounds(){
