@@ -24,6 +24,10 @@ class LoginComponent extends Panel {
     };
   }
 
+  render() {
+    return template.call(this);
+  }
+
   get alert_list() {
     return this.props.ui.getIn(['alerts', 'login']).toJS();
   }
@@ -81,10 +85,6 @@ class LoginComponent extends Panel {
   submitLogin(event) {
     event.preventDefault();
     if (this.validateAll()) this.props.login(this.state);
-  }
-
-  render() {
-    return template.call(this);
   }
 }
 

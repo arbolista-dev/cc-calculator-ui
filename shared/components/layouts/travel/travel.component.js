@@ -27,6 +27,17 @@ class TravelComponent extends Panel {
     }, travel.userApiState());
   }
 
+  componentDidMount(){
+    let travel = this;
+    travel.vehicles.forEach((vehicle)=>{
+      vehicle.initializeMpgSlider();
+    });
+  }
+
+  render(){
+    return template.call(this);
+  }
+
   get vehicles(){
     return this.state.vehicles;
   }
@@ -45,21 +56,6 @@ class TravelComponent extends Panel {
 
   get relevant_api_keys(){
     return RELEVANT_API_KEYS;
-  }
-
-  /*
-   * React Events
-   */
-
-  componentDidMount(){
-    let travel = this;
-    travel.vehicles.forEach((vehicle)=>{
-      vehicle.initializeMpgSlider();
-    });
-  }
-
-  render(){
-    return template.call(this);
   }
 
   /*
@@ -298,9 +294,7 @@ class TravelComponent extends Panel {
       });
     });
   }
-
 }
-
 
 TravelComponent.NAME = 'Travel';
 TravelComponent.propTypes = footprintPropTypes;

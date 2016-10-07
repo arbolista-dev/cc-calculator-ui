@@ -25,6 +25,16 @@ class HomeComponent extends Panel {
     home.state = home.userApiState();
   }
 
+  componentDidMount() {
+    let home = this;
+    home.initializeWaterSlider();
+    home.initializeCleanPercentSlider();
+  }
+
+  render(){
+    return template.call(this);
+  }
+
   get display_electricity_units(){
     if (this.unitsSet('electricity', 0)) return this.t('units.usd_per_year');
     else return this.t('units.kwh_per_year');
@@ -80,20 +90,6 @@ class HomeComponent extends Panel {
     };
     home.props.updateUI(ui);
     window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
-  }
-
-  /*
-   * React Events
-   */
-
-  componentDidMount() {
-    let home = this;
-    home.initializeWaterSlider();
-    home.initializeCleanPercentSlider();
-  }
-
-  render(){
-    return template.call(this);
   }
 
   /*

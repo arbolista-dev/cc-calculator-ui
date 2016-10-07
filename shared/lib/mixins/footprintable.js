@@ -132,8 +132,6 @@ export let footprintable = {
   },
 
   updateFootprintParams(updated_params){
-    // @ToDo: set input_changed in reducer
-    // this.props.user_footprint.setIn(['data', 'input_changed'], 1)
     this.props.userFootprintUpdated(updated_params);
   },
 

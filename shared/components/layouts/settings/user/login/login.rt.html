@@ -11,34 +11,34 @@
           <form onsubmit="{this.submitLogin.bind(this)}">
             <div class="form-group">
                 <label for="inputEmail" class="control-label">
-                  {this.t(`login.email`)}
+                  {this.t('login.email')}
                 </label>
                 <input type="email" class="form-control" id="inputEmail"
                 rt-class="{error: !this.paramValid('email')}"
                 onChange="{this.updateInput.bind(this)}"
                 data-api_key="email"
                 value="{this.state.email}"
-                placeholder="{this.t(`login.email`)}">
+                placeholder="{this.t('login.email')}">
             </div>
             <div class="form-group">
                 <label for="inputPassword" class="control-label">
-                  {this.t(`login.password`)}
+                  {this.t('login.password')}
                 </label>
                 <input type="password" class="form-control" id="inputPassword"
                 rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}"
                 data-api_key="password"
                 value="{this.state.password}"
-                placeholder="{this.t(`login.password`)}">
+                placeholder="{this.t('login.password')}">
             </div>
             <div class="cc-component__auth-password-request">
                 <a onClick="{this.router.goToRouteByName.bind(this, 'ForgotPassword')}">
-                  {this.t(`login.password_request`)}
+                  {this.t('login.password_request')}
                 </a>
             </div>
             <div class="cc-component__auth-submit">
                 <button type="submit" class="btn btn-default"
                 onClick="{this.submitLogin.bind(this)}">
-                  {this.t(`login.submit`)}
+                  {this.t('login.submit')}
                 </button>
             </div>
           </form>

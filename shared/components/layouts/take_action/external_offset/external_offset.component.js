@@ -13,6 +13,10 @@ class ExternalOffsetComponent extends Translatable {
     external_offset.state = {}
   }
 
+  render(){
+    return template.call(this);
+  }
+
   get offset_title() {
     return this.props.ui.getIn(['external_offset', 'cta', 'title'])
   }
@@ -42,11 +46,6 @@ class ExternalOffsetComponent extends Translatable {
   get offset_url() {
     return this.props.ui.getIn(['external_offset', 'cta', 'offset_url']);
   }
-
-  render(){
-    return template.call(this);
-  }
-
 }
 
 ExternalOffsetComponent.NAME = 'ExternalOffset';

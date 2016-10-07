@@ -25,10 +25,6 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     }
   }
 
-  pushRoute(route_name, action, payload){
-    this.router.pushRoute(route_name, action, payload);
-  }
-
   get slider_width(){
     let width = window.innerWidth * 0.8;
     width = Math.min(MAX_SLIDER_WIDTH, width);
@@ -40,6 +36,10 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     return this.props.ui.get('connect_to_api')
   }
 
+  pushRoute(route_name, action, payload){
+    this.router.pushRoute(route_name, action, payload);
+  }
+
   setUserAnswersToDefault(show_alert){
     // show_alert needed here since loggedIn/loggedOut actions otherwise fail (as they also trigger alerts)
 
@@ -48,7 +48,7 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
 
     component.resetUserFootprint();
 
-    get_started.props.updateUI({ id: 'location_reset', data: true });
+    component.props.updateUI({ id: 'location_reset', data: true });
 
     let default_inputs = component.getDefaultInputs(init);
     component.props.ensureDefaults(default_inputs);

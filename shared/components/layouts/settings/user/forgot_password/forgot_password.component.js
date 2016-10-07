@@ -22,6 +22,10 @@ class ForgotPasswordComponent extends Panel {
     };
   }
 
+  render() {
+    return template.call(this);
+  }
+
   get alert_list() {
     return this.props.ui.getIn(['alerts', 'forgot_password']).toJS();
   }
@@ -79,9 +83,6 @@ class ForgotPasswordComponent extends Panel {
     if (this.validateAll()) this.props.requestNewPassword(this.state);
   }
 
-  render() {
-    return template.call(this);
-  }
 }
 ForgotPasswordComponent.NAME = 'ForgotPassword';
 ForgotPasswordComponent.propTypes = authPropTypes;

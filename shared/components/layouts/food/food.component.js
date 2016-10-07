@@ -9,8 +9,7 @@ import template from './food.rt.html'
 import footprintContainer from 'shared/containers/footprint.container';
 import { footprintPropTypes } from 'shared/containers/footprint.container';
 
-const RELEVANT_API_KEYS = ['meatfisheggs', 'meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry',
-                    'cereals', 'dairy', 'fruitvegetables', 'otherfood'],
+const RELEVANT_API_KEYS = ['meatfisheggs', 'meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry', 'cereals', 'dairy', 'fruitvegetables', 'otherfood'],
     MEAT_TYPES = ['meat_beefpork', 'meat_fish', 'meat_other', 'meat_poultry'],
     AVERAGE_HOUSEHOLD_SIZE = 2.5;
 
@@ -24,6 +23,17 @@ class FoodComponent extends Panel {
     food.state = Object.assign({
       simple: true
     }, food.userApiState());
+  }
+
+  componentDidMount(){
+    let food = this;
+    RELEVANT_API_KEYS.forEach((food_type)=>{
+      food.initializeSlider(food_type)
+    });
+  }
+
+  render(){
+    return template.call(this);
   }
 
   get api_key_base(){
@@ -40,30 +50,16 @@ class FoodComponent extends Panel {
 
   toggleLeadersChart() {
     let food = this,
-        ui = {};
+      ui = {
+        id: 'leaders_chart',
+        data: {
+          show: true,
+          category: 'food'
+        }
+      };
 
-    ui.id = 'leaders_chart';
-    ui.data = {
-      show: true,
-      category: 'food'
-    };
     food.props.updateUI(ui);
     window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
-  }
-
-  /*
-   * React Events
-   */
-
-  render(){
-    return template.call(this);
-  }
-
-  componentDidMount(){
-    let food = this;
-    RELEVANT_API_KEYS.forEach((food_type)=>{
-      food.initializeSlider(food_type)
-    });
   }
 
   /*

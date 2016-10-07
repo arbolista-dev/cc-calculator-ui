@@ -30,6 +30,10 @@ class SignUpComponent extends Panel {
     };
   }
 
+  render() {
+    return template.call(this);
+  }
+
   get alert_list() {
     return  this.props.ui.getIn(['alerts', 'sign_up']).toJS();
   }
@@ -94,11 +98,6 @@ class SignUpComponent extends Panel {
     event.preventDefault();
     if (this.validateAll()) this.props.signup(this.state);
   }
-
-  render() {
-    return template.call(this);
-  }
-
 }
 
 SignUpComponent.NAME = 'SignUp';

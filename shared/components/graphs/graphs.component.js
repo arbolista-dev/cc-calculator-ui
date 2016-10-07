@@ -26,40 +26,6 @@ class GraphsComponent extends Panel {
     graphs.initResizeListener();
   }
 
-  get show_pie_chart(){
-    return this.state.show_chart &&
-      this.state.chart_type === 'pie';
-  }
-
-  get show_bar_chart(){
-    return this.state.show_chart &&
-      this.state.chart_type === 'bar';
-  }
-
-  toggleChartType(type){
-    this.hidePopovers()
-    if (this.state.chart_type === type){
-      this.setState({
-        show_chart: false,
-        chart_type: undefined
-      })
-    } else {
-      this.setState({
-        show_chart: true,
-        chart_type: type
-      })
-    }
-
-    setTimeout(()=>{
-      if (this.show_pie_chart){
-        this.drawPieChart();
-      } else if (this.show_bar_chart) {
-        this.initializeOverallBarChart();
-      }
-      window.jQuery('html, body').animate({ scrollTop: window.jQuery(document).height() }, 1000);
-    }, 400)
-  }
-
   componentDidMount() {
     let graphs = this;
     if (window.innerWidth < 992) {
@@ -92,17 +58,18 @@ class GraphsComponent extends Panel {
     this.hidePopovers();
   }
 
-  hidePopovers(){
-    window.jQuery('.d3-value-arc text').popover('hide');
-    window.jQuery('.your-footprint').popover('hide');
-  }
-
   render(){
     return template.call(this);
   }
 
-  shouldShowTotal(){
-    return !(this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction')
+  get show_pie_chart(){
+    return this.state.show_chart &&
+      this.state.chart_type === 'pie';
+  }
+
+  get show_bar_chart(){
+    return this.state.show_chart &&
+      this.state.chart_type === 'bar';
   }
 
   get categories(){
@@ -127,6 +94,43 @@ class GraphsComponent extends Panel {
 
   get average_footprint(){
     return this.props.average_footprint.get('data').toJS()
+  }
+
+  get average_footprint_total(){
+    return this.defaultApiValue('result_grand_total');
+  }
+
+  toggleChartType(type){
+    this.hidePopovers()
+    if (this.state.chart_type === type){
+      this.setState({
+        show_chart: false,
+        chart_type: undefined
+      })
+    } else {
+      this.setState({
+        show_chart: true,
+        chart_type: type
+      })
+    }
+
+    setTimeout(()=>{
+      if (this.show_pie_chart){
+        this.drawPieChart();
+      } else if (this.show_bar_chart) {
+        this.initializeOverallBarChart();
+      }
+      window.jQuery('html, body').animate({ scrollTop: window.jQuery(document).height() }, 1000);
+    }, 400)
+  }
+
+  hidePopovers(){
+    window.jQuery('.d3-value-arc text').popover('hide');
+    window.jQuery('.your-footprint').popover('hide');
+  }
+
+  shouldShowTotal(){
+    return !(this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction')
   }
 
   generateData(footprint){
@@ -237,10 +241,6 @@ class GraphsComponent extends Panel {
     }
   }
 
-  get average_footprint_total(){
-    return this.defaultApiValue('result_grand_total');
-  }
-
   // Don't redraw pie data. The average and user values
   // will be drawn out of order, hiding smaller value.
   // Instead, wipe the chart and completely redraw.
@@ -280,7 +280,6 @@ class GraphsComponent extends Panel {
           .attr('class').split(' ')[1];
         return component.popoverContentForCategory(category)
       }
-
     });
   }
 
@@ -357,7 +356,6 @@ class GraphsComponent extends Panel {
   get category_user_byline(){
     let graphs = this;
     switch (graphs.current_route_name){
-
       case 'Travel':
         return graphs.t('summaries.total_travel_footprint')
       case 'Home':

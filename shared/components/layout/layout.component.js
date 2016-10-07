@@ -29,10 +29,7 @@ class LayoutComponent extends Panel {
   componentWillMount(){
     this.receiveExternalOffset()
 
-    if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage) {
-      let default_inputs = this.getDefaultInputs();
-      this.props.ensureDefaults(default_inputs)
-    }
+    if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage) this.props.ensureDefaults(this.getDefaultInputs());
   }
 
   render() {
@@ -41,26 +38,18 @@ class LayoutComponent extends Panel {
 
   get initial_load_done(){
     if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage || !this.state_manager.take_action_storage) {
-      return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false
+      return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false;
     } else {
-      return this.isUserFootprintSet()
+      return this.isUserFootprintSet();
     }
   }
 
   get alert_list() {
-    return this.props.ui.getIn(['alerts', 'shared']).toJS()
-  }
-
-  get route_name(){
-    return this.props.location.get('route_name');
-  }
-
-  get current_route_name() {
-    return this.route_name;
+    return this.props.ui.getIn(['alerts', 'shared']).toJS();
   }
 
   get current_route(){
-    return this.router.routes.getRoute(this.route_name);
+    return this.router.routes.getRoute(this.current_route_name);
   }
 
   get graphing_route(){

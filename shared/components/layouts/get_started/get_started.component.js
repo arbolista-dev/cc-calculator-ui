@@ -13,7 +13,6 @@ import { setLocation } from 'api/user.api';
 const LOCATION_MODES = [[5, 'Country'], [1, 'Zipcode'], [4, 'State'], [2, 'City'], [3, 'County']];
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
 
-
 class GetStartedComponent extends Panel {
 
   constructor(props, context){
@@ -26,10 +25,6 @@ class GetStartedComponent extends Panel {
       show_location_suggestions: false
     };
   }
-
-  /*
-   * React Events
-   */
 
   componentDidMount(){
     let get_started = this;
@@ -88,7 +83,6 @@ class GetStartedComponent extends Panel {
   get show_location_suggestions(){
     return this.state.show_location_suggestions;
   }
-
 
   updateDefaults(default_params){
     let get_started = this,
@@ -233,7 +227,6 @@ class GetStartedComponent extends Panel {
     return this.userApiValue('input_size');
   }
 
-
   initializeSizeSlider(){
     let get_started = this;
     get_started.size_slider = new SnapSlider({
@@ -256,7 +249,6 @@ class GetStartedComponent extends Panel {
       abs_max: 5,
       current_value: get_started.input_size
     });
-
   }
 
   get income_tick_labels(){

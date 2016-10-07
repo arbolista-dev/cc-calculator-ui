@@ -15,21 +15,22 @@ class FootprintComponent extends Panel {
     footprint.state = {}
   }
 
-  toggleLeadersChart() {
-    let footprint = this,
-        ui = {};
-
-    ui.id = 'leaders_chart';
-    ui.data = {
-      show: true,
-      category: ''
-    };
-    footprint.props.updateUI(ui);
-    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
-  }
-
   render(){
     return template.call(this);
+  }
+
+  toggleLeadersChart() {
+    let footprint = this,
+      ui = {
+        id: 'leaders_chart',
+        data: {
+          show: true,
+          category: ''
+        }
+      };
+
+    footprint.props.updateUI(ui);
+    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
 }
 

@@ -1,4 +1,3 @@
-// import * as S from 'underscore.string';
 import queryString from 'query-string';
 
 export default class RouteBase {
@@ -8,10 +7,6 @@ export default class RouteBase {
     route.params = {};
     Object.assign(route, route_definition);
   }
-
-  // get key(){
-  //   return S.underscored(this.route_name);
-  // }
 
   matchesLocation(pathname){
     let route = this;

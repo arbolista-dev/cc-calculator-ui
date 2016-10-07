@@ -19,6 +19,14 @@ class ActionComponent extends Translatable {
       detailed: false
     }
   }
+  
+  componentDidMount(){
+    if (this.category === 'transportation') this.selectVehicle(1, this.key);
+  }
+
+  render(){
+    return template.call(this);
+  }
 
   get vehicles_loaded(){
     return this.props.ui.has('vehicles')
@@ -247,15 +255,6 @@ class ActionComponent extends Translatable {
       action.setState(user_api_state)
     }, 500);
   }
-
-  componentDidMount(){
-    if (this.category === 'transportation') this.selectVehicle(1, this.key);
-  }
-
-  render(){
-    return template.call(this);
-  }
-
 }
 
 ActionComponent.NAME = 'Action';

@@ -29,13 +29,19 @@ class TakeActionComponent extends Panel {
     take_action.state = take_action.userApiState();
     take_action.state['input_action_category'] = ACTIONS[0].category;
     take_action.state['show_actions'] = ACTIONS[0].keys;
-    // take_action.state['vehicles'] = take_action.vehicles;
     take_action.state['show_critical_assumptions'] = false;
-    // take_action.setVehicles();
+  }
+
+  componentWillMount(){
+    this.setActiveActionsByCategory(this.state['input_action_category']);
   }
 
   componentDidMount(){
     this.setVehicles();
+  }
+
+  render(){
+    return template.call(this);
   }
 
   get actions_list(){
@@ -120,15 +126,6 @@ class TakeActionComponent extends Panel {
       return false;
     }
   }
-
-  componentWillMount(){
-    this.setActiveActionsByCategory(this.state['input_action_category']);
-  }
-
-  render(){
-    return template.call(this);
-  }
-
 }
 
 TakeActionComponent.NAME = 'TakeAction';

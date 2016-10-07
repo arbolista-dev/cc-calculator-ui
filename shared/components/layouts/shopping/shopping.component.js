@@ -36,6 +36,16 @@ class ShoppingComponent extends Panel {
     shopping.initResizeListener();
   }
 
+  componentDidMount() {
+    let shopping = this;
+    shopping.initializeGoodsSlider();
+    shopping.initializeServicesSlider();
+  }
+
+  render(){
+    return template.call(this);
+  }
+
   get api_key_base(){
     return 'input_footprint_shopping';
   }
@@ -76,13 +86,14 @@ class ShoppingComponent extends Panel {
 
   toggleLeadersChart() {
     let shopping = this,
-        ui = {};
+      ui = {
+        id: 'leaders_chart',
+        data: {
+          show: true,
+          category: 'shopping'
+        }
+      };
 
-    ui.id = 'leaders_chart';
-    ui.data = {
-      show: true,
-      category: 'shopping'
-    };
     shopping.props.updateUI(ui);
     window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
@@ -90,12 +101,6 @@ class ShoppingComponent extends Panel {
   /*
    * Callbacks
    */
-
-  componentDidMount() {
-    let shopping = this;
-    shopping.initializeGoodsSlider();
-    shopping.initializeServicesSlider();
-  }
 
   updateMonthlyExpenditure(event){
     let shopping = this,
@@ -141,10 +146,6 @@ class ShoppingComponent extends Panel {
       input_footprint_shopping_goods_other_type: 1,
       input_footprint_shopping_services_type: 1
     });
-  }
-
-  render(){
-    return template.call(this);
   }
 
   /*

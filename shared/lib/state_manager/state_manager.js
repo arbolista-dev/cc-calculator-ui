@@ -10,13 +10,10 @@ import computeFootprintReducers from 'shared/reducers/user_footprint/user_footpr
 import authReducers from 'shared/reducers/auth/auth.reducers';
 import uiReducers from 'shared/reducers/ui/ui.reducers';
 
-// import CalculatorApi from 'api/calculator.api';
 import { updateAnswers } from 'api/user.api';
-import { tokenIsValid, getLocalStorageItem } from '../utils/utils';
+import { getLocalStorageItem } from '../utils/utils';
 
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
-const DEFAULT_INPUTS = ['input_size', 'input_income', 'input_location', 'input_location_mode'];
-const TAKEACTION_INPUTS = ['input_footprint_household_adults', 'input_footprint_household_children'];
 const CATEGORY_COLORS = {
   result_transport_total: '#0D7A3E',
   result_housing_total: '#45813C',
@@ -114,8 +111,12 @@ export default class StateManager {
         average_footprint_state;
 
     return Object.assign({
-      auth: fromJS({data: state_manager.auth_storage || {}}),
-      average_footprint: fromJS({data: state_manager.average_footprint_storage || state_manager.default_inputs}),
+      auth: fromJS({
+        data: state_manager.auth_storage || {}
+      }),
+      average_footprint: fromJS({
+        data: state_manager.average_footprint_storage || state_manager.default_inputs
+      }),
       user_footprint:  fromJS({
         data: state_manager.user_footprint_storage || {},
         result_takeaction_dollars: state_manager.take_action_storage.dollars || {},
@@ -126,14 +127,10 @@ export default class StateManager {
     }, opts);
   }
 
-
   /*
    * User API
    */
   updateUserAnswers(footprint, token){
     return updateAnswers(footprint, token)
-      .then((res) => {
-        if (res.success) console.log('Updated user answers in DB.');
-      })
   }
 }

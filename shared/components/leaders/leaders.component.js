@@ -31,6 +31,49 @@ class LeadersComponent extends Panel {
     }
   }
 
+  componentDidMount() {
+    let leaders = this;
+
+    if (leaders.props.ui.getIn(['leaders_chart', 'show'])) {
+      leaders.retrieveLocations();
+      leaders.retrieveAndShow();
+    }
+
+    let ui = {
+      id: 'leaders_chart',
+      data: {
+        category: leaders.current_route_name
+      }
+    };
+
+    leaders.props.updateUI(ui);
+  }
+
+  componentDidUpdate() {
+    let leaders = this;
+
+    if (leaders.props.ui.getIn(['leaders_chart', 'category']) != leaders.current_route_name) {
+      let ui = {
+        id: 'leaders_chart',
+        data: {
+          category: leaders.current_route_name,
+          show: false
+        }
+      };
+      leaders.props.updateUI(ui);
+      $(window).off('scroll', leaders.detectScroll());
+    }
+  }
+
+  componentWillUnmount(){
+    $(window).off('scroll', this.detectScroll());
+    $(document).off('click.hideLocations');
+  }
+
+  render(){
+    return template.call(this);
+  }
+
   get category_identifier() {
     let leaders = this,
         id;
@@ -128,36 +171,6 @@ class LeadersComponent extends Panel {
     return '';
   }
 
-  componentDidMount() {
-    let leaders = this,
-        ui = {};
-    if (leaders.props.ui.getIn(['leaders_chart', 'show'])) {
-      leaders.retrieveLocations();
-      leaders.retrieveAndShow();
-    }
-
-    ui.id = 'leaders_chart';
-    ui.data = {
-      category: leaders.current_route_name
-    };
-    leaders.props.updateUI(ui);
-  }
-
-  componentDidUpdate() {
-    let leaders = this;
-
-    if (leaders.props.ui.getIn(['leaders_chart', 'category']) != leaders.current_route_name) {
-      let ui = {};
-      ui.id = 'leaders_chart';
-      ui.data = {
-        category: leaders.current_route_name,
-        show: false
-      };
-      leaders.props.updateUI(ui);
-      $(window).off('scroll', leaders.detectScroll());
-    }
-  }
-
   retrieveAndShow(){
     let leaders = this;
     leaders.retrieveLeaders().then(() => {
@@ -169,11 +182,12 @@ class LeadersComponent extends Panel {
           is_loading: false
         })
 
-        let alert = {};
-        alert.id = 'leaders';
-        alert.data = {
-          type: 'danger',
-          message: leaders.t('leaders.empty')
+        let alert = {
+          id: 'leaders',
+          data: {
+            type: 'danger',
+            message: leaders.t('leaders.empty')
+          }
         };
         leaders.props.pushAlert(alert);
       }
@@ -236,11 +250,12 @@ class LeadersComponent extends Panel {
             reject('total_count=0');
           }
         } else {
-          let alert = {};
-          alert.id = 'leaders';
-          alert.data = {
-            type: 'danger',
-            message: leaders.t('leaders.retrieval_error')
+          let alert = {
+            id: 'leaders',
+            data: {
+              type: 'danger',
+              message: leaders.t('leaders.retrieval_error')
+            }
           };
           leaders.props.pushAlert(alert);
           reject();
@@ -338,21 +353,26 @@ class LeadersComponent extends Panel {
             locations: locations,
           });
         } else {
-          // console.log('retrieveLocations: empty list');
+          let alert = {
+            id: 'leaders',
+            data: {
+              type: 'danger',
+              message: leaders.t('leaders.retrieval_error')
+            }
+          };
+          leaders.props.pushAlert(alert);
         }
       } else {
-        // console.log('retrieveLocations: can not be retrieved');
+        let alert = {
+          id: 'leaders',
+          data: {
+            type: 'danger',
+            message: leaders.t('leaders.retrieval_error')
+          }
+        };
+        leaders.props.pushAlert(alert);
       }
     });
-  }
-
-  componentWillUnmount(){
-    $(window).off('scroll', this.detectScroll());
-    $(document).off('click.hideLocations');
-  }
-
-  render(){
-    return template.call(this);
   }
 }
 

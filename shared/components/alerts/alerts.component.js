@@ -13,6 +13,10 @@ class AlertsComponent extends Translatable {
     alerts.state = {}
   }
 
+  render(){
+    return template.call(this);
+  }
+
   get not_empty(){
     return this.props.list.length != 0
   }
@@ -25,11 +29,6 @@ class AlertsComponent extends Translatable {
       return alert.message;
     }
   }
-
-  render(){
-    return template.call(this);
-  }
-
 }
 
 AlertsComponent.propTypes = {
