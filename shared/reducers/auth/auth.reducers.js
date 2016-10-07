@@ -3,7 +3,7 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import { addUser, loginUser, logoutUser, forgotPassword } from 'api/user.api';
-import { signup, login, loggedIn, signedUp, logout, loggedOut, requestNewPassword, passwordRequested, authError } from './auth.actions';
+import { signup, login, loggedIn, signedUp, logout, loggedOut, requestNewPassword, newPasswordRequested, authError } from './auth.actions';
 import { updatedFootprintComputed } from '../user_footprint/user_footprint.actions';
 import { averageFootprintResetRequested } from '../average_footprint/average_footprint.actions';
 import { pushAlert } from '../ui/ui.actions';
@@ -19,8 +19,7 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
       loading: false,
       load_error: false,
       received: false,
-      success: undefined,
-      error_msg: undefined
+      success: undefined
     }
   } */
 
@@ -90,9 +89,6 @@ const ACTIONS = {
           message: 'success.login'
         }]
       };
-
-      console.log('api_response answers', api_response.data.answers);
-      console.log('user remote_answers', remote_answers);
 
       if (Object.keys(remote_answers).length !== 0) {
         return loop(
@@ -244,13 +240,13 @@ const ACTIONS = {
       state.set('loading', true),
       Effects.promise(()=>{
         return forgotPassword(payload)
-          .then(passwordRequested)
+          .then(newPasswordRequested)
           .catch(authError)
       })
     )
   },
 
-  [passwordRequested]: (state, api_response)=>{
+  [newPasswordRequested]: (state, api_response)=>{
 
     let updated = state.set('loading', false)
                        .set('received', true);
@@ -278,9 +274,8 @@ const ACTIONS = {
     )
   },
 
-  [authError]: (state, action)=>{
-    console.log('authError state', state);
-    console.log('authError action', action);
+  [authError]: (state, _payload)=>{
+    return state.set('success', false)
   }
 
 };

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
-import { ensureUserFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResults } from 'shared/reducers/user_footprint/user_footprint.actions';
+import { ensureFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult } from 'shared/reducers/user_footprint/user_footprint.actions';
 import { updateUI, pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
 
 const mapStateToProps = (state) => {
@@ -25,9 +25,9 @@ const mapDispatchToProps = (dispatch) => {
       averageFootprintUpdated.assignTo(dispatch);
       averageFootprintUpdated(updated_params);
     },
-    ensureUserFootprintComputed: (defaults) => {
-      ensureUserFootprintComputed.assignTo(dispatch);
-      ensureUserFootprintComputed(defaults);
+    ensureFootprintComputed: (defaults) => {
+      ensureFootprintComputed.assignTo(dispatch);
+      ensureFootprintComputed(defaults);
     },
     userFootprintUpdated: (updated_params) => {
       userFootprintUpdated.assignTo(dispatch);
@@ -41,9 +41,9 @@ const mapDispatchToProps = (dispatch) => {
       updatedFootprintComputed.assignTo(dispatch);
       updatedFootprintComputed(updated_params);
     },
-    updateTakeactionResults: () => {
-      updateTakeactionResults.assignTo(dispatch);
-      updateTakeactionResults();
+    updateTakeactionResult: () => {
+      updateTakeactionResult.assignTo(dispatch);
+      updateTakeactionResult();
     },
     updateUI: (payload) => {
       updateUI.assignTo(dispatch);
@@ -71,8 +71,8 @@ const footprintPropTypes = {
   auth: React.PropTypes.object,
   ui: React.PropTypes.object,
   ensureDefaults: React.PropTypes.func.isRequired,
-  ensureUserFootprintComputed: React.PropTypes.func.isRequired,
-  updateTakeactionResults: React.PropTypes.func.isRequired,
+  ensureFootprintComputed: React.PropTypes.func.isRequired,
+  updateTakeactionResult: React.PropTypes.func.isRequired,
   averageFootprintUpdated: React.PropTypes.func.isRequired,
   userFootprintUpdated: React.PropTypes.func.isRequired,
   userFootprintReset: React.PropTypes.func.isRequired,

@@ -3,7 +3,7 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResults } from './user_footprint.actions';
+import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult } from './user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
@@ -24,7 +24,7 @@ const DEFAULT_STATE = {
 const ACTIONS = {
 
   // Load initial defaults from API.
-  [ensureUserFootprintComputed]: (state, payload)=>{
+  [ensureFootprintComputed]: (state, payload)=>{
     let updated = state.set('data', payload)
                        .set('loading', true);
 
@@ -32,13 +32,13 @@ const ACTIONS = {
       updated,
       Effects.promise(()=>{
         return CalculatorApi.computeFootprint(payload.toJS())
-          .then(ensureUserFootprintRetrieved)
-          .catch(ensureUserFootprintError)
+          .then(footprintRetrieved)
+          .catch(userFootprintError)
       })
     )
   },
 
-  [ensureUserFootprintRetrieved]: (state, api_data)=>{
+  [footprintRetrieved]: (state, api_data)=>{
     let merged_data = state.get('data')
                            .merge(api_data);
     setLocalStorageItem('user_footprint', merged_data.toJS());
@@ -52,7 +52,7 @@ const ACTIONS = {
 
   },
 
-  [ensureUserFootprintError]: (state, _result)=>{
+  [userFootprintError]: (state, _result)=>{
     let updated = state.set('load_error', true)
                        .set('loading', false);
 
@@ -153,19 +153,19 @@ const ACTIONS = {
       Effects.promise(()=>{
         return CalculatorApi.computeFootprint(params)
           .then(parseFootprintResult)
-          .catch(ensureUserFootprintError)
+          .catch(userFootprintError)
       })
     )
   },
 
-  [updateTakeactionResults]: (state)=>{
+  [updateTakeactionResult]: (state)=>{
 
     return loop(
       state,
       Effects.promise(()=>{
         return CalculatorApi.computeTakeactionResults(state.get('data').toJS())
           .then(parseTakeactionResult)
-          .catch(ensureUserFootprintError)
+          .catch(userFootprintError)
       })
     )
 

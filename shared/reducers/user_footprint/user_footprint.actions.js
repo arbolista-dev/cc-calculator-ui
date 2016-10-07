@@ -1,6 +1,6 @@
 import { createAction } from 'redux-act';
 
-const ensureUserFootprintComputed = createAction('Ensure compute footprint results from Calc API are in store.'),
+const ensureFootprintComputed = createAction('Ensure footprint is computed based on user input.'),
     ensureUserFootprintRetrieved = createAction('Compute footprint results retrieved from Calc API.'),
     ensureUserFootprintError = createAction('Error retrieving compute footprint results from Calc API.'),
     parseFootprintResult = createAction('Parse result parameters from compute footprint results.'),
@@ -10,4 +10,4 @@ const ensureUserFootprintComputed = createAction('Ensure compute footprint resul
     updatedFootprintComputed = createAction('Compute updated user footprint.'),
     updateTakeactionResults = createAction('Compute and update take action results.');
 
-export { ensureUserFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResults };
+export { ensureFootprintComputed, ensureUserFootprintRetrieved, ensureUserFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResults };

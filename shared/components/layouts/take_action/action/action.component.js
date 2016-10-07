@@ -19,7 +19,7 @@ class ActionComponent extends Translatable {
       detailed: false
     }
   }
-  
+
   componentDidMount(){
     if (this.category === 'transportation') this.selectVehicle(1, this.key);
   }
@@ -75,15 +75,15 @@ class ActionComponent extends Translatable {
   }
 
   get tons_saved(){
-    return this.numberWithCommas(this.props.user_footprint.getIn(['result_takeaction_pounds', this.state.key]));
+    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_pounds', this.state.key]) * 100) / 100);
   }
 
   get dollars_saved(){
-    return this.numberWithCommas(this.props.user_footprint.getIn(['result_takeaction_dollars', this.state.key]));
+    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_dollars', this.state.key])));
   }
 
   get upfront_cost(){
-    return this.numberWithCommas(this.props.user_footprint.getIn(['result_takeaction_net10yr', this.state.key]));
+    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_net10yr', this.state.key])));
   }
 
   toggleAction(){
@@ -250,7 +250,7 @@ class ActionComponent extends Translatable {
     }
 
     action.$update_takeaction = setTimeout(()=>{
-      action.props.updateTakeactionResults()
+      action.props.updateTakeactionResult()
       let user_api_state = action.userApiState();
       action.setState(user_api_state)
     }, 500);

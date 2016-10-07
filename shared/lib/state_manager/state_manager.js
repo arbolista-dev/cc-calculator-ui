@@ -26,12 +26,6 @@ export default class StateManager {
 
   constructor(){
     let state_manager = this;
-    state_manager.state = {
-      chart: {
-        show: true,
-        type: 'bar'
-      }
-    };
   }
 
   get Router(){

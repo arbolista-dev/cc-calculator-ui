@@ -4,7 +4,7 @@ import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
 import { ensureDefaults, defaultsRetrieved, defaultsRetrievalError, averageFootprintCalculated, averageFootprintResetRequested, averageFootprintUpdated } from './average_footprint.actions';
-import { ensureUserFootprintRetrieved } from './../user_footprint/user_footprint.actions';
+import { footprintRetrieved } from './../user_footprint/user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 
@@ -78,7 +78,7 @@ const ACTIONS = {
 
     return loop(
       fromJS(updated),
-      Effects.constant(ensureUserFootprintRetrieved(merged_data.toJS()))
+      Effects.constant(footprintRetrieved(merged_data.toJS()))
     )
   },
 
