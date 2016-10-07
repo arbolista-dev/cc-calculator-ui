@@ -184,10 +184,10 @@ class LeadersComponent extends Panel {
 
         let alert = {
           id: 'leaders',
-          data: {
+          data: [{
             type: 'danger',
             message: leaders.t('leaders.empty')
-          }
+          }]
         };
         leaders.props.pushAlert(alert);
       }
@@ -252,10 +252,10 @@ class LeadersComponent extends Panel {
         } else {
           let alert = {
             id: 'leaders',
-            data: {
+            data: [{
               type: 'danger',
               message: leaders.t('leaders.retrieval_error')
-            }
+            }]
           };
           leaders.props.pushAlert(alert);
           reject();
@@ -355,20 +355,20 @@ class LeadersComponent extends Panel {
         } else {
           let alert = {
             id: 'leaders',
-            data: {
+            data: [{
               type: 'danger',
               message: leaders.t('leaders.retrieval_error')
-            }
+            }]
           };
           leaders.props.pushAlert(alert);
         }
       } else {
         let alert = {
           id: 'leaders',
-          data: {
+          data: [{
             type: 'danger',
             message: leaders.t('leaders.retrieval_error')
-          }
+          }]
         };
         leaders.props.pushAlert(alert);
       }
