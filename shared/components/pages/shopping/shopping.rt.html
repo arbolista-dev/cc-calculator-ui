@@ -1,0 +1,95 @@
+<main className="cc-component container container-md" id="shopping">
+	<header className="cc-component__header">
+		<div>
+			<img src="/assets/img/{this.route_key}-grey.svg"/>
+			<h4>{this.t('shopping.title')}</h4>
+		</div>
+		<p><a className="cc-component__compare btn btn-default" onClick="{this.toggleLeadersChart.bind(this)}"
+      rt-if="this.connect_to_api"> {this.t('component.compare')} <i className="fa fa-sort-amount-asc" aria-hidden="true"></i>
+     </a></p>
+		<span className="cc-component__byline">{this.t('shopping.byline')}</span>
+		<div>
+			<span className="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': this.state.simple}"
+			onClick="{this.setSimple.bind(this)}">{this.t('component.labels.simple')}</span> |
+			<span className="cc-component__simple-toggle"
+        rt-class="{'cc-component__simple-toggle--active': !this.state.simple}"
+			onClick="{this.setAdvanced.bind(this)}">{this.t('component.labels.advanced')}</span>
+		</div>
+	</header>
+
+	<div className="cc-component__form">
+		<div rt-class="{hidden: this.advanced}">
+			<div className="panel panel-default">
+				<div className="panel-heading">{this.t('shopping.goods.label')}</div>
+				<div className="panel-body">
+					<div className="label-container">
+						<span className="label label-slider">
+							${this.display_goods_monthly_spending} / {this.t('month')}
+						</span>
+					</div>
+					<div id="shopping_goods_slider"></div>
+				</div>
+			</div>
+			<div className="panel panel-default">
+				<div className="panel-heading">{this.t('shopping.services.label')}</div>
+				<div className="panel-body">
+					<div className="label-container">
+						<span className="label label-slider">
+							${this.display_services_monthly_spending} / {this.t('month')}
+						</span>
+					</div>
+					<div id="shopping_services_slider"></div>
+				</div>
+			</div>
+		</div>
+		<div rt-class="{hidden: this.simple}">
+			<div className="panel panel-default">
+				<div className="panel-heading">{this.t('shopping.goods.label')}</div>
+				<div className="panel-body">
+					<div rt-repeat="goods_type in this.goods_questions"
+					key="shopping_question_{goods_type}"
+					className="cc-component__question">
+					<h4 className="cc-component__question-label">{this.getAdvancedLabel(goods_type)}</h4>
+					<div className="input-group">
+						<input
+						onChange="{this.updateMonthlyExpenditure.bind(this)}"
+						value="{this.displayUserApiStateValue(goods_type)}"
+						placeholder="{this.t('units.usd_per_month')}}"
+						data-type="{goods_type}"
+						data-api_key="{this.apiKey(goods_type)}"
+						className="form-control"/>
+		        <span className="input-group-addon">{this.t('units.usd_per_month')}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+			<div className="panel panel-default">
+				<div className="panel-heading">{this.t('shopping.services.label')}</div>
+				<div className="panel-body">
+					<div rt-repeat="service_type in this.services_questions"
+					key="shopping_question_{service_type}"
+					className="cc-component__question">
+						<h4 className="cc-component__question-label">{this.getAdvancedLabel(service_type)}</h4>
+						<div className="input-group">
+							<input
+							onChange="{this.updateMonthlyExpenditure.bind(this)}"
+							value="{this.displayUserApiStateValue(service_type)}"
+							placeholder="{this.t('units.usd_per_month')}}"
+							data-type="{service_type}"
+							data-api_key="{this.apiKey(service_type)}"
+							className="form-control"/>
+	        		<span className="input-group-addon">{this.t('units.usd_per_month')}</span>
+	        	</div>
+      		</div>
+    		</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div className="cc-component__nav">
+	<a onClick="{this.router.previous.bind(this.router)}">{this.t('Previous')}</a>
+	<a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
+</div>
+</main>

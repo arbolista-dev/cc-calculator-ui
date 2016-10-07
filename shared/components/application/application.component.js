@@ -1,6 +1,6 @@
 /*global module */
-import React from 'react';
 
+import React from 'react';
 import LayoutComponent from '../layout/layout.component';
 import { Provider } from 'react-redux';
 import StateManager from 'shared/lib/state_manager/state_manager';

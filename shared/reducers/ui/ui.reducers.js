@@ -1,5 +1,4 @@
 import { fromJS, Map, List } from 'immutable';
-import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import { updateUI, pushAlert, resetAlerts } from './ui.actions'
@@ -38,7 +37,7 @@ const ACTIONS = {
 
   [resetAlerts]: (state, _payload)=>{
     Object.keys(state.get('alerts').toJS()).forEach((type) => {
-        state = state.setIn(['alerts', type], new List())
+      state = state.setIn(['alerts', type], new List())
     })
     state = state.set('alert_exists', false);
 

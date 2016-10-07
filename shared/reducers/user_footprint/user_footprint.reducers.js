@@ -15,12 +15,6 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
   }
 */
 
-const DEFAULT_STATE = {
-  data: undefined,
-  loading: false,
-  load_error: false
-}
-
 const ACTIONS = {
 
   // Load initial defaults from API.
@@ -172,6 +166,6 @@ const ACTIONS = {
   }
 };
 
-const REDUCER = createReducer(ACTIONS, DEFAULT_STATE);
+const REDUCER = createReducer(ACTIONS, {});
 
 export default REDUCER;

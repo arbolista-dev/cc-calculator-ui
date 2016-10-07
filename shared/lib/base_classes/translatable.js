@@ -1,5 +1,3 @@
-/*global module*/
-
 import ContextableComponent from './contextable';
 
 export default class TranslatableComponent extends ContextableComponent {

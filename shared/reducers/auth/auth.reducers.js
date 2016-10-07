@@ -1,4 +1,6 @@
-import { fromJS, Map } from 'immutable';
+/*global localStorage*/
+
+import { fromJS } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
@@ -22,19 +24,6 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
       success: undefined
     }
   } */
-
-const DEFAULT_STATE = {
-  data: {
-    token: undefined,
-    name: undefined,
-    answers: undefined
-  },
-  loading: false,
-  load_error: false,
-  received: false,
-  success: undefined,
-  error_msg: undefined
-};
 
 const ACTIONS = {
 
@@ -64,14 +53,10 @@ const ACTIONS = {
   [loggedIn]: (state, api_response)=>{
     if (api_response.success) {
       let auth = {
-          token: api_response.data.token,
-          name: api_response.data.name
-        },
-        remote_answers = JSON.parse(api_response.data.answers),
-        res = {
-          received: true,
-          success: true,
-        };
+            token: api_response.data.token,
+            name: api_response.data.name
+          },
+          remote_answers = JSON.parse(api_response.data.answers);
 
       setLocalStorageItem('auth', auth);
 
@@ -110,21 +95,21 @@ const ACTIONS = {
 
       let updated = state.set('loading', false)
                          .set('received', true)
-                         .set('success', false)
+                         .set('success', false);
 
-     let alert = {
-       id: 'login',
-       data: [{
-         needs_i18n: true,
-         type: 'danger',
-         message: 'errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]
-       }]
-     };
+      let alert = {
+        id: 'login',
+        data: [{
+          needs_i18n: true,
+          type: 'danger',
+          message: 'errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]
+        }]
+      };
 
-     return loop(
-       fromJS(updated),
-       Effects.constant(pushAlert(alert))
-     )
+      return loop(
+        fromJS(updated),
+        Effects.constant(pushAlert(alert))
+      )
     }
 
   },
@@ -135,13 +120,9 @@ const ACTIONS = {
 
     if (api_response.success) {
       let auth = {
-          token: api_response.data.token,
-          name: api_response.data.name
-        },
-        res = {
-          received: true,
-          success: true,
-        };
+        token: api_response.data.token,
+        name: api_response.data.name
+      };
 
       setLocalStorageItem('auth', auth);
 
@@ -186,13 +167,12 @@ const ACTIONS = {
       updated = state.set('loading', false)
                      .set('received', true)
                      .set('success', false)
-   }
+    }
 
-   return loop(
+    return loop(
      fromJS(updated),
      Effects.constant(pushAlert(alert))
-   )
-
+    )
   },
 
   [logout]: (state)=>{
@@ -280,6 +260,6 @@ const ACTIONS = {
 
 };
 
-const REDUCER = createReducer(ACTIONS, DEFAULT_STATE);
+const REDUCER = createReducer(ACTIONS, {});
 
 export default REDUCER;

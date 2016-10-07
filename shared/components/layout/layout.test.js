@@ -57,7 +57,7 @@ if (JS_ENV === 'client') {
         let buttons = TestUtils.scryRenderedDOMComponentsWithClass(layout, 'btn-primary');
         expect(buttons.length).toEqual(3);
 
-        router.afterLocationUpdate = (_new_location) => {
+        router.afterLocationUpdate = () => {
           let info = TestUtils.findRenderedDOMComponentWithClass(layout, 'alert-info');
           expect(_.trim(info.textContent)).toEqual('Hi, I\'m Bob!');
 

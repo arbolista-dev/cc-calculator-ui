@@ -1,3 +1,5 @@
+/*global window clearTimeout setTimeout*/
+
 /*
  * Window resizing.
  * Components must implement their own on resize event.

@@ -3,7 +3,7 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureDefaults, defaultsRetrieved, defaultsRetrievalError, averageFootprintCalculated, averageFootprintResetRequested, averageFootprintUpdated } from './average_footprint.actions';
+import { ensureDefaults, defaultsRetrieved, defaultsRetrievalError, averageFootprintResetRequested, averageFootprintUpdated } from './average_footprint.actions';
 import { footprintRetrieved } from './../user_footprint/user_footprint.actions';
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
@@ -15,13 +15,6 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
     load_error: <Boolean>
   }
 */
-
-const DEFAULT_STATE = {
-  data: {},
-  loading: false,
-  load_error: false,
-  initial_load: true,
-}
 
 const ACTIONS = {
 
@@ -59,12 +52,11 @@ const ACTIONS = {
     }
   },
 
-  [defaultsRetrievalError]: (state, result)=>{
-
-    let updated = state.set('load_error', true)
+  [defaultsRetrievalError]: (state, _result)=>{
+    state = state.set('load_error', true)
                        .set('loading', false);
 
-    return updated;
+    return state;
   },
 
   [averageFootprintUpdated]: (state, api_data)=>{
@@ -83,13 +75,11 @@ const ACTIONS = {
   },
 
   [averageFootprintResetRequested]: (state, _payload)=>{
-    let updated = state.set('reset', true);
-
-    return fromJS(updated)
+    return state.set('reset', true);
   }
 
 };
 
-const REDUCER = createReducer(ACTIONS, DEFAULT_STATE);
+const REDUCER = createReducer(ACTIONS, {});
 
 export default REDUCER;

@@ -1,5 +1,4 @@
 import * as Immutable from 'immutable';
-import { updateLocation } from './location.actions';
 
 /*
 {

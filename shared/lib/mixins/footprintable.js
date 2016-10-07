@@ -1,3 +1,5 @@
+/*global clearTimeout setTimeout*/
+
 export let footprintable = {
 
   isUserFootprintSet(){
@@ -68,13 +70,13 @@ export let footprintable = {
   totalTakeactionSavings(savings_type){
     let component = this;
     return Object.keys(component.props.user_footprint.get('result_takeaction_pounds').toJS())
-        .filter(key=> !/^offset_/.test(key))
-        .reduce((sum, action_key)=>{
-          if (component.userApiValue(`input_takeaction_${action_key}`) == 1){
-            sum += component.props.user_footprint.getIn([savings_type, action_key]);
-          }
-          return sum;
-        }, 0) || 0;
+      .filter(key=> !/^offset_/.test(key))
+      .reduce((sum, action_key)=>{
+        if (component.userApiValue(`input_takeaction_${action_key}`) == 1){
+          sum += component.props.user_footprint.getIn([savings_type, action_key]);
+        }
+        return sum;
+      }, 0) || 0;
   },
 
   popoverContentForCategory(category){
@@ -158,7 +160,6 @@ export let footprintable = {
       // This will also make necessary update to user footprint.
       component.props.updatedFootprintComputed(component.getUserFootprint())
       if (component.user_authenticated) component.state_manager.updateUserAnswers(component.getUserFootprint(), component.props.auth.getIn(['data', 'token']))
-
     }, 500);
   }
 

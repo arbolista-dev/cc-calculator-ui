@@ -1,5 +1,6 @@
-import { createStore, compose, applyMiddleware } from 'redux';
-import createLogger from 'redux-logger';
+/*global window*/
+
+import { createStore, compose } from 'redux';
 import { install, combineReducers } from 'redux-loop';
 import { fromJS } from 'immutable';
 
@@ -9,7 +10,6 @@ import defaultsReducers from 'shared/reducers/average_footprint/average_footprin
 import computeFootprintReducers from 'shared/reducers/user_footprint/user_footprint.reducers';
 import authReducers from 'shared/reducers/auth/auth.reducers';
 import uiReducers from 'shared/reducers/ui/ui.reducers';
-
 import { updateAnswers } from 'api/user.api';
 import { getLocalStorageItem } from '../utils/utils';
 
@@ -23,10 +23,6 @@ const CATEGORY_COLORS = {
 };
 
 export default class StateManager {
-
-  constructor(){
-    let state_manager = this;
-  }
 
   get Router(){
     return Router;
@@ -100,8 +96,7 @@ export default class StateManager {
   }
 
   initialState(opts){
-    let state_manager = this,
-        average_footprint_state;
+    let state_manager = this;
 
     return Object.assign({
       auth: fromJS({

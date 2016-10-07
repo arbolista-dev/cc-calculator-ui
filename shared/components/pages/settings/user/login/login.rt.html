@@ -1,0 +1,47 @@
+<rt-require dependency="shared/components/common/alerts/alerts.component" as="Alerts"/>
+
+<div className="panel panel-coolclimate" id="login">
+    <div className="panel-heading">
+        {this.t('login.title')}
+    </div>
+
+    <div className="panel-body cc-component__form form-horizontal">
+      	<Alerts list="{this.alert_list}" />
+        <div className="cc-component__auth">
+          <form onsubmit="{this.submitLogin.bind(this)}">
+            <div className="form-group">
+                <label for="inputEmail" className="control-label">
+                  {this.t('login.email')}
+                </label>
+                <input type="email" className="form-control" id="inputEmail"
+                rt-class="{error: !this.paramValid('email')}"
+                onChange="{this.updateInput.bind(this)}"
+                data-api_key="email"
+                value="{this.state.email}"
+                placeholder="{this.t('login.email')}">
+            </div>
+            <div className="form-group">
+                <label for="inputPassword" className="control-label">
+                  {this.t('login.password')}
+                </label>
+                <input type="password" className="form-control" id="inputPassword"
+                rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}"
+                data-api_key="password"
+                value="{this.state.password}"
+                placeholder="{this.t('login.password')}">
+            </div>
+            <div className="cc-component__auth-password-request">
+                <a onClick="{this.router.goToRouteByName.bind(this, 'ForgotPassword')}">
+                  {this.t('login.password_request')}
+                </a>
+            </div>
+            <div className="cc-component__auth-submit">
+                <button type="submit" className="btn btn-default"
+                onClick="{this.submitLogin.bind(this)}">
+                  {this.t('login.submit')}
+                </button>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>

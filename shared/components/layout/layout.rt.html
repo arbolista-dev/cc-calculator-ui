@@ -1,24 +1,24 @@
-<rt-require dependency="shared/components/layouts/get_started/get_started.component" as="GetStarted"/>
-<rt-require dependency="shared/components/layouts/travel/travel.component" as="Travel"/>
-<rt-require dependency="shared/components/layouts/home/home.component" as="Home"/>
-<rt-require dependency="shared/components/layouts/food/food.component" as="Food"/>
-<rt-require dependency="shared/components/layouts/shopping/shopping.component" as="Shopping"/>
-<rt-require dependency="shared/components/layouts/footprint/footprint.component" as="Footprint"/>
-<rt-require dependency="shared/components/layouts/take_action/take_action.component" as="TakeAction"/>
-<rt-require dependency="shared/components/layouts/missing/missing.component" as="Missing"/>
-<rt-require dependency="shared/components/layouts/settings/user/forgot_password/forgot_password.component" as="ForgotPassword"/>
-<rt-require dependency="shared/components/layouts/settings/settings.component" as="Settings"/>
-<rt-require dependency="shared/components/alerts/alerts.component" as="Alerts"/>
-<rt-require dependency="shared/components/graphs/graphs.component" as="Graphs"/>
-<rt-require dependency="shared/components/leaders/leaders.component" as="Leaders"/>
+<rt-require dependency="shared/components/pages/get_started/get_started.component" as="GetStarted"/>
+<rt-require dependency="shared/components/pages/travel/travel.component" as="Travel"/>
+<rt-require dependency="shared/components/pages/home/home.component" as="Home"/>
+<rt-require dependency="shared/components/pages/food/food.component" as="Food"/>
+<rt-require dependency="shared/components/pages/shopping/shopping.component" as="Shopping"/>
+<rt-require dependency="shared/components/pages/footprint/footprint.component" as="Footprint"/>
+<rt-require dependency="shared/components/pages/take_action/take_action.component" as="TakeAction"/>
+<rt-require dependency="shared/components/pages/missing/missing.component" as="Missing"/>
+<rt-require dependency="shared/components/pages/settings/user/forgot_password/forgot_password.component" as="ForgotPassword"/>
+<rt-require dependency="shared/components/pages/settings/settings.component" as="Settings"/>
+<rt-require dependency="shared/components/common/alerts/alerts.component" as="Alerts"/>
+<rt-require dependency="shared/components/common/graphs/graphs.component" as="Graphs"/>
+<rt-require dependency="shared/components/common/leaders/leaders.component" as="Leaders"/>
 <div>
-	<div rt-if="!this.initial_load_done" class="loader"></div>
+	<div rt-if="!this.initial_load_done" className="loader"></div>
 	<div id="cc_calculator_ui" rt-if="this.initial_load_done">
-		<nav class="navbar navbar-default">
+		<nav className="navbar navbar-default">
 				<div id="cc_nav" rt-class="{'cc-nav__no-settings': !this.connect_to_api}">
 					<div
 						rt-repeat="route in this.router.main_routes"
-						class="cc-nav__item"
+						className="cc-nav__item"
 						key="{route.key}"
 						rt-class="{'cc-nav__item--active': this.current_route_name === route.route_name}"
 						onClick="{this.router.goToRouteByName.bind(this, route.route_name)}">
@@ -28,7 +28,7 @@
 					</div>
 
 					<div
-						class="cc-nav__item"
+						className="cc-nav__item"
 						id="settings_nav_item"
 						rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
 						rt-if="this.connect_to_api"
@@ -55,25 +55,25 @@
 			<Missing rt-if="this.is_no_app_route" />
 		</main>
 		<Graphs rt-if="this.graphing_route" />
- 		<div class="cc_leaders">
+ 		<div className="cc_leaders">
 			<Leaders rt-if="this.show_leaders_comparison" />
 		</div>
 		<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
 			<a type="button" href="#"
-				class="btn btn-default"
+				className="btn btn-default"
 				data-toggle="modal"
 				data-target="#forget_user_answers_content">
-					<i class="fa fa-eraser" aria-hidden="true"></i>
+					<i className="fa fa-eraser" aria-hidden="true"></i>
 				</a>
 		</div>
 
-		<div rt-if="this.show_user_answers_reset" class="modal fade" id="forget_user_answers_content" tabindex="-1" role="dialog">
-			<div class="modal-dialog modal-sm" role="document">
-				<div class="modal-content">
-					<div class="modal-body">
+		<div rt-if="this.show_user_answers_reset" className="modal fade" id="forget_user_answers_content" tabindex="-1" role="dialog">
+			<div className="modal-dialog modal-sm" role="document">
+				<div className="modal-content">
+					<div className="modal-body">
 						<p>{this.t('get_started.restore_defaults')}</p>
 						<p>
-							<a type="button" class="btn btn-default btn-danger"
+							<a type="button" className="btn btn-default btn-danger"
 								onClick="{this.setUserAnswersToDefault.bind(this, true)}"
 								data-dismiss="modal">
 								{this.t('get_started.restore_defaults_button')}
@@ -84,16 +84,16 @@
 			</div>
 		</div>
 
-	  <div rt-if="this.show_take_action_now" id="go_to_take_action" class="fixed-sidebar">
-	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" class="btn btn-info btn-lg btn-block desktop">
+	  <div rt-if="this.show_take_action_now" id="go_to_take_action" className="fixed-sidebar">
+	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" className="btn btn-info btn-lg btn-block desktop">
 	    	{this.t('Take action now')}
 	    </button>
-	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" class="btn btn-info btn-block mobile">
+	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" className="btn btn-info btn-block mobile">
 	    	{this.t('Take action now')}
 	    </button>
   </div>
-	<div class="terms-footer">
-		<div class="content">
+	<div className="terms-footer">
+		<div className="content">
 			<ul>
 				<li><a href="http://coolclimate.berkeley.edu/terms-of-use">{this.t('Terms of Use')}</a></li>
 				<li><a href="https://goo.gl/5PjjnE">{this.t('Documentation')}</a></li>

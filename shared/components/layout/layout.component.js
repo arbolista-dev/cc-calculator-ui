@@ -1,13 +1,10 @@
-/*global module Promise document window DESIGN*/
+/*global module document window */
 
 import React from 'react';
-
-import { fromJS } from 'immutable';
-import StateManager from 'shared/lib/state_manager/state_manager';
 import Panel from 'shared/lib/base_classes/panel';
+import template from './layout.rt.html';
 import footprintContainer from 'shared/containers/footprint.container';
 import { footprintPropTypes } from 'shared/containers/footprint.container';
-import template from './layout.rt.html';
 
 const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint', 'MissingRoute'];
 const NON_LEADERS_PANELS = ['GetStarted', 'Settings', 'ForgotPassword'];
@@ -103,9 +100,9 @@ class LayoutComponent extends Panel {
         if (data.hasOwnProperty('cta')) {
           layout.props.updateUI({id: 'external_offset', data: data});
           if (data.hasOwnProperty('connect_to_api')) {
-              if (!layout.props.ui.getIn(['external_offset', 'connect_to_api'])) {
-                layout.props.updateUI({id: 'connect_to_api', data: false});
-              }
+            if (!layout.props.ui.getIn(['external_offset', 'connect_to_api'])) {
+              layout.props.updateUI({id: 'connect_to_api', data: false});
+            }
           }
         }
       } catch (e) {

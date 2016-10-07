@@ -1,9 +1,8 @@
-  import { connect } from 'react-redux';
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { signup, login, logout, requestNewPassword } from 'shared/reducers/auth/auth.actions';
 import { pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
-
 
 const mapStateToProps = (state) => {
   return {

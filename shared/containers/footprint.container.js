@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
 import { ensureFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult } from 'shared/reducers/user_footprint/user_footprint.actions';

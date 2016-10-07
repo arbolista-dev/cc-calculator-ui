@@ -1,3 +1,5 @@
+/*global localStorage*/
+
 import jwtDecode from 'jwt-decode';
 
 function tokenIsValid(token){
@@ -38,9 +40,9 @@ function getLocalStorageItem(specifier) {
       }
     } else {
       let results = {
-            dollars: JSON.parse(localStorage.getItem('result_takeaction_dollars')),
-            net10yr: JSON.parse(localStorage.getItem('result_takeaction_net10yr')),
-            pounds: JSON.parse(localStorage.getItem('result_takeaction_pounds'))
+        dollars: JSON.parse(localStorage.getItem('result_takeaction_dollars')),
+        net10yr: JSON.parse(localStorage.getItem('result_takeaction_net10yr')),
+        pounds: JSON.parse(localStorage.getItem('result_takeaction_pounds'))
       };
 
       if(Object.keys(results.dollars).length !== 0){
@@ -56,7 +58,7 @@ function setLocalStorageItem(specifier, data) {
   try {
     if (typeof data === 'object') data = JSON.stringify(data);
     localStorage.setItem(specifier, data);
-  } catch (err) { }
+  } catch (err) { return; }
 }
 
 export { tokenIsValid, validateParameter, getLocalStorageItem, setLocalStorageItem };

@@ -1,3 +1,5 @@
+/*global window*/
+
 import mixin from '../mixin';
 import Translatable from './translatable';
 import {footprintable} from '../mixins/footprintable';
@@ -44,7 +46,7 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     // show_alert needed here since loggedIn/loggedOut actions otherwise fail (as they also trigger alerts)
 
     let component = this,
-    init = true;
+        init = true;
 
     component.resetUserFootprint();
 
@@ -66,5 +68,4 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
   routeComponent(route_name){
     return route_name === this.constructor.NAME;
   }
-
 }

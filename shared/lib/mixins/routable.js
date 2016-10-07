@@ -4,7 +4,7 @@ export let routable = {
     this.router.goTo(url);
   },
 
-  goToRoute: (route, event)=>{
+  goToRoute: (route)=>{
     let component = this;
     return component.router.goToRoute(route);
   }

@@ -1,4 +1,4 @@
-/*global document window Promise console*/
+/*global document Promise console*/
 
 import React from 'react';
 import ReactDOM from 'react-dom';

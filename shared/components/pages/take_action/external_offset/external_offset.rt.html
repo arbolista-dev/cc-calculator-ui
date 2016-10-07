@@ -1,0 +1,29 @@
+<div className="cc-component" id="external_offset">
+
+  <div className="external-offset__title">
+    <span className="cc-component__byline">{this.offset_title}</span>
+  </div>
+
+  <div className="external-offset__impact" rt-if="this.show_equation">
+    <div className="external-offset__footprint">
+      <h5>{this.display_total_footprint}</h5>
+      <p>{this.t('take_action.external_offset.tons_co2_per_year')}</p>
+    </div>
+
+    <div className="external-offset__equals">
+      <span>=</span>
+    </div>
+
+    <div className="external-offset__price">
+      <h5>{this.t('take_action.external_offset.dollar_sign')}{this.display_monthly_offset}</h5>
+      <p>{this.t('take_action.external_offset.monthly_gift')}</p>
+    </div>
+  </div>
+  <div className="external-offset__description">
+    <p>{this.display_offset_description}</p>
+  </div>
+
+  <div className="external-offset__call-to-action">
+    <a href="{this.offset_url}" target="_top" className="btn btn-success">{this.offset_button_title}</a>
+  </div>
+</div>
