@@ -11,7 +11,6 @@ import { updateUI, pushAlert, resetAlerts } from './ui.actions'
     display_location: <String>,
     alert_exists: <Boolean>
     connect_to_api: <Boolean>,
-    location_reset: <Boolean>,
     vehicles: <Map>
   }
 */

@@ -77,8 +77,7 @@ export default class StateManager {
         category: ''
       },
       alert_exists: false,
-      connect_to_api: true,
-      location_reset: false,
+      connect_to_api: true
     }
     return ui_state
   }

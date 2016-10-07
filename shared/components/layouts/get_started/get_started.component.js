@@ -60,10 +60,9 @@ class GetStartedComponent extends Panel {
 
   get input_location_display(){
     let get_started = this,
-    display_location = get_started.props.ui.get('display_location'),
-    location_reset = get_started.props.ui.get('location_reset');
+    display_location = get_started.props.ui.get('display_location');
 
-    if (get_started.country_mode || location_reset){
+    if (get_started.country_mode){
       return get_started.t('get_started.United States');
     } else if (display_location) {
       return display_location;
@@ -85,14 +84,9 @@ class GetStartedComponent extends Panel {
   }
 
   updateDefaults(default_params){
-    let get_started = this,
-    location_reset = get_started.props.ui.get('location_reset');
+    let get_started = this;
 
-    if (location_reset) {
-      default_params = get_started.default_location
-    } else {
-      default_params.input_location_mode = get_started.state.input_location_mode;
-    }
+    default_params.input_location_mode = get_started.state.input_location_mode;
     let params = Object.assign({}, get_started.getDefaultInputs(), default_params);
 
     // debounce updating defaults by 500ms.
@@ -104,13 +98,6 @@ class GetStartedComponent extends Panel {
       get_started.props.ensureDefaults(params)
       if (get_started.user_authenticated) {
         get_started.state_manager.updateUserAnswers(get_started.getUserFootprint(), get_started.props.auth.getIn(['data', 'token']))
-      }
-      if (location_reset) {
-        get_started.setState({
-          input_location_mode: 5,
-          input_location: undefined
-        });
-        get_started.props.updateUI({ id: 'location_reset', data: false });
       }
     }, 500);
   }
