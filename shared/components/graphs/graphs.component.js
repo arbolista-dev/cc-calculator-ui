@@ -217,15 +217,6 @@ class GraphsComponent extends Panel {
       }
 
     });
-    // $(window).scroll(()=>{
-    //     let $container = $(this);
-    //     $(this).find('.popover').each(()=>{
-    //
-    //         $(this).css({
-    //             top:  - $container.scrollTop()
-    //         });
-    //     });
-    // });
   }
 
   /*

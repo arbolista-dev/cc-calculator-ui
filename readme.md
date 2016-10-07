@@ -94,6 +94,8 @@ Architecture is based on [AnalyticsFire/spike](https://github.com/AnalyticsFire/
 
 - [React](https://facebook.github.io/react/)
 - [React Templates](http://wix.github.io/react-templates/)
+- [Redux](https://github.com/reactjs/redux)
+- [Immutable.js](https://facebook.github.io/immutable-js/)
 - [ReactJs History](https://github.com/mjackson/history) - JS framework agnostic
 - [Babel with ES2015 support](https://babeljs.io/docs/learn-es2015/)
 - [Bootstrap](http://getbootstrap.com/) and jQuery for UI prototyping.

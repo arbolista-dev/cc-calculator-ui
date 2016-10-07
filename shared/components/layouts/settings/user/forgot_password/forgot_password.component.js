@@ -30,11 +30,11 @@ class ForgotPasswordComponent extends Panel {
     return this.props.ui.getIn(['alerts', 'forgot_password']).toJS();
   }
 
-  paramValid(param){
+  paramValid(){
     let forgot_password = this;
 
-    if(forgot_password.state[param].length > 0) {
-      return forgot_password.valid[param];
+    if(forgot_password.state.email.length > 0) {
+      return forgot_password.valid.email;
     } else {
       return true;
     }
@@ -42,22 +42,20 @@ class ForgotPasswordComponent extends Panel {
 
   validateAll(){
     let forgot_password = this,
-        all_valid = Object.values(forgot_password.valid).filter(item => item === false),
+        valid = forgot_password.valid.email || false,
         alert = {
           id: 'forgot_password'
         };
 
-    for (let key in forgot_password.valid) {
-      let value = forgot_password.valid[key]
-      if (value === false) {
-        alert.data = [{
-          type: 'danger',
-          message: forgot_password.t('forgot_password.' + key) + ' ' + forgot_password.t('errors.invalid')
-        }];
-      }
+
+    if (forgot_password.valid.email === false) {
+      alert.data = [{
+        type: 'danger',
+        message: forgot_password.t('forgot_password.email') + ' ' + forgot_password.t('errors.invalid')
+      }];
     }
 
-    if (all_valid[0] === false) {
+    if (valid === false) {
       forgot_password.props.pushAlert(alert);
       return false;
     } else {

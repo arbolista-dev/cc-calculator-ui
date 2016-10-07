@@ -81,13 +81,14 @@ class HomeComponent extends Panel {
 
   toggleLeadersChart() {
     let home = this,
-        ui = {};
+      ui = {
+        id: 'leaders_chart',
+        data: {
+          show: true,
+          category: 'housing'
+        }
+      };
 
-    ui.id = 'leaders_chart';
-    ui.data = {
-      show: true,
-      category: 'housing'
-    };
     home.props.updateUI(ui);
     window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
