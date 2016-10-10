@@ -54,7 +54,7 @@ const ACTIONS = {
 
   [defaultsRetrievalError]: (state, _result)=>{
     state = state.set('load_error', true)
-                       .set('loading', false);
+                 .set('loading', false);
 
     return state;
   },

@@ -10,6 +10,13 @@ export let footprintable = {
     let default_inputs;
     if (!this.isUserFootprintSet() || init) {
       default_inputs = this.state_manager.default_inputs;
+    } else if(this.user_authenticated) {
+      default_inputs = {
+        input_location_mode: this.userApiValue('input_location_mode'),
+        input_location: this.userApiValue('input_location'),
+        input_income: this.userApiValue('input_income'),
+        input_size: this.userApiValue('input_size')
+      }
     } else {
       default_inputs = {
         input_location_mode: this.defaultApiValue('input_location_mode'),
