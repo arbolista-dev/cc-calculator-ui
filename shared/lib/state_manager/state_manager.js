@@ -83,10 +83,14 @@ export default class StateManager {
       ui: uiReducers
     });
 
-    const enhancer = compose(
-      install(),
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    );
+    const enhancer = window.__REDUX_DEVTOOLS_EXTENSION__ ? 
+      compose(
+        install(),
+        window.__REDUX_DEVTOOLS_EXTENSION__()
+      ):
+      compose(
+        install()
+      );
 
     state_manager.store = createStore(
       reducer,
