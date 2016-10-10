@@ -50,7 +50,7 @@ class GetStartedComponent extends Panel {
    */
 
   get input_location_mode(){
-    return this.props.user_footprint.getIn(['data', 'input_location_mode'])
+    return this.userApiValue('input_location_mode');
   }
 
   get country_mode(){
@@ -66,7 +66,7 @@ class GetStartedComponent extends Panel {
     } else if (display_location) {
       return display_location;
     } else {
-      return get_started.state.input_location;
+      return this.userApiValue('input_location');
     }
   }
 
