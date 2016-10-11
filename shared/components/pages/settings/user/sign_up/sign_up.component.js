@@ -48,29 +48,25 @@ class SignUpComponent extends Panel {
 
   validateAll(){
     let sign_up = this,
-        all_valid = Object.values(sign_up.valid).filter(item => item === false),
-        alerts = {
-          id: 'sign_up',
-          data: []
-        };
-
-    for (let key in sign_up.valid) {
-      let value = sign_up.valid[key]
-      if (value === false) {
-        let item = {
-          type: 'danger',
-          message: sign_up.t('sign_up.' + key) + ' ' + sign_up.t('errors.invalid')
-        };
-        alerts.data.push(item)
+        all_valid = Object.values(sign_up.valid).filter(item => item === false);
+    if (all_valid.length>0) {
+      let alerts = {
+        id: 'sign_up',
+        data: []
+      };
+      for (let key in sign_up.valid) {
+        if (sign_up.valid[key] === false) {
+          let item = {
+            type: 'danger',
+            message: sign_up.t('sign_up.' + key) + ' ' + sign_up.t('errors.invalid')
+          };
+          alerts.data.push(item)
+        }
       }
-    }
-
-    if (all_valid[0] === false) {
       sign_up.props.pushAlert(alerts)
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 
   updateInput(event) {

@@ -30,12 +30,7 @@ class ForgotPasswordComponent extends Panel {
 
   paramValid(){
     let forgot_password = this;
-
-    if(forgot_password.state.email.length > 0) {
-      return forgot_password.valid.email;
-    } else {
-      return true;
-    }
+    return forgot_password.state.email.length > 0 ? forgot_password.valid.email : true
   }
 
   validateAll(){
@@ -55,10 +50,8 @@ class ForgotPasswordComponent extends Panel {
 
     if (valid === false) {
       forgot_password.props.pushAlert(alert);
-      return false;
-    } else {
-      return true;
     }
+    return valid;
   }
 
   updateInput(event) {

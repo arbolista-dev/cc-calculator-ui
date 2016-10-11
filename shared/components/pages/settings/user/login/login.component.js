@@ -42,29 +42,25 @@ class LoginComponent extends Panel {
 
   validateAll(){
     let login = this,
-        all_valid = Object.values(login.valid).filter(item => item === false),
-        alerts = {
-          id: 'login',
-          data: []
-        };
-
-    for (let key in login.valid) {
-      let value = login.valid[key]
-      if (value === false) {
-        let item = {
-          type: 'danger',
-          message: login.t('login.' + key) + ' ' + login.t('errors.invalid')
-        };
-        alerts.data.push(item);
+        all_valid = Object.values(login.valid).filter(item => item === false);
+    if (all_valid.length>0) {
+      let alerts = {
+        id: 'login',
+        data: []
+      };
+      for (let key in login.valid) {
+        if (login.valid[key] === false) {
+          let item = {
+            type: 'danger',
+            message: login.t('login.' + key) + ' ' + login.t('errors.invalid')
+          };
+          alerts.data.push(item)
+        }
       }
-    }
-
-    if (all_valid[0] === false) {
-      login.props.pushAlert(alerts);
+      login.props.pushAlert(alerts)
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 
   updateInput(event) {
