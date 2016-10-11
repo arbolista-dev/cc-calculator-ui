@@ -54,17 +54,8 @@ class LayoutComponent extends Panel {
   }
 
   get is_no_app_route(){
-    let result;
-    this.router.app_routes.forEach((route) => {
-      if (route.route_name === this.current_route_name) {
-        result = true;
-      }
-    })
-    if (result === undefined){
-      return true;
-    } else {
-      return false;
-    }
+    let result = this.router.routes.getRoute(this.current_route_name);
+    return result !== undefined && result.route_name === 'MissingRoute';
   }
 
   get show_leaders_comparison(){
