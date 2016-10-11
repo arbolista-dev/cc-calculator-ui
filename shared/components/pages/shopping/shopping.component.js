@@ -82,20 +82,6 @@ class ShoppingComponent extends Panel {
     }
   }
 
-  toggleLeadersChart() {
-    let shopping = this,
-        ui = {
-          id: 'leaders_chart',
-          data: {
-            show: true,
-            category: 'shopping'
-          }
-        };
-
-    shopping.props.updateUI(ui);
-    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
-  }
-
   /*
    * Callbacks
    */

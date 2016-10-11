@@ -47,20 +47,6 @@ class FoodComponent extends Panel {
     return this.t(`food.${type}.label`);
   }
 
-  toggleLeadersChart() {
-    let food = this,
-        ui = {
-          id: 'leaders_chart',
-          data: {
-            show: true,
-            category: 'food'
-          }
-        };
-
-    food.props.updateUI(ui);
-    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
-  }
-
   /*
    * Simple/Advanced
    */

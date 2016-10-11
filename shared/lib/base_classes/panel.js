@@ -42,6 +42,19 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     this.router.pushRoute(route_name, action, payload);
   }
 
+  toggleLeadersChart() {
+    let component = this,
+        ui = {
+          id: 'leaders_chart',
+          data: {
+            show: true
+          }
+        };
+
+    this.props.updateUI(ui);
+    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
+  }
+
   setUserAnswersToDefault(show_alert){
     // show_alert needed here since loggedIn/loggedOut actions otherwise fail (as they also trigger alerts)
 

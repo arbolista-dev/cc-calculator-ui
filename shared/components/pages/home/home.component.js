@@ -77,20 +77,6 @@ class HomeComponent extends Panel {
     return Math.round(parseInt(home.defaultApiValue(home.apiKey(key_end))));
   }
 
-  toggleLeadersChart() {
-    let home = this,
-        ui = {
-          id: 'leaders_chart',
-          data: {
-            show: true,
-            category: 'housing'
-          }
-        };
-
-    home.props.updateUI(ui);
-    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
-  }
-
   /*
    * Toggling Units
    */

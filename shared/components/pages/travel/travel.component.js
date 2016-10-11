@@ -93,19 +93,6 @@ class TravelComponent extends Panel {
     })
   }
 
-  toggleLeadersChart() {
-    let travel = this,
-        ui = {};
-
-    ui.id = 'leaders_chart';
-    ui.data = {
-      show: true,
-      category: 'transport'
-    };
-    travel.props.updateUI(ui);
-    window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
-  }
-
   /*
    * Vehicle Updates
    */
