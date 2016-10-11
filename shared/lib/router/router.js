@@ -79,9 +79,16 @@ export default class Router {
   goToRouteByName(route_name){
     let router = this;
     window.jQuery("[data-toggle='popover']").popover('hide');
-    window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
+    if(window.parent) {
+      window.parent.postMessage({scrollTop:true},"*");      
       return router.pushRoute(route_name);
-    });
+    }
+    else {
+      window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
+        return router.pushRoute(route_name);
+      });
+    }
+
   }
 
   pushRoute(route_name, action, payload){
