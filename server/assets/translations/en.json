@@ -219,7 +219,7 @@
     },
     "take_action": {
         "title": "Take Action",
-        "byline": "Offset your impact",
+        "byline": "Reduce your impact",
         "critical_assumptions": "Critical Assumptions",
         "route_path": "take_action",
         "tons_saved": "Tons saved",
@@ -291,22 +291,6 @@
                 "size": "4",
                 "maxlength": "4"
             }
-        }, {
-            "description": "Discount rate (used in NPV and ROI calculations)",
-            "input": {
-                "id": "input_takeaction_assumption_discountrate",
-                "size": "2",
-                "maxlength": "2"
-            },
-            "suffix": "%"
-        }, {
-            "description": "Inflation rate (used in NPV and ROI calculations)",
-            "input": {
-                "id": "input_takeaction_assumption_inflationrate",
-                "size": "2",
-                "maxlength": "2"
-            },
-            "suffix": "%"
         }]
     },
     "actions": {
