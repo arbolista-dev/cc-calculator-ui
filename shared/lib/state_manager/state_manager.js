@@ -52,6 +52,10 @@ export default class StateManager {
     return getLocalStorageItem('auth');
   }
 
+  get ui_storage(){
+    return getLocalStorageItem('ui');
+  }
+
   get default_ui_state(){
     let ui_state = {
       external_offset: {},
@@ -116,7 +120,7 @@ export default class StateManager {
         result_takeaction_net10yr: state_manager.take_action_storage.net10yr || {},
         result_takeaction_pounds:  state_manager.take_action_storage.pounds || {}
       }),
-      ui: fromJS(state_manager.default_ui_state)
+      ui: fromJS(state_manager.ui_storage || state_manager.default_ui_state)
     }, opts);
   }
 
