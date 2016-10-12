@@ -67,7 +67,8 @@ export default class StateManager {
         category: ''
       },
       alert_exists: false,
-      connect_to_api: true
+      connect_to_api: true,
+      location_mode_changed: false
     }
     return ui_state
   }
@@ -83,7 +84,7 @@ export default class StateManager {
       ui: uiReducers
     });
 
-    const enhancer = window.__REDUX_DEVTOOLS_EXTENSION__ ? 
+    const enhancer = window.__REDUX_DEVTOOLS_EXTENSION__ ?
       compose(
         install(),
         window.__REDUX_DEVTOOLS_EXTENSION__()
