@@ -243,7 +243,8 @@
         "bar_graph_title": "Household tons CO<sub>2</sub>/year"
     },
     "summaries": {
-        "total_footprint": "Your Total Footprint",
+        "total_footprint": "Total Footprint",
+        "total_get_started_footprint": "Your Total Footprint",
         "total_travel_footprint": "Your Travel Footprint",
         "total_home_footprint": "Your Home Footprint",
         "total_food_footprint": "Your Food Footprint",

@@ -24,6 +24,48 @@
 
 .d3-overlap-bar { cursor:pointer; }
 
+.highlighted {
+  tbody > tr > td,
+  tfoot > tr > td {
+    border: 0px;
+  }
+
+  .btn {
+    border: 0;
+  }
+
+  img {
+    width: 80%;
+    height: auto;
+  }
+
+  tbody>tr>td,
+  tfoot>tr>td {
+    padding: 0px;
+  }
+
+  tbody > tr > td {
+    font-weight: normal !important;
+    .amount {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 2.5em;
+    }
+  }
+
+  tbody > tr > td:nth-child(3) {
+    vertical-align: bottom !important;
+  }
+
+  tfoot > tr > td {
+    font-weight: bold;
+    vertical-align: top;
+  }
+
+  .graphs__units {
+    color: #666;
+  }
+}
+
 #graphs_toggle_chart {
 	text-align: center;
 	padding-top: 15px;
@@ -38,7 +80,11 @@
 }
 
 #graphs_summary {
-  td, th {
+  tbody > tr > td {
+    font-weight: bold;
+  }
+  tbody > tr > td,
+  tfoot > tr > td {
     text-align:center;
     vertical-align:middle;
     font-size:1.2em;
