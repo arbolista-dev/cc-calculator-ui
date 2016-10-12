@@ -4606,6 +4606,9 @@
     "month": "month",
     "average": "average",
     "Take action now": "Take action now",
+    "powered_by": "Powered by CoolClimate",
+    "terms_of_use": "Terms of Use",
+    "documentation": "Documentation",
     "errors": {
         "email": {
             "non-existent": "User with this email address does not exist. Please sign up.",
