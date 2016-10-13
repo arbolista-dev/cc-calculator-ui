@@ -1,15 +1,15 @@
-#get_started_location_suggestions_container {
+#location_suggestions_container {
   position:relative;
 }
 
-#get_started_location_suggestions {
+#location_suggestions {
   position:absolute;
   background-color:white;
   width:100%;
   border:1px solid darkgrey;
 }
 
-.get-started__location-suggestion {
+.location-suggestion {
   cursor:pointer;
   &:hover { background-color: #E6E6E6; }
 }

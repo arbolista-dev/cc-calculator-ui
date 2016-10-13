@@ -19,20 +19,20 @@
 			</div>
 		</div>
 
-		<div id="get_started_location_suggestions_container" className="cc-component__question">
+		<div id="location_suggestions_container" className="cc-component__question">
 			<input className="form-control"
 				rt-props="{disabled: this.country_mode}"
 				placeholder="{this.t('get_started.location_prompt')}"
 				value="{this.input_location_display}"
 				onChange="{this.setLocationSuggestions.bind(this)}"/>
-			<div rt-if="this.show_location_suggestions" id="get_started_location_suggestions">
+			<div rt-if="this.show_location_suggestions" id="location_suggestions">
 				<div className="get-started__location-suggestion"
 					onClick="{this.hideLocationSuggestions.bind(this)}">{this.t('Hide')}</div>
 				<div rt-repeat="suggestion in this.state.locations.suggestions"
 					key="{this.state.locations.data[suggestionIndex]}"
 					data-zipcode="{this.state.locations.data[suggestionIndex]}"
 					data-suggestion="{suggestion}"
-					className="get-started__location-suggestion"
+					className="location-suggestion"
 					onClick="{this.setLocation.bind(this)}">{suggestion}</div>
 			</div>
 		</div>

@@ -51,6 +51,26 @@
                 value="{this.state.password}"
                 placeholder="{this.t('sign_up.password')}"/>
             </div>
+            <div id="location_suggestions_container" className="form-group">
+              <label for="inputCity" className="control-label">
+                {this.t('sign_up.city')}
+              </label>
+              <input className="form-control"
+                rt-props="{disabled: this.country_mode}"
+                placeholder="{this.t('get_started.location_prompt')}"
+                value="{this.input_location_display}"
+                onChange="{this.setLocationSuggestions.bind(this)}"/>
+              <div rt-if="this.show_location_suggestions" id="location_suggestions">
+                <div className="location-suggestion"
+                  onClick="{this.hideLocationSuggestions.bind(this)}">{this.t('Hide')}</div>
+                <div rt-repeat="suggestion in this.state.locations.suggestions"
+                  key="{this.state.locations.data[suggestionIndex]}"
+                  data-zipcode="{this.state.locations.data[suggestionIndex]}"
+                  data-suggestion="{suggestion}"
+                  className="location-suggestion"
+                  onClick="{this.setLocation.bind(this)}">{suggestion}</div>
+              </div>
+            </div>
             <div className="checkbox">
               <label>
                 <input type="checkbox"

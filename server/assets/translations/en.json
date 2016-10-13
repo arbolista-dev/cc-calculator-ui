@@ -6,6 +6,7 @@
         "last_name": "Last name",
         "email": "Email",
         "password": "Password",
+        "city": "City",
         "public": "Yes, my results can be published.",
         "submit": "Sign up"
     },
