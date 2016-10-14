@@ -36,8 +36,6 @@ const ACTIONS = {
   [pushAlert]: (state, payload)=>{
     state = state.setIn(['alerts', payload.id], new List(payload.data))
                  .set('alert_exists', true);
-
-    setLocalStorageItem('ui', state.toJS());
     return state
   },
 
@@ -46,8 +44,6 @@ const ACTIONS = {
       state = state.setIn(['alerts', type], new List())
     })
     state = state.set('alert_exists', false);
-
-    setLocalStorageItem('ui', state.toJS());
     return state
   }
 

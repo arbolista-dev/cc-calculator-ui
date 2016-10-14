@@ -4,17 +4,19 @@
   <div className="cc-component__form">
     <div className="panel panel-coolclimate">
       <div className="panel-heading">
-          {this.t('leaders.title')}
+          <div>
+            {this.t('leaders.title')}
+          </div>
           <div id="leaders_location_container">
             <span className="hint">{this.t('leaders.location_prompt')}</span>
             <div className="cc-component__question">
               <button className="btn btn-default" type="button" id="city_selector" aria-haspopup="true" aria-expanded="true" onClick="{this.showLocationsList.bind(this)}">
-                City <span className="caret"></span>
+                {this.t('leaders.us_state')} <span className="caret"></span>
               </button>
               <div rt-if="this.show_locations_list" id="leaders_locations_list">
                 <div className="leaders__location-suggestion"
                   onClick="{this.resetLocation.bind(this)}">{this.t('leaders.reset')} <i className="fa fa-undo" aria-hidden="true"></i></div>
-                  <div rt-repeat="location in this.filtered_locations" className="leaders__location-suggestion" data-city="{location.city}" data-state="{location.state}" onClick="{this.setLocation.bind(this)}" title="{location.state}" key="{locationIndex}">{this.displayCityState(location)}</div>
+                  <div rt-repeat="location in this.filtered_locations" className="leaders__location-suggestion" data-city="{location.city}" data-state="{location.state}" onClick="{this.setLocation.bind(this)}" title="{location.state}" key="{locationIndex}">{location.state}</div>
               </div>
             </div>
           </div>
@@ -27,18 +29,16 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>{this.t('sign_up.first_name')}</th>
-              <th>{this.t('sign_up.last_name')}</th>
-              <th>{this.t('City')}</th>
+              <th>{this.t('Name')}</th>
+              <th>{this.t('Location')}</th>
               <th>{this.footprint_title}</th>
             </tr>
           </thead>
           <tbody>
             <tr rt-repeat="user in this.list" key={userIndex}>
               <td scope="row">{userIndex + 1}</td>
-              <td>{user.first_name}</td>
-              <td>{user.last_name}</td>
-              <td>{this.displayCityState(user)}</td>
+              <td>{user.first_name} {user.last_name}</td>
+              <td>{this.displayLocation(user)}</td>
               <td>{user.footprint} <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></td>
             </tr>
           </tbody>

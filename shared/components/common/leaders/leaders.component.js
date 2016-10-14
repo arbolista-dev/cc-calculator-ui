@@ -161,11 +161,9 @@ class LeadersComponent extends Panel {
     return this.state.locations.filter(location=>  !!location.city)
   }
 
-  displayCityState(location_object){
+  displayLocation(location_object){
     if (location_object.city){
       return `${location_object.city}, ${location_object.state}`
-    } else if (location_object.state){
-      return location_object.state;
     }
     return '';
   }
@@ -340,11 +338,12 @@ class LeadersComponent extends Panel {
       if (res.success) {
         if (res.data != null) {
           let locations = res.data;
+          console.log('locations', locations);
           locations.sort((a, b) => {
-            let cityA = a.city.toLowerCase(), cityB = b.city.toLowerCase();
-            if (cityA < cityB)
+            let locationA = a.state.toLowerCase(), locationB = b.state.toLowerCase();
+            if (locationA < locationB)
               return -1
-            if (cityA > cityB)
+            if (locationA > locationB)
               return 1
             return 0
           });

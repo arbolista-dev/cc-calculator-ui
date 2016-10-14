@@ -1,4 +1,5 @@
 <rt-require dependency="shared/components/common/graphs/graphs.component" as="Graphs"/>
+<rt-require dependency="shared/components/common/leaders/leaders.component" as="Leaders"/>
 <main className="cc-component container container-md" id="footprint">
   <header className="cc-component__header">
     <div>
@@ -11,9 +12,12 @@
     </a></p>
   </header>
 
-  <Graphs></Graphs>
+  <Graphs />
   <div className="cc-component__nav">
     <a onClick="{this.router.previous.bind(this.router)}">{this.t('Previous')}</a>
     <a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
+  </div>
+  <div class="cc_leaders">
+    <Leaders rt-if="this.show_leaders_comparison" />
   </div>
 </main>
