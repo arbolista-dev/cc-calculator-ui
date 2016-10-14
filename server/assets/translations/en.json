@@ -7,6 +7,7 @@
         "email": "Email",
         "password": "Password",
         "city": "City",
+        "input_location": "City",
         "public": "Yes, my results can be published.",
         "submit": "Sign up"
     },

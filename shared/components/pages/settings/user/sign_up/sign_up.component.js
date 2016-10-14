@@ -8,6 +8,15 @@ import { validateParameter } from 'shared/lib/utils/utils';
 import authContainer from 'shared/containers/auth.container';
 import { authPropTypes } from 'shared/containers/auth.container';
 
+const INPUT_STATE = [
+  'first_name',
+  'last_name',
+  'email',
+  'password',
+  'answers',
+  'location',
+  'public'];
+
 class SignUpComponent extends Panel {
 
   constructor(props, context) {
@@ -17,7 +26,8 @@ class SignUpComponent extends Panel {
       first_name: false,
       last_name: false,
       email: false,
-      password: false
+      password: false,
+      input_location: false
     };
     sign_up.state = {
       locations: {},
@@ -29,6 +39,7 @@ class SignUpComponent extends Panel {
       password: '',
       answers: '',
       city: '',
+      location: {},
       public: true
     };
   }
@@ -104,19 +115,21 @@ class SignUpComponent extends Panel {
   submitSignup(event) {
     let sign_up = this;
     event.preventDefault();
-    let state_input = {
-      first_name: sign_up.state.first_name,
-      last_name: sign_up.state.last_name,
-      email: sign_up.state.email,
-      password: sign_up.state.password,
-      answers: sign_up.state.answers,
-      city: sign_up.state.location.city,
-      county: sign_up.state.location.county,
-      state: sign_up.state.location.state,
-      country: 'us',
-      public: sign_up.state.public
+    if (sign_up.validateAll()) {
+      let state_input = {
+        first_name: sign_up.state.first_name,
+        last_name: sign_up.state.last_name,
+        email: sign_up.state.email,
+        password: sign_up.state.password,
+        answers: sign_up.state.answers,
+        city: sign_up.state.location.city,
+        county: sign_up.state.location.county,
+        state: sign_up.state.location.state,
+        country: 'us',
+        public: sign_up.state.public
+      }
+      sign_up.props.signup(state_input);
     }
-    if (sign_up.validateAll()) sign_up.props.signup(state_input);
   }
 
   // called when location suggestion is clicked.
@@ -133,6 +146,8 @@ class SignUpComponent extends Panel {
       input_location: suggestion,
       location: location_data
     });
+
+    sign_up.valid.input_location = true;
   }
 
   setLocationSuggestions(event){
@@ -150,7 +165,6 @@ class SignUpComponent extends Panel {
     if (sign_up.$set_location_suggestions){
       clearTimeout(sign_up.$set_location_suggestions);
     }
-
 
     // debounce location suggestions by 500ms.
     sign_up.$set_location_suggestions = setTimeout(()=>{

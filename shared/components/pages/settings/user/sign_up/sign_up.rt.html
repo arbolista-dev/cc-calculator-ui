@@ -58,6 +58,7 @@
               <input className="form-control"
                 rt-props="{disabled: this.country_mode}"
                 placeholder="{this.t('get_started.location_prompt')}"
+                rt-class="{error: !this.paramValid('input_location')}"
                 value="{this.input_location_display}"
                 onChange="{this.setLocationSuggestions.bind(this)}"/>
               <div rt-if="this.show_location_suggestions" id="location_suggestions">
