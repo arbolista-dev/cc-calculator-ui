@@ -8,7 +8,31 @@
     margin-top: -17px;
   }
 
+  .cc-component__auth-login {
+    margin-top: 20px;
+  }
+
   .cc-component__auth-submit {
     margin-top: 20px;
   }
+
+  .cc-component__login-facebook{
+  	background: #4c69ba;
+    background: linear-gradient(#4c69ba, #3b55a0);
+    border-color: #4c69ba;
+    border-radius: 2px;
+    color: #fff;
+    font-family: "Helvetica neue";
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 0 -1px 0 #354c8c;
+    padding: 3px 6px;
+    font-size: 13px;
+    line-height: 16px;
+   	font-weight: bold;
+  }
+  .cc-component__login-facebook span {
+  	padding-left: 5px;
+  }
 }
+
+

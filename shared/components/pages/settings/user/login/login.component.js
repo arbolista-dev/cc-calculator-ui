@@ -6,7 +6,9 @@ import template from './login.rt.html';
 import { validateParameter } from 'shared/lib/utils/utils';
 import authContainer from 'shared/containers/auth.container';
 import { authPropTypes } from 'shared/containers/auth.container';
+import FacebookLogin from 'react-facebook-login';
 
+const appId =APP_ID;
 class LoginComponent extends Panel {
 
   constructor(props, context) {
@@ -24,6 +26,17 @@ class LoginComponent extends Panel {
 
   render() {
     return template.call(this);
+  }
+  facebookLogin() {
+    return (
+      <FacebookLogin
+                appId={appId}
+                autoLoad={false}
+                fields="name,email,picture"
+                cssClass="cc-component__login-facebook"
+                callback={this.responseFacebook.bind(this)}
+                icon="fa-facebook" />
+              )
   }
 
   get alert_list() {
@@ -79,6 +92,18 @@ class LoginComponent extends Panel {
   submitLogin(event) {
     event.preventDefault();
     if (this.validateAll()) this.props.login(this.state);
+  }
+
+  responseFacebook(response) {
+    console.log(response);
+    if(response.status=="unknown") { 
+      return;
+    }
+    let login = {
+      facebookID:response.userID,
+      facebookToken:response.accessToken
+    }
+    this.props.loginFacebook(login);
   }
 }
 

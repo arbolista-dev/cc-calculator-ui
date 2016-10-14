@@ -4628,6 +4628,9 @@
         "reset-token": {
             "corrupt": "Your password reset link is invalid. Please request a new one by visiting 'Forgot your password'."
         },
+        "facebook":{
+            "token-invalid":"The Facebook token is invalid"
+        },
         "unspecified": "not specified. Please fill out all fields.",
         "invalid": "is not valid. Please re-type it."
     },

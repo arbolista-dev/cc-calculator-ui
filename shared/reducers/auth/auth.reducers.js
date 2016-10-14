@@ -4,8 +4,8 @@ import { fromJS } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
-import { addUser, loginUser, logoutUser, forgotPassword } from 'api/user.api';
-import { signup, login, loggedIn, signedUp, logout, loggedOut, requestNewPassword, newPasswordRequested, authError } from './auth.actions';
+import { addUser, loginUser, loginUserFacebook, logoutUser, forgotPassword } from 'api/user.api';
+import { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut, requestNewPassword, newPasswordRequested, authError } from './auth.actions';
 import { updatedFootprintComputed } from '../user_footprint/user_footprint.actions';
 import { averageFootprintResetRequested } from '../average_footprint/average_footprint.actions';
 import { pushAlert } from '../ui/ui.actions';
@@ -44,6 +44,17 @@ const ACTIONS = {
       state.set('loading', true),
       Effects.promise(()=>{
         return loginUser(params)
+          .then(loggedIn)
+          .catch(authError)
+      })
+    )
+  },
+
+  [loginFacebook]: (state, params)=>{
+    return loop(
+      state.set('loading', true),
+      Effects.promise(()=>{
+        return loginUserFacebook(params)
           .then(loggedIn)
           .catch(authError)
       })

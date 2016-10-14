@@ -1,4 +1,5 @@
 <rt-require dependency="shared/components/common/alerts/alerts.component" as="Alerts"/>
+<rt-require dependency="react-facebook-login" as="FacebookLogin"/>
 
 <div className="panel panel-coolclimate" id="login">
     <div className="panel-heading">
@@ -18,7 +19,7 @@
                 onChange="{this.updateInput.bind(this)}"
                 data-api_key="email"
                 value="{this.state.email}"
-                placeholder="{this.t('login.email')}">
+                placeholder="{this.t('login.email')}"/>
             </div>
             <div className="form-group">
                 <label for="inputPassword" className="control-label">
@@ -28,20 +29,24 @@
                 rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}"
                 data-api_key="password"
                 value="{this.state.password}"
-                placeholder="{this.t('login.password')}">
+                placeholder="{this.t('login.password')}"/>
             </div>
             <div className="cc-component__auth-password-request">
                 <a onClick="{this.router.goToRouteByName.bind(this, 'ForgotPassword')}">
                   {this.t('login.password_request')}
                 </a>
             </div>
-            <div className="cc-component__auth-submit">
+            <div className="cc-component__auth-login">
                 <button type="submit" className="btn btn-default"
                 onClick="{this.submitLogin.bind(this)}">
                   {this.t('login.submit')}
                 </button>
             </div>
           </form>
+           <div className="cc-component__auth-submit">
+                {this.facebookLogin()}
+
+            </div>
         </div>
     </div>
 </div>

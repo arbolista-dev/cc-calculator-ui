@@ -75,6 +75,7 @@
     "raw-loader": "0.5.x",
     "react": "0.14.x",
     "react-dom": "0.14.x",
+    "react-facebook-login": "^3.3.0",
     "react-redux": "^4.4.5",
     "react-templates": "0.4.3",
     "react-templates-loader": "0.4.x",
