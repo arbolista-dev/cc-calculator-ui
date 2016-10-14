@@ -175,6 +175,7 @@ class GetStartedComponent extends Panel {
     let get_started = this,
         token = get_started.props.auth.getIn(['data', 'token']);
 
+    location.country = 'us';
     return setLocation(location, token)
   }
 

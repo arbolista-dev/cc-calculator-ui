@@ -8,16 +8,6 @@ import { validateParameter } from 'shared/lib/utils/utils';
 import authContainer from 'shared/containers/auth.container';
 import { authPropTypes } from 'shared/containers/auth.container';
 
-const INPUT_STATE = [
-  'first_name',
-  'last_name',
-  'email',
-  'password',
-  'answers',
-  'location',
-  'public'];
-
-
 class SignUpComponent extends Panel {
 
   constructor(props, context) {
@@ -120,7 +110,10 @@ class SignUpComponent extends Panel {
       email: sign_up.state.email,
       password: sign_up.state.password,
       answers: sign_up.state.answers,
-      location: sign_up.state.location,
+      city: sign_up.state.location.city,
+      county: sign_up.state.location.county,
+      state: sign_up.state.location.state,
+      country: 'us',
       public: sign_up.state.public
     }
     if (sign_up.validateAll()) sign_up.props.signup(state_input);
