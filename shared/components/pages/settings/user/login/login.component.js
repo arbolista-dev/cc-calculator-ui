@@ -28,6 +28,7 @@ class LoginComponent extends Panel {
     return template.call(this);
   }
   facebookLogin() {
+    let login = this;
     return (
       <FacebookLogin
                 appId={appId}
@@ -35,6 +36,7 @@ class LoginComponent extends Panel {
                 fields="name,email,picture"
                 cssClass="cc-component__login-facebook"
                 callback={this.responseFacebook.bind(this)}
+                textButton={login.t('login.facebook')}
                 icon="fa-facebook" />
               )
   }

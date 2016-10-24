@@ -16,7 +16,8 @@
         "email": "Email",
         "password": "Password",
         "password_request": "Forgot your password?",
-        "submit": "Login"
+        "submit": "Login",
+        "facebook":"Login or Sign up with Facebook"
     },
     "logout": {
         "title": "Logout"
