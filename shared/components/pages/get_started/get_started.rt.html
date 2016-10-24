@@ -24,6 +24,7 @@
 				rt-props="{disabled: this.country_mode}"
 				placeholder="{this.t('get_started.location_prompt')}"
 				value="{this.input_location_display}"
+				onClick="{this.unsetLocation.bind(this)}"
 				onChange="{this.setLocationSuggestions.bind(this)}"/>
 			<div rt-if="this.show_location_suggestions" id="location_suggestions">
 				<div className="get-started__location-suggestion"

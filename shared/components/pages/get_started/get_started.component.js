@@ -133,6 +133,14 @@ class GetStartedComponent extends Panel {
     get_started.updateFootprintParams({input_location_mode: location_mode})
   }
 
+  unsetLocation(e) {
+    let get_started = this;
+    get_started.props.updateUI({id: 'display_location', data: ''});
+    get_started.setState({
+      input_location: ''
+    });
+  }
+
   // called when location suggestion is clicked.
   setLocation(event){
     let get_started = this,

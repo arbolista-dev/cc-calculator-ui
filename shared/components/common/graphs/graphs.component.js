@@ -144,11 +144,8 @@ class GraphsComponent extends Panel {
   }
 
   hidePopovers(){
-    window.jQuery('.d3-value-arc text').popover('hide');
-    window.jQuery('.your-footprint').popover('hide');
+    window.jQuery('.popover').remove();
   }
-
-
 
   generateData(footprint){
     return CATEGORIES.map((category)=>{
