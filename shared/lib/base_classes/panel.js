@@ -51,7 +51,7 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
           }
         };
 
-    this.props.updateUI(ui);
+    component.props.updateUI(ui);
     window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
 

@@ -7,6 +7,7 @@
         "email": "Email",
         "password": "Password",
         "city": "City",
+        "input_location": "City",
         "public": "Yes, my results can be published.",
         "submit": "Sign up"
     },
@@ -31,8 +32,8 @@
     "leaders": {
         "route_path": "leaders",
         "title": "Leaders",
-        "location_prompt": "Choose your city to see nearby leaders: ",
-        "city": "City",
+        "location_prompt": "Choose your location to see nearby leaders: ",
+        "us_state": "U.S. State",
         "total_footprint": "Total Footprint",
         "travel_footprint": "Travel Footprint",
         "shopping_footprint": "Shopping Footprint",
@@ -1373,8 +1374,8 @@
                         "description": "Cost of each new T8 light: $",
                         "input": {
                             "id": "input_takeaction_T12toT8_T8cost",
-                            "size": "4",
-                            "maxlength": "4"
+                            "size": "5",
+                            "maxlength": "5"
                         }
                     }, {
                         "description": "Price of electricity:",
@@ -2596,8 +2597,8 @@
                     "prefix": "$",
                     "input": {
                         "id": "input_takeaction_install_solar_heating_cost",
-                        "size": "2",
-                        "maxlength": "2"
+                        "size": "5",
+                        "maxlength": "5"
                     },
                     "suffix": "per cubic feet of natural gas."
                 }],
@@ -2811,8 +2812,8 @@
                     "prefix": "$",
                     "input": {
                         "id": "input_takeaction_low_flow_toilet_cost",
-                        "size": "2",
-                        "maxlength": "2"
+                        "size": "4",
+                        "maxlength": "4"
                     }
                 }]
             },
@@ -3666,8 +3667,8 @@
                     "description": "My household currently throws out",
                     "input": {
                         "id": "input_takeaction_reduce_comm_waste_per_week",
-                        "size": "2",
-                        "maxlength": "2"
+                        "size": "3",
+                        "maxlength": "3"
                     },
                     "suffix": "cubic yards of trash each week."
                 }, {
@@ -3753,8 +3754,8 @@
                     "description": "Instead of printing single-sided I will print weekly",
                     "input": {
                         "id": "input_takeaction_print_double_sided_number",
-                        "size": "3",
-                        "maxlength": "3"
+                        "size": "4",
+                        "maxlength": "4"
                     },
                     "suffix": "sheets double-sided."
                 }, {
@@ -4597,7 +4598,8 @@
     "Avg": "Avg",
     "Next": "Next",
     "Previous": "Previous",
-    "City": "City",
+    "Name": "Name",
+    "Location": "Location",
     "County": "County",
     "Country": "Country",
     "Remove": "Remove",

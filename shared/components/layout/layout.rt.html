@@ -10,7 +10,6 @@
 <rt-require dependency="shared/components/pages/settings/settings.component" as="Settings"/>
 <rt-require dependency="shared/components/common/alerts/alerts.component" as="Alerts"/>
 <rt-require dependency="shared/components/common/graphs/graphs.component" as="Graphs"/>
-<rt-require dependency="shared/components/common/leaders/leaders.component" as="Leaders"/>
 <div>
 	<div rt-if="!this.initial_load_done" className="loader"></div>
 	<div id="cc_calculator_ui" rt-if="this.initial_load_done">
@@ -55,9 +54,6 @@
 			<Missing rt-if="this.is_no_app_route" />
 		</main>
 		<Graphs rt-if="this.graphing_route" />
- 		<div className="cc_leaders">
-			<Leaders rt-if="this.show_leaders_comparison" />
-		</div>
 		<div id="forget_user_answers" rt-if="this.show_user_answers_reset">
 			<a type="button" href="#"
 				className="btn btn-default"

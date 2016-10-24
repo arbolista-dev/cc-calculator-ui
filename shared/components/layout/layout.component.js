@@ -7,7 +7,6 @@ import footprintContainer from 'shared/containers/footprint.container';
 import { footprintPropTypes } from 'shared/containers/footprint.container';
 
 const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint', 'MissingRoute'];
-const NON_LEADERS_PANELS = ['GetStarted', 'Settings', 'ForgotPassword'];
 
 class LayoutComponent extends Panel {
 
@@ -56,11 +55,6 @@ class LayoutComponent extends Panel {
   get is_no_app_route(){
     let result = this.router.routes.getRoute(this.current_route_name);
     return result !== undefined && result.route_name === 'MissingRoute';
-  }
-
-  get show_leaders_comparison(){
-    let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
-    return this.connect_to_api && leaders_route && this.props.ui.getIn(['leaders_chart', 'show'])
   }
 
   get external_offset(){
