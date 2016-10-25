@@ -8,7 +8,62 @@
     margin-top: -17px;
   }
 
+  .cc-component__auth-login {
+    margin-top: 20px;
+  }
+
   .cc-component__auth-submit {
     margin-top: 20px;
   }
+
+  .cc-component__login-facebook{
+  	background: #4c69ba;
+    background: linear-gradient(#4c69ba, #3b55a0);
+    border-color: #4c69ba;
+    border-radius: 2px;
+    color: #fff;
+    font-family: "Helvetica neue";
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 0 -1px 0 #354c8c;
+    padding: 3px 6px;
+    font-size: 13px;
+    line-height: 16px;
+   	font-weight: bold;
+
+  }
+  .cc-component__login-facebook span {
+  	padding-left: 5px;
+  }
+  .cc-component__facebook{
+    display: table; 
+    height: 183px;
+    @media (max-width: 992px) { 
+      margin-top:20px;
+    }
+    @media (min-width: 992px) { 
+      border-left:1px solid #30912D;
+      border-top:0px;
+    }
+  }
+
+
+
+  .cc-component__facebook-instructions{
+    margin-bottom:10px;
+    text-align:center;
+  }
+
+  .cc-component__facebook-wrapper{
+    display: table-cell; 
+    vertical-align: middle;
+    @media (max-width: 992px) { 
+      border-top:1px solid #30912D;
+    }
+  }
+  .cc-component__facebook-button{
+    margin:0 auto;
+    width:226px;
+  }
 }
+
+

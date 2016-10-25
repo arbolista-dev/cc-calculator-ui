@@ -1,38 +1,44 @@
 <div className="cc-component" id="graphs">
   <div id="graphs_stats">
-    <table id="graphs_summary" className="table">
+    <table id="graphs_summary" className="table" rt-class="{highlighted: this.isFootprintRoute}">
       <tbody>
         <tr>
-          <th>
-            {Math.round(this.user_category_footprint)}
+          <td>
+            <span className="amount">{Math.round(this.user_category_footprint)} </span>
             <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
-          </th>
-          <th>
+          </td>
+          <td rt-class="{hidden: this.isFootprintRoute}">
             {Math.round(this.average_category_footprint)}
             <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
-          </th>
-          <th>
-            {this.display_category_percent}%
-          </th>
-          <th rt-class="{hidden: !this.shouldShowTotal()}">
+          </td>
+          <td rt-class="{hidden: !this.isFootprintRoute}">
+            <button className="btn btn-default" onClick="{this.toggleChart.bind(this)}">
+              <img src="/assets/img/graphs-toggle.png"/>
+            </button>
+          </td>
+          <td>
+            <span className="amount">{this.display_category_percent}%</span>
+          </td>
+          <td rt-class="{hidden: !this.shouldShowTotal}">
             {this.display_total_footprint}
             <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span>
-          </th>
+          </td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
           <td>{this.category_user_byline}</td>
-          <td>{this.category_average_byline}</td>
+          <td rt-class="{hidden: this.isFootprintRoute}">{this.category_average_byline}</td>
+          <td rt-class="{hidden: !this.isFootprintRoute}"></td>
           <td>{this.category_percentage_byline}</td>
-          <td rt-class="{hidden: !this.shouldShowTotal()}">
+          <td rt-class="{hidden: !this.shouldShowTotal}">
             {this.t('summaries.total_footprint')}
           </td>
         </tr>
       </tfoot>
     </table>
   </div>
-  <div id="graphs_toggle_chart">
+  <div id="graphs_toggle_chart" rt-class="{hidden: (!this.show_chart && this.isFootprintRoute)}">
     <div className="btn-group">
       <button className="btn btn-default"
         rt-class="{'graphs--active': this.show_bar_chart}"

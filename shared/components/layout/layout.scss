@@ -71,7 +71,8 @@ a { cursor: pointer; }
 			ul > li {
 				display: inline;
 				font-size: 0.8em;
-				&:first-of-type {
+				&:first-of-type,
+				&:nth-of-type(2) {
 					&::after {
 						content: "·";
 						padding: 0 3px;

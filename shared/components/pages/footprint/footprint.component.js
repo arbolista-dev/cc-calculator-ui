@@ -14,6 +14,10 @@ class FootprintComponent extends Panel {
     footprint.state = {}
   }
 
+  get show_leaders_comparison(){
+    return this.connect_to_api && this.props.ui.getIn(['leaders_chart', 'show']);
+  }
+
   render(){
     return template.call(this);
   }

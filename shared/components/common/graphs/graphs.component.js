@@ -61,13 +61,17 @@ class GraphsComponent extends Panel {
     return template.call(this);
   }
 
+  get show_chart(){
+    return this.state.show_chart;
+  }
+
   get show_pie_chart(){
-    return this.state.show_chart &&
+    return this.show_chart &&
       this.state.chart_type === 'pie';
   }
 
   get show_bar_chart(){
-    return this.state.show_chart &&
+    return this.show_chart &&
       this.state.chart_type === 'bar';
   }
 
@@ -99,6 +103,22 @@ class GraphsComponent extends Panel {
     return this.defaultApiValue('result_grand_total');
   }
 
+  get isFootprintRoute() {
+    return this.current_route_name === 'Footprint';
+  }
+
+  get shouldShowTotal(){
+    return !(this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction')
+  }
+
+  toggleChart(){
+    let graphs = this;
+    graphs.setState({
+      show_chart: !graphs.state.show_chart,
+      chart_type: 'bar'
+    })
+  }
+
   toggleChartType(type){
     this.hidePopovers()
     if (this.state.chart_type === type){
@@ -124,12 +144,7 @@ class GraphsComponent extends Panel {
   }
 
   hidePopovers(){
-    window.jQuery('.d3-value-arc text').popover('hide');
-    window.jQuery('.your-footprint').popover('hide');
-  }
-
-  shouldShowTotal(){
-    return !(this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction')
+    window.jQuery('.popover').remove();
   }
 
   generateData(footprint){
@@ -346,6 +361,8 @@ class GraphsComponent extends Panel {
   get category_user_byline(){
     let graphs = this;
     switch (graphs.current_route_name){
+    case 'GetStarted':
+      return graphs.t('summaries.total_get_started_footprint')
     case 'Travel':
       return graphs.t('summaries.total_travel_footprint')
     case 'Home':

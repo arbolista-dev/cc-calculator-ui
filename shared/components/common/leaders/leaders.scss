@@ -29,9 +29,10 @@
     #leaders_locations_list {
       position: absolute;
       background-color: white;
-      width: 60%;
+      width: 100%;
       color: #000;
       border: 1px solid #ddd;
+      z-index: 9999;
     }
 
     .leaders__location-suggestion {

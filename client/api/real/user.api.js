@@ -33,6 +33,20 @@ function loginUser(input){
   });
 }
 
+function loginUserFacebook(input){
+  return new Promise((fnResolve, fnReject)=>{
+    superagent.post(BASE + '/user/loginfacebook')
+      .set('Content-Type', 'application/json; charset=UTF-8')
+      .send(JSON.stringify(input))
+      .end((err, res)=>{
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
 function logoutUser(jwt){
   return new Promise((fnResolve, fnReject)=>{
     superagent.get(BASE + '/user/logout')
@@ -116,4 +130,4 @@ function listLocations(){
   });
 }
 
-export { addUser, loginUser, logoutUser, updateAnswers, forgotPassword, setLocation, listLeaders, listLocations };
+export { addUser, loginUser, loginUserFacebook, logoutUser, updateAnswers, forgotPassword, setLocation, listLeaders, listLocations };
