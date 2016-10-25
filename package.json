@@ -1,6 +1,6 @@
 {
   "name": "cc-calculator-ui",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "description": "",
   "scripts": {
     "test": "npm run test_client && npm run lint",
@@ -51,6 +51,7 @@
     "d3-object-charts": "1.2.6",
     "ejs": "2.4.x",
     "express": "4.13.x",
+    "extend": "^3.0.0",
     "extract-text-webpack-plugin": "1.0.x",
     "file-loader": "0.8.x",
     "font-awesome": "4.6.x",
@@ -61,6 +62,7 @@
     "history": "2.0.x",
     "i18next": "^2.5.1",
     "i18next-xhr-backend": "^0.5.3",
+    "immutable": "^3.8.1",
     "iframe-resizer": "^3.5.5",
     "jquery": "2.2.x",
     "json-loader": "0.5.x",
@@ -73,8 +75,13 @@
     "raw-loader": "0.5.x",
     "react": "0.14.x",
     "react-dom": "0.14.x",
+    "react-facebook-login": "^3.3.0",
+    "react-redux": "^4.4.5",
     "react-templates": "0.4.3",
     "react-templates-loader": "0.4.x",
+    "redux": "^3.5.2",
+    "redux-act": "^0.5.0",
+    "redux-loop": "^2.2.2",
     "resolve-url-loader": "1.4.x",
     "sass-loader": "3.1.x",
     "style-loader": "0.12.x",
@@ -84,10 +91,23 @@
     "webpack": "1.13.x",
     "yargs": "3.32.x"
   },
-  "author": "Eric Hulburd <eric@arbol.org> (http://www.arbolista.mx/)",
+  "contributors": [
+    {
+      "name": "Manuel Bergler",
+      "email": "manuel.bergler@gmail.com"
+    },
+    {
+      "name": "Eric Hulburd",
+      "email": "eric@arbol.org"
+    }
+  ],
+  "author": {
+    "name": "Arbolista Development",
+    "website": "http://www.arbolista.mx"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CoolClimate/cc-calculator-ui"
+    "url": "https://github.com/Arbolista/cc-calculator-ui"
   },
   "license": "MIT"
 }

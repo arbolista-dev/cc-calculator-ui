@@ -1,3 +1,5 @@
+/*global localStorage*/
+
 import jwtDecode from 'jwt-decode';
 
 function tokenIsValid(token){
@@ -9,20 +11,20 @@ function validateParameter(parameter) {
       value = Object.values(parameter)[0],
       re;
   switch (key) {
-    case "first_name":
-      re = /^[A-Za-z0-9 ]{4,20}$/;
-      break;
-    case "last_name":
-      re = /^[A-Za-z0-9 ]{4,20}$/;
-      break;
-    case "email":
-      re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-      break;
-    case "password":
-      re = /^[A-Za-z0-9!@#$%^&*()_]{4,30}$/;
-      break;
-    default:
-      break;
+  case 'first_name':
+    re = /^[A-Za-z0-9 ]{4,20}$/;
+    break;
+  case 'last_name':
+    re = /^[A-Za-z0-9 ]{4,20}$/;
+    break;
+  case 'email':
+    re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    break;
+  case 'password':
+    re = /^[A-Za-z0-9!@#$%^&*()_]{4,30}$/;
+    break;
+  default:
+    break;
   }
   return re.test(value);
 }
@@ -38,30 +40,25 @@ function getLocalStorageItem(specifier) {
       }
     } else {
       let results = {
-          dollars: localStorage.getItem('result_takeaction_dollars'),
-          net10yr: localStorage.getItem('result_takeaction_net10yr'),
-          pounds: localStorage.getItem('result_takeaction_pounds')
-        },
-        results_exist = Object.values(results).filter(result => result != null);
+        dollars: JSON.parse(localStorage.getItem('result_takeaction_dollars')),
+        net10yr: JSON.parse(localStorage.getItem('result_takeaction_net10yr')),
+        pounds: JSON.parse(localStorage.getItem('result_takeaction_pounds'))
+      };
 
-      if(results_exist.length !== 0){
+      if(Object.keys(results.dollars).length !== 0){
         return results;
       } else {
         return false;
       }
     }
-  } catch (err) {
-    return false;
-  }
+  } catch (err) { return false; }
 }
 
 function setLocalStorageItem(specifier, data) {
   try {
-    localStorage.setItem(specifier, JSON.stringify(data));
-  } catch (err) {
-    // console.log('setLocalStorageItem error', err);
-  }
+    if (typeof data === 'object') data = JSON.stringify(data);
+    localStorage.setItem(specifier, data);
+  } catch (err) { return; }
 }
-
 
 export { tokenIsValid, validateParameter, getLocalStorageItem, setLocalStorageItem };

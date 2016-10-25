@@ -1,6 +1,42 @@
+/*global clearTimeout setTimeout*/
+
 export let footprintable = {
 
-  apiKey: function(key_end){
+  isUserFootprintSet(){
+    return !this.getUserFootprint().isEmpty()
+  },
+
+  getDefaultInputs(init){
+    let default_inputs;
+    if (!this.isUserFootprintSet() || init) {
+      default_inputs = this.state_manager.default_inputs;
+    } else if(this.user_authenticated) {
+      default_inputs = {
+        input_location_mode: this.userApiValue('input_location_mode'),
+        input_location: this.userApiValue('input_location'),
+        input_income: this.userApiValue('input_income'),
+        input_size: this.userApiValue('input_size')
+      }
+    } else {
+      default_inputs = {
+        input_location_mode: this.defaultApiValue('input_location_mode'),
+        input_location: this.defaultApiValue('input_location'),
+        input_income: this.defaultApiValue('input_income'),
+        input_size: this.defaultApiValue('input_size')
+      }
+    }
+    return default_inputs;
+  },
+
+  getUserFootprint(){
+    return this.props.user_footprint.get('data')
+  },
+
+  resetUserFootprint(){
+    this.props.userFootprintReset();
+  },
+
+  apiKey(key_end){
     return `${this.api_key_base}_${key_end}`;
   },
 
@@ -9,15 +45,27 @@ export let footprintable = {
     return Math.round(this.state[api_key]);
   },
 
-  userApiValue: function(api_key){
-    return this.state_manager.user_footprint[api_key];
+  userApiValue(api_key){
+    let value = this.props.user_footprint.getIn(['data', api_key]);
+    let number = parseInt(value);
+    if (isNaN(number)) {
+      return value;
+    } else {
+      return number;
+    }
   },
 
-  defaultApiValue: function(api_key){
-    return this.state_manager.average_footprint[api_key];
+  defaultApiValue(api_key){
+    let value = this.props.average_footprint.getIn(['data', api_key]);
+    let number = parseInt(value);
+    if (isNaN(number)) {
+      return value;
+    } else {
+      return number;
+    }
   },
 
-  userApiState: function(){
+  userApiState(){
     let component = this;
     return component.relevant_api_keys.reduce((hash, api_suffix)=>{
       let api_key = component.apiKey(api_suffix);
@@ -28,35 +76,35 @@ export let footprintable = {
 
   totalTakeactionSavings(savings_type){
     let component = this;
-    return Object.keys(component.state_manager.result_takeaction_pounds)
-        .filter(key=> !/^offset_/.test(key))
-        .reduce((sum, action_key)=>{
-          if (component.userApiValue(`input_takeaction_${action_key}`) == 1){
-            sum += component.state_manager[savings_type][action_key];
-          }
-          return sum;
-        }, 0) || 0;
+    return Object.keys(component.props.user_footprint.get('result_takeaction_pounds').toJS())
+      .filter(key=> !/^offset_/.test(key))
+      .reduce((sum, action_key)=>{
+        if (component.userApiValue(`input_takeaction_${action_key}`) == 1){
+          sum += component.props.user_footprint.getIn([savings_type, action_key]);
+        }
+        return sum;
+      }, 0) || 0;
   },
 
-  popoverContentForCategory: function(category){
+  popoverContentForCategory(category){
     let component = this,
         key;
     switch(category){
-      case 'travel':
-        key = 'result_transport_total';
-        break;
-      case 'home':
-        key = 'result_housing_total';
-        break;
-      case 'food':
-        key = 'result_food_total';
-        break;
-      case 'services':
-        key = 'result_services_total';
-        break;
-      case 'goods':
-        key = 'result_goods_total';
-        break;
+    case 'travel':
+      key = 'result_transport_total';
+      break;
+    case 'home':
+      key = 'result_housing_total';
+      break;
+    case 'food':
+      key = 'result_food_total';
+      break;
+    case 'services':
+      key = 'result_services_total';
+      break;
+    case 'goods':
+      key = 'result_goods_total';
+      break;
     }
     let category_value = component.userApiValue(key),
         total_value = component.userApiValue('result_grand_total'),
@@ -84,15 +132,19 @@ export let footprintable = {
     return this.numberWithCommas(total);
   },
 
-  numberWithCommas: function(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   },
 
-  updateFootprintParams(params){
-    this.state_manager.updateFootprintParams(params);
+  updateAverageFootprintParams(updated_params){
+    this.props.averageFootprintUpdated(updated_params);
   },
 
-  updateFootprintInput: function(event){
+  updateFootprintParams(updated_params){
+    this.props.userFootprintUpdated(updated_params);
+  },
+
+  updateFootprintInput(event){
     let component = this,
         api_key = event.target.dataset.api_key,
         update = {
@@ -102,29 +154,19 @@ export let footprintable = {
     component.updateFootprint(update);
   },
 
-  updateFootprint: function(params){
+  updateFootprint(params){
     let component = this;
 
-    component.state_manager.update_in_progress = true;
     component.updateFootprintParams(params);
 
-    // debounce updating footprint by 500ms.
     if (component.$update_footprint) {
       clearTimeout(component.$update_footprint);
     }
 
     component.$update_footprint = setTimeout(()=>{
       // This will also make necessary update to user footprint.
-      component.state_manager.updateFootprint()
-        .then(()=>{
-          component.state_manager.syncLayout();
-        })
-        .then(()=>{
-          let user_api_state = component.userApiState();
-          component.setState(user_api_state, ()=>{
-            component.state_manager.update_in_progress = false;
-          })
-        });
+      component.props.updatedFootprintComputed(component.getUserFootprint())
+      if (component.user_authenticated) component.state_manager.updateUserAnswers(component.getUserFootprint(), component.props.auth.getIn(['data', 'token']))
     }, 500);
   }
 

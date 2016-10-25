@@ -1,0 +1,130 @@
+#graphs {
+  text-align:center;
+	rect.your-footprint {
+    fill: #0D793E;
+  }
+  rect.average {
+    fill: none;
+    stroke-dasharray:5,5;
+    stroke-width:s;
+    stroke:#A4A4A4;
+  }
+}
+
+#overview_chart {
+  text-align:center;
+  padding:10px;
+
+  rect.your-footprint.travel { fill: #0D7A3E; }
+  rect.your-footprint.home { fill: #45813C; }
+  rect.your-footprint.dining { fill: #5E893C; }
+  rect.your-footprint.goods { fill: #0B713D; }
+  rect.your-footprint.services { fill: #4AAA48; }
+}
+
+.d3-overlap-bar { cursor:pointer; }
+
+#graphs_toggle_chart {
+	text-align: center;
+	padding-top: 15px;
+}
+
+.graphs__units {
+  font-size:0.9em;
+}
+
+.graphs--active {
+  color:#4AAA48;
+}
+
+#graphs_summary {
+  tbody > tr > td {
+    font-weight: bold;
+  }
+  tbody > tr > td,
+  tfoot > tr > td {
+    text-align:center;
+    vertical-align:middle;
+    font-size:1.2em;
+  }
+
+  &.highlighted {
+    tbody > tr > td,
+    tfoot > tr > td {
+      border: 0px;
+    }
+
+    .btn {
+      border: 0;
+    }
+
+    img {
+      width: 80%;
+      height: auto;
+    }
+
+    tbody>tr>td,
+    tfoot>tr>td {
+      padding: 0px;
+    }
+
+    tbody > tr > td {
+      font-weight: normal;
+      .amount {
+        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 2.5em;
+        font-weight: 300;
+        font-style: normal;
+      }
+    }
+
+    tbody > tr > td:nth-child(3) {
+      vertical-align: bottom;
+    }
+
+    tfoot > tr > td {
+      font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 600;
+      font-style: normal;
+      vertical-align: top;
+    }
+
+    .graphs__units {
+      color: #666;
+      font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-style: normal;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  #graphs_summary {
+    font-size:0.8em;
+  }
+}
+
+/* Pie */
+
+#overall_comparative_pie {
+  text-align:center;
+}
+
+.d3-value-arc {
+  text {
+    fill: black;
+    cursor:pointer;
+  }
+  path {
+    stroke: white;
+    stroke-width: 1px;
+  }
+}
+
+.d3-comparative-arc {
+  stroke: darkgrey !important;
+}
+
+#graphs_toggle_chart {
+  margin-bottom:10px;
+}

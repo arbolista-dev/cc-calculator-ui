@@ -1,0 +1,41 @@
+#location_suggestions_container {
+  position:relative;
+}
+
+#location_suggestions {
+  position:absolute;
+  background-color:white;
+  width:100%;
+  border:1px solid darkgrey;
+}
+
+.location-suggestion {
+  cursor:pointer;
+  &:hover { background-color: #E6E6E6; }
+}
+
+#location_mode_btn_group_container {
+  text-align:center;
+}
+
+#location_mode_btn_group {
+  white-space:nowrap;
+  max-width:100%;
+  overflow-x:auto;
+  a {
+    float:none;
+    width:80px;
+  }
+}
+
+@media (max-width: 600px) {
+  #location_mode_btn_group {
+    a {
+      font-size:0.8em;
+      width:65px;
+    }
+  }
+  #income_slider .tick:nth-child(even){
+    visibility:hidden;
+  }
+}

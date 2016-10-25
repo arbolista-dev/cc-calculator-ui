@@ -1,11 +1,9 @@
-/*global module*/
-
 import ContextableComponent from './contextable';
 
 export default class TranslatableComponent extends ContextableComponent {
 
   get t() {
-    var i18n = this.context.i18n;
+    let i18n = this.context.i18n;
     if (!i18n) {
       // i18n not present - probably unit test
       return (key) => {

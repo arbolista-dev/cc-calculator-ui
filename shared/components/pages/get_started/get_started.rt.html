@@ -1,0 +1,55 @@
+<main className="cc-component container container-md" id="get_started">
+	<header className="cc-component__header">
+		<div>
+			<img src="/assets/img/{this.route_key}-grey.svg"/>
+			<h4>{this.t('get_started.title')}</h4>
+		</div>
+		<span className="cc-component__byline">{this.t('get_started.byline')}</span>
+	</header>
+
+	<div className="cc-component__form">
+		<div id="location_mode_btn_group_container" className="cc-component__question">
+			<div id="location_mode_btn_group" className="btn-group" role="group">
+				<a rt-repeat="mode in this.location_modes"
+					rt-class="{'btn-success': this.locationModeActive(mode[0]), 'btn-default': !this.locationModeActive(mode[0])}"
+					key="location_mode_{mode[0]}"
+					type="button"
+					className="btn"
+					onClick="{this.setLocationMode.bind(this, mode[0])}" >{this.t(mode[1])}</a>
+			</div>
+		</div>
+
+		<div id="location_suggestions_container" className="cc-component__question">
+			<input className="form-control"
+				rt-props="{disabled: this.country_mode}"
+				placeholder="{this.t('get_started.location_prompt')}"
+				value="{this.input_location_display}"
+				onClick="{this.unsetLocation.bind(this)}"
+				onChange="{this.setLocationSuggestions.bind(this)}"/>
+			<div rt-if="this.show_location_suggestions" id="location_suggestions">
+				<div className="get-started__location-suggestion"
+					onClick="{this.hideLocationSuggestions.bind(this)}">{this.t('Hide')}</div>
+				<div rt-repeat="suggestion in this.state.locations.suggestions"
+					key="{this.state.locations.data[suggestionIndex]}"
+					data-zipcode="{this.state.locations.data[suggestionIndex]}"
+					data-suggestion="{suggestion}"
+					className="location-suggestion"
+					onClick="{this.setLocation.bind(this)}">{suggestion}</div>
+			</div>
+		</div>
+
+		<div className="cc-component__question">
+			<h4>{this.t('get_started.size.label')}</h4>
+			<div className="cc-slider-container" id="size_slider"></div>
+		</div>
+		<div className="cc-component__question">
+			<h4>{this.t('get_started.income.label')}</h4>
+			<div  className="cc-slider-container" id="income_slider"></div>
+		</div>
+
+	</div>
+
+	<div className="cc-component__nav">
+		<a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
+	</div>
+</main>

@@ -1,0 +1,92 @@
+<rt-require dependency="shared/components/common/alerts/alerts.component" as="Alerts"/>
+
+<main className="panel panel-coolclimate" id="sign_up">
+    <div className="panel-heading">
+        {this.t('sign_up.title')}
+    </div>
+
+    <div className="panel-body cc-component__form form-horizontal">
+      <Alerts list="{this.alert_list}" />
+        <div className="cc-component__auth">
+          <form onsubmit="{this.submitSignup.bind(this)}">
+            <div className="form-group">
+                <label for="inputFirst" className="control-label">
+                  {this.t('sign_up.first_name')}
+                </label>
+                <input type="text" className="form-control" id="inputFirst"
+                rt-class="{error: !this.paramValid('first_name')}" onChange="{this.updateInput.bind(this)}"
+                value="{this.state.first_name}"
+                data-api_key="first_name"
+                placeholder="{this.t('sign_up.first_name')}"/>
+            </div>
+            <div className="form-group">
+                <label for="inputLast" className="control-label">
+                  {this.t('sign_up.last_name')}
+                </label>
+                <input type="text" className="form-control" id="inputLast"
+                rt-class="{error: !this.paramValid('last_name')}"
+                onChange="{this.updateInput.bind(this)}"
+                data-api_key="last_name"
+                value="{this.state.last_name}"
+                placeholder="{this.t('sign_up.last_name')}">
+            </div>
+            <div className="form-group">
+                <label for="inputEmail" className="control-label">
+                  {this.t('sign_up.email')}
+                </label>
+                <input type="email" className="form-control" id="inputEmail"
+                rt-class="{error: !this.paramValid('email')}" onChange="{this.updateInput.bind(this)}"
+                data-api_key="email"
+                value="{this.state.email}"
+                placeholder="{this.t('sign_up.email')}"/>
+            </div>
+            <div className="form-group">
+                <label for="inputPassword" className="control-label">
+                  {this.t('sign_up.password')}
+                </label>
+                <input type="password" className="form-control" id="inputPassword"
+                rt-class="{error: !this.paramValid('password')}"
+                onChange="{this.updateInput.bind(this)}"
+                data-api_key="password"
+                value="{this.state.password}"
+                placeholder="{this.t('sign_up.password')}"/>
+            </div>
+            <div id="location_suggestions_container" className="form-group">
+              <label for="inputCity" className="control-label">
+                {this.t('sign_up.city')}
+              </label>
+              <input className="form-control"
+                rt-props="{disabled: this.country_mode}"
+                placeholder="{this.t('get_started.location_prompt')}"
+                rt-class="{error: !this.paramValid('input_location')}"
+                value="{this.input_location_display}"
+                onChange="{this.setLocationSuggestions.bind(this)}"/>
+              <div rt-if="this.show_location_suggestions" id="location_suggestions">
+                <div className="location-suggestion"
+                  onClick="{this.hideLocationSuggestions.bind(this)}">{this.t('Hide')}</div>
+                <div rt-repeat="suggestion in this.state.locations.suggestions"
+                  key="{this.state.locations.data[suggestionIndex]}"
+                  data-zipcode="{this.state.locations.data[suggestionIndex]}"
+                  data-suggestion="{suggestion}"
+                  className="location-suggestion"
+                  onClick="{this.setLocation.bind(this)}">{suggestion}</div>
+              </div>
+            </div>
+            <div className="checkbox">
+              <label>
+                <input type="checkbox"
+                onChange="{this.updateCheckbox.bind(this)}"
+                data-api_key="public"
+                checked="{this.state.public}"/> {this.t('sign_up.public')}
+              </label>
+            </div>
+            <div className="cc-component__auth-submit">
+                <button className="btn btn-default"
+                onClick="{this.submitSignup.bind(this)}">
+                  {this.t('sign_up.submit')}
+                </button>
+            </div>
+          </form>
+        </div>
+    </div>
+</main>

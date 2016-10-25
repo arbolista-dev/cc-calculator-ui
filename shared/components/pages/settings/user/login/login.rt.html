@@ -1,0 +1,58 @@
+<rt-require dependency="shared/components/common/alerts/alerts.component" as="Alerts"/>
+<rt-require dependency="react-facebook-login" as="FacebookLogin"/>
+
+<div className="panel panel-coolclimate" id="login">
+    <div className="panel-heading">
+        {this.t('login.title')}
+    </div>
+
+    <div className="panel-body cc-component__form form-horizontal">
+      	<Alerts list="{this.alert_list}" />
+        <div className="col-md-7 col-xs-12">
+            <div className="cc-component__auth">
+              <form onsubmit="{this.submitLogin.bind(this)}">
+                <div className="form-group">
+                    <label for="inputEmail" className="control-label">
+                      {this.t('login.email')}
+                    </label>
+                    <input type="email" className="form-control" id="inputEmail"
+                    rt-class="{error: !this.paramValid('email')}"
+                    onChange="{this.updateInput.bind(this)}"
+                    data-api_key="email"
+                    value="{this.state.email}"
+                    placeholder="{this.t('login.email')}"/>
+                </div>
+                <div className="form-group">
+                    <label for="inputPassword" className="control-label">
+                      {this.t('login.password')}
+                    </label>
+                    <input type="password" className="form-control" id="inputPassword"
+                    rt-class="{error: !this.paramValid('password')}" onChange="{this.updateInput.bind(this)}"
+                    data-api_key="password"
+                    value="{this.state.password}"
+                    placeholder="{this.t('login.password')}"/>
+                </div>
+                <div className="cc-component__auth-password-request">
+                    <a onClick="{this.router.goToRouteByName.bind(this, 'ForgotPassword')}">
+                      {this.t('login.password_request')}
+                    </a>
+                </div>
+                <div className="cc-component__auth-login">
+                    <button type="submit" className="btn btn-default"
+                    onClick="{this.submitLogin.bind(this)}">
+                      {this.t('login.submit')}
+                    </button>
+                </div>
+              </form>
+            </div>
+        </div>
+        <div className="col-md-5 col-xs-12 cc-component__facebook">
+            <div className="cc-component__facebook-wrapper">
+                <div className="cc-component__facebook-instructions">Do you have a Facebook account?</div>
+                <div className="cc-component__facebook-button">
+                    {this.facebookLogin()}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

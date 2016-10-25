@@ -1,4 +1,3 @@
-// @import "../../../server/assets/css/variables";
 a { cursor: pointer; }
 
 #cc_calculator_ui {
@@ -25,9 +24,6 @@ a { cursor: pointer; }
 		text-align: center;
 		display:inline-block;
 		width:100px;
-		// &:first-child {
-		// 	margin-left: 70px;
-		// }
 		img {
 			margin: 0 auto;
 			height: 40px;
@@ -39,7 +35,6 @@ a { cursor: pointer; }
 		&:hover {
 			background-color: #EEE;
 			span {
-			// color: $brand-primary !important;
 			}
 		}
 	}
@@ -76,7 +71,8 @@ a { cursor: pointer; }
 			ul > li {
 				display: inline;
 				font-size: 0.8em;
-				&:first-of-type {
+				&:first-of-type,
+				&:nth-of-type(2) {
 					&::after {
 						content: "·";
 						padding: 0 3px;
@@ -110,22 +106,18 @@ a { cursor: pointer; }
 
 .container-md {
 	margin: 0 auto;
-	// padding: 0 30px;
-	// max-width: $screen-md-max;
 	max-width: 800px;
 	width: 100%;
 }
 
 .container-sm {
 	margin: 0 auto;
-	// padding: 0 30px;
 	max-width: 500px;
 	width: 100%;
 }
 
 .container-xs {
 	margin: 0 auto;
-	// padding: 0 30px;
 	max-width: 300px;
 	width: 100%;
 }
@@ -134,11 +126,6 @@ a { cursor: pointer; }
 	background: #CCC;
 	width: 200px;
 }
-
-// .get-started__location-suggestion {
-//   padding:15px;
-//   font-size:18px;
-// }
 
 main > header {
 	text-align: center;
@@ -196,6 +183,21 @@ main > header {
 	  .desktop {
 	  	display:block;
 	  }
+}
+
+.loader {
+	width: 40px;
+	height: 40px;
+	margin: 25% auto;
+	border: 6px solid #f3f3f3;
+	border-top: 6px solid #6ebb6c;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
 }
 
 @media (max-width: 991px) and (min-width: 700px) {

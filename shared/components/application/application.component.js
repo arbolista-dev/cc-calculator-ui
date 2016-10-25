@@ -1,9 +1,10 @@
 /*global module */
-import React from 'react';
 
+import React from 'react';
 import LayoutComponent from '../layout/layout.component';
-import StateManager from './../../lib/state_manager/state_manager';
-import Router from './../../lib/router/router';
+import { Provider } from 'react-redux';
+import StateManager from 'shared/lib/state_manager/state_manager';
+import Router from 'shared/lib/router/router';
 
 class ApplicationComponent extends React.Component {
 
@@ -11,16 +12,41 @@ class ApplicationComponent extends React.Component {
     super(props, context);
   }
 
+  get router(){
+    return this.props.router;
+  }
+
+  get state_manager(){
+    return this.props.state_manager;
+  }
+
   getChildContext() {
     return {
-      state_manager: this.props.state_manager,
-      router: this.props.router,
+      state_manager: this.state_manager,
+      router: this.router,
       i18n: this.props.i18n
     };
   }
 
+  componentDidMount() {
+    let component = this;
+    component.initializeHistory();
+  }
+
+  initializeHistory() {
+    let component = this,
+        createHistory = component.props.createHistory;
+
+    component.router.initializeHistory(createHistory, component.state_manager.store);
+  }
+
   render() {
-    return React.createElement(LayoutComponent, this.props);
+    return React.createElement(Provider,
+      {
+        store: this.state_manager.store
+      },
+      React.createElement(LayoutComponent)
+    );
   }
 
 }

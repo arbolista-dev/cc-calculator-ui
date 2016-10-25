@@ -8,4 +8,4 @@ export default function(Parent /*, ...mixins*/) {
     }
   }
   return Mixed;
-};
+}

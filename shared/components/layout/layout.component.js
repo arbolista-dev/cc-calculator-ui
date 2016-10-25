@@ -1,57 +1,68 @@
-/*global module Promise document window DESIGN*/
+/*global module document window */
 
 import React from 'react';
-
-import StateManager from './../../lib/state_manager/state_manager';
-import mixin from './../../lib/mixin';
-import Translatable from './../../lib/base_classes/translatable';
-import {routable} from './../../lib/mixins/routable';
+import Panel from 'shared/lib/base_classes/panel';
 import template from './layout.rt.html';
+import footprintContainer from 'shared/containers/footprint.container';
+import { footprintPropTypes } from 'shared/containers/footprint.container';
 
-const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint'];
-const NON_LEADERS_PANELS = ['GetStarted', 'Settings', 'ForgotPassword'];
+const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint', 'MissingRoute'];
 
-class LayoutComponent extends mixin(Translatable, routable) {
+class LayoutComponent extends Panel {
 
   constructor(props, context) {
     super(props, context);
-    var layout = this;
+    let layout = this;
     layout.state = {};
-    context.state_manager.layout = layout;
+  }
+
+  componentWillReceiveProps(nextProps){
+    // passing false to setUserAnswersToDefault means no alerts will be triggered!
+    if (nextProps.average_footprint.get('reset')) this.setUserAnswersToDefault(false);
+    if (this.props.location.get('route_name') !== nextProps.location.get('route_name') && nextProps.ui.get('alert_exists')) this.props.resetAlerts();
+  }
+
+  componentWillMount(){
+    this.receiveExternalOffset()
+
+    if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage) this.props.ensureDefaults(this.getDefaultInputs());
   }
 
   render() {
     return template.call(this);
   }
 
-  get route_key() {
-    return this.state_manager.state.route.key;
-  }
-
-  get current_route_name() {
-    return this.state_manager.state.route.route_name;
+  get initial_load_done(){
+    if (!this.state_manager.average_footprint_storage || !this.state_manager.user_footprint_storage || !this.state_manager.take_action_storage) {
+      return this.isUserFootprintSet() && this.props.user_footprint.get('loading') === false;
+    } else {
+      return this.isUserFootprintSet();
+    }
   }
 
   get alert_list() {
-    return this.state_manager.state.alerts.shared;
+    return this.props.ui.getIn(['alerts', 'shared']).toJS();
+  }
+
+  get current_route(){
+    return this.router.routes.getRoute(this.current_route_name);
   }
 
   get graphing_route(){
     return NON_GRAPH_PANELS.indexOf(this.current_route_name) < 0;
   }
 
-  get show_leaders_comparison(){
-    let leaders_route = NON_LEADERS_PANELS.indexOf(this.current_route_name) < 0;
-
-    return this.connect_to_api && leaders_route && this.state_manager.state.leaders_chart.show;
+  get is_no_app_route(){
+    let result = this.router.routes.getRoute(this.current_route_name);
+    return result !== undefined && result.route_name === 'MissingRoute';
   }
 
   get external_offset(){
-    return this.state_manager.state.external_offset;
+    return this.props.ui.get('external_offset').toJS();
   }
 
-  get connect_to_api(){
-    return this.state_manager.state.connect_to_api;
+  get show_take_action_now(){
+    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
   }
 
   get show_user_answers_reset(){
@@ -62,57 +73,36 @@ class LayoutComponent extends mixin(Translatable, routable) {
     }
   }
 
-  get show_take_action_now(){
-    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
-  }
-
   getRouteTitle(route) {
     return this.t(`${route.key}.title`);
   }
 
-  goToSettings(){
-    this.router.goToRouteByName('Settings');
-  }
-
-  setUserAnswersToDefault(){
+  receiveExternalOffset(){
     let layout = this;
-    layout.state_manager.resetStoredUserFootprint();
-    layout.state_manager.state.alerts.shared.push({type: 'success', message: layout.t('success.answers_reset')});
-  }
-
-  goToLeaders(){
-    this.router.goToRouteByName('Leaders');
-  }
-
-  componentDidMount() {
-    var layout = this;
-    layout.router.initializeHistory(layout);
-  }
-
-  syncFromStateManager() {
-    var layout = this;
-    return new Promise((fnResolve, _fnReject) => {
-      layout.forceUpdate(() => {
-        // Prerendered data should be consumed after the first time the
-        // state is set from the URL.
-        layout.destroyPrerenderData();
-        fnResolve();
-      });
-    });
+    window.addEventListener('message', ((event) => {
+      try {
+        let data = JSON.parse(event.data);
+        if (data.hasOwnProperty('cta')) {
+          layout.props.updateUI({id: 'external_offset', data: data});
+          if (data.hasOwnProperty('connect_to_api')) {
+            if (!layout.props.ui.getIn(['external_offset', 'connect_to_api'])) {
+              layout.props.updateUI({id: 'connect_to_api', data: false});
+            }
+          }
+        }
+      } catch (e) {
+        return null;
+      }
+    }),false);
   }
 
   destroyPrerenderData() {
-    var prerender_data = document.getElementById('prerender_data');
+    let prerender_data = document.getElementById('prerender_data');
     window.PrerenderData = undefined;
     if (prerender_data) prerender_data.parentNode.removeChild(prerender_data);
   }
 
-  goToTakeAction(){
-    this.router.goToRouteByName('TakeAction');
-  }
-
 }
-LayoutComponent.NAME = 'Layout';
-LayoutComponent.propTypes = {};
+LayoutComponent.propTypes = footprintPropTypes;
 
-module.exports = LayoutComponent;
+module.exports = footprintContainer(LayoutComponent);

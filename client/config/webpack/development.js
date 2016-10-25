@@ -74,7 +74,8 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"development"',
       'NODE_ENV': '"development"',
-      API_BASE_URL: `"${process.env.API_BASE_URL}"`
+      API_BASE_URL: `"${process.env.API_BASE_URL}"`,
+      APP_ID:`"${process.env.APP_ID}"`
     })
   ],
   node: {
@@ -82,7 +83,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      api: __dirname + '/../../api/real'
+      api: __dirname + '/../../api/real',
+      shared: __dirname + '/../../../shared'
     }
   }
 }

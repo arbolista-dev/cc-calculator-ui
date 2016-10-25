@@ -23,7 +23,7 @@ export default class ContextableComponent extends React.Component {
     }
   }
 
-};
+}
 
 ContextableComponent.childContextTypes = {
   state_manager: React.PropTypes.instanceOf(StateManager).isRequired,

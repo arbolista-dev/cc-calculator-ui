@@ -5,10 +5,10 @@ export default function xmlToJson(xml) {
     // do attributes
     if (xml.attributes.length > 0) {
       obj = {};
-      obj["@attributes"] = {};
+      obj['@attributes'] = {};
       for (var j = 0; j < xml.attributes.length; j++) {
         var attribute = xml.attributes.item(j);
-        obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+        obj['@attributes'][attribute.nodeName] = attribute.nodeValue;
       }
     }
   } else if (xml.nodeType == 3) { // text
@@ -25,7 +25,7 @@ export default function xmlToJson(xml) {
         var item = xml.childNodes.item(i);
         var nodeName = item.nodeName;
 
-        if (typeof(obj[nodeName]) == "undefined") {
+        if (typeof(obj[nodeName]) == 'undefined') {
           if (item.nodeType === 3){
             obj[nodeName] = item.nodeValue
           } else {
@@ -33,7 +33,7 @@ export default function xmlToJson(xml) {
             obj[nodeName] = res
           }
         } else {
-          if (typeof(obj[nodeName].push) == "undefined") {
+          if (typeof(obj[nodeName].push) == 'undefined') {
             var old = obj[nodeName];
             obj[nodeName] = [];
             obj[nodeName].push(old);

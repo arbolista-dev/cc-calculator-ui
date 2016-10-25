@@ -6,6 +6,8 @@
         "last_name": "Last name",
         "email": "Email",
         "password": "Password",
+        "city": "City",
+        "input_location": "City",
         "public": "Yes, my results can be published.",
         "submit": "Sign up"
     },
@@ -15,7 +17,8 @@
         "email": "Email",
         "password": "Password",
         "password_request": "Forgot your password?",
-        "submit": "Login"
+        "submit": "Login",
+        "facebook":"Login or Sign up with Facebook"
     },
     "logout": {
         "title": "Logout"
@@ -29,8 +32,8 @@
     "leaders": {
         "route_path": "leaders",
         "title": "Leaders",
-        "location_prompt": "Choose your city to see nearby leaders: ",
-        "city": "City",
+        "location_prompt": "Choose your location to see nearby leaders: ",
+        "us_state": "U.S. State",
         "total_footprint": "Total Footprint",
         "travel_footprint": "Travel Footprint",
         "shopping_footprint": "Shopping Footprint",
@@ -219,7 +222,7 @@
     },
     "take_action": {
         "title": "Take Action",
-        "byline": "Offset your impact",
+        "byline": "Reduce your impact",
         "critical_assumptions": "Critical Assumptions",
         "route_path": "take_action",
         "tons_saved": "Tons saved",
@@ -243,7 +246,8 @@
         "bar_graph_title": "Household tons CO<sub>2</sub>/year"
     },
     "summaries": {
-        "total_footprint": "Your Total Footprint",
+        "total_footprint": "Total Footprint",
+        "total_get_started_footprint": "Your Total Footprint",
         "total_travel_footprint": "Your Travel Footprint",
         "total_home_footprint": "Your Home Footprint",
         "total_food_footprint": "Your Food Footprint",
@@ -291,22 +295,6 @@
                 "size": "4",
                 "maxlength": "4"
             }
-        }, {
-            "description": "Discount rate (used in NPV and ROI calculations)",
-            "input": {
-                "id": "input_takeaction_assumption_discountrate",
-                "size": "2",
-                "maxlength": "2"
-            },
-            "suffix": "%"
-        }, {
-            "description": "Inflation rate (used in NPV and ROI calculations)",
-            "input": {
-                "id": "input_takeaction_assumption_inflationrate",
-                "size": "2",
-                "maxlength": "2"
-            },
-            "suffix": "%"
         }]
     },
     "actions": {
@@ -1386,8 +1374,8 @@
                         "description": "Cost of each new T8 light: $",
                         "input": {
                             "id": "input_takeaction_T12toT8_T8cost",
-                            "size": "4",
-                            "maxlength": "4"
+                            "size": "5",
+                            "maxlength": "5"
                         }
                     }, {
                         "description": "Price of electricity:",
@@ -2609,8 +2597,8 @@
                     "prefix": "$",
                     "input": {
                         "id": "input_takeaction_install_solar_heating_cost",
-                        "size": "2",
-                        "maxlength": "2"
+                        "size": "5",
+                        "maxlength": "5"
                     },
                     "suffix": "per cubic feet of natural gas."
                 }],
@@ -2824,8 +2812,8 @@
                     "prefix": "$",
                     "input": {
                         "id": "input_takeaction_low_flow_toilet_cost",
-                        "size": "2",
-                        "maxlength": "2"
+                        "size": "4",
+                        "maxlength": "4"
                     }
                 }]
             },
@@ -3679,8 +3667,8 @@
                     "description": "My household currently throws out",
                     "input": {
                         "id": "input_takeaction_reduce_comm_waste_per_week",
-                        "size": "2",
-                        "maxlength": "2"
+                        "size": "3",
+                        "maxlength": "3"
                     },
                     "suffix": "cubic yards of trash each week."
                 }, {
@@ -3766,8 +3754,8 @@
                     "description": "Instead of printing single-sided I will print weekly",
                     "input": {
                         "id": "input_takeaction_print_double_sided_number",
-                        "size": "3",
-                        "maxlength": "3"
+                        "size": "4",
+                        "maxlength": "4"
                     },
                     "suffix": "sheets double-sided."
                 }, {
@@ -4604,13 +4592,14 @@
         },
         "compare": "See how you compare"
     },
-    "route_doesnt_exist": "The route you requested does not exist!",
+    "route_doesnt_exist": "We are sorry but the page you are looking for does not exist.",
     "Hide": "Hide",
     "Total": "Total",
     "Avg": "Avg",
     "Next": "Next",
     "Previous": "Previous",
-    "City": "City",
+    "Name": "Name",
+    "Location": "Location",
     "County": "County",
     "Country": "Country",
     "Remove": "Remove",
@@ -4621,6 +4610,9 @@
     "month": "month",
     "average": "average",
     "Take action now": "Take action now",
+    "powered_by": "Powered by CoolClimate",
+    "terms_of_use": "Terms of Use",
+    "documentation": "Documentation",
     "errors": {
         "email": {
             "non-existent": "User with this email address does not exist. Please sign up.",
@@ -4638,6 +4630,9 @@
         },
         "reset-token": {
             "corrupt": "Your password reset link is invalid. Please request a new one by visiting 'Forgot your password'."
+        },
+        "facebook":{
+            "token-invalid":"The Facebook token is invalid"
         },
         "unspecified": "not specified. Please fill out all fields.",
         "invalid": "is not valid. Please re-type it."

@@ -8,7 +8,11 @@
     "strict": ["error", "safe"],
     "indent": ["error", 2, {"VariableDeclarator": 2}],
     "no-console": ["error", {"allow": ["info", "warn", "error"]}],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "no-unused-vars": [1, {"ignore": ["React"]}]
+  },
+  "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
   },
   "parser": "babel-eslint"
 }

@@ -54,14 +54,14 @@ if (JS_ENV === 'client') {
           }, state_manager.state),
           layout = TestUtils.renderIntoDocument(React.createElement(Layout, initial_props));
       try {
-        var buttons = TestUtils.scryRenderedDOMComponentsWithClass(layout, 'btn-primary');
+        let buttons = TestUtils.scryRenderedDOMComponentsWithClass(layout, 'btn-primary');
         expect(buttons.length).toEqual(3);
 
-        router.afterLocationUpdate = (_new_location) => {
-          var info = TestUtils.findRenderedDOMComponentWithClass(layout, 'alert-info');
+        router.afterLocationUpdate = () => {
+          let info = TestUtils.findRenderedDOMComponentWithClass(layout, 'alert-info');
           expect(_.trim(info.textContent)).toEqual('Hi, I\'m Bob!');
 
-          var selected = TestUtils.scryRenderedDOMComponentsWithClass(layout, 'active');
+          let selected = TestUtils.scryRenderedDOMComponentsWithClass(layout, 'active');
           expect(selected.length).toEqual(1);
           expect(selected[0].dataset.value).toEqual('1');
 
