@@ -3,8 +3,9 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult } from './user_footprint.actions';
-import { setLocalStorageItem } from 'shared/lib/utils/utils';
+import { updateAnswers } from 'api/user.api';
+import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateRemoteUserAnswers } from './user_footprint.actions';
+import { setLocalStorageItem, getLocalStorageItem, tokenIsValid } from 'shared/lib/utils/utils';
 
 
 /*
@@ -74,7 +75,10 @@ const ACTIONS = {
         let updated = state.set('data', merged_data)
                            .set('loading', false);
 
-        return fromJS(updated);
+        return loop(
+          fromJS(updated),
+          Effects.constant(updateRemoteUserAnswers())
+        );
       }
     }
 
@@ -83,7 +87,7 @@ const ACTIONS = {
     return loop(
       fromJS(state),
       Effects.constant(parseTakeactionResult(result))
-    )
+    );
 
   },
 
@@ -105,7 +109,10 @@ const ACTIONS = {
     setLocalStorageItem('result_takeaction_net10yr', fromJS(result.get('result_takeaction_net10yr')));
     setLocalStorageItem('user_footprint', merged);
 
-    return fromJS(updated);
+    return loop(
+      fromJS(updated),
+      Effects.constant(updateRemoteUserAnswers())
+    );
   },
 
   [userFootprintUpdated]: (state, api_data)=>{
@@ -163,7 +170,19 @@ const ACTIONS = {
       })
     )
 
+  },
+
+  [updateRemoteUserAnswers]: (state)=>{
+    let auth_status = getLocalStorageItem('auth');
+
+    if (auth_status.hasOwnProperty('token')) {
+      if (tokenIsValid(auth_status.token)) {
+        updateAnswers(state.get('data').toJS(), auth_status.token)
+      }
+    }
+    return fromJS(state);
   }
+
 };
 
 const REDUCER = createReducer(ACTIONS, {});
