@@ -65,10 +65,7 @@ export default class StateManager {
         leaders: [],
         shared: []
       },
-      leaders_chart: {
-        show: false,
-        category: ''
-      },
+      show_leaders_chart: false,
       alert_exists: false,
       connect_to_api: true,
       location_mode_changed: false

@@ -37,34 +37,9 @@ class LeadersComponent extends Panel {
   componentDidMount() {
     let leaders = this;
 
-    if (leaders.props.ui.getIn(['leaders_chart', 'show'])) {
+    if (leaders.props.ui.get('show_leaders_chart')) {
       leaders.retrieveLocations();
       leaders.retrieveAndShow();
-    }
-
-    let ui = {
-      id: 'leaders_chart',
-      data: {
-        category: leaders.current_route_name
-      }
-    };
-
-    leaders.props.updateUI(ui);
-  }
-
-  componentDidUpdate() {
-    let leaders = this;
-
-    if (leaders.props.ui.getIn(['leaders_chart', 'category']) != leaders.current_route_name) {
-      let ui = {
-        id: 'leaders_chart',
-        data: {
-          category: leaders.current_route_name,
-          show: false
-        }
-      };
-      leaders.props.updateUI(ui);
-      $(window).off('scroll', leaders.detectScroll());
     }
   }
 
@@ -76,29 +51,6 @@ class LeadersComponent extends Panel {
 
   render(){
     return template.call(this);
-  }
-
-  get category_identifier() {
-    let leaders = this,
-        id;
-    switch (leaders.current_route_name){
-    case 'Travel':
-      id = 'result_transport_total';
-      break;
-    case 'Home':
-      id = 'result_housing_total';
-      break;
-    case 'Food':
-      id = 'result_food_total';
-      break;
-    case 'Shopping':
-      id = 'result_shopping_total';
-      break;
-    default:
-      id = 'result_grand_total';
-      break;
-    }
-    return id;
   }
 
   get selected_location() {
@@ -121,29 +73,6 @@ class LeadersComponent extends Panel {
 
   get is_loading(){
     return this.state.is_loading;
-  }
-
-  get footprint_title(){
-    let leaders = this,
-        title;
-    switch (leaders.current_route_name){
-    case 'Travel':
-      title = leaders.t('leaders.travel_footprint');
-      break;
-    case 'Home':
-      title = leaders.t('leaders.home_footprint');
-      break;
-    case 'Food':
-      title = leaders.t('leaders.food_footprint');
-      break;
-    case 'Shopping':
-      title = leaders.t('leaders.shopping_footprint');
-      break;
-    default:
-      title = leaders.t('leaders.total_footprint');
-      break;
-    }
-    return title;
   }
 
   get total_count_reached(){

@@ -97,7 +97,7 @@ class LoginComponent extends Panel {
   }
 
   responseFacebook(response) {
-    if(response.status=="unknown") {
+    if(response.status=="unknown") { 
       return;
     }
     let login = {
