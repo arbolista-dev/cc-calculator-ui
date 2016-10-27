@@ -18,36 +18,91 @@
       100% { transform: rotate(360deg); }
   }
 
-  #leaders_location_container {
-    width: 35%;
-    margin-left: 25%;
-    position: relative;
-    display: inline-block;
-    .hint,
-    .cc-component__question { display: inline-block; }
-
-    #leaders_locations_list {
-      position: absolute;
-      background-color: white;
+  .panel-heading {
+    height: 95px;
+    .table-title {
       width: 100%;
-      color: #000;
-      border: 1px solid #ddd;
-      z-index: 9999;
+      font-size: 1.2em;
+      text-align: center;
+      clear: both;
+      border-bottom: 1px solid #fff;
+      padding-bottom: 4px;
     }
+  }
 
-    .leaders__location-suggestion {
-      cursor: pointer;
-      color: #000;
-      height: 20px;
-      line-height: 20px;
-      padding-left: 5px;
-      margin: 2px 10px;
-      &:hover { background-color: #E6E6E6; }
+  .filters {
+    width: 70%;
+    margin: 10px auto;
+
+    .location_filter,
+    .household_filter {
+      float: left;
+
+      .hint {
+        display: inline-block;
+        vertical-align: top;
+        padding-top: 6px;
+      }
+
+      .cc-component__question {
+        display: inline-block;
+        padding: 0 10px;
+      }
+
+      #leaders_locations_list,
+      #leaders_household_list {
+        background-color: white;
+        width: 100%;
+        color: #000;
+        border: 1px solid #ddd;
+      }
+
+      .leaders__location-suggestion,
+      .leaders__household-suggestion {
+        cursor: pointer;
+        color: #000;
+        height: 20px;
+        line-height: 20px;
+        padding-left: 5px;
+        margin: 2px 10px;
+        &:hover { background-color: #E6E6E6; }
+      }
     }
   }
 
   .cc-component__scroll-top {
     float: right;
     margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 650px) {
+  #leaders {
+    .panel-heading {
+      height: 95px;
+      .table-title {
+        padding: 0;
+      }
+    }
+
+    #location_filter {
+      .hint {
+        display: block;
+        vertical-align: top;
+        padding-top: 0;
+      }
+
+      .cc-component__question {
+        display: block;
+        padding: 5px;
+      }
+
+      #leaders_locations_list {
+        background-color: white;
+        width: 100%;
+        color: #000;
+        border: 1px solid #ddd;
+      }
+    }
   }
 }
