@@ -10,7 +10,6 @@ import defaultsReducers from 'shared/reducers/average_footprint/average_footprin
 import computeFootprintReducers from 'shared/reducers/user_footprint/user_footprint.reducers';
 import authReducers from 'shared/reducers/auth/auth.reducers';
 import uiReducers from 'shared/reducers/ui/ui.reducers';
-import { updateAnswers } from 'api/user.api';
 import { getLocalStorageItem } from '../utils/utils';
 
 const DEFAULT_LOCATION = {input_location_mode: 5, input_income: 1, input_size: 0};
@@ -122,12 +121,5 @@ export default class StateManager {
       }),
       ui: fromJS(state_manager.ui_storage || state_manager.default_ui_state)
     }, opts);
-  }
-
-  /*
-   * User API
-   */
-  updateUserAnswers(footprint, token){
-    return updateAnswers(footprint, token)
   }
 }

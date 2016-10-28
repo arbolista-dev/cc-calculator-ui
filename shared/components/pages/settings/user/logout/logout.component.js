@@ -22,15 +22,12 @@ class LogoutComponent extends Translatable {
 
   submitLogout(event) {
     event.preventDefault();
-    window.FB.getLoginStatus((response)=> {
-       if (response.status === 'connected') {
-          window.FB.logout();
-       }
-       this.props.logout();
-    });
+    let response = window.FB.getLoginStatus((response) => { return response });
+    (response && response.status === 'connected') ? window.FB.logout() : this.props.logout();
   }
+  
   componentDidMount() {
-    window.fbAsyncInit = () => { 
+    window.fbAsyncInit = () => {
       window.FB.init({
         version: "v2.3",
         appId:APP_ID,
