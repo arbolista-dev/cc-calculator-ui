@@ -338,7 +338,6 @@ class LeadersComponent extends Panel {
       if (res.success) {
         if (res.data != null) {
           let locations = res.data;
-          console.log('locations', locations);
           locations.sort((a, b) => {
             let locationA = a.state.toLowerCase(), locationB = b.state.toLowerCase();
             if (locationA < locationB)

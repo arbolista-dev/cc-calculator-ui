@@ -9,6 +9,7 @@ import FsHelper from './fs_helper';
 import ViewCompiler from './view_compiler';
 
 process.env.NODE_ENV = argv.env || 'development';
+process.env.APP_ID =  '651280398386350';
 
 if (argv.local_api){
   process.env.API_BASE_URL = 'http://localhost:8082'
