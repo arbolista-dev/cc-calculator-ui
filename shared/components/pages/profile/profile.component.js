@@ -38,6 +38,19 @@ class ProfileComponent extends Panel {
     return `${this.user_profile.get('city')}, ${this.user_profile.get('county')}, ${this.user_profile.get('state')}`;
   }
 
+  get profile_footprint(){
+    if (this.loaded) {
+      try {
+        return JSON.parse(this.user_profile.get('total_footprint'))
+      } catch (e) {
+        return {};
+      }
+    } else {
+      return {};
+    }
+
+  }
+
   render(){
     return template.call(this);
   }

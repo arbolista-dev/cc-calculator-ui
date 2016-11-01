@@ -6,7 +6,7 @@ import template from './graphs.rt.html';
 import OverlapBar from 'd3-object-charts/src/bar/overlap';
 import ComparativePie from 'd3-object-charts/src/pie/comparative';
 import footprintContainer from 'shared/containers/footprint.container';
-import { footprintPropTypes } from 'shared/containers/footprint.container';
+import { graphsPropTypes } from 'shared/containers/footprint.container';
 
 const CATEGORIES = ['result_transport_total', 'result_housing_total',
   'result_food_total', 'result_goods_total', 'result_services_total'],
@@ -91,8 +91,12 @@ class GraphsComponent extends Panel {
     }, {});
   }
 
+  get user_profile_footprint(){
+    return this.props.user_profile_footprint ? this.props.user_profile_footprint : {};
+  }
+
   get user_footprint(){
-    return this.props.user_footprint.get('data').toJS()
+    return (Object.keys(this.user_profile_footprint).length !== 0) ? this.user_profile_footprint : this.props.user_footprint.get('data').toJS();
   }
 
   get average_footprint(){
@@ -103,12 +107,12 @@ class GraphsComponent extends Panel {
     return this.defaultApiValue('result_grand_total');
   }
 
-  get isFootprintRoute() {
-    return this.current_route_name === 'Footprint';
+  get displayCompactSummary() {
+    return (this.current_route_name === 'Footprint' || this.current_route_name === 'Profile');
   }
 
   get shouldShowTotal(){
-    return !(this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction')
+    return !(this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction' || this.current_route_name === 'Profile')
   }
 
   toggleChart(){
@@ -320,6 +324,8 @@ class GraphsComponent extends Panel {
       return graphs.userApiValue('result_grand_total') - graphs.displayTakeactionSavings('result_takeaction_pounds');
     } else if (graphs.current_route_name === 'GetStarted'){
       return graphs.userApiValue('result_grand_total');
+    } else if (graphs.current_route_name === 'Profile') {
+      return graphs.user_footprint['result_grand_total'];
     } else {
       return graphs.category_keys.reduce((sum, category_key)=>{
         return sum + parseFloat(graphs.userApiValue(category_key));
@@ -336,13 +342,9 @@ class GraphsComponent extends Panel {
 
   get display_category_percent(){
     let graphs = this;
-    if (graphs.userApiValue('input_changed') != 1){
-      return 0;
-    } else {
-      return Math.round(Math.abs(
-        100 * graphs.user_category_footprint / graphs.average_category_footprint - 100
-      ));
-    }
+    return Math.round(Math.abs(
+      100 * graphs.user_category_footprint / graphs.average_category_footprint - 100
+    ));
   }
 
   get category_percentage_byline(){
@@ -392,14 +394,18 @@ class GraphsComponent extends Panel {
     }
   }
 
+  get your_footprint_legend(){
+    let graphs = this;
+    return (graphs.current_route_name === 'Profile') ? graphs.t('graphs.this_household') : graphs.t('footprint.your_footprint')
+  }
+
   get display_total_footprint(){
     let graphs = this;
     return Math.round(graphs.userApiValue('result_grand_total'))
   }
 
 }
-
-GraphsComponent.propTypes = footprintPropTypes;
+GraphsComponent.propTypes = graphsPropTypes;
 GraphsComponent.NAME = 'Graphs';
 
 module.exports = footprintContainer(GraphsComponent);
