@@ -8,6 +8,7 @@ import Shopping from './routes/shopping/shopping';
 import TakeAction from './routes/take_action/take_action';
 import Travel from './routes/travel/travel';
 import Settings from './routes/settings/settings';
+import Profile from './routes/profile/profile';
 
 export function defineRoutes(i18n) {
   return includeHelpers([
@@ -46,6 +47,13 @@ export function defineRoutes(i18n) {
     new ForgotPassword({
       path: new RegExp(`^\/?((\\w{2})\/)?(${i18n.t('forgot_password.route_path')})$`),
       parameters: {2: 'locale'}
+    }),
+    new Profile({
+      path: new RegExp(`^\/?((\\w{2})\/)?${i18n.t('profile.route_path')}/(\\d+)$`),
+      parameters: {2: 'locale', 3: 'user_id'},
+      url: function(action, i18n) {
+        return `/${i18n.language}/${i18n.t('profile.route_path')}/${action.payload.user_id}`
+      }
     }),
     new Missing({
       path: /\.*/,

@@ -1,0 +1,16 @@
+<main className="cc-component container container-md" id="profile">
+  <div rt-if="!this.loaded" className="loader"></div>
+  <div rt-if="this.loaded">
+    <header className="cc-component__header">
+      <div class="profile-image">
+        <i class="fa fa-user" aria-hidden="true"></i>
+      </div>
+    </header>
+
+    <div class="profile-container">
+      <h2 class="name">{this.full_name}</h2>
+      <h4><i class="fa fa-home" aria-hidden="true"></i> {this.location}</h4>
+    </div>
+  </div>
+
+</main>

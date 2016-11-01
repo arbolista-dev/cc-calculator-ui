@@ -6,7 +6,7 @@ import extend from 'extend';
 import { updateLocation } from 'shared/reducers/location/location.actions';
 import { defineRoutes } from '../routes';
 
-const NON_MAIN_ROUTES = ['Settings', 'MissingRoute', 'ForgotPassword'];
+const NON_MAIN_ROUTES = ['Profile', 'Settings', 'MissingRoute', 'ForgotPassword'];
 
 const DEFAULT_UPDATE_LOCATION_ACTION = {
   type: updateLocation.getType(),
@@ -80,7 +80,7 @@ export default class Router {
     let router = this;
     window.jQuery("[data-toggle='popover']").popover('hide');
     if(window.parent) {
-      window.parent.postMessage({scrollTop:true},"*");      
+      window.parent.postMessage({scrollTop:true},'*');
       return router.pushRoute(route_name);
     }
     else {

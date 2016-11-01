@@ -42,6 +42,9 @@
         "filtered_empty": "No leaders with this household size have registered so far.",
         "reset": "Reset"
     },
+    "profile": {
+        "route_path": "profile"
+    },
     "settings": {
         "route_path": "settings",
         "title": "Settings",
