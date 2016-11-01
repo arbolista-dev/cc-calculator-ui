@@ -7,7 +7,7 @@ import extend from 'extend';
 import updateLocation from 'shared/reducers/location/location.actions';
 import defineRoutes from '../routes';
 
-const NON_MAIN_ROUTES = ['Settings', 'MissingRoute', 'ForgotPassword'];
+const NON_MAIN_ROUTES = ['Profile', 'Settings', 'MissingRoute', 'ForgotPassword'];
 
 const DEFAULT_UPDATE_LOCATION_ACTION = {
   type: updateLocation.getType(),

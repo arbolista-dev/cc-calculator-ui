@@ -130,6 +130,18 @@ function listLocations() {
   });
 }
 
+function showProfile(user_id){
+  return new Promise((fnResolve, fnReject)=>{
+    superagent.get(BASE + '/profile/' + user_id)
+      .end((err, res)=>{
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
 export { addUser,
   loginUser,
   loginUserFacebook,
@@ -138,4 +150,5 @@ export { addUser,
   forgotPassword,
   setLocation,
   listLeaders,
-  listLocations };
+  listLocations,
+  showProfile };

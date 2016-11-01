@@ -7,11 +7,12 @@ import { install, combineReducers } from 'redux-loop';
 import { fromJS } from 'immutable';
 
 import Router from 'shared/lib/router/router';
-import locationReducers from 'shared/reducers/location/location.reducers';
-import defaultsReducers from 'shared/reducers/average_footprint/average_footprint.reducers';
-import computeFootprintReducers from 'shared/reducers/user_footprint/user_footprint.reducers';
-import authReducers from 'shared/reducers/auth/auth.reducers';
-import uiReducers from 'shared/reducers/ui/ui.reducers';
+import location from 'shared/reducers/location/location.reducers';
+import defaults from 'shared/reducers/average_footprint/average_footprint.reducers';
+import userFootprint from 'shared/reducers/user_footprint/user_footprint.reducers';
+import auth from 'shared/reducers/auth/auth.reducers';
+import ui from 'shared/reducers/ui/ui.reducers';
+import profile from 'shared/reducers/profile/profile.reducers';
 import { getLocalStorageItem } from '../utils/utils';
 
 const DEFAULT_LOCATION = { input_location_mode: 5, input_income: 1, input_size: 0 };
@@ -83,11 +84,12 @@ export default class StateManager {
     const state_manager = this;
 
     const reducer = combineReducers({
-      location: locationReducers,
-      average_footprint: defaultsReducers,
-      user_footprint: computeFootprintReducers,
-      auth: authReducers,
-      ui: uiReducers,
+      location,
+      average_footprint: defaults,
+      user_footprint: userFootprint,
+      auth,
+      ui,
+      profile,
     });
 
     const enhancer = window.__REDUX_DEVTOOLS_EXTENSION__ ?
@@ -124,6 +126,7 @@ export default class StateManager {
         actions: state_manager.actions_storage || { pledged: {}, completed: {}, not_relevant: [] },
       }),
       ui: fromJS(state_manager.ui_storage || state_manager.default_ui_state),
+      profile: fromJS({data: {}}),
     }, opts);
   }
 }

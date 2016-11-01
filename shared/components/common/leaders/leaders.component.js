@@ -5,6 +5,7 @@ import Panel from 'shared/lib/base_classes/panel';
 import { listLeaders, listLocations } from 'api/user.api';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './leaders.rt.html';
+import { retrieveProfile } from 'shared/reducers/profile/profile.actions';
 
 const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5+']];
 
@@ -379,6 +380,10 @@ class LeadersComponent extends Panel {
         leaders.props.pushAlert(alert);
       }
     });
+  }
+
+  goToProfile(user_id){
+    this.pushRoute('Profile', retrieveProfile, {user_id: user_id});
   }
 }
 
