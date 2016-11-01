@@ -1,4 +1,8 @@
+<rt-require dependency="shared/components/common/graphs/graphs.component" as="Graphs"/>
 <main className="cc-component container container-md" id="profile">
+  <div className="cc-component__nav">
+    <a onClick="{this.router.goToRouteByName.bind(this, 'Footprint')}">{this.t('Back')}</a>
+  </div>
   <div rt-if="!this.loaded" className="loader"></div>
   <div rt-if="this.loaded">
     <header className="cc-component__header">
@@ -11,6 +15,7 @@
       <h2 class="name">{this.full_name}</h2>
       <h4><i class="fa fa-home" aria-hidden="true"></i> {this.location}</h4>
     </div>
+    <Graphs user_profile_footprint="{this.profile_footprint}"/>
   </div>
 
 </main>

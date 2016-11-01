@@ -249,7 +249,8 @@
         "total_food_footprint": "Total Food Footprint",
         "better_than_average": "Better than Average",
         "worse_than_average": "Worse than Average",
-        "bar_graph_title": "Household tons CO<sub>2</sub>/year"
+        "bar_graph_title": "Household tons CO<sub>2</sub>/year",
+        "this_household": "This households footprint"
     },
     "summaries": {
         "total_footprint": "Total Footprint",
@@ -4604,6 +4605,7 @@
     "Avg": "Avg",
     "Next": "Next",
     "Previous": "Previous",
+    "Back": "Back",
     "Name": "Name",
     "Location": "Location",
     "County": "County",
