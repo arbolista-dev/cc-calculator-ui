@@ -1,15 +1,10 @@
 <rt-require dependency="shared/components/common/graphs/graphs.component" as="Graphs"/>
 <main className="cc-component container container-md" id="profile">
-  <div className="cc-component__nav">
-    <a onClick="{this.router.goToRouteByName.bind(this, 'Footprint')}">{this.t('Back')}</a>
-  </div>
-  <div rt-if="!this.loaded" className="loader"></div>
+  <div rt-if="!this.loaded && !this.error" className="loader"></div>
   <div rt-if="this.loaded">
-    <header className="cc-component__header">
-      <div class="profile-image">
-        <i class="fa fa-user" aria-hidden="true"></i>
-      </div>
-    </header>
+    <div className="cc-component__nav">
+      <a onClick="{this.viewRanking.bind(this)}">{this.t('profile.view_ranking')}</a>
+    </div>
 
     <div class="profile-container">
       <h2 class="name">{this.full_name}</h2>

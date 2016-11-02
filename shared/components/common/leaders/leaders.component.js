@@ -382,9 +382,6 @@ class LeadersComponent extends Panel {
     });
   }
 
-  goToProfile(user_id){
-    this.pushRoute('Profile', retrieveProfile, {user_id: user_id});
-  }
 }
 
 LeadersComponent.propTypes = footprintPropTypes;

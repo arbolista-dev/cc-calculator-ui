@@ -1,9 +1,10 @@
 import { fromJS } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
-import { retrieveProfile, profileRetrieved, apiError } from './profile.actions';
 
 import { showProfile } from 'api/user.api';
+import { retrieveProfile, profileRetrieved, apiError } from './profile.actions';
+import { pushAlert } from '../ui/ui.actions';
 
 /*
   profile: {
@@ -16,16 +17,14 @@ import { showProfile } from 'api/user.api';
 const ACTIONS = {
 
   [retrieveProfile]: (current_profile, payload)=>{
-    // if (!current_profile || (current_profile.hasIn(['data', 'user_id']) && current_profile.getIn(['data', 'user_id']) !== payload.user_id)){
-      return loop(
-        fromJS({loading: true}),
-        Effects.promise(()=>{
-          return showProfile(payload.user_id)
-            .then(profileRetrieved)
-            .catch(apiError)
-        })
-      )
-    // }
+    return loop(
+      fromJS({loading: true}),
+      Effects.promise(()=>{
+        return showProfile(payload.user_id)
+          .then(profileRetrieved)
+          .catch(apiError)
+      })
+    )
   },
 
   [profileRetrieved]: (state, api_data)=>{
@@ -34,13 +33,25 @@ const ACTIONS = {
                       .set('loading', false);
       return fromJS(data);
     } else {
-      return Effects.constant(apiError)
-    }
+      let err = JSON.parse(api_data.error),
+          alert = {
+            id: 'shared',
+            data: [{
+              needs_i18n: true,
+              type: 'danger',
+              message: 'errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]
+            }]
+          };
 
+      return loop(
+        fromJS({load_error: true, loading: false}),
+        Effects.constant(pushAlert(alert))
+      )
+    }
   },
 
   [apiError]: (_state, _res)=>{
-    return fromJS({load_error: true});
+    return fromJS({load_error: true, loading: false});
   }
 
 };

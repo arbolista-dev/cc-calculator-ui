@@ -9,6 +9,21 @@
 
     <div className="panel panel-coolclimate">
       <div className="panel-heading">
+        {this.t('settings.profile_title')}
+      </div>
+      <div className="panel-body">
+        <div style="text-align:center;">
+          <button type="button"
+            className="btn btn-default"
+            onClick="{this.viewProfile.bind(this)}">
+            {this.t('settings.view_profile')}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div className="panel panel-coolclimate">
+      <div className="panel-heading">
         {this.t('settings.restore_defaults')}
       </div>
       <div className="panel-body">
