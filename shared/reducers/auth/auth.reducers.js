@@ -16,7 +16,8 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
       data: {
         token: undefined,
         name: undefined,
-        answers: undefined
+        answers: undefined,
+        user_id: undefined
       },
       loading: false,
       load_error: false,
@@ -65,7 +66,8 @@ const ACTIONS = {
     if (api_response.success) {
       let auth = {
             token: api_response.data.token,
-            name: api_response.data.name
+            name: api_response.data.name,
+            user_id: api_response.data.user_id
           },
           remote_answers = JSON.parse(api_response.data.answers);
 
@@ -73,6 +75,7 @@ const ACTIONS = {
 
       let updated = state.setIn(['data', 'token'], auth.token)
                          .setIn(['data', 'name'], auth.name)
+                         .setIn(['data', 'user_id'], auth.user_id)
                          .set('loading', false)
                          .set('received', true)
                          .set('success', true);
@@ -132,13 +135,15 @@ const ACTIONS = {
     if (api_response.success) {
       let auth = {
         token: api_response.data.token,
-        name: api_response.data.name
+        name: api_response.data.name,
+        user_id: api_response.data.user_id
       };
 
       setLocalStorageItem('auth', auth);
 
       updated = state.setIn(['data', 'token'], auth.token)
                      .setIn(['data', 'name'], auth.name)
+                     .setIn(['data', 'user_id'], auth.user_id)
                      .set('loading', false)
                      .set('received', true)
                      .set('success', true);
@@ -204,6 +209,7 @@ const ACTIONS = {
 
       let updated = state.deleteIn(['data', 'token'])
                          .deleteIn(['data', 'name'])
+                         .deleteIn(['data', 'user_id'])
                          .set('loading', false)
                          .delete('received')
                          .delete('success');

@@ -34,6 +34,7 @@
         "title": "Leaders",
         "location_filter": "See nearby leaders: ",
         "household_filter": "with household size: ",
+        "ranking": "Ranking",
         "household_size": "Household size",
         "us_state": "U.S. State",
         "total_footprint": "Total Footprint",
@@ -43,11 +44,14 @@
         "reset": "Reset"
     },
     "profile": {
-        "route_path": "profile"
+        "route_path": "profile",
+        "view_ranking": "View ranking"
     },
     "settings": {
         "route_path": "settings",
         "title": "Settings",
+        "profile_title": "Your profile",
+        "view_profile": "View",
         "restore_defaults": "Restore Defaults",
         "explain_browser_storage": "When you change your answers in the calculator, for convenience they will be saved in your browser's storage. They are not stored on a server anywhere so your data remains private and only accessible by you on this browser. To erase your answers from browser storage and re-initialize default values, click the button below."
     },
@@ -4601,7 +4605,6 @@
     "Avg": "Avg",
     "Next": "Next",
     "Previous": "Previous",
-    "Back": "Back",
     "Name": "Name",
     "Location": "Location",
     "County": "County",
@@ -4637,6 +4640,9 @@
         },
         "facebook":{
             "token-invalid":"The Facebook token is invalid"
+        },
+        "profile": {
+            "non-existent": "The user profile you're trying to access does not exist."
         },
         "unspecified": "not specified. Please fill out all fields.",
         "invalid": "is not valid. Please re-type it."

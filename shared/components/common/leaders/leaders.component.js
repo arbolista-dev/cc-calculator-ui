@@ -6,7 +6,6 @@ import template from './leaders.rt.html';
 import { listLeaders, listLocations } from 'api/user.api';
 import footprintContainer from 'shared/containers/footprint.container';
 import { footprintPropTypes } from 'shared/containers/footprint.container';
-import { retrieveProfile } from 'shared/reducers/profile/profile.actions';
 
 const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5+']];
 
@@ -382,9 +381,6 @@ class LeadersComponent extends Panel {
     });
   }
 
-  goToProfile(user_id){
-    this.pushRoute('Profile', retrieveProfile, {user_id: user_id});
-  }
 }
 
 LeadersComponent.propTypes = footprintPropTypes;

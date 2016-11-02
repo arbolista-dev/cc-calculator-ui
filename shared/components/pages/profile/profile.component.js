@@ -18,16 +18,24 @@ class ProfileComponent extends Panel {
     this.props.retrieveProfile({user_id: this.user_id})
   }
 
+  render(){
+    return template.call(this);
+  }
+
   get user_id(){
     return parseInt(this.props.location.getIn(['params', 'user_id']))
   }
 
   get loaded(){
-    return this.props.profile.hasIn(['data', 'user_id']) && !this.props.profile.get('loading');
+    return !this.props.profile.get('loading') && !this.error;
+  }
+
+  get error(){
+    return this.props.profile.get('load_error');
   }
 
   get user_profile(){
-    return this.props.profile.get('data')
+    return this.props.profile.get('data');
   }
 
   get full_name(){
@@ -48,11 +56,17 @@ class ProfileComponent extends Panel {
     } else {
       return {};
     }
-
   }
 
-  render(){
-    return template.call(this);
+  viewRanking(){
+    let profile = this,
+        ui = {
+          id: 'show_leaders_chart',
+          data: true
+        };
+
+    profile.props.updateUI(ui);
+    profile.router.goToRouteByName('Footprint');
   }
 }
 

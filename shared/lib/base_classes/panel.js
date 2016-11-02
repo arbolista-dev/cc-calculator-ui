@@ -5,6 +5,7 @@ import Translatable from './translatable';
 import {footprintable} from '../mixins/footprintable';
 import {resizable} from '../mixins/resizable';
 import { tokenIsValid } from '../utils/utils'
+import { retrieveProfile } from 'shared/reducers/profile/profile.actions';
 
 const MAX_SLIDER_WIDTH = 600,
     MIN_SLIDER_WIDTH = 250;
@@ -51,6 +52,10 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
 
     component.props.updateUI(ui);
     window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
+  }
+
+  goToProfile(user_id){
+    this.pushRoute('Profile', retrieveProfile, {user_id: user_id});
   }
 
   setUserAnswersToDefault(show_alert){
