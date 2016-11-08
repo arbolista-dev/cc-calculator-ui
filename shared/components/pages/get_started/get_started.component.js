@@ -36,10 +36,10 @@ class GetStartedComponent extends Panel {
 
   componentDidUpdate(){
     let component = this;
-    if (component.input_income != component.income_slider.current_value){
+    if (component.input_income != component.income_slider.current_value && !component.props.average_footprint.get('loading')){
       component.income_slider.setValue(component.input_income);
     }
-    if (component.input_size != component.size_slider.current_value){
+    if (component.input_size != component.size_slider.current_value  && !component.props.average_footprint.get('loading')){
       component.size_slider.setValue(component.input_size);
     }
   }
