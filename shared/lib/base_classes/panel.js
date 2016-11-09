@@ -45,10 +45,8 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
   toggleLeadersChart() {
     let component = this,
         ui = {
-          id: 'leaders_chart',
-          data: {
-            show: true
-          }
+          id: 'show_leaders_chart',
+          data: true
         };
 
     component.props.updateUI(ui);

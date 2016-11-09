@@ -7,6 +7,8 @@ import { listLeaders, listLocations } from 'api/user.api';
 import footprintContainer from 'shared/containers/footprint.container';
 import { footprintPropTypes } from 'shared/containers/footprint.container';
 
+const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5+']];
+
 class LeadersComponent extends Panel {
 
   constructor(props, context){
@@ -25,75 +27,30 @@ class LeadersComponent extends Panel {
         city: '',
         state: ''
       },
+      selected_household: 0,
       locations: [],
-      show_locations_list: false
+      show_locations_list: false,
+      show_household_list: false
     }
   }
 
   componentDidMount() {
     let leaders = this;
 
-    if (leaders.props.ui.getIn(['leaders_chart', 'show'])) {
+    if (leaders.props.ui.get('show_leaders_chart')) {
       leaders.retrieveLocations();
       leaders.retrieveAndShow();
-    }
-
-    let ui = {
-      id: 'leaders_chart',
-      data: {
-        category: leaders.current_route_name
-      }
-    };
-
-    leaders.props.updateUI(ui);
-  }
-
-  componentDidUpdate() {
-    let leaders = this;
-
-    if (leaders.props.ui.getIn(['leaders_chart', 'category']) != leaders.current_route_name) {
-      let ui = {
-        id: 'leaders_chart',
-        data: {
-          category: leaders.current_route_name,
-          show: false
-        }
-      };
-      leaders.props.updateUI(ui);
-      $(window).off('scroll', leaders.detectScroll());
     }
   }
 
   componentWillUnmount(){
     $(window).off('scroll', this.detectScroll());
     $(document).off('click.hideLocations');
+    $(document).off('click.hideHouseholdList');
   }
 
   render(){
     return template.call(this);
-  }
-
-  get category_identifier() {
-    let leaders = this,
-        id;
-    switch (leaders.current_route_name){
-    case 'Travel':
-      id = 'result_transport_total';
-      break;
-    case 'Home':
-      id = 'result_housing_total';
-      break;
-    case 'Food':
-      id = 'result_food_total';
-      break;
-    case 'Shopping':
-      id = 'result_shopping_total';
-      break;
-    default:
-      id = 'result_grand_total';
-      break;
-    }
-    return id;
   }
 
   get selected_location() {
@@ -118,29 +75,6 @@ class LeadersComponent extends Panel {
     return this.state.is_loading;
   }
 
-  get footprint_title(){
-    let leaders = this,
-        title;
-    switch (leaders.current_route_name){
-    case 'Travel':
-      title = leaders.t('leaders.travel_footprint');
-      break;
-    case 'Home':
-      title = leaders.t('leaders.home_footprint');
-      break;
-    case 'Food':
-      title = leaders.t('leaders.food_footprint');
-      break;
-    case 'Shopping':
-      title = leaders.t('leaders.shopping_footprint');
-      break;
-    default:
-      title = leaders.t('leaders.total_footprint');
-      break;
-    }
-    return title;
-  }
-
   get total_count_reached(){
     if (this.state.offset === 0 && this.state.offset === 20) {
       return this.state.limit >= this.state.total_count
@@ -153,8 +87,16 @@ class LeadersComponent extends Panel {
     return this.state.show_locations_list;
   }
 
+  get show_household_list() {
+    return this.state.show_household_list;
+  }
+
   get alert_list() {
     return this.props.ui.getIn(['alerts', 'leaders']).toJS()
+  }
+
+  get household_sizes(){
+    return HOUSEHOLD_SIZES;
   }
 
   get filtered_locations(){
@@ -170,6 +112,7 @@ class LeadersComponent extends Panel {
 
   retrieveAndShow(){
     let leaders = this;
+    leaders.props.resetAlerts();
     leaders.retrieveLeaders().then(() => {
       leaders.showRetrievedLeaders();
       if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
@@ -186,6 +129,9 @@ class LeadersComponent extends Panel {
             message: leaders.t('leaders.empty')
           }]
         };
+
+        if (leaders.state.selected_household) alert.data[0].message = leaders.t('leaders.filtered_empty');
+
         leaders.props.pushAlert(alert);
       }
     });
@@ -226,10 +172,9 @@ class LeadersComponent extends Panel {
   }
 
   retrieveLeaders() {
-    let leaders = this,
-        category = leaders.props.ui.getIn(['leaders_chart', 'category']);
+    let leaders = this;
     return new Promise((resolve, reject) => {
-      listLeaders(leaders.state.limit, leaders.state.offset, category, leaders.state.selected_location.city, leaders.state.selected_location.state).then((res) => {
+      listLeaders(leaders.state.limit, leaders.state.offset, leaders.state.selected_location.state, leaders.state.selected_household).then((res) => {
         if (res.success) {
           if (res.data.list != null) {
             leaders.setState({
@@ -265,6 +210,21 @@ class LeadersComponent extends Panel {
     window.jQuery('html, body').animate({ scrollTop:0 }, 1000);
   }
 
+  showHouseholdList() {
+    let leaders = this;
+    leaders.setState({
+      show_household_list: true
+    });
+
+    $(document).on('click.hideHouseholdList', (event)=>{
+      if (!$(event.target).closest('#leaders_household_list').length) {
+        leaders.setState({
+          show_household_list: false
+        })
+      }
+    });
+  }
+
   showLocationsList() {
     let leaders = this;
     leaders.setState({
@@ -278,6 +238,30 @@ class LeadersComponent extends Panel {
         })
       }
     });
+  }
+
+  resetHousehold(){
+    let leaders = this;
+
+    leaders.setState({
+      selected_household: undefined,
+      show_household_list: false,
+      list: [],
+      limit: 20,
+      offset: 0,
+      total_count: 0,
+      trigger_update: true,
+      is_loading: true,
+      all_loaded: false
+    })
+
+    if (leaders.$household_unfilter) {
+      clearTimeout(leaders.$household_unfilter);
+    }
+
+    leaders.$household_unfilter = setTimeout(()=>{
+      leaders.retrieveAndShow();
+    }, 100);
   }
 
   resetLocation(){
@@ -305,7 +289,7 @@ class LeadersComponent extends Panel {
     }, 100);
   }
 
-  setLocation(event){
+  setLocationFilter(event){
     let leaders = this,
         city = event.target.dataset.city,
         state = event.target.dataset.state,
@@ -328,6 +312,31 @@ class LeadersComponent extends Panel {
     }
 
     leaders.$location_filter = setTimeout(()=>{
+      leaders.retrieveAndShow();
+    }, 100);
+  }
+
+  setHouseholdFilter(event){
+    let leaders = this,
+        size = event.target.dataset.size;
+
+    leaders.setState({
+      selected_household: size,
+      show_household_list: false,
+      list: [],
+      limit: 20,
+      offset: 0,
+      total_count: 0,
+      trigger_update: true,
+      is_loading: true,
+      all_loaded: false
+    });
+
+    if (leaders.$household_filter) {
+      clearTimeout(leaders.$household_filter);
+    }
+
+    leaders.$household_filter = setTimeout(()=>{
       leaders.retrieveAndShow();
     }, 100);
   }

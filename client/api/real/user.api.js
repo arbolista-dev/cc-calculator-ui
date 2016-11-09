@@ -105,10 +105,10 @@ function setLocation(input, jwt){
   });
 }
 
-function listLeaders(limit, offset, category, city, state){
+function listLeaders(limit, offset, state, household_size){
   return new Promise((fnResolve, fnReject)=>{
     superagent.get(BASE + '/user/leaders')
-      .query({ limit: limit, offset: offset, category: category, city: city, state: state })
+      .query({ limit: limit, offset: offset, state: state, household_size: household_size })
       .end((err, res)=>{
         if (err) fnReject(err);
         else {

@@ -32,15 +32,14 @@
     "leaders": {
         "route_path": "leaders",
         "title": "Leaders",
-        "location_prompt": "Choose your location to see nearby leaders: ",
+        "location_filter": "See nearby leaders: ",
+        "household_filter": "with household size: ",
+        "household_size": "Household size",
         "us_state": "U.S. State",
         "total_footprint": "Total Footprint",
-        "travel_footprint": "Travel Footprint",
-        "shopping_footprint": "Shopping Footprint",
-        "food_footprint": "Food Footprint",
-        "home_footprint": "Home Footprint",
         "retrieval_error": "Leaders can't be retrieved right now. Please retry later.",
         "empty": "No leaders have registered so far.",
+        "filtered_empty": "No leaders with this household size have registered so far.",
         "reset": "Reset"
     },
     "settings": {
