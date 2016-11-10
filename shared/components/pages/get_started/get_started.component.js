@@ -249,6 +249,7 @@ class GetStartedComponent extends Panel {
         0: get_started.t('get_started.average_household_size'),
         1: '1', 2: '2', 3: '3', 4: '4', 5: '5+'
       },
+      axis_click_handle: true,
       onSnap: (selected_size)=>{
         if (selected_size != get_started.input_size){
           get_started.updateDefaults({input_size: selected_size});
@@ -305,6 +306,7 @@ class GetStartedComponent extends Panel {
       outer_width: get_started.slider_width,
       tick_labels: get_started.income_tick_labels,
       handle_r: 14,
+      axis_click_handle: true,
       onSnap: (selected_income)=>{
         if (selected_income != get_started.input_income){
           get_started.updateDefaults({input_income: selected_income});

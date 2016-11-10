@@ -164,6 +164,7 @@ class ShoppingComponent extends Panel {
         4: '4x',
         5: '5x'
       },
+      axis_click_handle: true,
       onChange: (multiplier)=>{
         let update_params = SERVICES_QUESTIONS.reduce((hash, service_type)=>{
               let api_key = shopping.apiKey(service_type),
@@ -208,6 +209,7 @@ class ShoppingComponent extends Panel {
         4: '4x',
         5: '5x'
       },
+      axis_click_handle: true,
       onChange: (multiplier)=>{
         let goods_state = {},
             update_params = GOODS_QUESTIONS.reduce((hash, goods_type)=>{

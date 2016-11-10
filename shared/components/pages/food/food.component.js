@@ -125,6 +125,7 @@ class FoodComponent extends Panel {
         4: '4x',
         5: '5x'
       },
+      axis_click_handle: true,
       onChange: (multiplier)=>{
         if (food_type === 'meatfisheggs'){
           food.distributeAverageMeatCalories(multiplier);

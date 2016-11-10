@@ -48,7 +48,7 @@
     "c3": "0.4.x",
     "css-loader": "^0.23.1",
     "d3": "^3.5.15",
-    "d3-object-charts": "1.2.6",
+    "d3-object-charts": "1.2.7",
     "ejs": "2.4.x",
     "express": "4.13.x",
     "extend": "^3.0.0",
