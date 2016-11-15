@@ -1,18 +1,17 @@
 {
-  "plugins": [
-    "react"
-  ],
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
-  "rules": {
-    "quotes": ["error", "single", "avoid-escape"],
-    "strict": ["error", "safe"],
-    "indent": ["error", 2, {"VariableDeclarator": 2}],
-    "no-console": ["error", {"allow": ["info", "warn", "error"]}],
-    "no-unused-vars": [1, {"ignore": ["React"]}]
+  "extends": "airbnb",
+  "settings":{
+    "import/resolver":{
+      "node":{
+        "moduleDirectory":[
+          "node_modules",
+          "src"
+        ]
+      }
+    }
   },
-  "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module"
-  },
-  "parser": "babel-eslint"
+  "rules":{
+    "react/forbid-prop-types": 0,
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.js", "**/*.spec.js"], "peerDependencies": ["shared"]}]
+  }
 }
