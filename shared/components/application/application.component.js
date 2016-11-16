@@ -1,41 +1,39 @@
-/*global module */
+/* global module */
+/* eslint react/no-unused-prop-types: 1 */
 
 import React from 'react';
-import LayoutComponent from '../layout/layout.component';
 import { Provider } from 'react-redux';
 import StateManager from 'shared/lib/state_manager/state_manager';
 import Router from 'shared/lib/router/router';
+import LayoutComponent from '../layout/layout.component';
 
 class ApplicationComponent extends React.Component {
-
-  constructor(props, context) {
-    super(props, context);
-  }
-
-  get router(){
-    return this.props.router;
-  }
-
-  get state_manager(){
-    return this.props.state_manager;
-  }
 
   getChildContext() {
     return {
       state_manager: this.state_manager,
       router: this.router,
-      i18n: this.props.i18n
+      i18n: this.props.i18n,
     };
   }
 
+
   componentDidMount() {
-    let component = this;
+    const component = this;
     component.initializeHistory();
   }
 
+  get router() {
+    return this.props.router;
+  }
+
+  get state_manager() {
+    return this.props.state_manager;
+  }
+
   initializeHistory() {
-    let component = this,
-        createHistory = component.props.createHistory;
+    const component = this;
+    const createHistory = component.props.createHistory;
 
     component.router.initializeHistory(createHistory, component.state_manager.store);
   }
@@ -43,9 +41,9 @@ class ApplicationComponent extends React.Component {
   render() {
     return React.createElement(Provider,
       {
-        store: this.state_manager.store
+        store: this.state_manager.store,
       },
-      React.createElement(LayoutComponent)
+      React.createElement(LayoutComponent),
     );
   }
 
@@ -56,14 +54,14 @@ ApplicationComponent.propTypes = {
   router: React.PropTypes.instanceOf(Router).isRequired,
   i18n: React.PropTypes.object.isRequired,
   // only required in browser
-  createHistory: React.PropTypes.func
+  createHistory: React.PropTypes.func,
 };
 
 ApplicationComponent.childContextTypes = {
   state_manager: React.PropTypes.instanceOf(StateManager).isRequired,
   router: React.PropTypes.instanceOf(Router).isRequired,
-  i18n: React.PropTypes.object.isRequired
-}
+  i18n: React.PropTypes.object.isRequired,
+};
 
 
 ApplicationComponent.NAME = 'Application';

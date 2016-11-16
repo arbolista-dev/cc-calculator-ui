@@ -1,26 +1,27 @@
-/*global module*/
+/* global module APP_ID*/
+/* eslint react/jsx-filename-extension: 1 */
+
 
 import React from 'react';
-import Panel from 'shared/lib/base_classes/panel';
-import template from './login.rt.html';
-import { validateParameter } from 'shared/lib/utils/utils';
-import authContainer from 'shared/containers/auth.container';
-import { authPropTypes } from 'shared/containers/auth.container';
 import FacebookLogin from 'react-facebook-login';
+import Panel from 'shared/lib/base_classes/panel';
+import { validateParameter } from 'shared/lib/utils/utils';
+import authContainer, { authPropTypes } from 'shared/containers/auth.container';
+import template from './login.rt.html';
 
-const appId =APP_ID;
+const appId = APP_ID;
 class LoginComponent extends Panel {
 
   constructor(props, context) {
     super(props, context);
-    let login = this;
+    const login = this;
     login.valid = {
       email: false,
-      password: false
+      password: false,
     };
     login.state = {
       email: '',
-      password: ''
+      password: '',
     };
   }
 
@@ -28,51 +29,49 @@ class LoginComponent extends Panel {
     return template.call(this);
   }
   facebookLogin() {
-    let login = this;
+    const login = this;
     return (
       <FacebookLogin
-                appId={appId}
-                autoLoad={false}
-                fields="name,email,picture"
-                cssClass="cc-component__login-facebook"
-                callback={this.responseFacebook.bind(this)}
-                textButton={login.t('login.facebook')}
-                icon="fa-facebook" />
-              )
+        appId={appId}
+        autoLoad={false}
+        fields="name,email,picture"
+        cssClass="cc-component__login-facebook"
+        callback={this.responseFacebook}
+        textButton={login.t('login.facebook')}
+        icon="fa-facebook"
+      />
+    );
   }
 
   get alert_list() {
     return this.props.ui.getIn(['alerts', 'login']).toJS();
   }
 
-  paramValid(param){
-    let login = this;
+  paramValid(param) {
+    const login = this;
 
-    if(login.state[param].length > 0) {
-      return login.valid[param];
-    } else {
-      return true;
-    }
+    if (login.state[param].length > 0) return login.valid[param];
+    return true;
   }
 
-  validateAll(){
-    let login = this,
-        all_valid = Object.values(login.valid).filter(item => item === false);
-    if (all_valid.length>0) {
-      let alerts = {
+  validateAll() {
+    const login = this;
+    const all_valid = Object.values(login.valid).filter(item => item === false);
+    if (all_valid.length > 0) {
+      const alerts = {
         id: 'login',
-        data: []
+        data: [],
       };
-      for (let key in login.valid) {
+      Object.keys(login.valid).forEach((key) => {
         if (login.valid[key] === false) {
-          let item = {
+          const item = {
             type: 'danger',
-            message: login.t('login.' + key) + ' ' + login.t('errors.invalid')
+            message: `${login.t(`login.${key}`)} ${login.t('errors.invalid')}`,
           };
-          alerts.data.push(item)
+          alerts.data.push(item);
         }
-      }
-      login.props.pushAlert(alerts)
+      });
+      login.props.pushAlert(alerts);
       return false;
     }
     return true;
@@ -81,11 +80,11 @@ class LoginComponent extends Panel {
   updateInput(event) {
     event.preventDefault();
 
-    let login = this,
-        api_key = event.target.dataset.api_key,
-        update = {
-          [api_key]: event.target.value
-        };
+    const login = this;
+    const api_key = event.target.dataset.api_key;
+    const update = {
+      [api_key]: event.target.value,
+    };
 
     login.valid[api_key] = validateParameter(update);
     login.setState(update);
@@ -97,13 +96,13 @@ class LoginComponent extends Panel {
   }
 
   responseFacebook(response) {
-    if(response.status=="unknown") { 
+    if (response.status === 'unknown') {
       return;
     }
-    let login = {
-      facebookID:response.userID,
-      facebookToken:response.accessToken
-    }
+    const login = {
+      facebookID: response.userID,
+      facebookToken: response.accessToken,
+    };
     this.props.loginFacebook(login);
   }
 }

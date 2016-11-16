@@ -1,14 +1,14 @@
-/*global*/
+/* global*/
 
 import RouteBase from './../route.base';
 
 class Footprint extends RouteBase {
 
-  get key(){
+  get key() {
     return 'footprint';
   }
 
-  get route_name(){
+  get route_name() {
     return 'Footprint';
   }
 

@@ -1,33 +1,23 @@
-/*global module*/
+/* global module*/
 
 import React from 'react';
 import Panel from 'shared/lib/base_classes/panel';
-import template from './sign_up.rt.html';
 import CalculatorApi from 'api/calculator.api';
 import { validateParameter } from 'shared/lib/utils/utils';
-import authContainer from 'shared/containers/auth.container';
-import { authPropTypes } from 'shared/containers/auth.container';
-
-const INPUT_STATE = [
-  'first_name',
-  'last_name',
-  'email',
-  'password',
-  'answers',
-  'location',
-  'public'];
+import authContainer, { authPropTypes } from 'shared/containers/auth.container';
+import template from './sign_up.rt.html';
 
 class SignUpComponent extends Panel {
 
   constructor(props, context) {
     super(props, context);
-    let sign_up = this;
+    const sign_up = this;
     sign_up.valid = {
       first_name: false,
       last_name: false,
       email: false,
       password: false,
-      input_location: false
+      input_location: false,
     };
     sign_up.state = {
       locations: {},
@@ -40,7 +30,7 @@ class SignUpComponent extends Panel {
       answers: '',
       city: '',
       location: {},
-      public: true
+      public: true,
     };
   }
 
@@ -49,45 +39,44 @@ class SignUpComponent extends Panel {
   }
 
   get alert_list() {
-    return  this.props.ui.getIn(['alerts', 'sign_up']).toJS();
+    return this.props.ui.getIn(['alerts', 'sign_up']).toJS();
   }
 
-  get show_location_suggestions(){
+  get show_location_suggestions() {
     return this.state.show_location_suggestions;
   }
 
-  get input_location_display(){
+  get input_location_display() {
     return this.state.input_location;
   }
 
-  paramValid(param){
-    let sign_up = this;
+  paramValid(param) {
+    const sign_up = this;
 
-    if(sign_up.state[param].length > 0) {
+    if (sign_up.state[param].length > 0) {
       return sign_up.valid[param];
-    } else {
-      return true;
     }
+    return true;
   }
 
-  validateAll(){
-    let sign_up = this,
-        all_valid = Object.values(sign_up.valid).filter(item => item === false);
-    if (all_valid.length>0) {
-      let alerts = {
+  validateAll() {
+    const sign_up = this;
+    const all_valid = Object.values(sign_up.valid).filter(item => item === false);
+    if (all_valid.length > 0) {
+      const alerts = {
         id: 'sign_up',
-        data: []
+        data: [],
       };
-      for (let key in sign_up.valid) {
+      Object.keys(sign_up.valid).forEach((key) => {
         if (sign_up.valid[key] === false) {
-          let item = {
+          const item = {
             type: 'danger',
-            message: sign_up.t('sign_up.' + key) + ' ' + sign_up.t('errors.invalid')
+            message: `${sign_up.t(`sign_up.${key}`)} ${sign_up.t('errors.invalid')}`,
           };
-          alerts.data.push(item)
+          alerts.data.push(item);
         }
-      }
-      sign_up.props.pushAlert(alerts)
+      });
+      sign_up.props.pushAlert(alerts);
       return false;
     }
     return true;
@@ -96,11 +85,11 @@ class SignUpComponent extends Panel {
   updateInput(event) {
     event.preventDefault();
 
-    let sign_up = this,
-        api_key = event.target.dataset.api_key,
-        update = {
-          [api_key]: event.target.value
-        };
+    const sign_up = this;
+    const api_key = event.target.dataset.api_key;
+    const update = {
+      [api_key]: event.target.value,
+    };
 
     sign_up.valid[api_key] = validateParameter(update);
     sign_up.setState(update);
@@ -108,15 +97,15 @@ class SignUpComponent extends Panel {
 
   updateCheckbox() {
     this.setState({
-      public: !this.state.public
-    })
+      public: !this.state.public,
+    });
   }
 
   submitSignup(event) {
-    let sign_up = this;
+    const sign_up = this;
     event.preventDefault();
     if (sign_up.validateAll()) {
-      let state_input = {
+      const state_input = {
         first_name: sign_up.state.first_name,
         last_name: sign_up.state.last_name,
         email: sign_up.state.email,
@@ -126,67 +115,67 @@ class SignUpComponent extends Panel {
         county: sign_up.state.location.county,
         state: sign_up.state.location.state,
         country: 'us',
-        public: sign_up.state.public
-      }
+        public: sign_up.state.public,
+      };
       sign_up.props.signup(state_input);
     }
   }
 
   // called when location suggestion is clicked.
-  setLocation(event){
-    let sign_up = this,
-        zipcode = event.target.dataset.zipcode,
-        suggestion = event.target.dataset.suggestion;
+  setLocation(event) {
+    const sign_up = this;
+    const zipcode = event.target.dataset.zipcode;
+    const suggestion = event.target.dataset.suggestion;
 
-    let index = sign_up.state.locations.data.findIndex(l => l === zipcode),
-        location_data = sign_up.state.locations.selected_location[index];
+    const index = sign_up.state.locations.data.findIndex(l => l === zipcode);
+    const location_data = sign_up.state.locations.selected_location[index];
 
     sign_up.setState({
       show_location_suggestions: false,
       input_location: suggestion,
-      location: location_data
+      location: location_data,
     });
 
     sign_up.valid.input_location = true;
   }
 
-  setLocationSuggestions(event){
-    let sign_up = this,
-        new_location = {
-          input_location_mode: 2,
-          input_location: event.target.value
-        };
+  setLocationSuggestions(event) {
+    const sign_up = this;
+    const new_location = {
+      input_location_mode: 2,
+      input_location: event.target.value,
+    };
 
     sign_up.setState({
       input_location: event.target.value,
-      show_location_suggestions: true
+      show_location_suggestions: true,
     });
 
-    if (sign_up.$set_location_suggestions){
+    if (sign_up.$set_location_suggestions) {
       clearTimeout(sign_up.$set_location_suggestions);
     }
 
     // debounce location suggestions by 500ms.
-    sign_up.$set_location_suggestions = setTimeout(()=>{
+    sign_up.$set_location_suggestions = setTimeout(() => {
       CalculatorApi.getAutoComplete(new_location)
-        .then((locations)=>{
+        .then((locations) => {
           sign_up.setState({
-            locations: locations,
-            show_location_suggestions: true
+            locations,
+            show_location_suggestions: true,
           });
         });
     }, 500);
   }
 
-  showLocationSuggestions(){
+  showLocationSuggestions() {
     this.setState({
-      show_location_suggestions: true
+      show_location_suggestions: true,
     });
   }
 
-  hideLocationSuggestions(){
+  hideLocationSuggestions() {
     this.setState({
-      show_location_suggestions: false
+      show_location_suggestions: false,
     });
   }
 }
