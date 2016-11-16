@@ -1,25 +1,25 @@
-/*global module require*/
+/* global module require*/
 
-var webpack_config = require('./client/config/webpack/test');
+const webpack_config = require('./client/config/webpack/test');
 
 module.exports = function (config) {
   config.set({
     browsers: ['PhantomJS'],
     files: [
-      'test.client.js'
+      'test.client.js',
     ],
     basePath: './',
     frameworks: [
-      'jasmine'
+      'jasmine',
     ],
     preprocessors: {
-      'test.client.js': ['webpack', 'sourcemap']
+      'test.client.js': ['webpack', 'sourcemap'],
     },
-    reporters: ['dots','progress'],
+    reporters: ['dots', 'progress'],
     webpack: webpack_config,
     webpackMiddleware: {
       // info is too chatty - it obscures test information
-      noInfo: true
-    }
+      noInfo: true,
+    },
   });
 };

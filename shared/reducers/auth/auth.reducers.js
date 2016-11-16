@@ -1,17 +1,17 @@
-/*global localStorage*/
+/* global localStorage*/
 
 import { fromJS } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import { addUser, loginUser, loginUserFacebook, logoutUser, forgotPassword } from 'api/user.api';
+import { setLocalStorageItem } from 'shared/lib/utils/utils';
 import { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut, requestNewPassword, newPasswordRequested, authError } from './auth.actions';
 import { updatedFootprintComputed } from '../user_footprint/user_footprint.actions';
 import { averageFootprintResetRequested } from '../average_footprint/average_footprint.actions';
 import { pushAlert } from '../ui/ui.actions';
-import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
-/*{
+/* {
     auth: {
       data: {
         token: undefined,
@@ -27,63 +27,50 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 const ACTIONS = {
 
-  [signup]: (state, params)=>{
-    return loop(
+  [signup]: (state, params) => loop(
       state.set('loading', true),
-      Effects.promise(()=>{
-        return addUser(params)
+      Effects.promise(() => addUser(params)
           .then(signedUp)
-          .catch(authError)
-      })
-    )
+          .catch(authError)),
+    ),
 
-  },
-
-  [login]: (state, params)=>{
-    return loop(
+  [login]: (state, params) => loop(
       state.set('loading', true),
-      Effects.promise(()=>{
-        return loginUser(params)
+      Effects.promise(() => loginUser(params)
           .then(loggedIn)
-          .catch(authError)
-      })
-    )
-  },
+          .catch(authError)),
+    ),
 
-  [loginFacebook]: (state, params)=>{
-    return loop(
+  [loginFacebook]: (state, params) => loop(
       state.set('loading', true),
-      Effects.promise(()=>{
-        return loginUserFacebook(params)
+      Effects.promise(() => loginUserFacebook(params)
           .then(loggedIn)
-          .catch(authError)
-      })
-    )
-  },
+          .catch(authError)),
+    ),
 
-  [loggedIn]: (state, api_response)=>{
+  [loggedIn]: (state, api_response) => {
     if (api_response.success) {
-      let auth = {
-            token: api_response.data.token,
-            name: api_response.data.name
-          },
-          remote_answers = JSON.parse(api_response.data.answers);
+      const auth = {
+        token: api_response.data.token,
+        name: api_response.data.name,
+      };
+      const remote_answers = JSON.parse(api_response.data.answers);
 
       setLocalStorageItem('auth', auth);
 
-      let updated = state.setIn(['data', 'token'], auth.token)
+      const updated = state.setIn(['data', 'token'], auth.token)
                          .setIn(['data', 'name'], auth.name)
                          .set('loading', false)
                          .set('received', true)
                          .set('success', true);
 
-      let alert = {
+      const alert = {
         id: 'shared',
         data: [{
           needs_i18n: true,
           type: 'success',
-          message: 'success.login'
-        }]
+          message: 'success.login',
+        }],
       };
 
       if (Object.keys(remote_answers).length !== 0) {
@@ -91,48 +78,45 @@ const ACTIONS = {
           fromJS(updated),
           Effects.batch([
             Effects.constant(pushAlert(alert)),
-            Effects.constant(updatedFootprintComputed(remote_answers))
-          ])
-        )
-      } else {
-        return loop(
-          fromJS(updated),
-          Effects.constant(pushAlert(alert))
-        )
+            Effects.constant(updatedFootprintComputed(remote_answers)),
+          ]),
+        );
       }
-
-    } else {
-      let err = JSON.parse(api_response.error);
-
-      let updated = state.set('loading', false)
-                         .set('received', true)
-                         .set('success', false);
-
-      let alert = {
-        id: 'login',
-        data: [{
-          needs_i18n: true,
-          type: 'danger',
-          message: 'errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]
-        }]
-      };
-
       return loop(
         fromJS(updated),
-        Effects.constant(pushAlert(alert))
-      )
+        Effects.constant(pushAlert(alert)),
+      );
     }
 
+    const err = JSON.parse(api_response.error);
+
+    const updated = state.set('loading', false)
+                       .set('received', true)
+                       .set('success', false);
+
+    const alert = {
+      id: 'login',
+      data: [{
+        needs_i18n: true,
+        type: 'danger',
+        message: `errors.${Object.keys(err)[0]}.${Object.values(err)[0]}`,
+      }],
+    };
+
+    return loop(
+      fromJS(updated),
+      Effects.constant(pushAlert(alert)),
+    );
   },
 
-  [signedUp]: (state, api_response)=>{
-
-    let updated, alert;
+  [signedUp]: (state, api_response) => {
+    let updated;
+    let alert;
 
     if (api_response.success) {
-      let auth = {
+      const auth = {
         token: api_response.data.token,
-        name: api_response.data.name
+        name: api_response.data.name,
       };
 
       setLocalStorageItem('auth', auth);
@@ -148,126 +132,111 @@ const ACTIONS = {
         data: [{
           needs_i18n: true,
           type: 'success',
-          message: 'success.sign_up'
-        }]
+          message: 'success.sign_up',
+        }],
       };
-
     } else {
-
       let err;
       alert = {
         id: 'sign_up',
-        data: []
-      }
+        data: [],
+      };
 
       try {
         err = JSON.parse(api_response.error);
         alert.data.push({
           needs_i18n: true,
           type: 'danger',
-          message: 'errors.' + Object.keys(err)[0] + '.' + Object.values(err)[0]
+          message: `errors.${Object.keys(err)[0]}.${Object.values(err)[0]}`,
         });
-      } catch (err){
+      } catch (error) {
         alert.data.push({
           needs_i18n: true,
           type: 'danger',
-          message: 'errors.email.non-unique'
+          message: 'errors.email.non-unique',
         });
       }
 
       updated = state.set('loading', false)
                      .set('received', true)
-                     .set('success', false)
+                     .set('success', false);
     }
 
     return loop(
      fromJS(updated),
-     Effects.constant(pushAlert(alert))
-    )
+     Effects.constant(pushAlert(alert)),
+    );
   },
 
-  [logout]: (state)=>{
-    return loop(
+  [logout]: state => loop(
       state.set('loading', true),
-      Effects.promise(()=>{
-        return logoutUser(state.getIn(['data', 'token']))
+      Effects.promise(() => logoutUser(state.getIn(['data', 'token']))
           .then(loggedOut)
-          .catch(authError)
-      })
-    )
-  },
+          .catch(authError)),
+    ),
 
-  [loggedOut]: (state, api_response)=>{
-    if (api_response.success) {
+  [loggedOut]: (state) => {
+    // not checking if logout API response = success
+    localStorage.removeItem('auth');
 
-      localStorage.removeItem('auth');
+    const updated = state.deleteIn(['data', 'token'])
+                       .deleteIn(['data', 'name'])
+                       .set('loading', false)
+                       .delete('received')
+                       .delete('success');
+    const alert = {
+      id: 'shared',
+      data: [{
+        needs_i18n: true,
+        type: 'success',
+        message: 'success.logout',
+      }],
+    };
 
-      let updated = state.deleteIn(['data', 'token'])
-                         .deleteIn(['data', 'name'])
-                         .set('loading', false)
-                         .delete('received')
-                         .delete('success');
-      let alert = {
-        id: 'shared',
-        data: [{
-          needs_i18n: true,
-          type: 'success',
-          message: 'success.logout'
-        }]
-      };
-
-      return loop(
-        fromJS(updated),
-        Effects.batch([
-          Effects.constant(averageFootprintResetRequested()),
-          Effects.constant(pushAlert(alert))
-        ])
-      )
-    }
-  },
-
-  [requestNewPassword]: (state, payload)=>{
     return loop(
-      state.set('loading', true),
-      Effects.promise(()=>{
-        return forgotPassword(payload)
-          .then(newPasswordRequested)
-          .catch(authError)
-      })
-    )
+      fromJS(updated),
+      Effects.batch([
+        Effects.constant(averageFootprintResetRequested()),
+        Effects.constant(pushAlert(alert)),
+      ]),
+    );
   },
 
-  [newPasswordRequested]: (state, api_response)=>{
+  [requestNewPassword]: (state, payload) => loop(
+      state.set('loading', true),
+      Effects.promise(() => forgotPassword(payload)
+          .then(newPasswordRequested)
+          .catch(authError)),
+    ),
 
-    let updated = state.set('loading', false)
+  [newPasswordRequested]: (state, api_response) => {
+    const updated = state.set('loading', false)
                        .set('received', true);
-    let alert = {
-      id: 'forgot_password'
-    }
+    const alert = {
+      id: 'forgot_password',
+    };
 
     if (api_response.success) {
       alert.data = [{
         needs_i18n: true,
         type: 'success',
-        message: 'success.forgot_password'
+        message: 'success.forgot_password',
       }];
     } else {
       alert.data = [{
         needs_i18n: true,
         type: 'danger',
-        message: api_response.error
+        message: api_response.error,
       }];
     }
 
     return loop(
       fromJS(updated),
-      Effects.constant(pushAlert(alert))
-    )
+      Effects.constant(pushAlert(alert)),
+    );
   },
 
-  [authError]: (state, _payload)=>{
-    return state.set('success', false)
-  }
+  [authError]: state => state.set('success', false),
 
 };
 

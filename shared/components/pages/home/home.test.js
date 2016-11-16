@@ -1,13 +1,13 @@
-/*global describe it expect home*/
+/* global describe it expect*/
 
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 
 import Home from './home.component';
 
-describe('Home component', ()=>{
-  it('renders without problems', (done)=>{
-    home = TestUtils.renderIntoDocument(React.createElement(Home) );
+describe('Home component', () => {
+  it('renders without problems', (done) => {
+    const home = TestUtils.renderIntoDocument(React.createElement(Home));
     expect(home.state).toEqual({});
     done();
   });

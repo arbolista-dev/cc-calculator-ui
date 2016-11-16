@@ -1,98 +1,97 @@
-/*global module window $*/
+/* global module*/
 
 import React from 'react';
 import Panel from 'shared/lib/base_classes/panel';
-import template from './home.rt.html'
 import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
-import footprintContainer from 'shared/containers/footprint.container';
-import { footprintPropTypes } from 'shared/containers/footprint.container';
+import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
+import template from './home.rt.html';
 
 const RELEVANT_API_KEYS = [
   'watersewage', 'cleanpercent', 'squarefeet',
   'electricity_dollars', 'electricity_kwh', 'electricity_type',
   'naturalgas_dollars', 'naturalgas_therms', 'naturalgas_cuft', 'naturalgas_type',
-  'heatingoil_dollars', 'heatingoil_gallons', 'heatingoil_type'
+  'heatingoil_dollars', 'heatingoil_gallons', 'heatingoil_type',
 ];
 
 class HomeComponent extends Panel {
 
-  constructor(props, context){
+  constructor(props, context) {
     super(props, context);
-    let home = this;
+    const home = this;
     home.initResizeListener();
     home.state = home.userApiState();
   }
 
   componentDidMount() {
-    let home = this;
+    const home = this;
     home.initializeWaterSlider();
     home.initializeCleanPercentSlider();
   }
 
-  render(){
+  render() {
     return template.call(this);
   }
 
-  get display_electricity_units(){
+  get display_electricity_units() {
     if (this.unitsSet('electricity', 0)) return this.t('units.usd_per_year');
-    else return this.t('units.kwh_per_year');
+    return this.t('units.kwh_per_year');
   }
-  get display_naturalgas_units(){
+  get display_naturalgas_units() {
     if (this.unitsSet('naturalgas', 0)) return this.t('units.usd_per_year');
     else if (this.unitsSet('naturalgas', 1)) return this.t('units.therms_per_year');
-    else return this.t('units.cuft_per_year');
+    return this.t('units.cuft_per_year');
   }
-  get display_heatingoil_units(){
+  get display_heatingoil_units() {
     if (this.unitsSet('heatingoil', 0)) return this.t('units.usd_per_year');
-    else return this.t('units.gallons_per_year');
+    return this.t('units.gallons_per_year');
   }
 
-  get api_key_base(){
+  get api_key_base() {
     return 'input_footprint_housing';
   }
 
-  get display_cleanpercent(){
+  get display_cleanpercent() {
     return Math.round(this.state[this.apiKey('cleanpercent')]);
   }
 
-  get display_annual_water_dollars(){
-    return Math.round(this.state['input_footprint_housing_watersewage'])
+  get display_annual_water_dollars() {
+    return Math.round(this.state.input_footprint_housing_watersewage);
   }
 
-  get relevant_api_keys(){
+  get relevant_api_keys() {
     return RELEVANT_API_KEYS;
   }
 
-  displayRoundedValues(value){
+  displayRoundedValues(value) {
     return Math.round(value);
   }
 
-  userCategoryInput(key_end){
-    let home = this;
+  userCategoryInput(key_end) {
+    const home = this;
     return home.userApiValue(home.apiKey(key_end));
   }
 
-  defaultCategoryInput(key_end){
-    let home = this;
-    return Math.round(parseInt(home.defaultApiValue(home.apiKey(key_end))));
+  defaultCategoryInput(key_end) {
+    const home = this;
+    return Math.round(parseInt(home.defaultApiValue(home.apiKey(key_end)), 10));
   }
 
   /*
    * Toggling Units
    */
 
-  unitsSet(category, value){
-    let home = this,
-        api_key = home.apiKey(category + '_type'),
-        set_value = home.userApiValue(api_key);
-    return parseInt(set_value) === parseInt(value);
+  unitsSet(category, value) {
+    const home = this;
+    const api_key = home.apiKey(`${category}_type`);
+    const set_value = home.userApiValue(api_key);
+    return parseInt(set_value, 10) === parseInt(value, 10);
   }
 
-  setUnits(event){
-    event.preventDefault();
-    let home = this,
-        api_key = event.target.dataset.api_key,
-        update = { [api_key]: event.target.dataset.value };
+  setUnits(e) {
+    e.preventDefault();
+    const home = this;
+    const api_key = e.target.dataset.api_key;
+    const update = { [api_key]: e.target.dataset.value };
     home.updateFootprintParams(update);
     home.setState(update);
   }
@@ -101,10 +100,10 @@ class HomeComponent extends Panel {
    * Water Slider
    */
 
-  initializeWaterSlider(){
-    let home = this,
-        watersewage_api_key = home.apiKey('watersewage'),
-        default_watersewage = home.defaultApiValue(watersewage_api_key);
+  initializeWaterSlider() {
+    const home = this;
+    const watersewage_api_key = home.apiKey('watersewage');
+    const default_watersewage = home.defaultApiValue(watersewage_api_key);
 
     home.water_slider = new SimpleSlider({
       container: '#home_watersewage_slider',
@@ -116,55 +115,55 @@ class HomeComponent extends Panel {
         2: '2x',
         3: '3x',
         4: '4x',
-        5: '5x'
+        5: '5x',
       },
-      onChange: (multiplier)=>{
-        let update = {
-          [watersewage_api_key]: multiplier * parseFloat(default_watersewage)
+      onChange: (multiplier) => {
+        const update = {
+          [watersewage_api_key]: multiplier * parseFloat(default_watersewage),
         };
         home.setState(update);
         home.updateFootprint(update);
-      }
+      },
     });
     home.water_slider.drawData({
       abs_min: 0,
       abs_max: 5,
-      current_value: home.userApiValue(watersewage_api_key) / default_watersewage
+      current_value: home.userApiValue(watersewage_api_key) / default_watersewage,
     });
   }
 
-  resize(){
+  resize() {
     this.water_slider.redraw({
-      outer_width: this.slider_width
+      outer_width: this.slider_width,
     });
     this.cleanpercent_slider.redraw({
-      outer_width: this.slider_width
+      outer_width: this.slider_width,
     });
   }
 
-  initializeCleanPercentSlider(){
-    let home = this,
-        cleanpercent_api_key = home.apiKey('cleanpercent');
+  initializeCleanPercentSlider() {
+    const home = this;
+    const cleanpercent_api_key = home.apiKey('cleanpercent');
 
     home.cleanpercent_slider = new SimpleSlider({
       container: '#home_cleanpercent_slider',
       tick_values: [0, 20, 40, 60, 80, 100],
       outer_width: home.slider_width,
       handle_r: 16,
-      onChange: (cleanpercent)=>{
-        let api_key = home.apiKey('cleanpercent'),
-            update = {
-              [api_key]: cleanpercent
-            };
+      onChange: (cleanpercent) => {
+        const api_key = home.apiKey('cleanpercent');
+        const update = {
+          [api_key]: cleanpercent,
+        };
 
         home.setState(update);
         home.updateFootprint(update);
-      }
+      },
     });
     home.cleanpercent_slider.drawData({
       abs_min: 0,
       abs_max: 100,
-      current_value: home.userApiValue(cleanpercent_api_key)
+      current_value: home.userApiValue(cleanpercent_api_key),
     });
   }
 
