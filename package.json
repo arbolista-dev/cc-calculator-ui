@@ -78,7 +78,7 @@
     "lodash": "4.13.x",
     "morgan": "1.5.x",
     "ncp": "2.0.x",
-    "node-sass": "3.4.x",
+    "node-sass": "3.13.x",
     "query-string": "3.0.x",
     "raw-loader": "0.5.x",
     "react": "0.14.x",
