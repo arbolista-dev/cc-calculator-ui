@@ -5,7 +5,7 @@ const webpack_config = require('./client/config/webpack/test');
 
 const PREPROCESSORS = ['babel', 'webpack', 'sourcemap'];
 
-module.exports = function (config) {
+module.exports = (config) => {
   config.set({
     browsers: ['Firefox'],
     basePath: './',
@@ -16,7 +16,6 @@ module.exports = function (config) {
     },
     files: [
       'node_modules/babel-polyfill/dist/polyfill.js',
-      'client/**/*.test.js',
       'shared/**/*.test.js',
     ],
     frameworks: [
@@ -32,7 +31,6 @@ module.exports = function (config) {
       },
     },
     preprocessors: {
-      'client/**/*.test.js': PREPROCESSORS,
       'shared/**/*.test.js': PREPROCESSORS,
     },
     customLaunchers: {

@@ -21,6 +21,7 @@ describe('ExternalOffset component', () => {
           },
         },
       }),
+      totalUserFootprint: '48.473001',
     }));
     expect(TestUtils.findRenderedComponentWithType(external_offset,
       ExternalOffset).state).not.toBe(null);

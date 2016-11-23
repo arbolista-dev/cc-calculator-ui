@@ -7,7 +7,9 @@ import Action from './action.component';
 
 describe('Action component', () => {
   it('renders without problems', (done) => {
-    const action = TestUtils.renderIntoDocument(wrapWithContext(Action));
+    const action = TestUtils.renderIntoDocument(wrapWithContext(Action, {}, {
+      is_assumption: false,
+    }));
     expect(TestUtils.findRenderedComponentWithType(action, Action).state).not.toBe(null);
     done();
   });
