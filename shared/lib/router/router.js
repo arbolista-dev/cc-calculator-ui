@@ -159,7 +159,7 @@ export default class Router {
 
   static locale() {
     const pathname = window.location.pathname;
-    const match = pathname.match(new RegExp('^\/?(\\w{2})(\/|$)'));
+    const match = pathname.match(new RegExp('^/?(\\w{2})(/|$)'));
 
     if (!match) { return 'en'; }
     return match[1];

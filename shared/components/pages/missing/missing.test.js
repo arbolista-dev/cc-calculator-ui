@@ -1,14 +1,14 @@
 /* global describe it expect*/
 
 import TestUtils from 'react-addons-test-utils';
-import React from 'react';
+import wrapWithContext from '../../application/application.component.mock';
 
 import Missing from './missing.component';
 
 describe('Missing component', () => {
   it('renders without problems', (done) => {
-    const missing = TestUtils.renderIntoDocument(React.createElement(Missing));
-    expect(missing.state).toEqual({});
+    const missing = TestUtils.renderIntoDocument(wrapWithContext(Missing));
+    expect(TestUtils.findRenderedComponentWithType(missing, Missing).state).not.toBe(null);
     done();
   });
 });

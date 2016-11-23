@@ -5,23 +5,19 @@ const webpack = require('webpack');
 module.exports = {
   devtool: 'cheap-module-source-map',
   module: {
-    preLoaders: [
-      {
-        test: /\.test\.js$/,
-        include: /(client|shared)/,
-        exclude: /node_modules/,
-        loader: 'babel',
-      },
-    ],
     loaders: [
       {
-        test: /^((?!test\.js$).)*\.js$/,
-        include: /(client|shared|server)/,
-        exclude: /node_modules/,
+        test: /(\.js|\.jsx)$/,
         loader: 'babel',
       }, {
         test: /\.json$/,
         loader: 'json',
+      }, {
+        test: /\.rt\.html$/,
+        loader: 'react-templates-loader?targetVersion=0.14.0',
+      }, {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=image/svg+xml',
       },
     ],
   },
@@ -30,6 +26,11 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
+      d3: 'd3',
+    }),
+    new webpack.DefinePlugin({
+      APP_ID: `"${process.env.APP_ID || '651280398386350'}"`,
+      JS_ENV: JSON.stringify('client'),
     }),
   ],
   resolve: {
