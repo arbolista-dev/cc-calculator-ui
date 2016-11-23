@@ -7,7 +7,7 @@ const PREPROCESSORS = ['babel', 'webpack', 'sourcemap'];
 
 module.exports = (config) => {
   config.set({
-    browsers: ['Firefox'],
+    browsers: ['Firefox', 'ChromeSandbox'],
     basePath: './',
     babelPreprocessor: {
       options: {
