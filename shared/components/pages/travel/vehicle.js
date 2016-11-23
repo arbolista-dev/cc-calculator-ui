@@ -56,6 +56,7 @@ export default class Vehicle {
       outer_width: vehicle.travel.slider_width,
       margin: {left: 10, right: 15, top: 0, bottom: 10},
       handle_r: 16,
+      axis_click_handle: true,
       onChange: (new_value)=>{
         vehicle.mpg = Math.round(new_value);
         vehicle.travel.updateVehicleFootprint();
