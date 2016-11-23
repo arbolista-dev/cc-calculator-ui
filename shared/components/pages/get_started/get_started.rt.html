@@ -49,6 +49,23 @@
 
 	</div>
 
+	<div className="modal fade" id="update_answers_reset" tabindex="-1" role="dialog">
+		<div className="modal-dialog modal-sm" role="document">
+			<div className="modal-content">
+				<div className="modal-body">
+					<p>{this.t('get_started.update_answers_hint')}</p>
+					<p>
+						<a type="button" className="btn btn-default btn-danger"
+							onClick="{this.updateAnswersConfirmed.bind(this)}"
+							data-dismiss="modal">
+							{this.t('get_started.update_answers_confirmed')}
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div className="cc-component__nav">
 		<a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
 	</div>

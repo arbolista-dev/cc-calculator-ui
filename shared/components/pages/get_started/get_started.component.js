@@ -1,6 +1,7 @@
 /*global module clearTimeout setTimeout window*/
 
 import React from 'react';
+import { Map } from 'immutable';
 import Panel from 'shared/lib/base_classes/panel';
 import template from './get_started.rt.html'
 import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
@@ -116,18 +117,32 @@ class GetStartedComponent extends Panel {
   setLocationMode(location_mode){
     let get_started = this;
 
-    get_started.setState({
-      input_location_mode_changed: true,
-      input_location_mode: location_mode,
-      input_location: '',
-      locations: {},
-      show_location_suggestions: false
-    });
-    if (location_mode !== get_started.input_location_mode){
-      get_started.props.updateUI({id: 'display_location', data: ''});
-      get_started.props.updateUI({id: 'location_mode_changed', data: true});
+    if (get_started.userApiValue('input_changed') && location_mode === 5) {
+      get_started.showUpdateConfirmation();
+      const ui = {
+        id: 'update_to_confirm',
+        data: {
+          type: 'location_mode',
+          params: {
+            input_location_mode: location_mode
+          }
+        }
+      };
+      get_started.props.updateUI(ui);
+    } else {
+      get_started.setState({
+        input_location_mode_changed: true,
+        input_location_mode: location_mode,
+        input_location: '',
+        locations: {},
+        show_location_suggestions: false
+      });
+      if (location_mode !== get_started.input_location_mode){
+        get_started.props.updateUI({id: 'display_location', data: ''});
+        get_started.props.updateUI({id: 'location_mode_changed', data: true});
+      }
+      get_started.updateFootprintParams({input_location_mode: location_mode})
     }
-    get_started.updateFootprintParams({input_location_mode: location_mode})
   }
 
   unsetLocation(e) {
@@ -140,9 +155,31 @@ class GetStartedComponent extends Panel {
 
   // called when location suggestion is clicked.
   setLocation(event){
-    let get_started = this,
-        zipcode = event.target.dataset.zipcode,
-        suggestion = event.target.dataset.suggestion;
+    const get_started = this,
+    updated_params = {
+      zipcode: event.target.dataset.zipcode,
+      suggestion: event.target.dataset.suggestion
+    };
+    if (get_started.userApiValue('input_changed')) {
+      get_started.showUpdateConfirmation();
+      const ui = {
+        id: 'update_to_confirm',
+        data: {
+          type: 'location',
+          params: updated_params
+        }
+      };
+      get_started.props.updateUI(ui);
+    } else {
+      get_started.setLocationConfirmed(updated_params);
+    }
+
+  }
+
+  setLocationConfirmed(params){
+    const get_started = this,
+        zipcode = params.zipcode,
+        suggestion = params.suggestion;
 
     get_started.setState({
       display_location: suggestion,
@@ -251,7 +288,19 @@ class GetStartedComponent extends Panel {
       },
       onSnap: (selected_size)=>{
         if (selected_size != get_started.input_size){
-          get_started.updateDefaults({input_size: selected_size});
+          if (get_started.userApiValue('input_changed')) {
+            get_started.showUpdateConfirmation();
+            const ui = {
+              id: 'update_to_confirm',
+              data: {
+                type: 'size',
+                params: {
+                  input_size: selected_size
+                }
+              }
+            };
+            get_started.props.updateUI(ui);
+          } else get_started.updateDefaults({input_size: selected_size});
         }
       }
     });
@@ -307,7 +356,19 @@ class GetStartedComponent extends Panel {
       handle_r: 14,
       onSnap: (selected_income)=>{
         if (selected_income != get_started.input_income){
-          get_started.updateDefaults({input_income: selected_income});
+          if (get_started.userApiValue('input_changed')) {
+            get_started.showUpdateConfirmation();
+            const ui = {
+              id: 'update_to_confirm',
+              data: {
+                type: 'income',
+                params: {
+                  input_income: selected_income
+                }
+              }
+            };
+            get_started.props.updateUI(ui);
+          } else get_started.updateDefaults({input_income: selected_income});
         }
       }
     });
@@ -318,6 +379,23 @@ class GetStartedComponent extends Panel {
       current_value: get_started.input_income
     });
 
+  }
+
+  showUpdateConfirmation(){
+    $('#update_answers_reset').modal('show');
+  }
+
+  updateAnswersConfirmed(){
+    const get_started = this,
+    _update_to_confirm = get_started.props.ui.get('update_to_confirm'),
+    update_to_confirm = Map.isMap(_update_to_confirm) ? _update_to_confirm.toJS() : _update_to_confirm,
+    updated_type = update_to_confirm.type,
+    updated_params = update_to_confirm.params;
+
+    $('#update_answers_reset').modal('hide');
+
+    if (['size', 'income', 'location_mode'].includes(updated_type)) get_started.updateDefaults(updated_params)
+    else if (updated_type === 'location') get_started.setLocationConfirmed(updated_params);
   }
 
   resize(){

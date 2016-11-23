@@ -233,7 +233,8 @@ class ActionComponent extends Translatable {
   }
 
   updateFootprintParams(params){
-    this.props.userFootprintUpdated(params);
+    const updated_params = Object.assign({}, {input_changed: 1}, params);
+    this.props.userFootprintUpdated(updated_params);
   }
 
   updateTakeaction(params){
