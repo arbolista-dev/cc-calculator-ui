@@ -166,13 +166,13 @@ class ActionComponent extends Translatable {
 
     if (is_vehicle > 0) {
       if (key === 'ride_my_bike' || key === 'telecommute_to_work' || key === 'take_public_transportation') {
-        mpg = this.props.user_footprint.get(['data', `input_takeaction_${key}_mpg`]);
+        mpg = this.props.user_footprint.getIn(['data', `input_takeaction_${key}_mpg`]);
       } else {
-        mpg = this.props.user_footprint.get(['data', `input_takeaction_${key}_mpg_old`]);
+        mpg = this.props.user_footprint.getIn(['data', `input_takeaction_${key}_mpg_old`]);
       }
 
       for (let i = 1; i <= 10; i += 1) {
-        const fp_mpg = this.props.user_footprint.get(['data', `input_footprint_transportation_mpg${i}`]);
+        const fp_mpg = this.props.user_footprint.getIn(['data', `input_footprint_transportation_mpg${i}`]);
         if (fp_mpg === mpg) {
           return i;
         }
@@ -182,10 +182,9 @@ class ActionComponent extends Translatable {
   }
 
   selectVehicle(i, action_key) {
-    const v_miles = this.props.user_footprint.get(['data', `input_footprint_transportation_miles${i}`]);
-    const v_mpg = this.props.user_footprint.get(['data', `input_footprint_transportation_mpg${i}`]);
+    const v_miles = this.props.user_footprint.getIn(['data', `input_footprint_transportation_miles${i}`]);
+    const v_mpg = this.props.user_footprint.getIn(['data', `input_footprint_transportation_mpg${i}`]);
     const update = {};
-
     if (action_key === 'ride_my_bike' || action_key === 'telecommute_to_work' || action_key === 'take_public_transportation') {
       update[`input_takeaction_${action_key}_mpg`] = parseInt(v_mpg, 10);
       this.setState(update);

@@ -117,6 +117,7 @@ class HomeComponent extends Panel {
         4: '4x',
         5: '5x',
       },
+      axis_click_handle: true,
       onChange: (multiplier) => {
         const update = {
           [watersewage_api_key]: multiplier * parseFloat(default_watersewage),
@@ -150,6 +151,7 @@ class HomeComponent extends Panel {
       tick_values: [0, 20, 40, 60, 80, 100],
       outer_width: home.slider_width,
       handle_r: 16,
+      axis_click_handle: true,
       onChange: (cleanpercent) => {
         const api_key = home.apiKey('cleanpercent');
         const update = {

@@ -164,7 +164,7 @@ class TravelComponent extends Panel {
     const travel = this;
     if (travel.vehicles_maxed) return;
     const params = travel.newVehicleParams(travel.vehicles.length + 1);
-    const new_vehicle = new Vehicle(params, travel);
+    const new_vehicle = new Vehicle(params, travel, travel.state.consumption_unit);
     travel.vehicles.push(new_vehicle);
     travel.setState({
       vehicles: this.vehicles,

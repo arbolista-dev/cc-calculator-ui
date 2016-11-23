@@ -162,6 +162,7 @@ class ShoppingComponent extends Panel {
         4: '4x',
         5: '5x',
       },
+      axis_click_handle: true,
       onChange: (multiplier) => {
         const services_distribution = {};
         const update_params = SERVICES_QUESTIONS.reduce((hash, service_type) => {
@@ -208,14 +209,18 @@ class ShoppingComponent extends Panel {
         4: '4x',
         5: '5x',
       },
+      axis_click_handle: true,
       onChange: (multiplier) => {
         const goods_state = {};
+        const services_distribution = {};
         const update_params = GOODS_QUESTIONS.reduce((hash, goods_type) => {
           const api_key = shopping.apiKey(goods_type);
           const new_value = multiplier * shopping.expendAverage(goods_type);
-          goods_state[api_key] = new_value;
-          return hash;
+          goods_state[goods_type] = new_value;
+          services_distribution[api_key] = new_value;
+          return services_distribution;
         }, {});
+
         const total_goods = multiplier * shopping.average_goods_expend;
         update_params[total_goods_api_key] = total_goods;
 
