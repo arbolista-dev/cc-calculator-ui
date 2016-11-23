@@ -1,4 +1,4 @@
-# Cool Climate Calculator UI
+# Cool Climate Calculator UI [![Build Status][travis-image]][travis-url] 
 
 We will be reimplementing the [Cool Climate Calculator UI](http://coolclimate.berkeley.edu/calculators/household/ui.php).
 
