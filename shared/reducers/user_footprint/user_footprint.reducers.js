@@ -122,7 +122,6 @@ const ACTIONS = {
     setLocalStorageItem('user_footprint', merged_data);
 
     let updated = state.set('data', merged_data)
-                       .setIn(['data', 'input_changed'], 1)
                        .set('loading', false);
 
     return fromJS(updated);

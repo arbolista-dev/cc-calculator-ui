@@ -141,7 +141,8 @@ export let footprintable = {
   },
 
   updateFootprintParams(updated_params){
-    this.props.userFootprintUpdated(updated_params);
+    const params = ({}).hasOwnProperty.call(updated_params, 'input_location_mode') ? updated_params : Object.assign({}, {input_changed: 1}, updated_params);
+    this.props.userFootprintUpdated(params);
   },
 
   updateFootprintInput(event){
