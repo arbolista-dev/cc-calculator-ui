@@ -1,14 +1,17 @@
-/*global describe it expect travel*/
+/* global describe it expect*/
 
 import TestUtils from 'react-addons-test-utils';
-import React from 'react';
+import wrapWithContext from '../../application/application.component.mock';
+
 
 import Travel from './travel.component';
 
-describe('Travel component', ()=>{
-  it('renders without problems', (done)=>{
-    travel = TestUtils.renderIntoDocument(React.createElement(Travel) );
-    expect(travel.state).toEqual({});
+describe('Travel component', () => {
+  it('renders without problems', (done) => {
+    const travel = TestUtils.renderIntoDocument(
+        wrapWithContext(Travel),
+    );
+    expect(TestUtils.findRenderedComponentWithType(travel, Travel).state).not.toBe(null);
     done();
   });
 });

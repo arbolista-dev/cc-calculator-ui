@@ -1,14 +1,14 @@
-/*global*/
+/* global*/
 
 import RouteBase from './../route.base';
 
 class GetStarted extends RouteBase {
 
-  get key(){
+  get key() {
     return 'get_started';
   }
 
-  get route_name(){
+  get route_name() {
     return 'GetStarted';
   }
 

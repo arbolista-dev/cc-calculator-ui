@@ -1,4 +1,7 @@
-/*global console*/
+/* global console*/
+/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+/* eslint no-console: ["error", { allow: ["info"] }] */
+
 
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
@@ -11,41 +14,40 @@ const APP_PORT = 3000;
 
 class Server {
 
-  constructor(){
-    var server = this;
+  constructor() {
+    const server = this;
     server.dev_server = new WebpackDevServer(webpack(config), {
       contentBase: './../../../client/build/development',
       publicPath: '/assets/',
-      stats: {colors: true}
+      stats: { colors: true },
     });
 
     server.app = server.dev_server.app;
   }
 
   config() {
-    var server = this,
-        app = server.app;
+    const server = this;
+    const app = server.app;
 
     // serve public static files.
-    //app.use('/', express.static(__dirname + '/../../../build/development/' + process.env.NODE_ENV.toLowerCase()));
-    app.use('/assets', express.static(__dirname + '/../../assets'));
-    app.use('/assets/font-awesome', express.static(__dirname + '/../../../node_modules/font-awesome'));
+    app.use('/assets', express.static(`${__dirname}/../../assets`));
+    app.use('/assets/font-awesome', express.static(`${__dirname}/../../../node_modules/font-awesome`));
 
     app.use(logger('dev'));
 
     // view engine set up
     app.set('view engine', 'ejs');
-    app.set('views', __dirname + '/../../views');
+    app.set('views', `${__dirname}/../../views`);
 
-    app.get('*', (_req, res, _next)=>{
+    app.get('*', (_req, res) => {
       res.set('Content-Type', 'text/html');
       res.render('index', {});
     });
   }
 
 
-  run(){
-    var server = this;
+  run() {
+    const server = this;
     server.config();
 
     server.dev_server.listen(APP_PORT, () => {

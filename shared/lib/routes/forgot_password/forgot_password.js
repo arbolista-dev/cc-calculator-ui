@@ -1,14 +1,14 @@
-/*global*/
+/* global*/
 
 import RouteBase from './../route.base';
 
 class ForgotPassword extends RouteBase {
 
-  get key(){
+  get key() {
     return 'forgot_password';
   }
 
-  get route_name(){
+  get route_name() {
     return 'ForgotPassword';
   }
 

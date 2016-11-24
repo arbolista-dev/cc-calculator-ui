@@ -3,7 +3,7 @@ import * as S from 'underscore.string';
 function templateData(componentName) {
   return {
     componentNameLowerCase: S.underscored(componentName),
-    componentNameCamelCase: S.classify(componentName)
+    componentNameCamelCase: S.classify(componentName),
   };
 }
 
@@ -15,5 +15,5 @@ function translateFileName(fileName, componentName) {
 
 export default {
   data: templateData,
-  fileName: translateFileName
+  fileName: translateFileName,
 };
