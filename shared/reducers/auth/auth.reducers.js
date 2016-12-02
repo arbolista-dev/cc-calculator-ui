@@ -4,9 +4,11 @@ import { fromJS } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
-import { addUser, loginUser, loginUserFacebook, logoutUser, forgotPassword } from 'api/user.api';
-import { setLocalStorageItem } from 'shared/lib/utils/utils';
-import { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut, requestNewPassword, newPasswordRequested, authError } from './auth.actions';
+import { addUser, loginUser, loginUserFacebook, logoutUser, forgotPassword, needActivate, sendConfirmation } from 'api/user.api';
+import { setLocalStorageItem, getLocalStorageItem, tokenIsValid } from 'shared/lib/utils/utils';
+import { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut,
+  requestNewPassword, newPasswordRequested, authError, processActivation, verifyActivation,
+  activationError, sendEmailConfirmation } from './auth.actions';
 import { updatedFootprintComputed } from '../user_footprint/user_footprint.actions';
 import { averageFootprintResetRequested } from '../average_footprint/average_footprint.actions';
 import { pushAlert } from '../ui/ui.actions';
@@ -79,12 +81,16 @@ const ACTIONS = {
           Effects.batch([
             Effects.constant(pushAlert(alert)),
             Effects.constant(updatedFootprintComputed(remote_answers)),
+            Effects.constant(verifyActivation()),
           ]),
         );
       }
       return loop(
         fromJS(updated),
-        Effects.constant(pushAlert(alert)),
+        Effects.batch([
+          Effects.constant(pushAlert(alert)),
+          Effects.constant(verifyActivation()),
+        ]),
       );
     }
 
@@ -238,6 +244,70 @@ const ACTIONS = {
 
   [authError]: state => state.set('success', false),
 
+  [sendEmailConfirmation]: (state) => {
+    const auth_status = getLocalStorageItem('auth');
+    if ({}.hasOwnProperty.call(auth_status, 'token')) {
+      if (tokenIsValid(auth_status.token)) {
+        return loop(
+          state.set('loading', true),
+          Effects.promise(() => sendConfirmation(auth_status.token)
+              .then(processActivation)
+              .catch(authError)),
+        );
+      }
+    }
+    return fromJS(state);
+  },
+
+
+  [verifyActivation]: (state) => {
+    const auth_status = getLocalStorageItem('auth');
+    if ({}.hasOwnProperty.call(auth_status, 'token')) {
+      if (tokenIsValid(auth_status.token)) {
+        return loop(
+            state.set('loading', true),
+            Effects.promise(() => needActivate(auth_status.token)
+                .then(processActivation)
+                .catch(activationError)),
+        );
+      }
+    }
+    return fromJS(state);
+  },
+
+  [processActivation]: (state, response) => {
+    state.set('needActivate', response.data.need);
+    if (response.data.need) {
+      const alert = {
+        id: 'activation',
+        data: [{
+          needs_i18n: true,
+          type: 'danger',
+          message: 'confirmation.message',
+          actions: [
+            {
+              text: 'Confirm now',
+              action: 'confirmAccount',
+            },
+          ],
+        }],
+      };
+      return loop(
+        fromJS(state),
+        Effects.constant(pushAlert(alert)),
+      );
+    }
+    const alert = {
+      id: 'activation',
+      data: [],
+    };
+    return loop(
+      fromJS(state),
+      Effects.constant(pushAlert(alert)),
+    );
+  },
+
+  [activationError]: state => state.set('needActivate', false),
 };
 
 const REDUCER = createReducer(ACTIONS, {});

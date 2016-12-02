@@ -66,6 +66,7 @@ export default class StateManager {
         forgot_password: [],
         leaders: [],
         shared: [],
+        activation: [],
       },
       show_leaders_chart: false,
       alert_exists: false,

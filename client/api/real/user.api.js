@@ -130,6 +130,31 @@ function listLocations() {
   });
 }
 
+function needActivate(jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.get(`${BASE}/user/activate`)
+      .set('Authorization', jwt)
+      .end((err, res) => {
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+function sendConfirmation(jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.post(`${BASE}/user/activate`)
+      .set('Authorization', jwt)
+      .end((err, res) => {
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
 export { addUser,
   loginUser,
   loginUserFacebook,
@@ -138,4 +163,6 @@ export { addUser,
   forgotPassword,
   setLocation,
   listLeaders,
-  listLocations };
+  listLocations,
+  needActivate,
+  sendConfirmation };
