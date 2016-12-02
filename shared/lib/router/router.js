@@ -143,8 +143,8 @@ export default class Router {
 
   static currentWindowLocation() {
     const pathname = window.location.pathname;
-    const query = window.location.search;
-    return { pathname, query };
+    const search = window.location.search;
+    return { pathname, search };
   }
 
   // Use this when createHistory is a hash history

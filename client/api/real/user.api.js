@@ -155,6 +155,20 @@ function sendConfirmation(jwt) {
   });
 }
 
+function changePassword(input) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.post(`${BASE}/user/reset`)
+      .set('Content-Type', 'application/json; charset=UTF-8')
+      .send(JSON.stringify(input))
+      .end((err, res) => {
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
 export { addUser,
   loginUser,
   loginUserFacebook,
@@ -165,4 +179,5 @@ export { addUser,
   listLeaders,
   listLocations,
   needActivate,
-  sendConfirmation };
+  sendConfirmation,
+  changePassword };

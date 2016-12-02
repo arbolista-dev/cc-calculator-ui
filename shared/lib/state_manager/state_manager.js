@@ -109,6 +109,7 @@ export default class StateManager {
     return Object.assign({
       auth: fromJS({
         data: state_manager.auth_storage || {},
+        canReset: true,
       }),
       average_footprint: fromJS({
         data: state_manager.average_footprint_storage || state_manager.default_inputs,

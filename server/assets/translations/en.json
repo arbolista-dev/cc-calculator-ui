@@ -11,6 +11,12 @@
         "public": "Yes, my results can be published.",
         "submit": "Sign up"
     },
+    "reset":{
+        "title":"Change your password",
+        "password": "New password",
+        "submit":"Change password",
+        "confirm":"You change your password successfully"
+    },
     "login": {
         "title": "Login",
         "route_path": "login",
@@ -21,7 +27,9 @@
         "facebook":"Login or Sign up with Facebook"
     },
     "confirmation":{
-        "message":"Your email has not been confirmed, "
+        "message":"Your email has not been confirmed, ",
+        "successful":"Your account has been confirmed!",
+        "error":"Your link has expired please try again"
     },
     "logout": {
         "title": "Logout"

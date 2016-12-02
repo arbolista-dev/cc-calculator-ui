@@ -13,8 +13,26 @@ class SettingsComponent extends Panel {
     settings.state = {};
   }
 
+  componentDidMount() {
+    if (this.props.location.getIn(['query', 'type']) === 'confirm') {
+      const alert = {
+        id: 'shared',
+        data: [{
+          needs_i18n: true,
+          type: 'success',
+          message: 'confirmation.successful',
+        }],
+      };
+      this.props.pushAlert(alert);
+    }
+  }
+
   render() {
     return template.call(this);
+  }
+
+  get reset_password() {
+    return this.props.location.getIn(['query', 'type']) === 'reset' && this.props.auth.get('canReset');
   }
 
 }

@@ -14,7 +14,11 @@ const processActivation = createAction('Process Activation');
 const verifyActivation = createAction('Verify Activation');
 const activationError = createAction('Activation error');
 const sendEmailConfirmation = createAction('Send confirmation');
+const resetPassword = createAction('Reset password');
+const resetedPassword = createAction('Reset password');
+const resetPasswordError = createAction('Reset password error');
 
 export { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut,
   requestNewPassword, newPasswordRequested, authError, processActivation,
-  verifyActivation, activationError, sendEmailConfirmation };
+  verifyActivation, activationError, sendEmailConfirmation,
+  resetPassword, resetedPassword, resetPasswordError };
