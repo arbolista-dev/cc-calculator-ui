@@ -7,6 +7,7 @@ import { updateUI } from 'shared/reducers/ui/ui.actions';
 
 const mapStateToProps = (state) => {
   return {
+    auth: state['auth'],
     profile: state['profile'],
     location: state['location'],
     ui: state['ui']
@@ -35,6 +36,7 @@ const profilePropTypes = {
   ui: React.PropTypes.object.isRequired,
   profile: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
+  auth: React.PropTypes.object,
   retrieveProfile: React.PropTypes.func.isRequired,
   updateUI: React.PropTypes.func.isRequired
 };

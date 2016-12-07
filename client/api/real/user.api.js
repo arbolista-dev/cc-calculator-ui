@@ -105,6 +105,20 @@ function setLocation(input, jwt){
   });
 }
 
+function setPhoto(photo, jwt){
+  return new Promise((fnResolve, fnReject)=>{
+    superagent.post(BASE + '/user/photo')
+      .set('Authorization', jwt)
+      .send(photo)
+      .end((err, res)=>{
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
 function listLeaders(limit, offset, state, household_size){
   return new Promise((fnResolve, fnReject)=>{
     superagent.get(BASE + '/user/leaders')
@@ -142,4 +156,4 @@ function showProfile(user_id){
   });
 }
 
-export { addUser, loginUser, loginUserFacebook, logoutUser, updateAnswers, forgotPassword, setLocation, listLeaders, listLocations, showProfile };
+export { addUser, loginUser, loginUserFacebook, logoutUser, updateAnswers, forgotPassword, setLocation, listLeaders, listLocations, showProfile, setPhoto };
