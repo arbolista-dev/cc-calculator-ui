@@ -7,7 +7,7 @@
     <SignUp rt-if="!this.user_authenticated" />
     <Logout rt-if="this.user_authenticated" />
 
-    <div className="panel panel-coolclimate">
+    <div rt-if="this.user_authenticated" className="panel panel-coolclimate">
       <div className="panel-heading">
         {this.t('settings.profile_title')}
       </div>

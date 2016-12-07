@@ -105,6 +105,20 @@ function setLocation(input, jwt) {
   });
 }
 
+function setPhoto(photo, jwt){
+  return new Promise((fnResolve, fnReject)=>{
+    superagent.post(BASE + '/user/photo')
+      .set('Authorization', jwt)
+      .send(photo)
+      .end((err, res)=>{
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
 function listLeaders(limit, offset, state, householdSize) {
   return new Promise((fnResolve, fnReject) => {
     superagent.get(`${BASE}/user/leaders`)
@@ -151,4 +165,5 @@ export { addUser,
   setLocation,
   listLeaders,
   listLocations,
-  showProfile };
+  showProfile,
+  setPhoto };

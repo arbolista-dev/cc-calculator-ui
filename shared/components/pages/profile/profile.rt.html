@@ -7,6 +7,16 @@
     </div>
 
     <div class="profile-container">
+      <div class="user-photo" rt-class="{'is-set': this.photo_url, 'is-auth': this.is_own_editable_profile, 'trigger-hover': this.show_upload_hover}">
+        <i rt-if="!this.photo_url" class="fa fa-user" aria-hidden="true"></i>
+        <img rt-if="this.photo_url" src="{this.photo_url}" alt="" />
+        <div rt-if="this.is_own_editable_profile" class="upload cc-component__nav">
+          <input type="file" id="user-photo-upload" onChange="{this.selectedFile.bind(this)}" />
+          <a onClick="{this.uploadPhoto.bind(this)}">
+            {this.t('upload')}
+          </a>
+        </div>
+      </div>
       <h2 class="name">{this.full_name}</h2>
       <h4><i class="fa fa-home" aria-hidden="true"></i> {this.location}</h4>
     </div>
