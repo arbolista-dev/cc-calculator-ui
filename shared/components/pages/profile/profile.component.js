@@ -1,12 +1,16 @@
 /*global module window $*/
 
 import React from 'react';
+import { Map } from 'immutable';
 import Panel from 'shared/lib/base_classes/panel';
 import template from './profile.rt.html';
-import { setPhoto } from 'api/user.api';
+import { setPhoto, updateUser } from 'api/user.api';
 import profileContainer from 'shared/containers/profile.container';
 import { profilePropTypes } from 'shared/containers/profile.container';
 
+const SOCIAL_MEDIA_PLATFORMS = [
+  'facebook', 'twitter', 'instagram', 'linkedin', 'medium'
+];
 
 class ProfileComponent extends Panel {
 
@@ -15,12 +19,18 @@ class ProfileComponent extends Panel {
     let profile = this;
     profile.state = {
       uploaded_photo_src: '',
-      file_selected: false
+      file_selected: false,
+      profile_edit_active: false,
+      remote_profile_loaded: false
     }
   }
 
   componentDidMount(){
     this.props.retrieveProfile({user_id: this.user_id})
+  }
+
+  componentDidUpdate(){
+    if (this.loaded && !this.state.remote_profile_loaded) this.checkRemoteProfileData();
   }
 
   render(){
@@ -55,6 +65,14 @@ class ProfileComponent extends Panel {
     return `${this.user_profile.get('city')}, ${this.user_profile.get('county')}, ${this.user_profile.get('state')}`;
   }
 
+  get social_media_platforms(){
+    return SOCIAL_MEDIA_PLATFORMS;
+  }
+
+  get profile_data(){
+    return this.user_profile.get('profile_data');
+  }
+
   get show_upload_hover(){
     return this.state.file_selected;
   }
@@ -75,9 +93,55 @@ class ProfileComponent extends Panel {
     }
   }
 
+  checkRemoteProfileData(){
+    if (this.profile_data && Map.isMap(this.profile_data)) {
+      const profile_data = Object.assign({}, this.profile_data.toJS(), {
+        remote_profile_loaded: true
+      });
+      this.setState(profile_data)
+    }
+  }
+
+  getProfileData(type){
+    return this.state[type];
+  }
+
+  getProfileLink(type){
+    return `${this.getProfilePrefix(type)}${this.state[type]}`;
+  }
+
+  getProfilePrefix(type){
+    switch (type) {
+      case 'facebook':
+        return 'http://facebook.com/';
+      case 'twitter':
+        return 'http://twitter.com/';
+      case 'instagram':
+        return 'http://instagram.com/';
+      case 'linkedin':
+        return 'http://linkedin.com/';
+      case 'medium':
+        return 'http://medium.com/';
+      default:
+        break;
+    }
+  }
+
   selectedFile(){
     this.setState({
       file_selected: true
+    })
+  }
+
+  triggerEdit(){
+    this.setState({
+      profile_edit_active: true
+    })
+  }
+
+  updateInput(event){
+    this.setState({
+      [event.target.dataset.key]: event.target.value
     })
   }
 
@@ -99,12 +163,10 @@ class ProfileComponent extends Panel {
     const formData = new FormData();
 
     if (files.length > 0) {
-
       if (files[0] instanceof File) {
         formData.append('file', files[0]);
         const token = profile.props.auth.getIn(['data', 'token']);
         setPhoto(formData, token).then((res) => {
-          console.log('res', res);
           profile.setState({
             uploaded_photo_src: res.data.photo_url,
             file_selected: false
@@ -113,6 +175,29 @@ class ProfileComponent extends Panel {
       }
     }
   }
+
+  updateProfile(){
+    const profile = this;
+    const token = profile.props.auth.getIn(['data', 'token']);
+    const data = {
+      facebook: this.state.facebook,
+      twitter: this.state.twitter,
+      instagram: this.state.instagram,
+      linkedin: this.state.linkedin,
+      medium: this.state.medium,
+      intro: this.state.intro
+    }
+
+    updateUser({profile_data: data}, token).then(res => {
+      profile.setState({
+        profile_edit_active: false
+      })
+      profile.props.retrieveProfile({user_id: this.user_id})
+    })
+
+  }
+
+
 }
 
 ProfileComponent.propTypes = profilePropTypes;
