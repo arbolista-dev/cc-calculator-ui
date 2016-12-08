@@ -61,6 +61,21 @@ function logoutUser(jwt){
   });
 }
 
+function updateUser(input, jwt){
+  return new Promise((fnResolve, fnReject)=>{
+    superagent.put(BASE + '/user')
+      .set('Content-Type', 'application/json; charset=UTF-8')
+      .set('Authorization', jwt)
+      .send(JSON.stringify(input))
+      .end((err, res)=>{
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
 function updateAnswers(input, jwt){
   return new Promise((fnResolve, fnReject)=>{
     superagent.put(BASE + '/user/answers')
@@ -156,4 +171,4 @@ function showProfile(user_id){
   });
 }
 
-export { addUser, loginUser, loginUserFacebook, logoutUser, updateAnswers, forgotPassword, setLocation, listLeaders, listLocations, showProfile, setPhoto };
+export { addUser, loginUser, loginUserFacebook, logoutUser, updateUser, updateAnswers, forgotPassword, setLocation, listLeaders, listLocations, showProfile, setPhoto };

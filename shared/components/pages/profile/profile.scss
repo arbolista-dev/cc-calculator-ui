@@ -4,6 +4,16 @@
     margin-bottom: 0;
   }
 
+  .action-btn {
+    background: #4AAA48;
+    color: #FFF;
+    display: inline-block;
+    text-transform: uppercase;
+    margin-right: 10px;
+    padding: 7px;
+    font-size: 12px;
+  }
+
   .profile-container {
     text-align: center;
     margin-bottom: 40px;
@@ -23,8 +33,6 @@
         padding-left: 5px;
         a {
           margin-top: 15px;
-          padding: 7px;
-          font-size: 12px;
         }
       }
 
@@ -55,12 +63,100 @@
           }
         }
       }
-
-
     }
 
     .name {
       margin-bottom: 20px;
+    }
+
+    .profile-data {
+      width: 80%;
+      margin: 0 auto;
+      &.editable {
+        .view {
+          border: 1px solid #3AAA48;
+          .action-btn {
+            display: inline-block;
+          }
+        }
+      }
+
+      .view {
+        padding: 10px 0;
+        .social-media {
+          .icons {
+            width: 250px;
+            margin: 0 auto;
+            .platform {
+              &:not(:last-child) {
+                margin-right: 15px;
+              }
+              a:hover {
+                .fa {
+                  color: #4AAA48;
+                }
+                cursor: pointer;
+              }
+            }
+            .fa {
+              color: #000;
+              font-size: 1.5em;
+            }
+          }
+        }
+        .introduction {
+          margin-top: 15px;
+        }
+        .action-btn {
+          display: none;
+        }
+
+        .platform {
+          display: inline-block;
+          &.not-set {
+            display: none;
+          }
+          &.not-yet-set {
+            .fa {
+              color: #777;
+            }
+          }
+        }
+
+        .introduction {
+          display: block;
+          &.not-set {
+            display: none;
+          }
+        }
+
+      }
+
+      .editing {
+        padding: 10px 0;
+        border: 1px solid #3AAA48;
+
+        .form-group {
+          width: 90%;
+          margin: 0 auto 8px;
+          text-align: left;
+
+          label {
+            width: 100px;
+          }
+
+          .input-group,
+          .textarea {
+            width: 75%;
+          }
+
+        }
+        .action-btn {
+          display: block;
+          width: 60px;
+          margin: 20px auto;
+        }
+      }
     }
   }
 }
