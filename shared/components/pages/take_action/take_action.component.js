@@ -131,6 +131,14 @@ class TakeActionComponent extends Panel {
     }
     return false;
   }
+
+  activeAction(key){
+    if (key === this.state['show_actions'][0]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 TakeActionComponent.NAME = 'TakeAction';

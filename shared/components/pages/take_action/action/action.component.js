@@ -20,6 +20,12 @@ class ActionComponent extends Translatable {
 
   componentDidMount() {
     if (this.category === 'transportation') this.selectVehicle(1, this.key);
+    window.jQuery("[data-toggle='popover']").tooltip();
+  }
+
+  componentWillUnmount() {
+    window.jQuery("[data-toggle='popover']").tooltip('destroy');
+
   }
 
   render() {

@@ -1,15 +1,21 @@
-<div rt-class="{hidden: !this.props.show}">
+<div rt-class="{item: !this.props.is_assumption, active: this.props.active && !this.props.is_assumption, hidden: !this.props.show}">
   <div className="action" rt-if="!this.props.is_assumption">
-    <div className="action__heading"
-      rt-class="{'action__heading--taken': this.taken}">
-      <div className="action__title">
-        <h5 onClick="{this.toggleActionDetails.bind(this)}" rt-class="{narrow: this.is_shown_detailed}">{this.display_name}</h5>
-        <button className="btn btn-default"
-          onClick="{this.toggleAction.bind(this)}" rt-class="{hidden: !this.is_shown_detailed}"> Pledge
+    <div className="action__heading">
+      <div className="action__status">
+        <button className="btn btn-default btn--pledge"
+          onClick="{this.toggleAction.bind(this)}" rt-class="{'action__status--taken': this.taken}"> <span rt-if="!this.taken">Pledge </span>
+          <span rt-if="this.taken">Pledged </span>
           <i className="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
         </button>
+        <button type="button" class="btn btn-default btn-xs btn--discard" data-toggle="tooltip" data-placement="bottom" title="Discard this action."><i class="fa fa-ban" aria-hidden="true"></i>
+</button>
       </div>
-      <div className="action__savings" rt-class="{hidden: !this.is_shown_detailed}">
+    </div>
+    <div className="action__block">
+      <div className="action__title">
+        <h3>{this.display_name}</h3>
+      </div>
+      <div className="action__savings">
         <div>
           <div className="action__savings-amount">{this.tons_saved}</div>
           <div className="action__savings-label">{this.t('take_action.tons_saved')}</div>
@@ -23,21 +29,25 @@
           <div className="action__savings-label">{this.t('take_action.upfront_cost')}</div>
         </div>
       </div>
+      <div className="action__more-details" rt-class="{toggled: this.state.detailed}">
+        <button className="btn btn-default" onClick="{this.toggleActionDetails.bind(this)}">More details <span class="caret"></span></button>
+      </div>
     </div>
-    <div className="action__body" rt-class="{hidden: !this.state.detailed}" rt-if="this.vehicles_loaded">
+    <div className="action__details" rt-class="{hidden: !this.state.detailed}" rt-if="this.vehicles_loaded">
+      <hr>
       <div className="action__content">
          <table className="table">
            <tbody>
              <rt-virtual rt-repeat="block in this.content" key="{blockIndex}">
                <tr rt-if="!block.assumptions">
                  <td colspan="2" rt-if="block.text_only">
-                   <p className="text-center">
+                   <p>
                      <span rt-if="!block.text_url">{block.description}</span>
                      <a rt-if="block.text_url" href="{block.text_url}">{block.description}</a>
                    </p>
                  </td>
                  <td colspan="0" rt-if="!block.text_only">
-                   <p className="text-right">
+                   <p>
                      <span rt-if="!block.text_url">{block.description}</span>
                      <a rt-if="block.text_url" href="{block.text_url}">{block.description}</a>
                    </p>

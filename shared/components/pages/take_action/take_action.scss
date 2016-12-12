@@ -7,6 +7,17 @@
   .cc-component__nav {
     margin-top: 20px;
   }
+
+  .cc-component__form {
+    .carousel-control {
+      color: #000;
+      &.right,
+      &.left {
+        background-image:none !important;
+        filter:none !important;
+      }
+    }
+  }
 }
 
 #take_action_savings {

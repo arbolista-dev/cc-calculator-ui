@@ -32,10 +32,21 @@
   </div>
 
   <div className="cc-component__form">
-    <div>
-      <rt-virtual rt-repeat="category in this.actions_list">
-        <Action rt-repeat="key in category.keys" action_key="{key}" category="{category.category}" show="{this.showAction(key)}" is_assumption={false}></Action>
-      </virtual>
+    <div id="action-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+      <div class="carousel-inner" role="listbox">
+        <rt-virtual rt-repeat="category in this.actions_list">
+          <Action rt-repeat="key in category.keys" active="{this.activeAction(key)}" action_key="{key}" category="{category.category}" show="{this.showAction(key)}" is_assumption={false}></Action>
+        </virtual>
+      </div>
+
+      <a class="left carousel-control" href="#action-carousel" role="button" data-slide="prev">
+        <span class="icon-prev" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#action-carousel" role="button" data-slide="next">
+        <span class="icon-next" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
   </div>
 
