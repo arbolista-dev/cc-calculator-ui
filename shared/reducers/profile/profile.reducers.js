@@ -16,11 +16,9 @@ import { pushAlert } from '../ui/ui.actions';
 
 const ACTIONS = {
 
-  [retrieveProfile]: (current_profile, payload)=>{
-    return loop(
-      fromJS({loading: true}),
-      Effects.promise(()=>{
-        return showProfile(payload.user_id)
+  [retrieveProfile]: (current_profile, payload) => loop(
+      fromJS({ loading: true }),
+      Effects.promise(() => showProfile(payload.user_id, payload.token)
           .then(profileRetrieved)
           .catch(apiError)
       })
@@ -29,8 +27,8 @@ const ACTIONS = {
 
   [profileRetrieved]: (state, api_data)=>{
     if (api_data.success) {
-      let data = state.set('data', fromJS(api_data.data))
-                      .set('loading', false);
+      const data = state.set('data', fromJS(api_data.data))
+                        .set('loading', false);
       return fromJS(data);
     } else {
       let err = JSON.parse(api_data.error),

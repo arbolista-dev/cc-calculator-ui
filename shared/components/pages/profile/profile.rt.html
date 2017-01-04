@@ -7,12 +7,20 @@
     </div>
 
     <div class="profile-container">
+      <div class="privacy checkbox" rt-if="this.is_own_editable_profile">
+        <label>
+          <input type="checkbox"
+          onChange="{this.updatePrivacy.bind(this)}"
+          checked="{this.is_public}"/> {this.t('My profile is public')}
+        </label>
+      </div>
       <div class="user-photo" rt-class="{'is-set': this.photo_url, 'is-auth': this.is_own_editable_profile, 'trigger-hover': this.show_upload_hover}">
         <i rt-if="!this.photo_url" class="fa fa-user" aria-hidden="true"></i>
         <img rt-if="this.photo_url" src="{this.photo_url}" alt="" />
         <div rt-if="this.is_own_editable_profile" class="upload">
           <input type="file" id="user-photo-upload" onChange="{this.selectedFile.bind(this)}" />
-          <a onClick="{this.uploadPhoto.bind(this)}" class="action-btn">
+          <div rt-class="{hidden: !this.is_loading}" className="loader"></div>
+          <a rt-if="!this.is_loading" onClick="{this.uploadPhoto.bind(this)}" class="action-btn">
             {this.t('Upload')}
           </a>
         </div>
@@ -24,7 +32,7 @@
           <div class="social-media">
             <div class="icons">
               <div rt-repeat="name in this.social_media_platforms" key="{nameIndex}" class="platform {name}" rt-class="{'not-set': !this.getProfileData(name) && !this.is_own_editable_profile, 'not-yet-set': !this.getProfileData(name)}">
-                <a href="{this.getProfileLink(name)}">
+                <a href="{this.getProfileLink(name)}" target="_blank">
                   <i class="fa fa-{name}" aria-hidden="true"></i>
                 </a>
               </div>
@@ -112,7 +120,8 @@
               placeholder="I am a climate activist, ..."
               onChange="{this.updateInput.bind(this)}">
           </div>
-          <a class="action-btn" onClick="{this.updateProfile.bind(this)}">{this.t('Save')}</a>
+          <div rt-class="{hidden: !this.is_loading}" className="loader"></div>
+          <a rt-if="!this.is_loading" class="action-btn" onClick="{this.updateProfile.bind(this)}">{this.t('Save')}</a>
         </div>
       </div>
     </div>
