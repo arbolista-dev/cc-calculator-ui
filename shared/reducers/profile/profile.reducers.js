@@ -18,7 +18,7 @@ const ACTIONS = {
 
   [retrieveProfile]: (current_profile, payload) => loop(
       fromJS({ loading: true }),
-      Effects.promise(() => showProfile(payload.user_id)
+      Effects.promise(() => showProfile(payload.user_id, payload.token)
           .then(profileRetrieved)
           .catch(apiError)),
     ),
@@ -26,7 +26,7 @@ const ACTIONS = {
   [profileRetrieved]: (state, api_data) => {
     if (api_data.success) {
       const data = state.set('data', fromJS(api_data.data))
-                      .set('loading', false);
+                        .set('loading', false);
       return fromJS(data);
     }
     const err = JSON.parse(api_data.error);

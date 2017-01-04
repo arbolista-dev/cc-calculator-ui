@@ -20,11 +20,12 @@
     .user-photo {
       width: 200px;
       height: 200px;
-      margin: 30px auto;
+      margin: 20px auto;
       border: 1px solid #4AAA48;
       border-radius: 100px;
 
       .fa {
+        margin-top: 45px;
         font-size: 7em;
       }
 
@@ -33,6 +34,16 @@
         padding-left: 5px;
         a {
           margin-top: 15px;
+        }
+
+        .loader {
+          margin-top: 10px;
+        }
+      }
+
+      &.is-auth {
+        .fa {
+          margin-top: 0;
         }
       }
 
@@ -63,6 +74,11 @@
           }
         }
       }
+    }
+
+    .privacy {
+      margin-top: 20px;
+
     }
 
     .name {

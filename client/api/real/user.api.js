@@ -159,9 +159,10 @@ function listLocations() {
   });
 }
 
-function showProfile(user_id) {
+function showProfile(user_id, jwt) {
   return new Promise((fnResolve, fnReject) => {
     superagent.get(`${BASE}/profile/${user_id}`)
+      .set('Authorization', jwt)
       .end((err, res) => {
         if (err) fnReject(err);
         else {

@@ -4642,7 +4642,8 @@
             "token-invalid":"The Facebook token is invalid"
         },
         "profile": {
-            "non-existent": "The user profile you're trying to access does not exist."
+            "non-existent": "The user profile you're trying to access does not exist.",
+            "not-public": "This user profile is private."
         },
         "unspecified": "not specified. Please fill out all fields.",
         "invalid": "is not valid. Please re-type it."

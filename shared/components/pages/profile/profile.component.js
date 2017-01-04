@@ -21,11 +21,12 @@ class ProfileComponent extends Panel {
       file_selected: false,
       profile_edit_active: false,
       remote_profile_loaded: false,
+      is_loading: false,
     };
   }
 
   componentDidMount() {
-    this.props.retrieveProfile({ user_id: this.user_id });
+    this.props.retrieveProfile({ user_id: this.user_id, token: this.props.auth.getIn(['data', 'token']) });
   }
 
   componentDidUpdate() {
@@ -72,8 +73,16 @@ class ProfileComponent extends Panel {
     return this.user_profile.get('profile_data');
   }
 
+  get is_public() {
+    return this.state.privacy_changed ? this.state.public : this.user_profile.get('public');
+  }
+
   get show_upload_hover() {
     return this.state.file_selected;
+  }
+
+  get is_loading() {
+    return this.state.is_loading;
   }
 
   get is_own_editable_profile() {
@@ -164,16 +173,32 @@ class ProfileComponent extends Panel {
 
     if (files.length > 0) {
       if (files[0] instanceof File) {
+        profile.setState({
+          is_loading: true,
+        });
         formData.append('file', files[0]);
         const token = profile.props.auth.getIn(['data', 'token']);
         setPhoto(formData, token).then((res) => {
           profile.setState({
             uploaded_photo_src: res.data.photo_url,
             file_selected: false,
+            is_loading: false,
           });
         });
       }
     }
+  }
+
+  updatePrivacy() {
+    const token = this.props.auth.getIn(['data', 'token']);
+    const is_public = this.state.privacy_changed ? !this.state.public : !this.user_profile.get('public');
+
+    this.setState({
+      public: !this.state.public,
+      privacy_changed: true,
+    });
+
+    updateUser({ public: is_public }, token);
   }
 
   updateProfile() {
@@ -188,14 +213,19 @@ class ProfileComponent extends Panel {
       intro: this.state.intro,
     };
 
+    profile.setState({
+      is_loading: true,
+    });
+
     updateUser({ profile_data: data }, token).then(() => {
       profile.setState({
         profile_edit_active: false,
+        is_loading: false,
+        privacy_changed: false,
       });
       profile.props.retrieveProfile({ user_id: this.user_id });
     });
   }
-
 
 }
 

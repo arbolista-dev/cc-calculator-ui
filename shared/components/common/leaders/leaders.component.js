@@ -6,7 +6,7 @@ import { listLeaders, listLocations } from 'api/user.api';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './leaders.rt.html';
 
-const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5+']];
+const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [0, '2.5 (avg)'], [3, '3'], [4, '4'], [5, '5+']];
 
 class LeadersComponent extends Panel {
 
@@ -94,8 +94,9 @@ class LeadersComponent extends Panel {
     return HOUSEHOLD_SIZES;
   }
 
+
   get filtered_locations() {
-    return this.state.locations.filter(location => !!location.city);
+    return this.state.locations;
   }
 
   displayLocation(location_object) {
@@ -103,6 +104,10 @@ class LeadersComponent extends Panel {
       return `${location_object.city}, ${location_object.state}`;
     }
     return '';
+  }
+
+  displayHouseholdSize(user) {
+    return user.household_size === 0 ? '2.5' : user.household_size;
   }
 
   retrieveAndShow() {
@@ -290,9 +295,8 @@ class LeadersComponent extends Panel {
 
   setLocationFilter(event) {
     const leaders = this;
-    const city = event.target.dataset.city;
     const state = event.target.dataset.state;
-    const location = { city, state };
+    const location = { state };
 
     leaders.setState({
       selected_location: location,
@@ -345,16 +349,24 @@ class LeadersComponent extends Panel {
     listLocations().then((res) => {
       if (res.success) {
         if (res.data != null) {
-          const locations = res.data;
-          locations.sort((a, b) => {
-            if (a.state.toLowerCase() < b.state.toLowerCase()) {
-              return -1;
-            }
-            if (a.state.toLowerCase() > b.state.toLowerCase()) {
-              return 1;
-            }
-            return 0;
+          let locations = [];
+          Object.keys(res.data).forEach((l) => {
+            locations.push(res.data[l].state);
           });
+          locations = locations.filter((element, i, array) => array.indexOf(element) === i);
+          if (locations.length > 1) {
+            locations.sort((a, b) => {
+              const locationA = a.toLowerCase();
+              const locationB = b.toLowerCase();
+              if (locationA < locationB) {
+                return -1;
+              }
+              if (locationA > locationB) {
+                return 1;
+              }
+              return 0;
+            });
+          }
           leaders.setState({
             locations,
           });
