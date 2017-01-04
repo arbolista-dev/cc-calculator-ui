@@ -1,28 +1,27 @@
-/*global module*/
+/* global module*/
 
 import React from 'react';
 import Panel from 'shared/lib/base_classes/panel';
+import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './settings.rt.html';
-import footprintContainer from 'shared/containers/footprint.container';
-import { footprintPropTypes } from 'shared/containers/footprint.container';
 
 class SettingsComponent extends Panel {
 
-  constructor(props, context){
+  constructor(props, context) {
     super(props, context);
-    let settings = this;
-    settings.state = {}
+    const settings = this;
+    settings.state = {};
   }
 
-  get user_id(){
-    return this.props.auth.getIn(['data', 'user_id'])
+  get user_id() {
+    return this.props.auth.getIn(['data', 'user_id']);
   }
 
-  viewProfile(){
+  viewProfile() {
     this.goToProfile(this.user_id);
   }
 
-  render(){
+  render() {
     return template.call(this);
   }
 

@@ -1,90 +1,89 @@
-/*global module window $*/
+/* global module document FormData File*/
 
 import React from 'react';
 import { Map } from 'immutable';
 import Panel from 'shared/lib/base_classes/panel';
-import template from './profile.rt.html';
 import { setPhoto, updateUser } from 'api/user.api';
-import profileContainer from 'shared/containers/profile.container';
-import { profilePropTypes } from 'shared/containers/profile.container';
+import profileContainer, { profilePropTypes } from 'shared/containers/profile.container';
+import template from './profile.rt.html';
 
 const SOCIAL_MEDIA_PLATFORMS = [
-  'facebook', 'twitter', 'instagram', 'linkedin', 'medium'
+  'facebook', 'twitter', 'instagram', 'linkedin', 'medium',
 ];
 
 class ProfileComponent extends Panel {
 
-  constructor(props, context){
+  constructor(props, context) {
     super(props, context);
-    let profile = this;
+    const profile = this;
     profile.state = {
       uploaded_photo_src: '',
       file_selected: false,
       profile_edit_active: false,
-      remote_profile_loaded: false
-    }
+      remote_profile_loaded: false,
+    };
   }
 
-  componentDidMount(){
-    this.props.retrieveProfile({user_id: this.user_id})
+  componentDidMount() {
+    this.props.retrieveProfile({ user_id: this.user_id });
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     if (this.loaded && !this.state.remote_profile_loaded) this.checkRemoteProfileData();
   }
 
-  render(){
+  render() {
     return template.call(this);
   }
 
-  get user_id(){
-    return parseInt(this.props.location.getIn(['params', 'user_id']))
+  get user_id() {
+    return parseInt(this.props.location.getIn(['params', 'user_id']), 10);
   }
 
-  get loaded(){
+  get loaded() {
     return !this.props.profile.get('loading') && !this.error;
   }
 
-  get error(){
+  get error() {
     return this.props.profile.get('load_error');
   }
 
-  get user_profile(){
+  get user_profile() {
     return this.props.profile.get('data');
   }
 
-  get full_name(){
+  get full_name() {
     return `${this.user_profile.get('first_name')} ${this.user_profile.get('last_name')}`;
   }
 
-  get photo_url(){
+  get photo_url() {
     return this.state.uploaded_photo_src ? this.state.uploaded_photo_src : this.user_profile.get('photo_url');
   }
 
-  get location(){
+  get location() {
     return `${this.user_profile.get('city')}, ${this.user_profile.get('county')}, ${this.user_profile.get('state')}`;
   }
 
-  get social_media_platforms(){
+  get social_media_platforms() {
     return SOCIAL_MEDIA_PLATFORMS;
   }
 
-  get profile_data(){
+  get profile_data() {
     return this.user_profile.get('profile_data');
   }
 
-  get show_upload_hover(){
+  get show_upload_hover() {
     return this.state.file_selected;
   }
 
-  get is_own_editable_profile(){
-    return this.user_authenticated && (this.user_profile.get('user_id') === this.props.auth.getIn(['data', 'user_id']))
+  get is_own_editable_profile() {
+    return this.user_authenticated && (this.user_profile.get('user_id') === this.props.auth.getIn(['data', 'user_id']));
   }
 
-  get profile_footprint(){
+  get profile_footprint() {
     if (this.loaded) {
       try {
-        return JSON.parse(this.user_profile.get('total_footprint'))
+        return JSON.parse(this.user_profile.get('total_footprint'));
       } catch (e) {
         return {};
       }
@@ -93,24 +92,24 @@ class ProfileComponent extends Panel {
     }
   }
 
-  checkRemoteProfileData(){
+  checkRemoteProfileData() {
     if (this.profile_data && Map.isMap(this.profile_data)) {
       const profile_data = Object.assign({}, this.profile_data.toJS(), {
-        remote_profile_loaded: true
+        remote_profile_loaded: true,
       });
-      this.setState(profile_data)
+      this.setState(profile_data);
     }
   }
 
-  getProfileData(type){
+  getProfileData(type) {
     return this.state[type];
   }
 
-  getProfileLink(type){
+  getProfileLink(type) {
     return `${this.getProfilePrefix(type)}${this.state[type]}`;
   }
 
-  getProfilePrefix(type){
+  getProfilePrefix(type) {
     switch (type) {
       case 'facebook':
         return 'http://facebook.com/';
@@ -125,38 +124,39 @@ class ProfileComponent extends Panel {
       default:
         break;
     }
+    return '';
   }
 
-  selectedFile(){
+  selectedFile() {
     this.setState({
-      file_selected: true
-    })
+      file_selected: true,
+    });
   }
 
-  triggerEdit(){
+  triggerEdit() {
     this.setState({
-      profile_edit_active: true
-    })
+      profile_edit_active: true,
+    });
   }
 
-  updateInput(event){
+  updateInput(event) {
     this.setState({
-      [event.target.dataset.key]: event.target.value
-    })
+      [event.target.dataset.key]: event.target.value,
+    });
   }
 
-  viewRanking(){
-    let profile = this,
-        ui = {
-          id: 'show_leaders_chart',
-          data: true
-        };
+  viewRanking() {
+    const profile = this;
+    const ui = {
+      id: 'show_leaders_chart',
+      data: true,
+    };
 
     profile.props.updateUI(ui);
     profile.router.goToRouteByName('Footprint');
   }
 
-  uploadPhoto(event){
+  uploadPhoto(event) {
     event.preventDefault();
     const profile = this;
     const files = document.getElementById('user-photo-upload').files;
@@ -169,14 +169,14 @@ class ProfileComponent extends Panel {
         setPhoto(formData, token).then((res) => {
           profile.setState({
             uploaded_photo_src: res.data.photo_url,
-            file_selected: false
-          })
-        })
+            file_selected: false,
+          });
+        });
       }
     }
   }
 
-  updateProfile(){
+  updateProfile() {
     const profile = this;
     const token = profile.props.auth.getIn(['data', 'token']);
     const data = {
@@ -185,16 +185,15 @@ class ProfileComponent extends Panel {
       instagram: this.state.instagram,
       linkedin: this.state.linkedin,
       medium: this.state.medium,
-      intro: this.state.intro
-    }
+      intro: this.state.intro,
+    };
 
-    updateUser({profile_data: data}, token).then(res => {
+    updateUser({ profile_data: data }, token).then(() => {
       profile.setState({
-        profile_edit_active: false
-      })
-      profile.props.retrieveProfile({user_id: this.user_id})
-    })
-
+        profile_edit_active: false,
+      });
+      profile.props.retrieveProfile({ user_id: this.user_id });
+    });
   }
 
 

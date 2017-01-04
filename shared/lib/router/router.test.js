@@ -1,39 +1,67 @@
-/*global describe it expect*/
+/* global describe it expect*/
 
-import StateManager from './../state_manager/state_manager';
 import Router from './router';
-import {ROUTES} from './../routes';
-
+import RouteBase from './../routes/route.base';
+import MissingRoute from './../routes/missing/missing';
+import { includeHelpers } from './../routes';
 /*
  * Test Shared Behavior of Subclasses
  */
 
-const state_manager = new StateManager(),
-    router = new Router(state_manager, ROUTES);
+const MOCK = {
+  t(key, opts) {
+    if (!opts) return key;
+    return key.replace(/{{([^{}]*)}}/g,
+        (a, b) => {
+          const r = opts[b];
+          return typeof r === 'string' || typeof r === 'number' ? r : a;
+        },
+    );
+  },
+  language: 'en',
+};
+class MockRuute extends RouteBase {
 
-describe('Router', ()=>{
+  get key() {
+    return 'example';
+  }
 
-  it('can set location for example specific location', (done)=>{
-    router.setLocation({
+  get route_name() {
+    return 'ExampleRoute';
+  }
+}
+const ROUTES = [
+  new MockRuute({
+    path: new RegExp('^/examples/(\\d*)$'),
+    parameters: { 1: 'example_id' },
+  }),
+  new MissingRoute({
+    path: /\.*/,
+    parameters: { },
+  }),
+];
+
+
+const router = new Router(MOCK, includeHelpers(ROUTES));
+
+describe('Router', () => {
+  it('can set location for example specific location', (done) => {
+    const location = router.parseLocation({
       pathname: '/examples/1',
-      query: {}
-    }).then(()=>{
-      expect(router.current_route.route_name).toEqual('ExampleRoute');
-      expect(router.current_route.params).toEqual({example_id: '1'});
-      done();
-    })
+      query: {},
+    });
+    expect(location.route_name).toEqual('ExampleRoute');
+    expect(location.params).toEqual({ example_id: '1' });
+    done();
   });
 
-  it('can set location for missing route', (done)=>{
-    router.setLocation({
+  it('can set location for missing route', (done) => {
+    const location = router.parseLocation({
       pathname: '/doesnt_exist',
-      query: {}
-    }).then(()=>{
-      expect(router.current_route.route_name).toEqual('MissingRoute');
-      expect(router.current_route.params).toEqual({});
-      done();
-    })
+      query: {},
+    });
+    expect(location.route_name).toEqual('MissingRoute');
+    expect(location.params).toEqual({});
+    done();
   });
-
 });
-

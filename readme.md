@@ -1,4 +1,4 @@
-# Cool Climate Calculator UI
+# Cool Climate Calculator UI [![Build Status][travis-image]][travis-url] 
 
 We will be reimplementing the [Cool Climate Calculator UI](http://coolclimate.berkeley.edu/calculators/household/ui.php).
 
@@ -101,3 +101,8 @@ Architecture is based on [AnalyticsFire/spike](https://github.com/AnalyticsFire/
 - [Bootstrap](http://getbootstrap.com/) and jQuery for UI prototyping.
 - [Webpack](https://webpack.github.io/) - for compiling client assets
 - [Karma](https://karma-runner.github.io/0.13/index.html) and [Jasmine](http://jasmine.github.io/) for testing
+
+
+[travis-image]: https://travis-ci.org/arbolista-dev/cc-calculator-ui.svg?branch=master
+[travis-url]: https://travis-ci.org/arbolista-dev/cc-calculator-ui
+

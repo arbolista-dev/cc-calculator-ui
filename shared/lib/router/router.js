@@ -1,22 +1,23 @@
-/*global window*/
+/* global window*/
+/* eslint no-useless-escape: "warn"*/
 
 import queryString from 'query-string';
 import extend from 'extend';
 
-import { updateLocation } from 'shared/reducers/location/location.actions';
-import { defineRoutes } from '../routes';
+import updateLocation from 'shared/reducers/location/location.actions';
+import defineRoutes from '../routes';
 
 const NON_MAIN_ROUTES = ['Profile', 'Settings', 'MissingRoute', 'ForgotPassword'];
 
 const DEFAULT_UPDATE_LOCATION_ACTION = {
   type: updateLocation.getType(),
-  payload: {}
+  payload: {},
 };
 
 export default class Router {
 
   constructor(i18n, routes) {
-    let router = this;
+    const router = this;
 
     router.i18n = i18n;
     router.routes = routes || Router.routes(i18n);
@@ -24,48 +25,44 @@ export default class Router {
     router.update_in_progress = true;
   }
 
-  get default_update_location_action(){
+  get default_update_location_action() {
     return extend(true, {}, DEFAULT_UPDATE_LOCATION_ACTION);
   }
 
-  get current_route(){
+  get current_route() {
     return this.findRoute(Router.currentWindowLocation().pathname);
   }
 
-  get main_routes(){
-    return this.routes.filter((route)=>{
-      return  NON_MAIN_ROUTES.indexOf(route.route_name) < 0;
-    })
+  get main_routes() {
+    return this.routes.filter(route => NON_MAIN_ROUTES.indexOf(route.route_name) < 0);
   }
 
-  get locale(){
+  get locale() {
     return Router.locale();
   }
 
-  shouldUpdateCurrentRoute(location){
-    let router = this;
+  shouldUpdateCurrentRoute(location) {
+    const router = this;
     return !router.current_route || !router.current_route.matchesLocation(location.pathname);
   }
 
-  initializeHistory(createHistory, store){
-    let router = this;
+  initializeHistory(createHistory, store) {
+    const router = this;
     router.history = createHistory();
     router.history.listen(router.onLocationChange.bind(router, store));
   }
 
-  findRoute(pathname){
-    let router = this;
-    return router.routes.find((route) => {
-      return route.matchesLocation(pathname);
-    });
+  findRoute(pathname) {
+    const router = this;
+    return router.routes.find(route => route.matchesLocation(pathname));
   }
 
-  parseLocation(new_location){
-    let route = this.findRoute(new_location.pathname),
-        location = {
-          pathname: new_location.pathname,
-          query: queryString.parse(new_location.search)
-        };
+  parseLocation(new_location) {
+    const route = this.findRoute(new_location.pathname);
+    const location = {
+      pathname: new_location.pathname,
+      query: queryString.parse(new_location.search),
+    };
     location.route_name = route.route_name;
     location.params = route.parseParams(location);
     return location;
@@ -76,101 +73,99 @@ export default class Router {
   // this will cause onLocationChange to fire with
   // the new location.
 
-  goToRouteByName(route_name){
-    let router = this;
+  goToRouteByName(route_name) {
+    const router = this;
     window.jQuery("[data-toggle='popover']").popover('hide');
-    if(window.parent) {
-      window.parent.postMessage({scrollTop:true},'*');
-      return router.pushRoute(route_name);
+    if (window.parent) {
+      window.parent.postMessage({ scrollTop: true }, '*');
+      router.pushRoute(route_name);
+    } else {
+      window.jQuery('html, body').animate({ scrollTop: 0 }, 500, () => router.pushRoute(route_name));
     }
-    else {
-      window.jQuery('html, body').animate({ scrollTop: 0 }, 500, ()=>{
-        return router.pushRoute(route_name);
-      });
-    }
-
   }
 
-  pushRoute(route_name, action, payload){
-    let router = this,
-        route = router.routes.getRoute(route_name);
+  pushRoute(route_name, action_params, payload) {
+    const router = this;
+    const route = router.routes.getRoute(route_name);
+    let action = action_params;
 
     action = {
       type: action ? action.getType() : updateLocation.getType(),
-      payload: payload,
-      no_scroll: payload ? payload.no_scroll : false
+      payload,
+      no_scroll: payload ? payload.no_scroll : false,
     };
 
     router.pushHistory({
       pathname: route.url(action, router.i18n),
-      state: action
+      state: action,
     });
   }
 
 
-  pushHistory(location){
+  pushHistory(location) {
     this.history.push(location);
   }
 
-  next(){
-    let router = this,
-        current_i = router.routes.indexOf(router.current_route),
-        next_route = router.routes[current_i + 1];
+  next() {
+    const router = this;
+    const current_i = router.routes.indexOf(router.current_route);
+    const next_route = router.routes[current_i + 1];
     return router.pushRoute(next_route.route_name);
   }
 
-  previous(){
-    let router = this,
-        current_i = router.routes.indexOf(router.current_route),
-        next_route = router.routes[current_i - 1];
+  previous() {
+    const router = this;
+    const current_i = router.routes.indexOf(router.current_route);
+    const next_route = router.routes[current_i - 1];
     return router.pushRoute(next_route.route_name);
   }
 
-  onLocationChange(store, new_location){
-    let router = this;
+  onLocationChange(store, new_location) {
+    const router = this;
 
-    if (new_location.action !== 'PUSH') return false;
+    if (new_location.action !== 'PUSH') return;
     if (router.scrollForNewLocation(new_location)) router.scrollToTop();
 
-    let action = extend(true, {payload: {}}, new_location.state) ||  this.default_update_location_action;
+    const action = extend(true, { payload: {} }, new_location.state) ||
+    this.default_update_location_action;
 
-    action.payload['location'] = this.parseLocation(new_location);
+    action.payload.location = this.parseLocation(new_location);
     store.dispatch(action);
   }
 
-  scrollForNewLocation(location){
+  scrollForNewLocation(location) {
     return !location.state || !location.state.no_scroll;
   }
 
-  scrollToTop(){
+  scrollToTop() {
     window.jQuery('html, body').animate({ scrollTop: 0 }, 'slow');
   }
 
-  static currentWindowLocation(){
-    let pathname = window.location.pathname,
-        query = window.location.search;
-    return { pathname: pathname, query: query };
+  static currentWindowLocation() {
+    const pathname = window.location.pathname;
+    const query = window.location.search;
+    return { pathname, query };
   }
 
   // Use this when createHistory is a hash history
-  static currentHashLocation(){
-    let hash = window.location.hash,
-        match = hash.match(/^#([^\?]+)(\?.+)?/);
+  static currentHashLocation() {
+    const hash = window.location.hash;
+    const match = hash.match(/^#([^\?]+)(\?.+)?/);
     return {
       pathname: match ? match[1] : '',
-      query: match && match[2] ? match[2] : ''
-    }
+      query: match && match[2] ? match[2] : '',
+    };
   }
 
-  static locale(){
-    let pathname = window.location.pathname,
-        match = pathname.match(new RegExp('^\/?(\\w{2})(\/|$)'));
+  static locale() {
+    const pathname = window.location.pathname;
+    const match = pathname.match(new RegExp('^/?(\\w{2})(/|$)'));
 
-    if (!match){ return 'en'; }
+    if (!match) { return 'en'; }
     return match[1];
   }
 
-  static routes(i18n){
+  static routes(i18n) {
     return defineRoutes(i18n);
   }
 

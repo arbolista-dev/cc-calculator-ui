@@ -1,14 +1,16 @@
-/*global describe it expect action*/
+/* global describe it expect*/
 
 import TestUtils from 'react-addons-test-utils';
-import React from 'react';
+import wrapWithContext from '../../../application/application.component.mock';
 
 import Action from './action.component';
 
-describe('Action component', ()=>{
-  it('renders without problems', (done)=>{
-    action = TestUtils.renderIntoDocument(React.createElement(Action) );
-    expect(action.state).toEqual({});
+describe('Action component', () => {
+  it('renders without problems', (done) => {
+    const action = TestUtils.renderIntoDocument(wrapWithContext(Action, {}, {
+      is_assumption: false,
+    }));
+    expect(TestUtils.findRenderedComponentWithType(action, Action).state).not.toBe(null);
     done();
   });
 });

@@ -4,49 +4,45 @@ import { connect } from 'react-redux';
 import { signup, login, loginFacebook, logout, requestNewPassword } from 'shared/reducers/auth/auth.actions';
 import { pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
 
-const mapStateToProps = (state) => {
-  return {
-    auth: state['auth'],
-    ui: state['ui'],
-    location: state['location']
-  };
-};
+const mapStateToProps = state => ({
+  auth: state.auth,
+  ui: state.ui,
+  location: state.location,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    pushAlert: (payload) => {
-      dispatch(pushAlert(payload));
-    },
-    resetAlerts: () => {
-      resetAlerts.assignTo(dispatch);
-      resetAlerts();
-    },
-    signup: (params) => {
-      signup.assignTo(dispatch);
-      signup(params);
-    },
-    login: (params) => {
-      login.assignTo(dispatch);
-      login(params);
-    },
-    loginFacebook : (params) => {
-      loginFacebook.assignTo(dispatch);
-      loginFacebook(params);
-    },
-    logout: () => {
-      logout.assignTo(dispatch);
-      logout();
-    },
-    requestNewPassword: (params) => {
-      requestNewPassword.assignTo(dispatch);
-      requestNewPassword(params);
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  pushAlert: (payload) => {
+    dispatch(pushAlert(payload));
+  },
+  resetAlerts: () => {
+    resetAlerts.assignTo(dispatch);
+    resetAlerts();
+  },
+  signup: (params) => {
+    signup.assignTo(dispatch);
+    signup(params);
+  },
+  login: (params) => {
+    login.assignTo(dispatch);
+    login(params);
+  },
+  loginFacebook: (params) => {
+    loginFacebook.assignTo(dispatch);
+    loginFacebook(params);
+  },
+  logout: () => {
+    logout.assignTo(dispatch);
+    logout();
+  },
+  requestNewPassword: (params) => {
+    requestNewPassword.assignTo(dispatch);
+    requestNewPassword(params);
+  },
+});
 
 const authContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
 
 const authPropTypes = {
@@ -59,7 +55,7 @@ const authPropTypes = {
   login: React.PropTypes.func.isRequired,
   loginFacebook: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired,
-  requestNewPassword: React.PropTypes.func.isRequired
+  requestNewPassword: React.PropTypes.func.isRequired,
 };
 
 export default authContainer;

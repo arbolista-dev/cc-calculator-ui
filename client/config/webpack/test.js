@@ -1,44 +1,45 @@
-/*global require module __dirname*/
+/* global require module __dirname*/
 
-var webpack = require('webpack');
+const webpack = require('webpack');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
   module: {
-    preLoaders: [
-      {
-        test: /\.test\.js$/,
-        include: /(client|shared)/,
-        exclude: /node_modules/,
-        loader: 'babel'
-      }
-    ],
     loaders: [
       {
-        test: /^((?!test\.js$).)*\.js$/,
-        include: /(client|shared|server)/,
-        exclude: /node_modules/,
-        loader: 'babel'
+        test: /(\.js|\.jsx)$/,
+        loader: 'babel',
       }, {
         test: /\.json$/,
-        loader: 'json'
-      }
-    ]
+        loader: 'json',
+      }, {
+        test: /\.rt\.html$/,
+        loader: 'react-templates-loader?targetVersion=0.14.0',
+      }, {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=image/svg+xml',
+      },
+    ],
   },
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-      'window.jQuery': 'jquery'
-    })
+      'window.jQuery': 'jquery',
+      d3: 'd3',
+    }),
+    new webpack.DefinePlugin({
+      APP_ID: `"${process.env.APP_ID || '651280398386350'}"`,
+      JS_ENV: JSON.stringify('client'),
+    }),
   ],
   resolve: {
     alias: {
-      api: __dirname + '/../../api/test',
-      config: __dirname + '/../../config/test',
-      models: __dirname + '/../../models',
-      lib: __dirname + '/../../lib',
-      shared: __dirname + '/../../../shared'
-    }
-  }
+      api: `${__dirname}/../../api/test`,
+      config: `${__dirname}/../../config/test`,
+      models: `${__dirname}/../../models`,
+      lib: `${__dirname}/../../lib`,
+      shared: `${__dirname}/../../../shared`,
+    },
+  },
 };

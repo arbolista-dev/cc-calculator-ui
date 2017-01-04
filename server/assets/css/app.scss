@@ -27,9 +27,13 @@ body { margin-bottom:40px; }
   stroke:black;
 }
 
-.d3-chart-handle {
-  cursor: ew-resize;
+.d3-chart-slider {
+  .d3-chart-handle,
+  .background {
+    cursor: move !important;
+  }
 }
+
 
 .cc-component__byline {
   text-transform:uppercase;

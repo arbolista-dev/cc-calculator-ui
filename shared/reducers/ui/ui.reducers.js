@@ -1,8 +1,8 @@
 import { fromJS, Map, List } from 'immutable';
 import { createReducer } from 'redux-act';
 
-import { updateUI, pushAlert, resetAlerts } from './ui.actions'
 import { setLocalStorageItem } from 'shared/lib/utils/utils';
+import { updateUI, pushAlert, resetAlerts } from './ui.actions';
 
 /*
   ui: {
@@ -18,7 +18,7 @@ import { setLocalStorageItem } from 'shared/lib/utils/utils';
 
 const ACTIONS = {
 
-  [updateUI]: (state, payload)=>{
+  [updateUI]: (state, payload) => {
     let updated;
     if (state.has(payload.id)) {
       if (Map.isMap(state.get(payload.id))) {
@@ -33,19 +33,20 @@ const ACTIONS = {
     return updated;
   },
 
-  [pushAlert]: (state, payload)=>{
-    state = state.setIn(['alerts', payload.id], new List(payload.data))
-                 .set('alert_exists', true);
-    return state
+  [pushAlert]: (state, payload) => {
+    const updated = state.setIn(['alerts', payload.id], new List(payload.data))
+                         .set('alert_exists', true);
+    return updated;
   },
 
-  [resetAlerts]: (state, _payload)=>{
+  [resetAlerts]: (state) => {
+    let updated = state;
     Object.keys(state.get('alerts').toJS()).forEach((type) => {
-      state = state.setIn(['alerts', type], new List())
-    })
-    state = state.set('alert_exists', false);
-    return state
-  }
+      updated = state.setIn(['alerts', type], new List());
+    });
+    updated = updated.set('alert_exists', false);
+    return updated;
+  },
 
 };
 

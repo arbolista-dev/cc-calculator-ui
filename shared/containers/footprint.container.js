@@ -5,63 +5,59 @@ import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average
 import { ensureFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult } from 'shared/reducers/user_footprint/user_footprint.actions';
 import { updateUI, pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
 
-const mapStateToProps = (state) => {
-  return {
-    location: state['location'],
-    average_footprint: state['average_footprint'],
-    user_footprint: state['user_footprint'],
-    auth: state['auth'],
-    ui: state['ui']
-  };
-};
+const mapStateToProps = state => ({
+  location: state.location,
+  average_footprint: state.average_footprint,
+  user_footprint: state.user_footprint,
+  auth: state.auth,
+  ui: state.ui,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    ensureDefaults: (default_basic_inputs) => {
-      ensureDefaults.assignTo(dispatch);
-      ensureDefaults(default_basic_inputs);
-    },
-    averageFootprintUpdated: (updated_params) => {
-      averageFootprintUpdated.assignTo(dispatch);
-      averageFootprintUpdated(updated_params);
-    },
-    ensureFootprintComputed: (defaults) => {
-      ensureFootprintComputed.assignTo(dispatch);
-      ensureFootprintComputed(defaults);
-    },
-    userFootprintUpdated: (updated_params) => {
-      userFootprintUpdated.assignTo(dispatch);
-      userFootprintUpdated(updated_params);
-    },
-    userFootprintReset: () => {
-      userFootprintReset.assignTo(dispatch);
-      userFootprintReset();
-    },
-    updatedFootprintComputed: (updated_params) => {
-      updatedFootprintComputed.assignTo(dispatch);
-      updatedFootprintComputed(updated_params);
-    },
-    updateTakeactionResult: () => {
-      updateTakeactionResult.assignTo(dispatch);
-      updateTakeactionResult();
-    },
-    updateUI: (payload) => {
-      updateUI.assignTo(dispatch);
-      updateUI(payload);
-    },
-    pushAlert: (payload) => {
-      dispatch(pushAlert(payload));
-    },
-    resetAlerts: () => {
-      resetAlerts.assignTo(dispatch);
-      resetAlerts();
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  ensureDefaults: (default_basic_inputs) => {
+    ensureDefaults.assignTo(dispatch);
+    ensureDefaults(default_basic_inputs);
+  },
+  averageFootprintUpdated: (updated_params) => {
+    averageFootprintUpdated.assignTo(dispatch);
+    averageFootprintUpdated(updated_params);
+  },
+  ensureFootprintComputed: (defaults) => {
+    ensureFootprintComputed.assignTo(dispatch);
+    ensureFootprintComputed(defaults);
+  },
+  userFootprintUpdated: (updated_params) => {
+    userFootprintUpdated.assignTo(dispatch);
+    userFootprintUpdated(updated_params);
+  },
+  userFootprintReset: () => {
+    userFootprintReset.assignTo(dispatch);
+    userFootprintReset();
+  },
+  updatedFootprintComputed: (updated_params) => {
+    updatedFootprintComputed.assignTo(dispatch);
+    updatedFootprintComputed(updated_params);
+  },
+  updateTakeactionResult: () => {
+    updateTakeactionResult.assignTo(dispatch);
+    updateTakeactionResult();
+  },
+  updateUI: (payload) => {
+    updateUI.assignTo(dispatch);
+    updateUI(payload);
+  },
+  pushAlert: (payload) => {
+    dispatch(pushAlert(payload));
+  },
+  resetAlerts: () => {
+    resetAlerts.assignTo(dispatch);
+    resetAlerts();
+  },
+});
 
 const footprintContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
 
 const footprintPropTypes = {
@@ -79,14 +75,14 @@ const footprintPropTypes = {
   updatedFootprintComputed: React.PropTypes.func.isRequired,
   updateUI: React.PropTypes.func.isRequired,
   pushAlert: React.PropTypes.func.isRequired,
-  resetAlerts: React.PropTypes.func.isRequired
+  resetAlerts: React.PropTypes.func.isRequired,
 };
 
 const graphsPropTypes = {
   average_footprint: React.PropTypes.object,
   user_footprint: React.PropTypes.object,
   ui: React.PropTypes.object,
-  user_profile_footprint: React.PropTypes.object
+  user_profile_footprint: React.PropTypes.object,
 };
 
 export default footprintContainer;
