@@ -5,12 +5,12 @@ import { createReducer } from 'redux-act';
 import CalculatorApi from 'api/calculator.api';
 import { updateAnswers } from 'api/user.api';
 import { setLocalStorageItem, getLocalStorageItem, tokenIsValid } from 'shared/lib/utils/utils';
-import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateRemoteUserAnswers } from './user_footprint.actions';
-
+import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateRemoteUserAnswers, updateActionStatus } from './user_footprint.actions';
 
 /*
   user_footprint: {
     data: <Object>,
+    actions: <Object>,
     loading: <Boolean>,
     load_error: <Boolean>
   }
@@ -168,6 +168,44 @@ const ACTIONS = {
     return fromJS(state);
   },
 
+  [updateActionStatus]: (state, params) => {
+
+    let actions;
+    let updated;
+
+    console.log('updateActionStatus params', params);
+
+    if (params.status === 'pledged') {
+
+      const action_update = {
+        [params.key]: params.details
+      }
+      actions = state.getIn(['actions', 'pledged'])
+                     .merge(action_update);
+
+      updated = state.setIn(['actions', 'pledged'], actions)
+    } else if (params.status === 'unpledged' || params.status === 'not_relevant') {
+
+      actions = state.get('actions');
+      updated = state;
+
+      if (actions.hasIn(['pledged', params.key])) {
+        const cleared = actions.deleteIn(['pledged', params.key]);
+        updated = state.set('actions', cleared)
+      }
+
+      if (params.status === 'not_relevant') {
+        const not_relevant = actions.get('not_relevant');
+        const pushed = not_relevant.push(params.key);
+        updated = state.setIn(['actions', 'not_relevant'], pushed)
+      }
+    }
+
+    console.log('updated actionstatus', updated.toJS());
+
+    return fromJS(updated);
+
+  },
 };
 
 const REDUCER = createReducer(ACTIONS, {});

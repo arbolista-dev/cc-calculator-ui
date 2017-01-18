@@ -93,7 +93,7 @@ class LayoutComponent extends Panel {
           }
         }
       } catch (e) {
-        throw e;
+        // throw e;
       }
     }), false);
   }

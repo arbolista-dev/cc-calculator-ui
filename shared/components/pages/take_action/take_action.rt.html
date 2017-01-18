@@ -11,32 +11,58 @@
 
   <ExternalOffset totalUserFootprint={this.total_user_footprint} ui={this.props.ui} rt-if="this.external_offset_set"></ExternalOffset>
 
-  <div id="action_category_btn_group_container" className="cc-component__question">
-    <div id="action_category_btn_group" className="btn-group" role="group">
-      <a rt-repeat="category in this.actions_list"
-        rt-class="{'btn-success': this.isCategoryActive(category.category), 'btn-default': !this.isCategoryActive(category.category)}"
-        key="action_category_{category.category}"
-        type="button"
-        className="btn"
-        onClick="{this.setCategory.bind(this, category.category)}"
-         >{this.t(category.title)}</a>
-    </div>
+  <div class="filter-sort list-group">
+    <li class="list-group-item category-filter">
+      <label>
+        Category <i class="fa fa-plus" aria-hidden="true"></i>
+      </label>
+      <ul>
+        <button rt-repeat="category in this.actions_list"
+          key="action_category_{category.category}"
+          className="btn btn-link"
+          onClick="{this.setCategory.bind(this, category.category)}"
+           ><li rt-class="{'shifted': this.isCategoryActive(category.category)}">
+             <i rt-if="this.isCategoryActive(category.category)" class="fa fa-check" aria-hidden="true"></i>{this.t(category.title)}
+           </li>
+         </button>
+      </ul>
+    </li>
+    <li class="list-group-item status-filter">
+      <label>
+        Status <i class="fa fa-plus" aria-hidden="true"></i>
+      </label>
+      <ul>
+        <button rt-repeat="status in this.status_list"
+          key="{statusIndex}"
+          className="btn btn-link"
+          onClick="{this.setStatusFilter.bind(this, status.key)}"
+           ><li rt-class="{'shifted': this.isStatusFilterActive(status.key)}">
+             <i rt-if="this.isStatusFilterActive(status.key)" class="fa fa-check" aria-hidden="true"></i>{this.t(status.title)}
+           </li>
+         </button>
+      </ul>
+    </li>
+    <li class="list-group-item sort-by">
+      <label>
+        Sort by <i class="fa fa-plus" aria-hidden="true"></i>
+      </label>
+      <select id="goalSortBy" class="form-control">
+        <option rt-repeat="option in this.filter_options" key="{optionIndex}">{option.title}</option>
+      </select>
+    </li>
   </div>
 
-  <div id="action_critical_assumptions">
-    <a type="button"
-      className="btn btn-sm btn-info"
+  <div class="action-detailing">
+    <button className="btn btn-xs btn-link"
       onClick="{this.toggleCriticalAssumptions.bind(this)}"
-       >{this.t('take_action.critical_assumptions')}</a>
+       >{this.t('take_action.critical_assumptions')}</button>
        <Action is_assumption={true} show="{this.state.show_critical_assumptions}"></Action>
   </div>
 
   <div className="cc-component__form">
     <div id="action-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
       <div class="carousel-inner" role="listbox">
-        <rt-virtual rt-repeat="category in this.actions_list">
-          <Action rt-repeat="key in category.keys" active="{this.activeAction(key)}" action_key="{key}" category="{category.category}" show="{this.showAction(key)}" is_assumption={false}></Action>
-        </virtual>
+        <Action rt-repeat="key in this.all_actions_list" active="{this.activateCarouselItem(key)}" action_key="{key}" category="{this.getCategoryByAction(key)}" is_assumption={false}></Action>
       </div>
 
       <a class="left carousel-control" href="#action-carousel" role="button" data-slide="prev">

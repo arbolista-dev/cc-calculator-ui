@@ -65,6 +65,10 @@ class ActionComponent extends Translatable {
     return parseInt(this.userApiValue(this.api_key), 10) === 1;
   }
 
+  get completed() {
+    return 1;
+  }
+
   get is_shown_detailed() {
     return this.state.detailed;
   }
@@ -89,7 +93,7 @@ class ActionComponent extends Translatable {
     return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_net10yr', this.state.key])));
   }
 
-  toggleAction() {
+  toggleActionPledge() {
     const action = this;
     const update = {};
     if (action.taken) {
@@ -99,6 +103,31 @@ class ActionComponent extends Translatable {
     }
     action.setState(update);
     action.updateTakeaction(update);
+    action.updateActionStatus(update);
+  }
+
+  toggleActionComplete() {
+    console.log('complete action', this.api_key);
+    // const action = this;
+    // const update = {};
+    // if (action.taken) {
+    //   update[action.api_key] = 0;
+    // } else {
+    //   update[action.api_key] = 1;
+    // }
+    // action.setState(update);
+    // action.updateTakeaction(update);
+    // action.updateActionStatus(update);
+  }
+
+  discardAction(){
+    const action = this;
+    if (this.taken) {
+      const update = { [this.api_key]: 0 };
+      action.setState(update);
+      action.updateTakeaction(update);
+    }
+    action.updateActionStatus({ [this.api_key]: -1 })
   }
 
   toggleActionDetails() {
@@ -245,6 +274,37 @@ class ActionComponent extends Translatable {
       const user_api_state = action.userApiState();
       action.setState(user_api_state);
     }, 500);
+  }
+
+  updateActionStatus(params) {
+    const key = this.state.key;
+    const status = params[this.api_key];
+    let update = {};
+
+    if (status === 1) {
+      update = {
+        key,
+        status: 'pledged',
+        details: {
+          tons_saved: this.tons_saved,
+          dollars_saved: this.dollars_saved,
+          upfront_cost: this.upfront_cost,
+        },
+      };
+    } else if (status === 0) {
+      update = {
+        key,
+        status: 'unpledged',
+      };
+    } else if (status === -1) {
+      update = {
+        key,
+        status: 'not_relevant',
+      };
+    }
+
+    console.log('update', update);
+    this.props.updateActionStatus(update)
   }
 }
 

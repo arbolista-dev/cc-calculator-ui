@@ -10,8 +10,10 @@ const userFootprintReset = createAction('Reset user footprint.');
 const updatedFootprintComputed = createAction('Compute updated user footprint.');
 const updateTakeactionResult = createAction('Compute and update take action result.');
 const updateRemoteUserAnswers = createAction('Update remote user through User API.');
+const updateActionStatus = createAction('Update status of actions.');
+
 
 export { ensureFootprintComputed, footprintRetrieved, userFootprintError,
   parseFootprintResult, parseTakeactionResult, userFootprintUpdated,
   userFootprintReset, updatedFootprintComputed, updateTakeactionResult,
-  updateRemoteUserAnswers };
+  updateRemoteUserAnswers, updateActionStatus };

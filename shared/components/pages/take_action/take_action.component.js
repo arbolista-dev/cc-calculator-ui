@@ -25,20 +25,23 @@ class TakeActionComponent extends Panel {
   constructor(props, context) {
     super(props, context);
     const take_action = this;
-    take_action.action_keys = Object.keys(take_action.result_takeaction_pounds)
-      .filter(key => !/^offset_/.test(key));
-    take_action.state = take_action.userApiState();
-    take_action.state.input_action_category = ACTIONS[0].category;
-    take_action.state.show_actions = ACTIONS[0].keys;
-    take_action.state.show_critical_assumptions = false;
+    // take_action.action_keys = Object.keys(take_action.result_takeaction_pounds)
+      // .filter(key => !/^offset_/.test(key));
+    // take_action.state = take_action.userApiState();
+    take_action.state = {
+      active_category_filter: '',
+      show_actions: ACTIONS[0].keys,
+      show_critical_assumptions: false,
+    };
   }
 
   componentWillMount() {
-    this.setActiveActionsByCategory(this.state.input_action_category);
+    this.filterActionsByCategory(this.state.active_category_filter);
   }
 
   componentDidMount() {
     this.setVehicles();
+    this.all_actions_list;
   }
 
   render() {
@@ -52,6 +55,27 @@ class TakeActionComponent extends Panel {
 
   get actions_list() {
     return ACTIONS;
+  }
+
+  get all_actions_list(){
+    let all_actions = [];
+    this.actions_list.map((category) => {
+      all_actions = all_actions.concat(category.keys)
+    });
+    console.log('all_actions', all_actions);
+    return all_actions;
+  }
+
+  get current_actions_list() {
+
+  }
+
+  get status_list() {
+    return [{title: 'All', key: 'all'}, {title: 'Pledged', key: 'pledged'}, {title: 'Completed', key: 'completed'}, {title: 'Not pledged', key: 'not-pledged'}, {title: 'Not relevant', key: 'not-relevant'}];
+  }
+
+  get filter_options() {
+    return [{title: 'Title', key: 'title'}, {title: 'Carbon savings', key: 'carbon-savings'}, {title: 'Money savings', key: 'money-savings'}, {title: 'Down payment', key: 'down-payment'}];
   }
 
   get relevant_api_keys() {
@@ -78,6 +102,17 @@ class TakeActionComponent extends Panel {
     return this.state.show_critical_assumptions;
   }
 
+  getCategoryByAction(action_key) {
+    //@ToDo: refactor .category property -> .id
+    let id;
+    this.actions_list.forEach((category) => {
+      if (category.keys.includes(action_key)) {
+        id = category.category;
+      }
+    });
+    return id;
+  }
+
   setVehicles() {
     const take_action = this;
     const num = take_action.userApiValue('input_footprint_transportation_num_vehicles');
@@ -97,10 +132,15 @@ class TakeActionComponent extends Panel {
   }
 
   isCategoryActive(category) {
-    return this.state.input_action_category === category;
+    return this.state.active_category_filter === category;
   }
 
-  setActiveActionsByCategory(category) {
+  isStatusFilterActive(key) {
+    //@ToDo: Implement this!
+    return key === 'pledged';
+  }
+
+  filterActionsByCategory(category) {
     const update = {};
     this.actions_list.forEach((group) => {
       if (category === group.category) {
@@ -113,27 +153,29 @@ class TakeActionComponent extends Panel {
   setCategory(category) {
     const take_action = this;
     take_action.setState({
-      input_action_category: category,
+      active_category_filter: category,
     });
-    take_action.setActiveActionsByCategory(category);
+    take_action.filterActionsByCategory(category);
   }
 
-  toggleCriticalAssumptions() {
+  setStatusFilter(status) {
+    console.log('set status filter', status);
+  }
+
+  toggleFilterAndSort() {
+    this.setState({
+      show_filter_sort: !this.state.show_filter_sort,
+    });
+  }
+
+  toggleCriticalAssumptions(){
     this.setState({
       show_critical_assumptions: !this.state.show_critical_assumptions,
     });
   }
 
-  showAction(key) {
-    const show = this.state.show_actions;
-    if (show.includes(key)) {
-      return true;
-    }
-    return false;
-  }
-
-  activeAction(key){
-    if (key === this.state['show_actions'][0]) {
+  activateCarouselItem(key){
+    if (key === this.all_actions_list[0]) {
       return true;
     } else {
       return false;

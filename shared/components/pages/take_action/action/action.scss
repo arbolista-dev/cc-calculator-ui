@@ -13,24 +13,20 @@
 
     .action__status {
       padding: 10px 0;
-      .btn--pledge {
+      .btn-group {
         margin-left: 35px;
-        border-color: #449D44;
-        background-color: #fff;
-        &:hover {
-          background-color: #e6e6e6;
+        .btn {
+          border-color: #449D44;
+          background-color: #fff;
+          &:hover {
+            background-color: #e6e6e6;
+          }
+          &.action__status--done {
+            background-color: #449D44;
+            border-color: #fff;
+            color: #fff;
+          }
         }
-        &.action__status--taken {
-          background-color: #449D44;
-          border-color: #fff;
-          color: #fff;
-        }
-      }
-
-      .btn--discard {
-        background-color: #f39090;
-        margin-right: 15px;
-        float: right;
       }
     }
   }
@@ -64,6 +60,12 @@
     margin: 20px 0 15px 0;
     &.toggled {
       margin-bottom: 0;
+    }
+  }
+
+  .mark-not-relevant {
+    .btn {
+
     }
   }
 

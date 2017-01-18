@@ -1,14 +1,20 @@
-<div rt-class="{item: !this.props.is_assumption, active: this.props.active && !this.props.is_assumption, hidden: !this.props.show}">
+<div rt-class="{item: !this.props.is_assumption, active: this.props.active && !this.props.is_assumption}">
   <div className="action" rt-if="!this.props.is_assumption">
     <div className="action__heading">
       <div className="action__status">
-        <button className="btn btn-default btn--pledge"
-          onClick="{this.toggleAction.bind(this)}" rt-class="{'action__status--taken': this.taken}"> <span rt-if="!this.taken">Pledge </span>
-          <span rt-if="this.taken">Pledged </span>
-          <i className="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
-        </button>
-        <button type="button" class="btn btn-default btn-xs btn--discard" data-toggle="tooltip" data-placement="bottom" title="Discard this action."><i class="fa fa-ban" aria-hidden="true"></i>
-</button>
+        <div class="btn-group" role="group">
+          <button className="btn btn-default"
+            onClick="{this.toggleActionPledge.bind(this)}" rt-class="{'action__status--done': this.taken}"> <span rt-if="!this.taken">Pledge </span>
+            <span rt-if="this.taken">Pledged </span>
+            <i rt-if="!this.taken" className="fa" class="fa-check-square-o"></i>
+          </button>
+          <button rt-if="this.taken"
+            className="btn btn-default"
+            onClick="{this.toggleActionComplete.bind(this)}" rt-class="{'action__status--done': this.completed}"> <span rt-if="!this.completed">Complete </span>
+            <span rt-if="this.completed">Completed </span>
+            <i className="fa" rt-class="{'fa-check-square-o': !this.completed, 'fa-check-square': this.completed}"></i>
+          </button>
+        </div>
       </div>
     </div>
     <div className="action__block">
@@ -133,9 +139,15 @@
          </table>
       </div>
     </div>
+    <div class="mark-not-relevant">
+      <button type="button" class="btn btn-link btn-xs"
+        onClick="{this.discardAction.bind(this)}">
+        Mark this action as not relevant.
+      </button>
+    </div>
   </div>
 
-  <div className="critical_assumptions" rt-if="this.props.is_assumption">
+  <div className="critical_assumptions" rt-if="this.props.is_assumption && this.props.show">
      <table className="table">
        <tbody>
          <tr rt-repeat="block in this.assumptions_content" key="{blockIndex}">

@@ -8,6 +8,43 @@
     margin-top: 20px;
   }
 
+  .action-detailing {
+    text-align: center;
+    div {
+      width: 70%;
+      margin: 0 auto 15px;
+    }
+  }
+
+  .filter-sort {
+    margin-top: 20px;
+    text-align: center;
+    .list-group-item {
+      display: inline-block;
+      width: 23%;
+      vertical-align: top;
+      text-align: left;
+      .shifted {
+        margin-left: -18px;
+        .fa {
+          padding-right: 4px;
+        }
+      }
+      label {
+        .fa {
+          padding-left: 40px;
+        }
+      }
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      .btn {
+        display: block;
+      }
+    }
+  }
+
   .cc-component__form {
     .carousel-control {
       color: #000;
@@ -33,14 +70,6 @@
 
 #action_category_btn_group_container {
   text-align:center;
-}
-
-#action_critical_assumptions {
-  text-align: center;
-  padding-bottom: 15px;
-  .btn {
-    color: #000;
-  }
 }
 
 #action_category_btn_group {
