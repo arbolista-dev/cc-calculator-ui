@@ -21,7 +21,8 @@
     text-align: center;
     .list-group-item {
       display: inline-block;
-      width: 23%;
+      width: 24%;
+      padding: 7px 9px;
       vertical-align: top;
       text-align: left;
       .shifted {
@@ -30,15 +31,33 @@
           padding-right: 4px;
         }
       }
+
       label {
-        .fa {
-          padding-left: 40px;
+        width: 100%;
+        padding: 5px 3px;
+        margin-bottom: 0;
+        &:hover {
+          cursor: pointer;
+          background-color: #eee;
+        }
+        &:after {
+          display: block;
+          position: absolute;
+          top: 15px;
+          left: auto;
+          right: 15px;
+          bottom: auto;
+          font: normal normal normal 14px/1 FontAwesome;
+          content: "\f067";
+          text-rendering: auto;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
       }
     }
     ul {
       list-style-type: none;
-      padding-left: 0;
+      padding-left: 7px;
       .btn {
         display: block;
       }
@@ -53,6 +72,10 @@
         background-image:none !important;
         filter:none !important;
       }
+    }
+    .alert {
+      width: 60%;
+      margin: 10px auto;
     }
   }
 }

@@ -231,7 +231,11 @@
             "tons_co2_per_year": "tons CO2/year",
             "monthly_gift": "monthly gift",
             "dollar_sign": "$"
-        }
+        },
+        "category": "Category",
+        "status": "Status",
+        "sort_by": "Sort by",
+        "empty_actions_list": "The current filter combination matches no actions."
     },
     "graphs": {
         "your_footprint": "Your footprint",

@@ -14,10 +14,10 @@
   <div class="filter-sort list-group">
     <li class="list-group-item category-filter">
       <label>
-        Category <i class="fa fa-plus" aria-hidden="true"></i>
+        {this.t('take_action.category')}
       </label>
       <ul>
-        <button rt-repeat="category in this.actions_by_category"
+        <button rt-repeat="category in this.category_list"
           key="action_category_{category.id}"
           className="btn btn-link"
           onClick="{this.setCategory.bind(this, category.id)}"
@@ -29,7 +29,7 @@
     </li>
     <li class="list-group-item status-filter">
       <label>
-        Status <i class="fa fa-plus" aria-hidden="true"></i>
+        {this.t('take_action.status')}
       </label>
       <ul>
         <button rt-repeat="status in this.status_list"
@@ -44,7 +44,7 @@
     </li>
     <li class="list-group-item sort-by">
       <label>
-        Sort by <i class="fa fa-plus" aria-hidden="true"></i>
+        {this.t('take_action.sort_by')}
       </label>
       <select id="goalSortBy" class="form-control">
         <option rt-repeat="option in this.filter_options" key="{optionIndex}">{option.title}</option>
@@ -60,7 +60,7 @@
   </div>
 
   <div className="cc-component__form">
-    <div id="action-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <div rt-if="this.current_actions_list.length !== 0" id="action-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
       <div class="carousel-inner" role="listbox">
         <Action rt-repeat="key in this.all_actions"
           key={keyIndex}
@@ -73,12 +73,16 @@
 
       <a class="left carousel-control" href="#action-carousel" role="button" data-slide="prev">
         <span class="icon-prev" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
       </a>
       <a class="right carousel-control" href="#action-carousel" role="button" data-slide="next">
         <span class="icon-next" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
       </a>
+    </div>
+
+    <div rt-if="this.current_actions_list.length === 0">
+      <div class="alert alert-warning" role="alert">
+        {this.t('take_action.empty_actions_list')}
+      </div>
     </div>
   </div>
 

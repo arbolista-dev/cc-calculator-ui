@@ -30,13 +30,13 @@ class TakeActionComponent extends Panel {
     // take_action.state = take_action.userApiState();
     take_action.state = {
       active_category_filter: '',
+      active_status_filter: 'all',
       show_actions: this.all_actions,
       show_critical_assumptions: false,
     };
   }
 
   componentDidMount() {
-    console.log('did mount');
     this.setVehicles();
   }
 
@@ -62,11 +62,16 @@ class TakeActionComponent extends Panel {
   }
 
   get current_actions_list() {
+    console.log('current_actions_list', this.state.show_actions);
     return this.state.show_actions;
   }
 
+  get category_list() {
+    return ([{title: 'All', id: ''}]).concat(this.actions_by_category);
+  }
+
   get status_list() {
-    return [{title: 'All', key: 'all'}, {title: 'Pledged', key: 'pledged'}, {title: 'Completed', key: 'completed'}, {title: 'Not pledged', key: 'not-pledged'}, {title: 'Not relevant', key: 'not-relevant'}];
+    return [{title: 'All', key: 'all'}, {title: 'Pledged', key: 'pledged'}, {title: 'Completed', key: 'completed'}, {title: 'Not pledged', key: 'not_pledged'}, {title: 'Relevant', key: 'relevant'}, {title: 'Not relevant', key: 'not_relevant'}];
   }
 
   get filter_options() {
@@ -91,6 +96,10 @@ class TakeActionComponent extends Panel {
 
   get result_takeaction_net10yr() {
     return this.props.user_footprint.get('result_takeaction_net10yr');
+  }
+
+  get actions_profile() {
+    return this.props.user_footprint.get('actions');
   }
 
   get show_critical_assumptions() {
@@ -130,19 +139,60 @@ class TakeActionComponent extends Panel {
   }
 
   isStatusFilterActive(key) {
-    //@ToDo: Implement this!
-    return key === 'pledged';
+    return this.state.active_status_filter === key;
   }
 
   filterActionsByCategory(category) {
     const update = {};
-    this.actions_by_category.forEach((group) => {
-      if (category === group.id) {
-        update.show_actions = group.keys;
-        console.log('update category', update);
-      }
-    });
+    if (!category) {
+      update.show_actions = this.all_actions;
+    } else {
+      this.actions_by_category.forEach((group) => {
+        if (category === group.id) {
+          update.show_actions = group.keys;
+        }
+      });
+    }
+
+    //@ToDo: check status filter!
+
     this.setState(update);
+  }
+
+  filterActionsByStatus(status) {
+    // @ToDo: user_footprint.get('actions') to check if key exists!
+    const take_action = this;
+    const actions_profile = take_action.actions_profile;
+    const update = {};
+    console.log('actions profile', actions_profile.toJS());
+
+    if (status === 'pledged' || status === 'completed') {
+      update.show_actions = Object.keys(take_action.actions_profile.get(status).toJS());
+
+    } else if (status === 'not_relevant') {
+      update.show_actions = take_action.actions_profile.get(status).toJS();
+
+    } else if (status === 'not_pledged') {
+
+      const pledged = Object.keys(take_action.actions_profile.get('pledged').toJS());
+      const not_pledged = take_action.all_actions.filter(key => !pledged.includes(key));
+
+      update.show_actions = not_pledged;
+
+    } else if (status === 'relevant') {
+
+      const not_relevant = take_action.actions_profile.get('not_relevant').toJS();
+      const relevant = take_action.all_actions.filter(key => !not_relevant.includes(key));
+
+      update.show_actions = relevant;
+
+    } else if (status === 'all') {
+      update.show_actions = take_action.all_actions;
+    }
+
+    // @ToDo: check if category filter active and if yes use update.show_actions to refilter for specific category!
+
+    take_action.setState(update);
   }
 
   setCategory(category) {
@@ -154,6 +204,11 @@ class TakeActionComponent extends Panel {
   }
 
   setStatusFilter(status) {
+    const take_action = this;
+    take_action.setState({
+      active_status_filter: status,
+    });
+    take_action.filterActionsByStatus(status);
     console.log('set status filter', status);
   }
 

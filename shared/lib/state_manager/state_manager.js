@@ -41,6 +41,10 @@ export default class StateManager {
     return getLocalStorageItem('user_footprint');
   }
 
+  get actions_storage() {
+    return getLocalStorageItem('actions');
+  }
+
   get average_footprint_storage() {
     return getLocalStorageItem('average_footprint');
   }
@@ -117,7 +121,7 @@ export default class StateManager {
         result_takeaction_dollars: state_manager.take_action_storage.dollars || {},
         result_takeaction_net10yr: state_manager.take_action_storage.net10yr || {},
         result_takeaction_pounds: state_manager.take_action_storage.pounds || {},
-        actions: { pledged: {}, completed: {}, not_relevant: [] },
+        actions: state_manager.actions_storage || { pledged: {}, completed: {}, not_relevant: [] },
       }),
       ui: fromJS(state_manager.ui_storage || state_manager.default_ui_state),
     }, opts);

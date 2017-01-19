@@ -175,32 +175,44 @@ const ACTIONS = {
 
     console.log('updateActionStatus params', params);
 
-    if (params.status === 'pledged') {
+    if (params.status === 'pledged' || params.status === 'completed') {
 
       const action_update = {
         [params.key]: params.details
-      }
-      actions = state.getIn(['actions', 'pledged'])
+      };
+      actions = state.getIn(['actions', params.status])
                      .merge(action_update);
 
-      updated = state.setIn(['actions', 'pledged'], actions)
-    } else if (params.status === 'unpledged' || params.status === 'not_relevant') {
+      updated = state.setIn(['actions', params.status], actions);
+
+    } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted') {
 
       actions = state.get('actions');
       updated = state;
 
-      if (actions.hasIn(['pledged', params.key])) {
-        const cleared = actions.deleteIn(['pledged', params.key]);
+      if (params.status === 'uncompleted' || actions.hasIn(['completed', params.key])) {
+
+        const cleared = actions.deleteIn(['completed', params.key]);
         updated = state.set('actions', cleared)
+        
+      } else {
+
+        if (actions.hasIn(['pledged', params.key])) {
+          const cleared = actions.deleteIn(['pledged', params.key]);
+          updated = state.set('actions', cleared)
+        }
+
+        if (params.status === 'not_relevant') {
+          const not_relevant = actions.get('not_relevant');
+          const pushed = not_relevant.push(params.key);
+          updated = state.setIn(['actions', 'not_relevant'], pushed)
+        }
       }
 
-      if (params.status === 'not_relevant') {
-        const not_relevant = actions.get('not_relevant');
-        const pushed = not_relevant.push(params.key);
-        updated = state.setIn(['actions', 'not_relevant'], pushed)
-      }
+
     }
 
+    setLocalStorageItem('actions', updated.get('actions').toJS());
     console.log('updated actionstatus', updated.toJS());
 
     return fromJS(updated);

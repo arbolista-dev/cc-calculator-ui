@@ -65,7 +65,8 @@ class ActionComponent extends Translatable {
   }
 
   get completed() {
-    return 1;
+    const completedActions = this.props.user_footprint.getIn(['actions', 'completed']);
+    return completedActions.has(this.state.key);
   }
 
   get is_shown_detailed() {
@@ -106,17 +107,15 @@ class ActionComponent extends Translatable {
   }
 
   toggleActionComplete() {
-    console.log('complete action', this.api_key);
-    // const action = this;
-    // const update = {};
-    // if (action.taken) {
-    //   update[action.api_key] = 0;
-    // } else {
-    //   update[action.api_key] = 1;
-    // }
-    // action.setState(update);
-    // action.updateTakeaction(update);
-    // action.updateActionStatus(update);
+    const action = this;
+    const update = {};
+    if (action.completed) {
+      update[action.api_key] = -2;
+    } else {
+      update[action.api_key] = 2;
+    }
+    action.setState(update);
+    action.updateActionStatus(update);
   }
 
   discardAction(){
@@ -299,6 +298,21 @@ class ActionComponent extends Translatable {
       update = {
         key,
         status: 'not_relevant',
+      };
+    } else if (status === 2) {
+      update = {
+        key,
+        status: 'completed',
+        details: {
+          tons_saved: this.tons_saved,
+          dollars_saved: this.dollars_saved,
+          upfront_cost: this.upfront_cost,
+        },
+      };
+    } else if (status === -2) {
+      update = {
+        key,
+        status: 'uncompleted',
       };
     }
 
