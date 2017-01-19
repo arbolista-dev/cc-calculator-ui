@@ -17,12 +17,12 @@
         Category <i class="fa fa-plus" aria-hidden="true"></i>
       </label>
       <ul>
-        <button rt-repeat="category in this.actions_list"
-          key="action_category_{category.category}"
+        <button rt-repeat="category in this.actions_by_category"
+          key="action_category_{category.id}"
           className="btn btn-link"
-          onClick="{this.setCategory.bind(this, category.category)}"
-           ><li rt-class="{'shifted': this.isCategoryActive(category.category)}">
-             <i rt-if="this.isCategoryActive(category.category)" class="fa fa-check" aria-hidden="true"></i>{this.t(category.title)}
+          onClick="{this.setCategory.bind(this, category.id)}"
+           ><li rt-class="{'shifted': this.isCategoryActive(category.id)}">
+             <i rt-if="this.isCategoryActive(category.id)" class="fa fa-check" aria-hidden="true"></i>{this.t(category.title)}
            </li>
          </button>
       </ul>
@@ -62,7 +62,13 @@
   <div className="cc-component__form">
     <div id="action-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
       <div class="carousel-inner" role="listbox">
-        <Action rt-repeat="key in this.all_actions_list" active="{this.activateCarouselItem(key)}" action_key="{key}" category="{this.getCategoryByAction(key)}" is_assumption={false}></Action>
+        <Action rt-repeat="key in this.all_actions"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          category="{this.getCategoryByAction(key)}"
+          is_assumption={false} />
       </div>
 
       <a class="left carousel-control" href="#action-carousel" role="button" data-slide="prev">

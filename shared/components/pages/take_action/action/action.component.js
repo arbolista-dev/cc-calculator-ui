@@ -25,7 +25,6 @@ class ActionComponent extends Translatable {
 
   componentWillUnmount() {
     window.jQuery("[data-toggle='popover']").tooltip('destroy');
-
   }
 
   render() {

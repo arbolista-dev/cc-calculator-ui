@@ -1,4 +1,4 @@
-<div rt-class="{item: !this.props.is_assumption, active: this.props.active && !this.props.is_assumption}">
+<div rt-if="this.props.show" rt-class="{item: !this.props.is_assumption, active: this.props.active && !this.props.is_assumption}">
   <div className="action" rt-if="!this.props.is_assumption">
     <div className="action__heading">
       <div className="action__status">
@@ -147,7 +147,7 @@
     </div>
   </div>
 
-  <div className="critical_assumptions" rt-if="this.props.is_assumption && this.props.show">
+  <div className="critical_assumptions" rt-if="this.props.is_assumption">
      <table className="table">
        <tbody>
          <tr rt-repeat="block in this.assumptions_content" key="{blockIndex}">
