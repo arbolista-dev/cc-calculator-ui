@@ -316,7 +316,6 @@ class ActionComponent extends Translatable {
       };
     }
 
-    console.log('update', update);
     this.props.updateActionStatus(update)
   }
 }

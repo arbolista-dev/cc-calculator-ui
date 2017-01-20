@@ -13,10 +13,10 @@
 
   <div class="filter-sort list-group">
     <li class="list-group-item category-filter">
-      <label>
+      <label onClick="{this.toggleFilterAndSort.bind(this, 'show_category_filter')}">
         {this.t('take_action.category')}
       </label>
-      <ul>
+      <ul rt-if="this.state.show_category_filter">
         <button rt-repeat="category in this.category_list"
           key="action_category_{category.id}"
           className="btn btn-link"
@@ -28,10 +28,10 @@
       </ul>
     </li>
     <li class="list-group-item status-filter">
-      <label>
+      <label onClick="{this.toggleFilterAndSort.bind(this, 'show_status_filter')}">
         {this.t('take_action.status')}
       </label>
-      <ul>
+      <ul rt-if="this.state.show_status_filter">
         <button rt-repeat="status in this.status_list"
           key="{statusIndex}"
           className="btn btn-link"
@@ -43,10 +43,10 @@
       </ul>
     </li>
     <li class="list-group-item sort-by">
-      <label>
+      <label onClick="{this.toggleFilterAndSort.bind(this, 'show_sort_by')}">
         {this.t('take_action.sort_by')}
       </label>
-      <select class="form-control" onChange="{this.handleSortByChange.bind(this)}">
+      <select rt-if="this.state.show_sort_by" class="form-control" onChange="{this.handleSortByChange.bind(this)}">
         <option rt-repeat="option in this.sort_options" key="{optionIndex}" value="{option.id}">{option.title}</option>
       </select>
     </li>

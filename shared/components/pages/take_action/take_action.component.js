@@ -29,6 +29,9 @@ class TakeActionComponent extends Panel {
       // .filter(key => !/^offset_/.test(key));
     // take_action.state = take_action.userApiState();
     take_action.state = {
+      show_category_filter: false,
+      show_status_filter: false,
+      show_sort_by: false,
       active_category_filter: '',
       active_status_filter: 'all',
       sort_by: 'inactive',
@@ -63,7 +66,6 @@ class TakeActionComponent extends Panel {
   }
 
   get current_actions_list() {
-    // console.log('current_actions_list', this.state.show_actions);
     return this.state.show_actions;
   }
 
@@ -80,7 +82,6 @@ class TakeActionComponent extends Panel {
   }
 
   get sort_by_active() {
-    console.log('sort_by', this.state.sort_by !== 'inactive');
     return this.state.sort_by !== 'inactive';
   }
 
@@ -183,7 +184,6 @@ class TakeActionComponent extends Panel {
     const take_action = this;
     const actions_profile = take_action.actions_profile;
     const update = {};
-    console.log('actions profile', actions_profile.toJS());
 
     if (status === 'pledged' || status === 'completed') {
       update.show_actions = Object.keys(take_action.actions_profile.get(status).toJS());
@@ -228,7 +228,6 @@ class TakeActionComponent extends Panel {
       active_status_filter: status,
     });
     take_action.filterActionsByStatus(status);
-    console.log('set status filter', status);
   }
 
   handleSortByChange(e) {
@@ -300,9 +299,9 @@ class TakeActionComponent extends Panel {
     }
   }
 
-  toggleFilterAndSort() {
+  toggleFilterAndSort(key) {
     this.setState({
-      show_filter_sort: !this.state.show_filter_sort,
+      [key]: !this.state[key],
     });
   }
 
