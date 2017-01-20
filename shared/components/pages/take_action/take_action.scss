@@ -54,12 +54,20 @@
           -moz-osx-font-smoothing: grayscale;
         }
       }
+      &.sort-by {
+        .form-control {
+          margin-top: 7px;
+        }
+      }
     }
     ul {
       list-style-type: none;
       padding-left: 7px;
       .btn {
         display: block;
+        width: 100%;
+        text-align: left;
+        border: 0;
       }
     }
   }

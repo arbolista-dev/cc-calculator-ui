@@ -31,6 +31,7 @@ class TakeActionComponent extends Panel {
     take_action.state = {
       active_category_filter: '',
       active_status_filter: 'all',
+      sort_by: 'inactive',
       show_actions: this.all_actions,
       show_critical_assumptions: false,
     };
@@ -62,7 +63,7 @@ class TakeActionComponent extends Panel {
   }
 
   get current_actions_list() {
-    console.log('current_actions_list', this.state.show_actions);
+    // console.log('current_actions_list', this.state.show_actions);
     return this.state.show_actions;
   }
 
@@ -74,8 +75,13 @@ class TakeActionComponent extends Panel {
     return [{title: 'All', key: 'all'}, {title: 'Pledged', key: 'pledged'}, {title: 'Completed', key: 'completed'}, {title: 'Not pledged', key: 'not_pledged'}, {title: 'Relevant', key: 'relevant'}, {title: 'Not relevant', key: 'not_relevant'}];
   }
 
-  get filter_options() {
-    return [{title: 'Title', key: 'title'}, {title: 'Carbon savings', key: 'carbon-savings'}, {title: 'Money savings', key: 'money-savings'}, {title: 'Down payment', key: 'down-payment'}];
+  get sort_options() {
+    return [{title: ' - ', id: 'inactive'}, {title: 'Title', id: 'title'}, {title: 'Carbon savings', id: 'tons_saved'}, {title: 'Money savings', id: 'dollars_saved'}, {title: 'Down payment', id: 'upfront_cost'}];
+  }
+
+  get sort_by_active() {
+    console.log('sort_by', this.state.sort_by !== 'inactive');
+    return this.state.sort_by !== 'inactive';
   }
 
   get relevant_api_keys() {
@@ -104,6 +110,18 @@ class TakeActionComponent extends Panel {
 
   get show_critical_assumptions() {
     return this.state.show_critical_assumptions;
+  }
+
+  getTonsSavedByAction(action_key) {
+    return Math.round(this.result_takeaction_pounds.get(action_key) * 100);
+  }
+
+  getDollarsSavedByAction(action_key) {
+    return Math.round(this.result_takeaction_dollars.get(action_key));
+  }
+
+  getUpfrontCostByAction(action_key) {
+    return Math.round(this.result_takeaction_net10yr.get(action_key));
   }
 
   getCategoryByAction(action_key) {
@@ -155,6 +173,7 @@ class TakeActionComponent extends Panel {
     }
 
     //@ToDo: check status filter!
+
 
     this.setState(update);
   }
@@ -210,6 +229,75 @@ class TakeActionComponent extends Panel {
     });
     take_action.filterActionsByStatus(status);
     console.log('set status filter', status);
+  }
+
+  handleSortByChange(e) {
+    const sort_by = e.target.value;
+
+    if (sort_by === 'inactive') {
+      const actions = this.all_actions;
+      this.setState({show_actions: actions, sort_by});
+      this.activateCarouselItem(actions[0]);
+
+    } else {
+
+      const actions = this.current_actions_list;
+      if (sort_by === 'title') {
+        actions.sort((a, b) => {
+          const aLabel = this.t(`actions.${this.getCategoryByAction(a)}.${a}.label`);
+          const bLabel = this.t(`actions.${this.getCategoryByAction(b)}.${b}.label`);
+
+          if (aLabel < bLabel) {
+            return -1;
+          }
+          if (aLabel > bLabel) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (sort_by === 'tons_saved') {
+        actions.sort((a, b) => {
+          const aSavings = this.getTonsSavedByAction(a);
+          const bSavings = this.getTonsSavedByAction(b);
+
+          if (aSavings > bSavings) {
+            return -1;
+          }
+          if (aSavings < bSavings) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (sort_by === 'dollars_saved') {
+        actions.sort((a, b) => {
+          const aSavings = this.getDollarsSavedByAction(a);
+          const bSavings = this.getDollarsSavedByAction(b);
+
+          if (aSavings > bSavings) {
+            return -1;
+          }
+          if (aSavings < bSavings) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (sort_by === 'upfront_cost') {
+        actions.sort((a, b) => {
+          const aCost = this.getUpfrontCostByAction(a);
+          const bCost = this.getUpfrontCostByAction(b);
+
+          if (aCost < bCost) {
+            return -1;
+          }
+          if (aCost > bCost) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+      this.setState({show_actions: actions, sort_by});
+      this.activateCarouselItem(actions[0]);
+    }
   }
 
   toggleFilterAndSort() {

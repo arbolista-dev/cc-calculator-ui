@@ -46,8 +46,8 @@
       <label>
         {this.t('take_action.sort_by')}
       </label>
-      <select id="goalSortBy" class="form-control">
-        <option rt-repeat="option in this.filter_options" key="{optionIndex}">{option.title}</option>
+      <select class="form-control" onChange="{this.handleSortByChange.bind(this)}">
+        <option rt-repeat="option in this.sort_options" key="{optionIndex}" value="{option.id}">{option.title}</option>
       </select>
     </li>
   </div>
@@ -62,7 +62,40 @@
   <div className="cc-component__form">
     <div rt-if="this.current_actions_list.length !== 0" id="action-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
       <div class="carousel-inner" role="listbox">
-        <Action rt-repeat="key in this.all_actions"
+        <Action rt-if="!this.sort_by_active"
+          rt-repeat="key in this.all_actions"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          category="{this.getCategoryByAction(key)}"
+          is_assumption={false} />
+        <Action rt-if="this.state.sort_by === 'title'"
+          rt-repeat="key in this.current_actions_list"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          category="{this.getCategoryByAction(key)}"
+          is_assumption={false} />
+        <Action rt-if="this.state.sort_by === 'tons_saved'"
+          rt-repeat="key in this.current_actions_list"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          category="{this.getCategoryByAction(key)}"
+          is_assumption={false} />
+        <Action rt-if="this.state.sort_by === 'dollars_saved'"
+          rt-repeat="key in this.current_actions_list"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          category="{this.getCategoryByAction(key)}"
+          is_assumption={false} />
+        <Action rt-if="this.state.sort_by === 'upfront_cost'"
+          rt-repeat="key in this.current_actions_list"
           key={keyIndex}
           show="{this.showActionCard(key)}"
           active="{this.activateCarouselItem(key)}"
