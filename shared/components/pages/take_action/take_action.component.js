@@ -166,51 +166,78 @@ class TakeActionComponent extends Panel {
     if (!category) {
       update.show_actions = this.all_actions;
     } else {
-      this.actions_by_category.forEach((group) => {
-        if (category === group.id) {
-          update.show_actions = group.keys;
-        }
-      });
+      update.show_actions = this.getActionsByCategory(category);
     }
 
-    //@ToDo: check status filter!
-
+    if (this.state.active_status_filter !== 'all') {
+      update.show_actions = this.getActionsByStatus(update.show_actions, this.state.active_status_filter);
+    }
 
     this.setState(update);
   }
 
-  filterActionsByStatus(status) {
-    // @ToDo: user_footprint.get('actions') to check if key exists!
+  getActionsByCategory(category) {
+    let actions;
+    this.actions_by_category.forEach((group) => {
+      if (category === group.id) {
+        actions = group.keys;
+      }
+    });
+    return actions;
+    // return this.current_actions_list.filter(key => status_filtered_actions.includes(key));
+  }
+
+  refilterByStatus(category_filtered_actions, status) {
+    // return this.current_actions_list.filter(key => category_filtered_actions.includes(key));
+  }
+
+  getActionsByStatus(actions_to_filter, status) {
     const take_action = this;
-    const actions_profile = take_action.actions_profile;
-    const update = {};
+    let filtered;
 
     if (status === 'pledged' || status === 'completed') {
-      update.show_actions = Object.keys(take_action.actions_profile.get(status).toJS());
+      filtered = Object.keys(take_action.actions_profile.get(status).toJS());
+      filtered = actions_to_filter.filter(key => filtered.includes(key));
 
     } else if (status === 'not_relevant') {
-      update.show_actions = take_action.actions_profile.get(status).toJS();
+      filtered = take_action.actions_profile.get(status).toJS();
+      filtered = actions_to_filter.filter(key => filtered.includes(key));
 
     } else if (status === 'not_pledged') {
 
       const pledged = Object.keys(take_action.actions_profile.get('pledged').toJS());
-      const not_pledged = take_action.all_actions.filter(key => !pledged.includes(key));
+      const not_pledged = actions_to_filter.filter(key => !pledged.includes(key));
 
-      update.show_actions = not_pledged;
+      filtered = not_pledged;
 
     } else if (status === 'relevant') {
 
       const not_relevant = take_action.actions_profile.get('not_relevant').toJS();
-      const relevant = take_action.all_actions.filter(key => !not_relevant.includes(key));
+      const relevant = actions_to_filter.filter(key => !not_relevant.includes(key));
 
-      update.show_actions = relevant;
+      filtered = relevant;
 
     } else if (status === 'all') {
-      update.show_actions = take_action.all_actions;
+      filtered = actions_to_filter;
     }
 
-    // @ToDo: check if category filter active and if yes use update.show_actions to refilter for specific category!
+    return filtered;
+  }
 
+  filterActionsByStatus(status) {
+    const take_action = this;
+    const actions_profile = take_action.actions_profile;
+    const update = {};
+
+    let actions_to_filter;
+
+    if (this.state.active_category_filter) {
+      actions_to_filter = this.getActionsByCategory(this.state.active_category_filter);
+    } else {
+      actions_to_filter = this.all_actions;
+    }
+
+    update.show_actions = this.getActionsByStatus(actions_to_filter, status);
     take_action.setState(update);
   }
 
