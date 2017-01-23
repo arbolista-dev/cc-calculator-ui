@@ -19,6 +19,9 @@ const ACTIONS = [{
   keys: ['low_carbon_diet', 'go_organic'],
 }];
 
+const STATUS_OPTIONS = [{title: 'All', key: 'all'}, {title: 'Pledged', key: 'pledged'}, {title: 'Not pledged', key: 'not_pledged'}, {title: 'Relevant', key: 'relevant'}, {title: 'Not relevant', key: 'not_relevant'}, {title: 'Completed', key: 'completed'}];
+
+const SORT_OPTIONS = [{title: ' - ', id: 'inactive'}, {title: 'Title', id: 'title'}, {title: 'Carbon savings', id: 'tons_saved'}, {title: 'Money savings', id: 'dollars_saved'}, {title: 'Down payment', id: 'upfront_cost'}];
 
 class TakeActionComponent extends Panel {
 
@@ -71,11 +74,11 @@ class TakeActionComponent extends Panel {
   }
 
   get status_list() {
-    return [{title: 'All', key: 'all'}, {title: 'Pledged', key: 'pledged'}, {title: 'Completed', key: 'completed'}, {title: 'Not pledged', key: 'not_pledged'}, {title: 'Relevant', key: 'relevant'}, {title: 'Not relevant', key: 'not_relevant'}];
+    return this.user_authenticated ? STATUS_OPTIONS : STATUS_OPTIONS.slice(0, -1);
   }
 
   get sort_options() {
-    return [{title: ' - ', id: 'inactive'}, {title: 'Title', id: 'title'}, {title: 'Carbon savings', id: 'tons_saved'}, {title: 'Money savings', id: 'dollars_saved'}, {title: 'Down payment', id: 'upfront_cost'}];
+    return SORT_OPTIONS;
   }
 
   get sort_by_active() {

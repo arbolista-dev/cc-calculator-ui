@@ -8,7 +8,7 @@
             <span rt-if="this.taken">Pledged </span>
             <i rt-if="!this.taken" className="fa" class="fa-check-square-o"></i>
           </button>
-          <button rt-if="this.taken"
+          <button rt-if="this.taken && this.user_authenticated"
             className="btn btn-default"
             onClick="{this.toggleActionComplete.bind(this)}" rt-class="{'action__status--completed': this.completed}"> <span rt-if="!this.completed">Complete </span>
             <span rt-if="this.completed">Completed </span>
