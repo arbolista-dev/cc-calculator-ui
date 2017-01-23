@@ -25,9 +25,6 @@ class TakeActionComponent extends Panel {
   constructor(props, context) {
     super(props, context);
     const take_action = this;
-    // take_action.action_keys = Object.keys(take_action.result_takeaction_pounds)
-      // .filter(key => !/^offset_/.test(key));
-    // take_action.state = take_action.userApiState();
     take_action.state = {
       show_category_filter: false,
       show_status_filter: false,
@@ -113,6 +110,10 @@ class TakeActionComponent extends Panel {
     return this.state.show_critical_assumptions;
   }
 
+  get selectedSortByOption() {
+    return this.state.sort_by;
+  }
+
   getTonsSavedByAction(action_key) {
     return Math.round(this.result_takeaction_pounds.get(action_key) * 100);
   }
@@ -161,6 +162,43 @@ class TakeActionComponent extends Panel {
     return this.state.active_status_filter === key;
   }
 
+  filterAndSortActions(_category, _status, sort_by) {
+    const take_action = this;
+    const update = {};
+    const category = _category ? _category : this.state.active_category_filter;
+    const status = _status ? _status : this.state.active_status_filter;
+
+    if (!category) {
+      update.show_actions = this.all_actions;
+    } else {
+      update.show_actions = this.getActionsByCategory(category);
+    }
+
+    if (status !== 'all') {
+      update.show_actions = this.getActionsByStatus(update.show_actions, status);
+    }
+
+    if (!sort_by) {
+      update.sort_by = 'inactive';
+    } else {
+      if (sort_by !== 'inactive') {
+        update.show_actions = this.sortActions(update.show_actions, sort_by)
+        update.sort_by = sort_by;
+      }
+    }
+
+    this.setState(update);
+  }
+
+  setCategory(category) {
+    const take_action = this;
+    take_action.setState({
+      active_category_filter: category,
+    });
+    // take_action.filterActionsByCategory(category);
+    take_action.filterAndSortActions(category, '', '');
+  }
+
   filterActionsByCategory(category) {
     const update = {};
     if (!category) {
@@ -171,6 +209,13 @@ class TakeActionComponent extends Panel {
 
     if (this.state.active_status_filter !== 'all') {
       update.show_actions = this.getActionsByStatus(update.show_actions, this.state.active_status_filter);
+    }
+
+    if (this.sort_by_active) {
+      update.show_actions = this.sortActions(update.show_actions, this.state.sort_by)
+
+      console.log('filterActionsByCategory sort by: ', this.state.sort_by);
+      console.log('filterActionsByCategory sorted: ', update.show_actions);
     }
 
     this.setState(update);
@@ -184,11 +229,6 @@ class TakeActionComponent extends Panel {
       }
     });
     return actions;
-    // return this.current_actions_list.filter(key => status_filtered_actions.includes(key));
-  }
-
-  refilterByStatus(category_filtered_actions, status) {
-    // return this.current_actions_list.filter(key => category_filtered_actions.includes(key));
   }
 
   getActionsByStatus(actions_to_filter, status) {
@@ -238,15 +278,12 @@ class TakeActionComponent extends Panel {
     }
 
     update.show_actions = this.getActionsByStatus(actions_to_filter, status);
-    take_action.setState(update);
-  }
+    if (this.sort_by_active) {
 
-  setCategory(category) {
-    const take_action = this;
-    take_action.setState({
-      active_category_filter: category,
-    });
-    take_action.filterActionsByCategory(category);
+      update.show_actions = this.sortActions(update.show_actions, this.state.sort_by)
+    }
+
+    take_action.setState(update);
   }
 
   setStatusFilter(status) {
@@ -254,76 +291,80 @@ class TakeActionComponent extends Panel {
     take_action.setState({
       active_status_filter: status,
     });
-    take_action.filterActionsByStatus(status);
+    take_action.filterAndSortActions('', status, '');
+    // take_action.filterActionsByStatus(status);
+  }
+
+  sortActions(actions_to_sort, sort_by) {
+    if (sort_by === 'inactive') {
+      return this.all_actions;
+    }
+
+    // const actions = this.current_actions_list;
+    if (sort_by === 'title') {
+      actions_to_sort.sort((a, b) => {
+        const aLabel = this.t(`actions.${this.getCategoryByAction(a)}.${a}.label`);
+        const bLabel = this.t(`actions.${this.getCategoryByAction(b)}.${b}.label`);
+
+        if (aLabel < bLabel) {
+          return -1;
+        }
+        if (aLabel > bLabel) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (sort_by === 'tons_saved') {
+      actions_to_sort.sort((a, b) => {
+        const aSavings = this.getTonsSavedByAction(a);
+        const bSavings = this.getTonsSavedByAction(b);
+
+        if (aSavings > bSavings) {
+          return -1;
+        }
+        if (aSavings < bSavings) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (sort_by === 'dollars_saved') {
+      actions_to_sort.sort((a, b) => {
+        const aSavings = this.getDollarsSavedByAction(a);
+        const bSavings = this.getDollarsSavedByAction(b);
+
+        if (aSavings > bSavings) {
+          return -1;
+        }
+        if (aSavings < bSavings) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (sort_by === 'upfront_cost') {
+      actions_to_sort.sort((a, b) => {
+        const aCost = this.getUpfrontCostByAction(a);
+        const bCost = this.getUpfrontCostByAction(b);
+
+        if (aCost < bCost) {
+          return -1;
+        }
+        if (aCost > bCost) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    return actions_to_sort;
   }
 
   handleSortByChange(e) {
     const sort_by = e.target.value;
 
-    if (sort_by === 'inactive') {
-      const actions = this.all_actions;
-      this.setState({show_actions: actions, sort_by});
-      this.activateCarouselItem(actions[0]);
+    // const actions = this.sortActions(this.current_actions_list, sort_by)
 
-    } else {
-
-      const actions = this.current_actions_list;
-      if (sort_by === 'title') {
-        actions.sort((a, b) => {
-          const aLabel = this.t(`actions.${this.getCategoryByAction(a)}.${a}.label`);
-          const bLabel = this.t(`actions.${this.getCategoryByAction(b)}.${b}.label`);
-
-          if (aLabel < bLabel) {
-            return -1;
-          }
-          if (aLabel > bLabel) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (sort_by === 'tons_saved') {
-        actions.sort((a, b) => {
-          const aSavings = this.getTonsSavedByAction(a);
-          const bSavings = this.getTonsSavedByAction(b);
-
-          if (aSavings > bSavings) {
-            return -1;
-          }
-          if (aSavings < bSavings) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (sort_by === 'dollars_saved') {
-        actions.sort((a, b) => {
-          const aSavings = this.getDollarsSavedByAction(a);
-          const bSavings = this.getDollarsSavedByAction(b);
-
-          if (aSavings > bSavings) {
-            return -1;
-          }
-          if (aSavings < bSavings) {
-            return 1;
-          }
-          return 0;
-        });
-      } else if (sort_by === 'upfront_cost') {
-        actions.sort((a, b) => {
-          const aCost = this.getUpfrontCostByAction(a);
-          const bCost = this.getUpfrontCostByAction(b);
-
-          if (aCost < bCost) {
-            return -1;
-          }
-          if (aCost > bCost) {
-            return 1;
-          }
-          return 0;
-        });
-      }
-      this.setState({show_actions: actions, sort_by});
-      this.activateCarouselItem(actions[0]);
-    }
+    // this.setState({show_actions: actions, sort_by});
+    this.filterAndSortActions('', '', sort_by)
+    // this.activateCarouselItem(actions[0]);
   }
 
   toggleFilterAndSort(key) {

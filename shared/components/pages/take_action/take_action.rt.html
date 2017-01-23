@@ -46,7 +46,7 @@
       <label onClick="{this.toggleFilterAndSort.bind(this, 'show_sort_by')}">
         {this.t('take_action.sort_by')}
       </label>
-      <select rt-if="this.state.show_sort_by" class="form-control" onChange="{this.handleSortByChange.bind(this)}">
+      <select rt-if="this.state.show_sort_by" class="form-control" onChange="{this.handleSortByChange.bind(this)}" value="{this.selectedSortByOption}">
         <option rt-repeat="option in this.sort_options" key="{optionIndex}" value="{option.id}">{option.title}</option>
       </select>
     </li>
