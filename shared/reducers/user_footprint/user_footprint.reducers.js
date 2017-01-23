@@ -173,8 +173,6 @@ const ACTIONS = {
     let actions;
     let updated;
 
-    console.log('updateActionStatus params', params);
-
     if (params.status === 'pledged' || params.status === 'completed') {
 
       const action_update = {
@@ -185,7 +183,7 @@ const ACTIONS = {
 
       updated = state.setIn(['actions', params.status], actions);
 
-    } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted') {
+    } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted' || params.status === 'relevant') {
 
       actions = state.get('actions');
       updated = state;
@@ -194,12 +192,12 @@ const ACTIONS = {
 
         const cleared = actions.deleteIn(['completed', params.key]);
         updated = state.set('actions', cleared)
-        
+
       } else {
 
         if (actions.hasIn(['pledged', params.key])) {
           const cleared = actions.deleteIn(['pledged', params.key]);
-          updated = state.set('actions', cleared)
+          updated = state.set('actions', cleared);
         }
 
         if (params.status === 'not_relevant') {
@@ -207,13 +205,16 @@ const ACTIONS = {
           const pushed = not_relevant.push(params.key);
           updated = state.setIn(['actions', 'not_relevant'], pushed)
         }
+
+        if (params.status === 'relevant' && actions.get('not_relevant').includes(params.key)) {
+          const filtered = actions.get('not_relevant').filterNot(key => key === params.key);
+          updated = state.setIn(['actions', 'not_relevant'], filtered);
+
+        }
       }
-
-
     }
 
     setLocalStorageItem('actions', updated.get('actions').toJS());
-    console.log('updated actionstatus', updated.toJS());
 
     return fromJS(updated);
 

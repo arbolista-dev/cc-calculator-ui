@@ -69,6 +69,11 @@ class ActionComponent extends Translatable {
     return completedActions.has(this.state.key);
   }
 
+  get not_relevant() {
+    const notRelevant = this.props.user_footprint.getIn(['actions', 'not_relevant']);
+    return notRelevant.includes(this.state.key);
+  }
+
   get is_shown_detailed() {
     return this.state.detailed;
   }
@@ -120,12 +125,18 @@ class ActionComponent extends Translatable {
 
   discardAction(){
     const action = this;
+    let update;
     if (this.taken) {
-      const update = { [this.api_key]: 0 };
+      update = { [this.api_key]: 0 };
       action.setState(update);
       action.updateTakeaction(update);
     }
-    action.updateActionStatus({ [this.api_key]: -1 })
+    if (this.not_relevant) {
+      update = { [this.api_key]: 3 };
+    } else {
+      update = { [this.api_key]: -3 };
+    }
+    action.updateActionStatus(update)
   }
 
   toggleActionDetails() {
@@ -294,10 +305,15 @@ class ActionComponent extends Translatable {
         key,
         status: 'unpledged',
       };
-    } else if (status === -1) {
+    } else if (status === -3) {
       update = {
         key,
         status: 'not_relevant',
+      };
+    } else if (status === 3) {
+      update = {
+        key,
+        status: 'relevant',
       };
     } else if (status === 2) {
       update = {

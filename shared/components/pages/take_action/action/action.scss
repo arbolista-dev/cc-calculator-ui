@@ -21,9 +21,15 @@
           &:hover {
             background-color: #e6e6e6;
           }
-          &.action__status--done {
+          &.action__status--taken {
             background-color: #449D44;
-            border-color: #fff;
+            border-color: #449D44;
+            color: #fff;
+          }
+          &.action__status--completed {
+            background-color: #449D44;
+            border-color: #449D44;
+            border-left-color: #fff;
             color: #fff;
           }
         }
@@ -64,8 +70,8 @@
   }
 
   .mark-not-relevant {
-    .btn {
-
+    .not-relevant {
+      color: #ff0000;
     }
   }
 

@@ -195,30 +195,7 @@ class TakeActionComponent extends Panel {
     take_action.setState({
       active_category_filter: category,
     });
-    // take_action.filterActionsByCategory(category);
     take_action.filterAndSortActions(category, '', '');
-  }
-
-  filterActionsByCategory(category) {
-    const update = {};
-    if (!category) {
-      update.show_actions = this.all_actions;
-    } else {
-      update.show_actions = this.getActionsByCategory(category);
-    }
-
-    if (this.state.active_status_filter !== 'all') {
-      update.show_actions = this.getActionsByStatus(update.show_actions, this.state.active_status_filter);
-    }
-
-    if (this.sort_by_active) {
-      update.show_actions = this.sortActions(update.show_actions, this.state.sort_by)
-
-      console.log('filterActionsByCategory sort by: ', this.state.sort_by);
-      console.log('filterActionsByCategory sorted: ', update.show_actions);
-    }
-
-    this.setState(update);
   }
 
   getActionsByCategory(category) {
@@ -264,35 +241,12 @@ class TakeActionComponent extends Panel {
     return filtered;
   }
 
-  filterActionsByStatus(status) {
-    const take_action = this;
-    const actions_profile = take_action.actions_profile;
-    const update = {};
-
-    let actions_to_filter;
-
-    if (this.state.active_category_filter) {
-      actions_to_filter = this.getActionsByCategory(this.state.active_category_filter);
-    } else {
-      actions_to_filter = this.all_actions;
-    }
-
-    update.show_actions = this.getActionsByStatus(actions_to_filter, status);
-    if (this.sort_by_active) {
-
-      update.show_actions = this.sortActions(update.show_actions, this.state.sort_by)
-    }
-
-    take_action.setState(update);
-  }
-
   setStatusFilter(status) {
     const take_action = this;
     take_action.setState({
       active_status_filter: status,
     });
     take_action.filterAndSortActions('', status, '');
-    // take_action.filterActionsByStatus(status);
   }
 
   sortActions(actions_to_sort, sort_by) {
@@ -300,7 +254,6 @@ class TakeActionComponent extends Panel {
       return this.all_actions;
     }
 
-    // const actions = this.current_actions_list;
     if (sort_by === 'title') {
       actions_to_sort.sort((a, b) => {
         const aLabel = this.t(`actions.${this.getCategoryByAction(a)}.${a}.label`);
@@ -360,11 +313,7 @@ class TakeActionComponent extends Panel {
   handleSortByChange(e) {
     const sort_by = e.target.value;
 
-    // const actions = this.sortActions(this.current_actions_list, sort_by)
-
-    // this.setState({show_actions: actions, sort_by});
     this.filterAndSortActions('', '', sort_by)
-    // this.activateCarouselItem(actions[0]);
   }
 
   toggleFilterAndSort(key) {
