@@ -330,11 +330,8 @@ class GraphsComponent extends Panel {
 
   get display_category_percent() {
     const graphs = this;
-    if (graphs.userApiValue('input_changed') !== 1) {
-      return 0;
-    }
     return Math.round(Math.abs(
-      (100 * graphs.user_category_footprint) / (graphs.average_category_footprint - 100),
+      ((100 * graphs.user_category_footprint) / graphs.average_category_footprint) - 100,
     ));
   }
 

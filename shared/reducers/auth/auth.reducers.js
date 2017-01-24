@@ -183,13 +183,12 @@ const ACTIONS = {
   [loggedOut]: (state, api_response) => {
     if (api_response.success) {
       localStorage.removeItem('auth');
-
       const updated = state.deleteIn(['data', 'token'])
-                         .deleteIn(['data', 'name'])
-                         .deleteIn(['data', 'user_id'])
-                         .set('loading', false)
-                         .delete('received')
-                         .delete('success');
+                           .deleteIn(['data', 'name'])
+                           .deleteIn(['data', 'user_id'])
+                           .set('loading', false)
+                           .delete('received')
+                           .delete('success');
       const alert = {
         id: 'shared',
         data: [{

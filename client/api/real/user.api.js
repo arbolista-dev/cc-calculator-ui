@@ -183,4 +183,5 @@ export { addUser,
   listLeaders,
   listLocations,
   showProfile,
-  setPhoto };
+  setPhoto,
+};

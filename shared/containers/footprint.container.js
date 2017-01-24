@@ -83,5 +83,12 @@ const footprintPropTypes = {
   resetAlerts: React.PropTypes.func.isRequired,
 };
 
+const graphsPropTypes = {
+  average_footprint: React.PropTypes.object,
+  user_footprint: React.PropTypes.object,
+  ui: React.PropTypes.object,
+  user_profile_footprint: React.PropTypes.object,
+};
+
 export default footprintContainer;
-export { footprintPropTypes };
+export { graphsPropTypes, footprintPropTypes };

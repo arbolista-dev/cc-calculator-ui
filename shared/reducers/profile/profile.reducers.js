@@ -30,7 +30,6 @@ const ACTIONS = {
                         .set('loading', false);
       return fromJS(data);
     }
-
     const err = JSON.parse(api_data.error);
     const alert = {
       id: 'shared',
