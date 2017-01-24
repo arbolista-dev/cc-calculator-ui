@@ -120,7 +120,7 @@ const ACTIONS = {
       const auth = {
         token: api_response.data.token,
         name: api_response.data.name,
-        user_id: api_response.data.user_id
+        user_id: api_response.data.user_id,
       };
 
       setLocalStorageItem('auth', auth);
@@ -180,24 +180,23 @@ const ACTIONS = {
         .catch(authError)),
   ),
 
-  [loggedOut]: (state, api_response)=>{
+  [loggedOut]: (state, api_response) => {
     if (api_response.success) {
-
       localStorage.removeItem('auth');
 
-      let updated = state.deleteIn(['data', 'token'])
+      const updated = state.deleteIn(['data', 'token'])
                          .deleteIn(['data', 'name'])
                          .deleteIn(['data', 'user_id'])
                          .set('loading', false)
                          .delete('received')
                          .delete('success');
-      let alert = {
+      const alert = {
         id: 'shared',
         data: [{
           needs_i18n: true,
           type: 'success',
-          message: 'success.logout'
-        }]
+          message: 'success.logout',
+        }],
       };
 
       return loop(
@@ -208,6 +207,7 @@ const ACTIONS = {
         ]),
       );
     }
+    return state;
   },
 
   [requestNewPassword]: (state, payload) => loop(

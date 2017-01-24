@@ -5,31 +5,27 @@ import { retrieveProfile } from 'shared/reducers/profile/profile.actions';
 import { updateUI } from 'shared/reducers/ui/ui.actions';
 
 
-const mapStateToProps = (state) => {
-  return {
-    auth: state['auth'],
-    profile: state['profile'],
-    location: state['location'],
-    ui: state['ui']
-  };
-};
+const mapStateToProps = state => ({
+  auth: state.auth,
+  profile: state.profile,
+  location: state.location,
+  ui: state.ui,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    retrieveProfile: (user_id) => {
-      retrieveProfile.assignTo(dispatch);
-      retrieveProfile(user_id);
-    },
-    updateUI: (payload) => {
-      updateUI.assignTo(dispatch);
-      updateUI(payload);
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  retrieveProfile: (user_id) => {
+    retrieveProfile.assignTo(dispatch);
+    retrieveProfile(user_id);
+  },
+  updateUI: (payload) => {
+    updateUI.assignTo(dispatch);
+    updateUI(payload);
+  },
+});
 
 const profileContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
 
 const profilePropTypes = {
@@ -38,7 +34,7 @@ const profilePropTypes = {
   location: React.PropTypes.object.isRequired,
   auth: React.PropTypes.object,
   retrieveProfile: React.PropTypes.func.isRequired,
-  updateUI: React.PropTypes.func.isRequired
+  updateUI: React.PropTypes.func.isRequired,
 };
 
 export default profileContainer;

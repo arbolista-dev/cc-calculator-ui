@@ -169,32 +169,25 @@ const ACTIONS = {
   },
 
   [updateActionStatus]: (state, params) => {
-
     let actions;
     let updated;
 
     if (params.status === 'pledged' || params.status === 'completed') {
-
       const action_update = {
-        [params.key]: params.details
+        [params.key]: params.details,
       };
       actions = state.getIn(['actions', params.status])
                      .merge(action_update);
 
       updated = state.setIn(['actions', params.status], actions);
-
     } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted' || params.status === 'relevant') {
-
       actions = state.get('actions');
       updated = state;
 
       if (params.status === 'uncompleted' || actions.hasIn(['completed', params.key])) {
-
         const cleared = actions.deleteIn(['completed', params.key]);
-        updated = state.set('actions', cleared)
-
+        updated = state.set('actions', cleared);
       } else {
-
         if (actions.hasIn(['pledged', params.key])) {
           const cleared = actions.deleteIn(['pledged', params.key]);
           updated = state.set('actions', cleared);
@@ -203,13 +196,12 @@ const ACTIONS = {
         if (params.status === 'not_relevant') {
           const not_relevant = actions.get('not_relevant');
           const pushed = not_relevant.push(params.key);
-          updated = state.setIn(['actions', 'not_relevant'], pushed)
+          updated = state.setIn(['actions', 'not_relevant'], pushed);
         }
 
         if (params.status === 'relevant' && actions.get('not_relevant').includes(params.key)) {
           const filtered = actions.get('not_relevant').filterNot(key => key === params.key);
           updated = state.setIn(['actions', 'not_relevant'], filtered);
-
         }
       }
     }
@@ -217,7 +209,6 @@ const ACTIONS = {
     setLocalStorageItem('actions', updated.get('actions').toJS());
 
     return fromJS(updated);
-
   },
 };
 

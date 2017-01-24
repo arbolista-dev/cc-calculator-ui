@@ -126,7 +126,7 @@ export default class StateManager {
         actions: state_manager.actions_storage || { pledged: {}, completed: {}, not_relevant: [] },
       }),
       ui: fromJS(state_manager.ui_storage || state_manager.default_ui_state),
-      profile: fromJS({data: {}}),
+      profile: fromJS({ data: {} }),
     }, opts);
   }
 }

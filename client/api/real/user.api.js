@@ -61,13 +61,13 @@ function logoutUser(jwt) {
   });
 }
 
-function updateUser(input, jwt){
-  return new Promise((fnResolve, fnReject)=>{
-    superagent.put(BASE + '/user')
+function updateUser(input, jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.put(`${BASE}/user`)
       .set('Content-Type', 'application/json; charset=UTF-8')
       .set('Authorization', jwt)
       .send(JSON.stringify(input))
-      .end((err, res)=>{
+      .end((err, res) => {
         if (err) fnReject(err);
         else {
           fnResolve(res.body);
@@ -120,12 +120,12 @@ function setLocation(input, jwt) {
   });
 }
 
-function setPhoto(photo, jwt){
-  return new Promise((fnResolve, fnReject)=>{
-    superagent.post(BASE + '/user/photo')
+function setPhoto(photo, jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.post(`${BASE}/user/photo`)
       .set('Authorization', jwt)
       .send(photo)
-      .end((err, res)=>{
+      .end((err, res) => {
         if (err) fnReject(err);
         else {
           fnResolve(res.body);

@@ -65,10 +65,10 @@ export default function defineRoutes(i18n) {
     }),
     new Profile({
       path: new RegExp(`^\/?((\\w{2})\/)?${i18n.t('profile.route_path')}/(\\d+)$`),
-      parameters: {2: 'locale', 3: 'user_id'},
-      url: function(action, i18n) {
-        return `/${i18n.language}/${i18n.t('profile.route_path')}/${action.payload.user_id}`
-      }
+      parameters: { 2: 'locale', 3: 'user_id' },
+      url(action) {
+        return `/${i18n.language}/${i18n.t('profile.route_path')}/${action.payload.user_id}`;
+      },
     }),
     new Missing({
       path: /\.*/,

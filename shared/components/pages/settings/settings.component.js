@@ -13,15 +13,15 @@ class SettingsComponent extends Panel {
     settings.state = {};
   }
 
-  get user_id(){
-    return this.props.auth.getIn(['data', 'user_id'])
+  get user_id() {
+    return this.props.auth.getIn(['data', 'user_id']);
   }
 
-  viewProfile(){
+  viewProfile() {
     this.goToProfile(this.user_id);
   }
 
-  render(){
+  render() {
     return template.call(this);
   }
 

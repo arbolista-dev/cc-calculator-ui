@@ -1,4 +1,4 @@
-/* global module clearTimeout setTimeout*/
+/* global module window clearTimeout setTimeout*/
 
 import React from 'react';
 import Translatable from 'shared/lib/base_classes/translatable';
@@ -123,7 +123,7 @@ class ActionComponent extends Translatable {
     action.updateActionStatus(update);
   }
 
-  discardAction(){
+  discardAction() {
     const action = this;
     let update;
     if (this.taken) {
@@ -136,7 +136,7 @@ class ActionComponent extends Translatable {
     } else {
       update = { [this.api_key]: -3 };
     }
-    action.updateActionStatus(update)
+    action.updateActionStatus(update);
   }
 
   toggleActionDetails() {
@@ -332,7 +332,7 @@ class ActionComponent extends Translatable {
       };
     }
 
-    this.props.updateActionStatus(update)
+    this.props.updateActionStatus(update);
   }
 }
 

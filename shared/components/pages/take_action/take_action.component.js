@@ -19,9 +19,9 @@ const ACTIONS = [{
   keys: ['low_carbon_diet', 'go_organic'],
 }];
 
-const STATUS_OPTIONS = [{title: 'All', key: 'all'}, {title: 'Pledged', key: 'pledged'}, {title: 'Not pledged', key: 'not_pledged'}, {title: 'Relevant', key: 'relevant'}, {title: 'Not relevant', key: 'not_relevant'}, {title: 'Completed', key: 'completed'}];
+const STATUS_OPTIONS = [{ title: 'All', key: 'all' }, { title: 'Pledged', key: 'pledged' }, { title: 'Not pledged', key: 'not_pledged' }, { title: 'Relevant', key: 'relevant' }, { title: 'Not relevant', key: 'not_relevant' }, { title: 'Completed', key: 'completed' }];
 
-const SORT_OPTIONS = [{title: ' - ', id: 'inactive'}, {title: 'Title', id: 'title'}, {title: 'Carbon savings', id: 'tons_saved'}, {title: 'Money savings', id: 'dollars_saved'}, {title: 'Down payment', id: 'upfront_cost'}];
+const SORT_OPTIONS = [{ title: ' - ', id: 'inactive' }, { title: 'Title', id: 'title' }, { title: 'Carbon savings', id: 'tons_saved' }, { title: 'Money savings', id: 'dollars_saved' }, { title: 'Down payment', id: 'upfront_cost' }];
 
 class TakeActionComponent extends Panel {
 
@@ -57,12 +57,9 @@ class TakeActionComponent extends Panel {
     return ACTIONS;
   }
 
-  get all_actions(){
-    let all_actions = [];
-    this.actions_by_category.map((category) => {
-      all_actions = all_actions.concat(category.keys)
-    });
-    return all_actions;
+  get all_actions() {
+    return this.actions_by_category.map(category => category.keys)
+      .reduce((all, arr) => all.concat(arr));
   }
 
   get current_actions_list() {
@@ -70,7 +67,7 @@ class TakeActionComponent extends Panel {
   }
 
   get category_list() {
-    return ([{title: 'All', id: ''}]).concat(this.actions_by_category);
+    return ([{ title: 'All', id: '' }]).concat(this.actions_by_category);
   }
 
   get status_list() {
@@ -168,29 +165,27 @@ class TakeActionComponent extends Panel {
   filterAndSortActions(_category, _status, sort_by) {
     const take_action = this;
     const update = {};
-    const category = _category ? _category : this.state.active_category_filter;
-    const status = _status ? _status : this.state.active_status_filter;
+    const category = _category || take_action.state.active_category_filter;
+    const status = _status || take_action.state.active_status_filter;
 
     if (!category) {
-      update.show_actions = this.all_actions;
+      update.show_actions = take_action.all_actions;
     } else {
-      update.show_actions = this.getActionsByCategory(category);
+      update.show_actions = take_action.getActionsByCategory(category);
     }
 
     if (status !== 'all') {
-      update.show_actions = this.getActionsByStatus(update.show_actions, status);
+      update.show_actions = take_action.getActionsByStatus(update.show_actions, status);
     }
 
     if (!sort_by) {
       update.sort_by = 'inactive';
-    } else {
-      if (sort_by !== 'inactive') {
-        update.show_actions = this.sortActions(update.show_actions, sort_by)
-        update.sort_by = sort_by;
-      }
+    } else if (sort_by !== 'inactive') {
+      update.show_actions = take_action.sortActions(update.show_actions, sort_by);
+      update.sort_by = sort_by;
     }
 
-    this.setState(update);
+    take_action.setState(update);
   }
 
   setCategory(category) {
@@ -218,25 +213,19 @@ class TakeActionComponent extends Panel {
     if (status === 'pledged' || status === 'completed') {
       filtered = Object.keys(take_action.actions_profile.get(status).toJS());
       filtered = actions_to_filter.filter(key => filtered.includes(key));
-
     } else if (status === 'not_relevant') {
       filtered = take_action.actions_profile.get(status).toJS();
       filtered = actions_to_filter.filter(key => filtered.includes(key));
-
     } else if (status === 'not_pledged') {
-
       const pledged = Object.keys(take_action.actions_profile.get('pledged').toJS());
       const not_pledged = actions_to_filter.filter(key => !pledged.includes(key));
 
       filtered = not_pledged;
-
     } else if (status === 'relevant') {
-
       const not_relevant = take_action.actions_profile.get('not_relevant').toJS();
       const relevant = actions_to_filter.filter(key => !not_relevant.includes(key));
 
       filtered = relevant;
-
     } else if (status === 'all') {
       filtered = actions_to_filter;
     }
@@ -316,7 +305,7 @@ class TakeActionComponent extends Panel {
   handleSortByChange(e) {
     const sort_by = e.target.value;
 
-    this.filterAndSortActions('', '', sort_by)
+    this.filterAndSortActions('', '', sort_by);
   }
 
   toggleFilterAndSort(key) {
@@ -325,7 +314,7 @@ class TakeActionComponent extends Panel {
     });
   }
 
-  toggleCriticalAssumptions(){
+  toggleCriticalAssumptions() {
     this.setState({
       show_critical_assumptions: !this.state.show_critical_assumptions,
     });
@@ -335,7 +324,7 @@ class TakeActionComponent extends Panel {
     return this.current_actions_list.includes(key);
   }
 
-  activateCarouselItem(key){
+  activateCarouselItem(key) {
     return key === this.current_actions_list[0];
   }
 }

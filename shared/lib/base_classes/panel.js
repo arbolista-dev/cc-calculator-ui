@@ -1,11 +1,11 @@
 /* global window $*/
 
+import { retrieveProfile } from 'shared/reducers/profile/profile.actions';
 import mixin from '../mixin';
 import Translatable from './translatable';
 import footprintable from '../mixins/footprintable';
 import resizable from '../mixins/resizable';
 import { tokenIsValid } from '../utils/utils';
-import { retrieveProfile } from 'shared/reducers/profile/profile.actions';
 
 const MAX_SLIDER_WIDTH = 600;
 const MIN_SLIDER_WIDTH = 250;
@@ -53,13 +53,11 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
     window.jQuery('html, body').animate({ scrollTop: $('.cc_leaders').offset().top }, 1000);
   }
 
-  goToProfile(user_id){
-    this.pushRoute('Profile', retrieveProfile, {user_id: user_id});
+  goToProfile(user_id) {
+    this.pushRoute('Profile', retrieveProfile, { user_id });
   }
 
-  setUserAnswersToDefault(show_alert){
-    // show_alert needed here since loggedIn/loggedOut actions otherwise fail (as they also trigger alerts)
-
+  setUserAnswersToDefault(show_alert) {
     const component = this;
     const init = true;
 
