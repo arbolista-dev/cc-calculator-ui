@@ -177,12 +177,13 @@
   }
 
   .actions-container {
-    margin-top: 30px;
-    border-top: 1px solid #4AAA48;
+    margin-top: 40px;
     text-align: center;
 
     .table {
       text-align: left;
+      margin-top: 20px;
+      border: 1px solid #ddd;
       thead {
         tr {
           th {
