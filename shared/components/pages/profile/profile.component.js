@@ -3,7 +3,7 @@
 import React from 'react';
 import { Map } from 'immutable';
 import Panel from 'shared/lib/base_classes/panel';
-import { setPhoto, updateUser } from 'api/user.api';
+import { setPhoto, updateUser, updateUserGoals } from 'api/user.api';
 import profileContainer, { profilePropTypes } from 'shared/containers/profile.container';
 import template from './profile.rt.html';
 
@@ -71,6 +71,23 @@ class ProfileComponent extends Panel {
 
   get profile_data() {
     return this.user_profile.get('profile_data');
+  }
+
+  get user_goals() {
+    if (this.user_profile.has('user_goals')) {
+      let user_goals = this.user_profile.get('user_goals').toJS();
+      user_goals = user_goals.filter(key => key.status !== 'not_relevant');
+      return user_goals.sort((a, b) => {
+        if (a.status === 'completed') {
+          return -1;
+        }
+        if (b.status === 'completed') {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    return [];
   }
 
   get is_public() {
@@ -165,6 +182,51 @@ class ProfileComponent extends Panel {
     profile.router.goToRouteByName('Footprint');
   }
 
+  displayActionTitle(key) {
+    return this.t(`actions.${this.getCategoryByAction(key)}.${key}.label`);
+  }
+
+  getCategoryIcon(key) {
+    const category = this.getCategoryByAction(key);
+    if (category === 'transportation') {
+      return 'bicycle';
+    } else if (category === 'housing') {
+      return 'home';
+    }
+    return 'cutlery';
+  }
+
+  displayActionDollarsSaved(dollars_saved) {
+    return this.numberWithCommas(dollars_saved);
+  }
+
+  displayActionUpfrontCost(upfront_cost) {
+    return this.numberWithCommas(upfront_cost);
+  }
+
+  toggleActionComplete(action) {
+    const updated_status = action.status === 'completed' ? 'pledged' : 'completed';
+    const update = {
+      key: action.key,
+      status: updated_status,
+      details: {
+        tons_saved: parseFloat(action.tons_saved),
+        dollars_saved: parseFloat(action.dollars_saved),
+        upfront_cost: parseFloat(action.upfront_cost),
+      },
+    };
+    this.updateRemoteUserActions(update);
+  }
+
+  updateRemoteUserActions(update) {
+    const token = this.props.auth.getIn(['data', 'token']);
+    if (this.user_authenticated) {
+      updateUserGoals(update, token).then(() => {
+        this.props.retrieveProfile({ user_id: this.user_id, token: this.props.auth.getIn(['data', 'token']) });
+      });
+    }
+  }
+
   uploadPhoto(event) {
     event.preventDefault();
     const profile = this;
@@ -198,7 +260,7 @@ class ProfileComponent extends Panel {
       privacy_changed: true,
     });
 
-    updateUser({ public: is_public }, token);
+    updateUser({ public: toString(is_public) }, token);
   }
 
   updateProfile() {

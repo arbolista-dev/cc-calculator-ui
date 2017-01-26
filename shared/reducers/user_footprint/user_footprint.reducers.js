@@ -3,9 +3,9 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { updateAnswers } from 'api/user.api';
+import { updateAnswers, updateUserGoals } from 'api/user.api';
 import { setLocalStorageItem, getLocalStorageItem, tokenIsValid } from 'shared/lib/utils/utils';
-import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateRemoteUserAnswers, updateActionStatus } from './user_footprint.actions';
+import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateRemoteUserAnswers, updateActionStatus, updateRemoteUserActions } from './user_footprint.actions';
 
 /*
   user_footprint: {
@@ -180,6 +180,12 @@ const ACTIONS = {
                      .merge(action_update);
 
       updated = state.setIn(['actions', params.status], actions);
+
+      if (state.getIn(['actions', 'not_relevant']).includes(params.key)) {
+        const filtered = state.getIn(['actions', 'not_relevant']).filterNot(key => key === params.key);
+        updated = state.setIn(['actions', 'not_relevant'], filtered);
+      }
+
     } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted' || params.status === 'relevant') {
       actions = state.get('actions');
       updated = state;
@@ -208,7 +214,21 @@ const ACTIONS = {
 
     setLocalStorageItem('actions', updated.get('actions').toJS());
 
-    return fromJS(updated);
+    return loop(
+      fromJS(updated),
+      Effects.constant(updateRemoteUserActions(params)),
+    );
+  },
+
+  [updateRemoteUserActions]: (state, updated_action) => {
+    const auth_status = getLocalStorageItem('auth');
+
+    if ({}.hasOwnProperty.call(auth_status, 'token')) {
+      if (tokenIsValid(auth_status.token)) {
+        updateUserGoals(updated_action, auth_status.token);
+      }
+    }
+    return fromJS(state);
   },
 };
 

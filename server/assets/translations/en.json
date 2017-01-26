@@ -45,7 +45,10 @@
     },
     "profile": {
         "route_path": "profile",
-        "view_ranking": "View ranking"
+        "view_ranking": "View ranking",
+        "action_title": "Action",
+        "status": "Status",
+        "completed": "Completed"
     },
     "settings": {
         "route_path": "settings",

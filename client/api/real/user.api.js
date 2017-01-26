@@ -76,12 +76,27 @@ function updateUser(input, jwt) {
   });
 }
 
-function updateAnswers(input, jwt) {
+function updateAnswers(answers, jwt) {
   return new Promise((fnResolve, fnReject) => {
     superagent.put(`${BASE}/user/answers`)
       .set('Content-Type', 'application/json; charset=UTF-8')
       .set('Authorization', jwt)
-      .send(JSON.stringify({ answers: input }))
+      .send(JSON.stringify({ answers }))
+      .end((err, res) => {
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
+function updateUserGoals(updated_goal, jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.put(`${BASE}/user/goals`)
+      .set('Content-Type', 'application/json; charset=UTF-8')
+      .set('Authorization', jwt)
+      .send(JSON.stringify(updated_goal))
       .end((err, res) => {
         if (err) fnReject(err);
         else {
@@ -161,7 +176,7 @@ function listLocations() {
 
 function showProfile(user_id, jwt) {
   return new Promise((fnResolve, fnReject) => {
-    superagent.get(`${BASE}/profile/${user_id}`)
+    superagent.get(`${BASE}/user/${user_id}/profile`)
       .set('Authorization', jwt)
       .end((err, res) => {
         if (err) fnReject(err);
@@ -184,4 +199,5 @@ export { addUser,
   listLocations,
   showProfile,
   setPhoto,
+  updateUserGoals,
 };

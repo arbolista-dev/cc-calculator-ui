@@ -126,6 +126,36 @@
       </div>
     </div>
     <Graphs user_profile_footprint="{this.profile_footprint}"/>
+    <div class="actions-container">
+      <h3>How I take action!</h3>
+      <table className="table table-condensed table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th>{this.t('profile.action_title')}</th>
+            <th>{this.t('profile.status')}</th>
+            <th>{this.t('take_action.tons_saved')}</th>
+            <th>{this.t('take_action.dollars_saved')}</th>
+            <th>{this.t('take_action.upfront_cost')}</th>
+            <th>{this.t('profile.completed')} ?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr rt-repeat="action in this.user_goals" key={actionIndex} rt-class="{'success': action.status === 'completed', 'warning': action.status === 'pledged'}">
+            <td><i class="fa fa-{this.getCategoryIcon(action.key)}" aria-hidden="true" title="Category"></i></td>
+            <td>{this.displayActionTitle(action.key)}</td>
+            <td>{action.status}</td>
+            <td>{action.tons_saved}</td>
+            <td>${this.displayActionDollarsSaved(action.dollars_saved)}</td>
+            <td>${this.displayActionUpfrontCost(action.upfront_cost)}</td>
+            <td>
+              <button rt-if="this.user_authenticated" class="btn btn-default" rt-class="{'completed': action.status === 'completed'}" onClick="{this.toggleActionComplete.bind(this, action)}"><i class="fa fa-check" aria-hidden="true"></i></button>
+              <button rt-if="!this.user_authenticated" class="btn btn-default btn-disabled" rt-class="{'completed': action.status === 'completed'}"><i class="fa fa-check" aria-hidden="true"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </main>
