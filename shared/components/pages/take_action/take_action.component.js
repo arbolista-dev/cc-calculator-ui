@@ -5,20 +5,6 @@ import Panel from 'shared/lib/base_classes/panel';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './take_action.rt.html';
 
-const ACTIONS = [{
-  id: 'transportation',
-  title: 'Transportation',
-  keys: ['more_efficient_vehicle', 'alternativefuel_vehicle', 'electric_vehicle', 'hybrid_vehicle', 'telecommute_to_work', 'ride_my_bike', 'take_public_transportation', 'practice_eco_driving', 'maintain_my_vehicles', 'carpool_to_work', 'reduce_air_travel'],
-}, {
-  id: 'housing',
-  title: 'Housing',
-  keys: ['switch_to_cfl', 'turn_off_lights', 'T12toT8', 'tankless_water_heater', 'thermostat_winter', 'thermostat_summer', 'purchase_high_efficiency_cooling', 'purchase_high_efficiency_heating', 'energy_star_fridge', 'energy_star_printers', 'energy_star_copiers', 'energy_star_desktops', 'rechargeable_batteries', 'power_mgmt_comp', 'purchase_green_electricity', 'install_PV_panels', 'install_solar_heating', 'low_flow_showerheads', 'low_flow_faucets', 'low_flow_toilet', 'line_dry_clothing', 'water_efficient_landscaping', 'plant_trees', 'reduce_comm_waste', 'print_double_sided'],
-}, {
-  id: 'shopping',
-  title: 'Shopping',
-  keys: ['low_carbon_diet', 'go_organic'],
-}];
-
 const STATUS_OPTIONS = [{ title: 'All', key: 'all' }, { title: 'Pledged', key: 'pledged' }, { title: 'Not pledged', key: 'not_pledged' }, { title: 'Relevant', key: 'relevant' }, { title: 'Not relevant', key: 'not_relevant' }, { title: 'Completed', key: 'completed' }];
 
 const SORT_OPTIONS = [{ title: ' - ', id: 'inactive' }, { title: 'Title', id: 'title' }, { title: 'Carbon savings', id: 'tons_saved' }, { title: 'Money savings', id: 'dollars_saved' }, { title: 'Down payment', id: 'upfront_cost' }];
@@ -51,10 +37,6 @@ class TakeActionComponent extends Panel {
   get external_offset_set() {
     const offset = this.props.ui.get('external_offset').toJS();
     return Object.keys(offset).length !== 0;
-  }
-
-  get actions_by_category() {
-    return ACTIONS;
   }
 
   get all_actions() {
@@ -124,16 +106,6 @@ class TakeActionComponent extends Panel {
 
   getUpfrontCostByAction(action_key) {
     return Math.round(this.result_takeaction_net10yr.get(action_key));
-  }
-
-  getCategoryByAction(action_key) {
-    let id;
-    this.actions_by_category.forEach((category) => {
-      if (category.keys.includes(action_key)) {
-        id = category.id;
-      }
-    });
-    return id;
   }
 
   setVehicles() {

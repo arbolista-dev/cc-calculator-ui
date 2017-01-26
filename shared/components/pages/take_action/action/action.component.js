@@ -87,15 +87,27 @@ class ActionComponent extends Translatable {
   }
 
   get tons_saved() {
-    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_pounds', this.state.key]) * 100) / 100);
+    return this.props.user_footprint.getIn(['result_takeaction_pounds', this.state.key]);
   }
 
   get dollars_saved() {
-    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_dollars', this.state.key])));
+    return Math.round(this.props.user_footprint.getIn(['result_takeaction_dollars', this.state.key]));
   }
 
   get upfront_cost() {
-    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_net10yr', this.state.key])));
+    return Math.round(this.props.user_footprint.getIn(['result_takeaction_net10yr', this.state.key]));
+  }
+
+  get tons_saved_formatted() {
+    return this.numberWithCommas(Math.round(this.tons_saved * 100) / 100);
+  }
+
+  get dollars_saved_formatted() {
+    return this.numberWithCommas(this.dollars_saved);
+  }
+
+  get upfront_cost_formatted() {
+    return this.numberWithCommas(this.upfront_cost);
   }
 
   toggleActionPledge() {
@@ -295,9 +307,9 @@ class ActionComponent extends Translatable {
         key,
         status: 'pledged',
         details: {
-          tons_saved: this.tons_saved,
-          dollars_saved: this.dollars_saved,
-          upfront_cost: this.upfront_cost,
+          tons_saved: parseFloat(this.tons_saved),
+          dollars_saved: parseFloat(this.dollars_saved),
+          upfront_cost: parseFloat(this.upfront_cost),
         },
       };
     } else if (status === 0) {
@@ -320,9 +332,9 @@ class ActionComponent extends Translatable {
         key,
         status: 'completed',
         details: {
-          tons_saved: this.tons_saved,
-          dollars_saved: this.dollars_saved,
-          upfront_cost: this.upfront_cost,
+          tons_saved: parseFloat(this.tons_saved),
+          dollars_saved: parseFloat(this.dollars_saved),
+          upfront_cost: parseFloat(this.upfront_cost),
         },
       };
     } else if (status === -2) {

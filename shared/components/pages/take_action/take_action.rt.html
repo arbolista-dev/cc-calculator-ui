@@ -69,7 +69,8 @@
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
           category="{this.getCategoryByAction(key)}"
-          is_assumption={false} />
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
         <Action rt-if="this.state.sort_by === 'title'"
           rt-repeat="key in this.current_actions_list"
           key={keyIndex}
@@ -77,7 +78,8 @@
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
           category="{this.getCategoryByAction(key)}"
-          is_assumption={false} />
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
         <Action rt-if="this.state.sort_by === 'tons_saved'"
           rt-repeat="key in this.current_actions_list"
           key={keyIndex}
@@ -85,7 +87,8 @@
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
           category="{this.getCategoryByAction(key)}"
-          is_assumption={false} />
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
         <Action rt-if="this.state.sort_by === 'dollars_saved'"
           rt-repeat="key in this.current_actions_list"
           key={keyIndex}
@@ -93,7 +96,8 @@
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
           category="{this.getCategoryByAction(key)}"
-          is_assumption={false} />
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
         <Action rt-if="this.state.sort_by === 'upfront_cost'"
           rt-repeat="key in this.current_actions_list"
           key={keyIndex}
@@ -101,7 +105,8 @@
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
           category="{this.getCategoryByAction(key)}"
-          is_assumption={false} />
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
       </div>
 
       <a class="left carousel-control" href="#action-carousel" role="button" data-slide="prev">

@@ -8,7 +8,7 @@
             <span rt-if="this.taken">Pledged </span>
             <i rt-if="!this.taken" className="fa" class="fa-check-square-o"></i>
           </button>
-          <button rt-if="this.taken && this.user_authenticated"
+          <button rt-if="this.taken && this.props.is_authenticated"
             className="btn btn-default"
             onClick="{this.toggleActionComplete.bind(this)}" rt-class="{'action__status--completed': this.completed}"> <span rt-if="!this.completed">Complete </span>
             <span rt-if="this.completed">Completed </span>
@@ -23,15 +23,15 @@
       </div>
       <div className="action__savings">
         <div>
-          <div className="action__savings-amount">{this.tons_saved}</div>
+          <div className="action__savings-amount">{this.tons_saved_formatted}</div>
           <div className="action__savings-label">{this.t('take_action.tons_saved')}</div>
         </div>
         <div>
-          <div className="action__savings-amount">${this.dollars_saved}</div>
+          <div className="action__savings-amount">${this.dollars_saved_formatted}</div>
           <div className="action__savings-label">{this.t('take_action.dollars_saved')}</div>
         </div>
         <div>
-          <div className="action__savings-amount">${this.upfront_cost}</div>
+          <div className="action__savings-amount">${this.upfront_cost_formatted}</div>
           <div className="action__savings-label">{this.t('take_action.upfront_cost')}</div>
         </div>
       </div>
