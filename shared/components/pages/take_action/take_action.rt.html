@@ -68,7 +68,7 @@
           show="{this.showActionCard(key)}"
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
-          category="{this.getCategoryByAction(key)}"
+          is_transportation="{this.categoryIsTransportation(key)}"
           is_assumption={false}
           is_authenticated={this.user_authenticated} />
         <Action rt-if="this.state.sort_by === 'title'"
@@ -77,7 +77,7 @@
           show="{this.showActionCard(key)}"
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
-          category="{this.getCategoryByAction(key)}"
+          is_transportation="{this.categoryIsTransportation(key)}"
           is_assumption={false}
           is_authenticated={this.user_authenticated} />
         <Action rt-if="this.state.sort_by === 'tons_saved'"
@@ -86,7 +86,7 @@
           show="{this.showActionCard(key)}"
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
-          category="{this.getCategoryByAction(key)}"
+          is_transportation="{this.categoryIsTransportation(key)}"
           is_assumption={false}
           is_authenticated={this.user_authenticated} />
         <Action rt-if="this.state.sort_by === 'dollars_saved'"
@@ -95,7 +95,7 @@
           show="{this.showActionCard(key)}"
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
-          category="{this.getCategoryByAction(key)}"
+          is_transportation="{this.categoryIsTransportation(key)}"
           is_assumption={false}
           is_authenticated={this.user_authenticated} />
         <Action rt-if="this.state.sort_by === 'upfront_cost'"
@@ -104,7 +104,7 @@
           show="{this.showActionCard(key)}"
           active="{this.activateCarouselItem(key)}"
           action_key="{key}"
-          category="{this.getCategoryByAction(key)}"
+          is_transportation="{this.categoryIsTransportation(key)}"
           is_assumption={false}
           is_authenticated={this.user_authenticated} />
       </div>

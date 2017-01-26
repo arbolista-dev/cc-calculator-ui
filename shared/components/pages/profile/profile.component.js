@@ -183,7 +183,7 @@ class ProfileComponent extends Panel {
   }
 
   displayActionTitle(key) {
-    return this.t(`actions.${this.getCategoryByAction(key)}.${key}.label`);
+    return this.t(`actions.${key}.label`);
   }
 
   getCategoryIcon(key) {

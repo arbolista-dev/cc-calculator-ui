@@ -126,6 +126,10 @@ class TakeActionComponent extends Panel {
     take_action.props.updateUI(ui);
   }
 
+  categoryIsTransportation(key) {
+    return this.getCategoryByAction(key) === 'transportation';
+  }
+
   isCategoryActive(category) {
     return this.state.active_category_filter === category;
   }

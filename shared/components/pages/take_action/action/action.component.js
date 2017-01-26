@@ -12,14 +12,13 @@ class ActionComponent extends Translatable {
     const action = this;
     action.state = {
       key: this.props.action_key,
-      category: this.props.category,
       show: this.props.show,
       detailed: false,
     };
   }
 
   componentDidMount() {
-    if (this.category === 'transportation') this.selectVehicle(1, this.key);
+    if (this.props.is_transportation) this.selectVehicle(1, this.key);
     window.jQuery("[data-toggle='popover']").tooltip();
   }
 
@@ -44,11 +43,11 @@ class ActionComponent extends Translatable {
   }
 
   get display_name() {
-    return this.t(`actions.${this.state.category}.${this.state.key}.label`);
+    return this.t(`actions.${this.state.key}.label`);
   }
 
   get fact() {
-    const fact = this.t(`actions.${this.state.category}.${this.state.key}.fact`, { defaultValue: '' });
+    const fact = this.t(`actions.${this.state.key}.fact`, { defaultValue: '' });
 
     if (fact.length > 0) {
       return fact;
@@ -57,7 +56,7 @@ class ActionComponent extends Translatable {
   }
 
   get rebates() {
-    return this.t(`actions.${this.state.category}.${this.state.key}.rebates`, { returnObjects: true });
+    return this.t(`actions.${this.state.key}.rebates`, { returnObjects: true });
   }
 
   get taken() {
@@ -79,7 +78,7 @@ class ActionComponent extends Translatable {
   }
 
   get content() {
-    return this.t(`actions.${this.state.category}.${this.state.key}.content`, { returnObjects: true });
+    return this.t(`actions.${this.state.key}.content`, { returnObjects: true });
   }
 
   get assumptions_content() {
@@ -352,7 +351,7 @@ ActionComponent.NAME = 'Action';
 ActionComponent.propTypes = Object.assign({}, {
   is_assumption: React.PropTypes.bool.isRequired,
   action_key: React.PropTypes.string,
-  category: React.PropTypes.string,
+  is_transportation: React.PropTypes.bool,
   show: React.PropTypes.bool,
 }, footprintPropTypes);
 
