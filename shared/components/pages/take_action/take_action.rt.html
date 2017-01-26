@@ -46,7 +46,7 @@
       <label onClick="{this.toggleFilterAndSort.bind(this, 'show_sort_by')}">
         {this.t('take_action.sort_by')}
       </label>
-      <select rt-if="this.state.show_sort_by" class="form-control" onChange="{this.handleSortByChange.bind(this)}" value="{this.selectedSortByOption}">
+      <select rt-if="this.state.show_sort_by" class="form-control" onChange="{this.handleSortByChange.bind(this)}" value="{this.active_sort_by}">
         <option rt-repeat="option in this.sort_options" key="{optionIndex}" value="{option.id}">{option.title}</option>
       </select>
     </li>
@@ -62,7 +62,7 @@
   <div className="cc-component__form">
     <div rt-if="this.current_actions_list.length !== 0" id="action-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
       <div class="carousel-inner" role="listbox">
-        <Action rt-if="!this.sort_by_active"
+        <Action rt-if="!this.isSortByActive"
           rt-repeat="key in this.all_actions"
           key={keyIndex}
           show="{this.showActionCard(key)}"
@@ -71,7 +71,7 @@
           is_transportation="{this.categoryIsTransportation(key)}"
           is_assumption={false}
           is_authenticated={this.user_authenticated} />
-        <Action rt-if="this.state.sort_by === 'title'"
+        <Action rt-if="this.active_sort_by === 'title'"
           rt-repeat="key in this.current_actions_list"
           key={keyIndex}
           show="{this.showActionCard(key)}"
@@ -80,7 +80,7 @@
           is_transportation="{this.categoryIsTransportation(key)}"
           is_assumption={false}
           is_authenticated={this.user_authenticated} />
-        <Action rt-if="this.state.sort_by === 'tons_saved'"
+        <Action rt-if="this.active_sort_by === 'tons_saved'"
           rt-repeat="key in this.current_actions_list"
           key={keyIndex}
           show="{this.showActionCard(key)}"
@@ -89,7 +89,7 @@
           is_transportation="{this.categoryIsTransportation(key)}"
           is_assumption={false}
           is_authenticated={this.user_authenticated} />
-        <Action rt-if="this.state.sort_by === 'dollars_saved'"
+        <Action rt-if="this.active_sort_by === 'dollars_saved'"
           rt-repeat="key in this.current_actions_list"
           key={keyIndex}
           show="{this.showActionCard(key)}"
@@ -98,7 +98,7 @@
           is_transportation="{this.categoryIsTransportation(key)}"
           is_assumption={false}
           is_authenticated={this.user_authenticated} />
-        <Action rt-if="this.state.sort_by === 'upfront_cost'"
+        <Action rt-if="this.active_sort_by === 'upfront_cost'"
           rt-repeat="key in this.current_actions_list"
           key={keyIndex}
           show="{this.showActionCard(key)}"

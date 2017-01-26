@@ -18,9 +18,6 @@ class TakeActionComponent extends Panel {
       show_category_filter: false,
       show_status_filter: false,
       show_sort_by: false,
-      active_category_filter: '',
-      active_status_filter: 'all',
-      sort_by: 'inactive',
       show_actions: this.all_actions,
       show_critical_assumptions: false,
     };
@@ -49,7 +46,7 @@ class TakeActionComponent extends Panel {
   }
 
   get category_list() {
-    return ([{ title: 'All', id: '' }]).concat(this.actions_by_category);
+    return ([{ title: 'All', id: 'all' }]).concat(this.actions_by_category);
   }
 
   get status_list() {
@@ -60,8 +57,20 @@ class TakeActionComponent extends Panel {
     return SORT_OPTIONS;
   }
 
-  get sort_by_active() {
-    return this.state.sort_by !== 'inactive';
+  get isSortByActive() {
+    return this.active_sort_by !== 'inactive';
+  }
+
+  get active_category_filter() {
+    return this.props.ui.getIn(['take_action', 'category_filter']);
+  }
+
+  get active_status_filter() {
+    return this.props.ui.getIn(['take_action', 'status_filter']);
+  }
+
+  get active_sort_by() {
+    return this.props.ui.getIn(['take_action', 'sort_by']);
   }
 
   get relevant_api_keys() {
@@ -90,10 +99,6 @@ class TakeActionComponent extends Panel {
 
   get show_critical_assumptions() {
     return this.state.show_critical_assumptions;
-  }
-
-  get selectedSortByOption() {
-    return this.state.sort_by;
   }
 
   getTonsSavedByAction(action_key) {
@@ -131,20 +136,23 @@ class TakeActionComponent extends Panel {
   }
 
   isCategoryActive(category) {
-    return this.state.active_category_filter === category;
+    return this.active_category_filter === category;
+    // return this.state.active_category_filter === category;
   }
 
   isStatusFilterActive(key) {
-    return this.state.active_status_filter === key;
+    return this.active_status_filter === key;
+    // return this.state.active_status_filter === key;
   }
 
   filterAndSortActions(_category, _status, sort_by) {
     const take_action = this;
     const update = {};
-    const category = _category || take_action.state.active_category_filter;
-    const status = _status || take_action.state.active_status_filter;
+    const category = _category || this.active_category_filter;
+    const status = _status || this.active_status_filter;
+    let updated_sort_by;
 
-    if (!category) {
+    if (category === 'all') {
       update.show_actions = take_action.all_actions;
     } else {
       update.show_actions = take_action.getActionsByCategory(category);
@@ -155,20 +163,22 @@ class TakeActionComponent extends Panel {
     }
 
     if (!sort_by) {
-      update.sort_by = 'inactive';
+      updated_sort_by = 'inactive';
     } else if (sort_by !== 'inactive') {
       update.show_actions = take_action.sortActions(update.show_actions, sort_by);
-      update.sort_by = sort_by;
+      updated_sort_by = sort_by;
     }
 
+    take_action.props.updateUI({ id: 'take_action', data: { sort_by: updated_sort_by } });
     take_action.setState(update);
   }
 
   setCategory(category) {
     const take_action = this;
-    take_action.setState({
-      active_category_filter: category,
-    });
+    // take_action.setState({
+    //   active_category_filter: category,
+    // });
+    take_action.props.updateUI({ id: 'take_action', data: { category_filter: category } });
     take_action.filterAndSortActions(category, '', '');
   }
 
@@ -211,9 +221,10 @@ class TakeActionComponent extends Panel {
 
   setStatusFilter(status) {
     const take_action = this;
-    take_action.setState({
-      active_status_filter: status,
-    });
+    // take_action.setState({
+    //   active_status_filter: status,
+    // });
+    take_action.props.updateUI({ id: 'take_action', data: { status_filter: status } });
     take_action.filterAndSortActions('', status, '');
   }
 
@@ -224,8 +235,8 @@ class TakeActionComponent extends Panel {
 
     if (sort_by === 'title') {
       actions_to_sort.sort((a, b) => {
-        const aLabel = this.t(`actions.${this.getCategoryByAction(a)}.${a}.label`);
-        const bLabel = this.t(`actions.${this.getCategoryByAction(b)}.${b}.label`);
+        const aLabel = this.t(`actions.${a}.label`);
+        const bLabel = this.t(`actions.${b}.label`);
 
         if (aLabel < bLabel) {
           return -1;

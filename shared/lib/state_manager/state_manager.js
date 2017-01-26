@@ -72,6 +72,11 @@ export default class StateManager {
         leaders: [],
         shared: [],
       },
+      take_action: {
+        category_filter: 'all',
+        status_filter: 'all',
+        sort_by: 'inactive',
+      },
       show_leaders_chart: false,
       alert_exists: false,
       connect_to_api: true,
