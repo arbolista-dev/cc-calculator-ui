@@ -112,42 +112,49 @@ class ActionComponent extends Translatable {
   toggleActionPledge() {
     const action = this;
     const update = {};
+    const action_status = {};
     if (action.taken) {
       update[action.api_key] = 0;
+      action_status[action.api_key] = 'unpledged';
     } else {
       update[action.api_key] = 1;
+      action_status[action.api_key] = 'pledged';
     }
     action.setState(update);
     action.updateTakeaction(update);
-    action.updateActionStatus(update);
+    action.updateActionStatus(action_status);
   }
 
   toggleActionComplete() {
     const action = this;
     const update = {};
+    const action_status = {};
     if (action.completed) {
       update[action.api_key] = -2;
+      action_status[action.api_key] = 'uncompleted';
     } else {
       update[action.api_key] = 2;
+      action_status[action.api_key] = 'completed';
     }
     action.setState(update);
-    action.updateActionStatus(update);
+    action.updateActionStatus(action_status);
   }
 
   discardAction() {
     const action = this;
-    let update;
     if (this.taken) {
-      update = { [this.api_key]: 0 };
+      const update = { [this.api_key]: 0 };
+      update[this.api_key] = 0;
       action.setState(update);
       action.updateTakeaction(update);
     }
+    const action_status = {};
     if (this.not_relevant) {
-      update = { [this.api_key]: 3 };
+      action_status[this.api_key] = 'relevant';
     } else {
-      update = { [this.api_key]: -3 };
+      action_status[this.api_key] = 'not_relevant';
     }
-    action.updateActionStatus(update);
+    action.updateActionStatus(action_status);
   }
 
   toggleActionDetails() {
@@ -301,48 +308,22 @@ class ActionComponent extends Translatable {
     const status = params[this.api_key];
     let update = {};
 
-    if (status === 1) {
+    if (status === 'completed' || status === 'pledged') {
       update = {
         key,
-        status: 'pledged',
+        status,
         details: {
           tons_saved: parseFloat(this.tons_saved),
           dollars_saved: parseFloat(this.dollars_saved),
           upfront_cost: parseFloat(this.upfront_cost),
         },
       };
-    } else if (status === 0) {
+    } else {
       update = {
         key,
-        status: 'unpledged',
-      };
-    } else if (status === -3) {
-      update = {
-        key,
-        status: 'not_relevant',
-      };
-    } else if (status === 3) {
-      update = {
-        key,
-        status: 'relevant',
-      };
-    } else if (status === 2) {
-      update = {
-        key,
-        status: 'completed',
-        details: {
-          tons_saved: parseFloat(this.tons_saved),
-          dollars_saved: parseFloat(this.dollars_saved),
-          upfront_cost: parseFloat(this.upfront_cost),
-        },
-      };
-    } else if (status === -2) {
-      update = {
-        key,
-        status: 'uncompleted',
+        status
       };
     }
-
     this.props.updateActionStatus(update);
   }
 }
