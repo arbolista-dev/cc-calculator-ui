@@ -101,6 +101,19 @@ export default class Router {
     });
   }
 
+  goToActionByKey(action_key) {
+    const router = this;
+    const action = {
+      type: updateLocation.getType(),
+      payload: {},
+      no_scroll: false,
+    };
+
+    router.pushHistory({
+      pathname: `/${router.i18n.language}/${router.i18n.t('take_action.route_path')}/${action_key}`,
+      state: action,
+    });
+  }
 
   pushHistory(location) {
     this.history.push(location);

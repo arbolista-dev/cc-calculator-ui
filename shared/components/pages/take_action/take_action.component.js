@@ -1,4 +1,4 @@
-/* global module*/
+/* global module window*/
 
 import React from 'react';
 import Panel from 'shared/lib/base_classes/panel';
@@ -29,6 +29,11 @@ class TakeActionComponent extends Panel {
       this.goToActionCardByUrlParam(this.param_action_key);
     }
     this.setVehicles();
+    this.initCarouselSlideListener();
+  }
+
+  componentWillUnmount() {
+    window.jQuery('#action-carousel').off('slid.bs.carousel');
   }
 
   render() {
@@ -111,8 +116,17 @@ class TakeActionComponent extends Panel {
 
   goToActionCardByUrlParam(key) {
     const index = this.current_actions_list.indexOf(key);
-    this.props.updateUI({ id: 'take_action', data: { category_filter: 'all', status_filter: 'all' } });
-    this.setState({ current_carousel_card_index: index });
+    if (index !== -1) {
+      this.props.updateUI({ id: 'take_action', data: { category_filter: 'all', status_filter: 'all' } });
+      this.setState({ current_carousel_card_index: index });
+    }
+  }
+
+  initCarouselSlideListener() {
+    window.jQuery('#action-carousel').on('slid.bs.carousel', () => {
+      const updated_action_key = window.jQuery('.carousel-inner').find('.active').attr('id');
+      this.router.goToActionByKey(updated_action_key);
+    });
   }
 
   getTonsSavedByAction(action_key) {

@@ -1,4 +1,4 @@
-<div rt-if="this.props.show" rt-class="{item: !this.props.is_assumption, active: this.props.active && !this.props.is_assumption}">
+<div rt-if="this.props.show" rt-class="{item: !this.props.is_assumption, active: this.props.active && !this.props.is_assumption}" id={this.props.action_key}>
   <div className="action" rt-if="!this.props.is_assumption">
     <div className="action__heading">
       <div className="action__status">

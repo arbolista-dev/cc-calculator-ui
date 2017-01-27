@@ -55,7 +55,7 @@ export default function defineRoutes(i18n) {
       path: new RegExp(`^/?((\\w{2})/)?${i18n.t('take_action.route_path')}/?((\\w+))?$`),
       parameters: { 2: 'locale', 3: 'action_key' },
       url(action) {
-        return `/${i18n.language}/${i18n.t('take_action.route_path')}/${action.payload.action_key}`;
+        return action.payload ? `/${i18n.language}/${i18n.t('take_action.route_path')}/${action.payload.action_key}` : `/${i18n.language}/${i18n.t('take_action.route_path')}`;
       },
     }),
     new Settings({
