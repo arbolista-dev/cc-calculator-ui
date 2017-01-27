@@ -2,6 +2,7 @@
 /* eslint no-console: ["error", { allow: ["info"] }] */
 
 import express from 'express';
+import favicon from 'serve-favicon';
 
 const APP_PORT = process.env.PORT || 3000;
 
@@ -19,6 +20,7 @@ class Server {
 
     app.use('/assets', express.static(`${__dirname}/../../../build/production/assets`));
     app.use('/assets/font-awesome', express.static(`${__dirname}/../../../node_modules/font-awesome`));
+    app.use(favicon(`${__dirname}/../../assets/favicon.ico`));
 
     // view engine set up
     app.set('view engine', 'ejs');

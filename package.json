@@ -92,6 +92,7 @@
     "redux-loop": "^2.2.2",
     "resolve-url-loader": "1.4.x",
     "sass-loader": "3.1.x",
+    "serve-favicon": "^2.3.2",
     "style-loader": "0.12.x",
     "superagent": "1.8.x",
     "underscore.string": "3.3.x",
