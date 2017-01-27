@@ -1,7 +1,7 @@
 /* global module document FormData File */
 
 import React from 'react';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import Panel from 'shared/lib/base_classes/panel';
 import { setPhoto, updateUser, updateUserGoals } from 'api/user.api';
 import profileContainer, { profilePropTypes } from 'shared/containers/profile.container';
@@ -74,7 +74,7 @@ class ProfileComponent extends Panel {
   }
 
   get user_goals() {
-    if (this.user_profile.has('user_goals')) {
+    if (this.user_profile.has('user_goals') && List.isList(this.user_profile.has('user_goals'))) {
       let user_goals = this.user_profile.get('user_goals').toJS();
       user_goals = user_goals.filter(key => key.status !== 'not_relevant');
       return user_goals.sort((a, b) => {
@@ -87,7 +87,7 @@ class ProfileComponent extends Panel {
         return 0;
       });
     }
-    return [];
+    return 0;
   }
 
   get is_public() {
@@ -260,7 +260,7 @@ class ProfileComponent extends Panel {
       privacy_changed: true,
     });
 
-    updateUser({ public: toString(is_public) }, token);
+    updateUser({ public: is_public.toString() }, token);
   }
 
   updateProfile() {

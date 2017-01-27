@@ -38,7 +38,7 @@
               </div>
             </div>
           </div>
-          <div class="introduction" rt-class="{'not-set': !this.getProfileData(name) && !this.is_own_editable_profile}">
+          <div class="introduction" rt-class="{'not-set': !this.getProfileData('intro') && !this.is_own_editable_profile}">
             {this.getProfileData('intro') || 'Fill in your personal introduction here..'}
           </div>
           <a rt-if="this.is_own_editable_profile" onClick="{this.triggerEdit.bind(this)}" class="action-btn">
@@ -141,6 +141,7 @@
           </tr>
         </thead>
         <tbody>
+          <tr rt-if="!this.user_goals" class="danger"><td></td><td>{this.t('profile.none_pledged')}</td><td></td><td></td><td></td><td></td><td></td></tr>
           <tr rt-repeat="action in this.user_goals" key={actionIndex} rt-class="{'success': action.status === 'completed', 'warning': action.status === 'pledged'}">
             <td><i class="fa fa-{this.getCategoryIcon(action.key)}" aria-hidden="true" title="Category"></i></td>
             <td>{this.displayActionTitle(action.key)}</td>

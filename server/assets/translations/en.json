@@ -48,7 +48,8 @@
         "view_ranking": "View ranking",
         "action_title": "Action",
         "status": "Status",
-        "completed": "Completed"
+        "completed": "Completed",
+        "none_pledged": "No actions have been pledged so far."
     },
     "settings": {
         "route_path": "settings",
