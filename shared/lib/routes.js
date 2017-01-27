@@ -52,8 +52,11 @@ export default function defineRoutes(i18n) {
       parameters: { 2: 'locale' },
     }),
     new TakeAction({
-      path: new RegExp(`^/?((\\w{2})/)?${i18n.t('take_action.route_path')}$`),
-      parameters: { 2: 'locale' },
+      path: new RegExp(`^/?((\\w{2})/)?${i18n.t('take_action.route_path')}/?((\\w+))?$`),
+      parameters: { 2: 'locale', 3: 'action_key' },
+      url(action) {
+        return `/${i18n.language}/${i18n.t('take_action.route_path')}/${action.payload.action_key}`;
+      },
     }),
     new Settings({
       path: new RegExp(`^/?((\\w{2})/)?(${i18n.t('settings.route_path')})$`),
@@ -64,7 +67,7 @@ export default function defineRoutes(i18n) {
       parameters: { 2: 'locale' },
     }),
     new Profile({
-      path: new RegExp(`^\/?((\\w{2})\/)?${i18n.t('profile.route_path')}/(\\d+)$`),
+      path: new RegExp(`^/?((\\w{2})/)?${i18n.t('profile.route_path')}/(\\d+)$`),
       parameters: { 2: 'locale', 3: 'user_id' },
       url(action) {
         return `/${i18n.language}/${i18n.t('profile.route_path')}/${action.payload.user_id}`;

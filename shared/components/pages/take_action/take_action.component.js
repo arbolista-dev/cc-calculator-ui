@@ -20,10 +20,14 @@ class TakeActionComponent extends Panel {
       show_sort_by: false,
       show_actions: this.all_actions,
       show_critical_assumptions: false,
+      current_carousel_card_index: 0,
     };
   }
 
   componentDidMount() {
+    if (this.param_action_key) {
+      this.goToActionCardByUrlParam(this.param_action_key);
+    }
     this.setVehicles();
   }
 
@@ -34,6 +38,10 @@ class TakeActionComponent extends Panel {
   get external_offset_set() {
     const offset = this.props.ui.get('external_offset').toJS();
     return Object.keys(offset).length !== 0;
+  }
+
+  get param_action_key() {
+    return this.props.location.getIn(['params', 'action_key']);
   }
 
   get all_actions() {
@@ -99,6 +107,12 @@ class TakeActionComponent extends Panel {
 
   get show_critical_assumptions() {
     return this.state.show_critical_assumptions;
+  }
+
+  goToActionCardByUrlParam(key) {
+    const index = this.current_actions_list.indexOf(key);
+    this.props.updateUI({ id: 'take_action', data: { category_filter: 'all', status_filter: 'all' } });
+    this.setState({ current_carousel_card_index: index });
   }
 
   getTonsSavedByAction(action_key) {
@@ -304,7 +318,7 @@ class TakeActionComponent extends Panel {
   }
 
   activateCarouselItem(key) {
-    return key === this.current_actions_list[0];
+    return key === this.current_actions_list[this.state.current_carousel_card_index];
   }
 }
 
