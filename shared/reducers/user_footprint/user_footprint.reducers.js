@@ -185,7 +185,6 @@ const ACTIONS = {
         const filtered = state.getIn(['actions', 'not_relevant']).filterNot(key => key === params.key);
         updated = state.setIn(['actions', 'not_relevant'], filtered);
       }
-
     } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted' || params.status === 'relevant') {
       actions = state.get('actions');
       updated = state;

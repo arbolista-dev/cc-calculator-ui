@@ -46,7 +46,11 @@ const ACTIONS = {
     );
   },
 
-  [apiError]: () => fromJS({ load_error: true, loading: false }),
+  [apiError]: (state) => {
+    const updated = state.set('load_error', true)
+                         .set('loading', false);
+    return updated;
+  },
 
 };
 

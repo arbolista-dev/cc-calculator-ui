@@ -137,12 +137,10 @@ class TakeActionComponent extends Panel {
 
   isCategoryActive(category) {
     return this.active_category_filter === category;
-    // return this.state.active_category_filter === category;
   }
 
   isStatusFilterActive(key) {
     return this.active_status_filter === key;
-    // return this.state.active_status_filter === key;
   }
 
   filterAndSortActions(_category, _status, sort_by) {
@@ -175,9 +173,6 @@ class TakeActionComponent extends Panel {
 
   setCategory(category) {
     const take_action = this;
-    // take_action.setState({
-    //   active_category_filter: category,
-    // });
     take_action.props.updateUI({ id: 'take_action', data: { category_filter: category } });
     take_action.filterAndSortActions(category, '', '');
   }
@@ -221,9 +216,6 @@ class TakeActionComponent extends Panel {
 
   setStatusFilter(status) {
     const take_action = this;
-    // take_action.setState({
-    //   active_status_filter: status,
-    // });
     take_action.props.updateUI({ id: 'take_action', data: { status_filter: status } });
     take_action.filterAndSortActions('', status, '');
   }

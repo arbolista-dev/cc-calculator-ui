@@ -1,4 +1,4 @@
-/* global module window clearTimeout setTimeout*/
+/* global module clearTimeout setTimeout*/
 
 import React from 'react';
 import Translatable from 'shared/lib/base_classes/translatable';
@@ -19,11 +19,6 @@ class ActionComponent extends Translatable {
 
   componentDidMount() {
     if (this.props.is_transportation) this.selectVehicle(1, this.key);
-    window.jQuery("[data-toggle='popover']").tooltip();
-  }
-
-  componentWillUnmount() {
-    window.jQuery("[data-toggle='popover']").tooltip('destroy');
   }
 
   render() {
@@ -321,7 +316,7 @@ class ActionComponent extends Translatable {
     } else {
       update = {
         key,
-        status
+        status,
       };
     }
     this.props.updateActionStatus(update);
