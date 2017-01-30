@@ -9,8 +9,12 @@ import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseF
 
 /*
   user_footprint: {
-    data: <Object>,
-    actions: <Object>,
+    data: <Map>,
+    actions: {
+      pledged: <Map>,
+      completed: <Map>,
+      not_relevant: <List>
+    },
     loading: <Boolean>,
     load_error: <Boolean>
   }

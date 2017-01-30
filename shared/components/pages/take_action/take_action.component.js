@@ -5,15 +5,26 @@ import Panel from 'shared/lib/base_classes/panel';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './take_action.rt.html';
 
-const STATUS_OPTIONS = [{ title: 'All', key: 'all' }, { title: 'Pledged', key: 'pledged' }, { title: 'Not pledged', key: 'not_pledged' }, { title: 'Relevant', key: 'relevant' }, { title: 'Not relevant', key: 'not_relevant' }, { title: 'Completed', key: 'completed' }];
-
-const SORT_OPTIONS = [{ title: ' - ', id: 'inactive' }, { title: 'Title', id: 'title' }, { title: 'Carbon savings', id: 'tons_saved' }, { title: 'Money savings', id: 'dollars_saved' }, { title: 'Down payment', id: 'upfront_cost' }];
-
 class TakeActionComponent extends Panel {
 
   constructor(props, context) {
     super(props, context);
     const take_action = this;
+    take_action.STATUS_OPTIONS = [
+      { key: 'all', title: this.t('take_action.status_options.all') },
+      { key: 'pledged', title: this.t('take_action.status_options.pledged') },
+      { key: 'not_pledged', title: this.t('take_action.status_options.not_pledged') },
+      { key: 'relevant', title: this.t('take_action.status_options.relevant') },
+      { key: 'not_relevant', title: this.t('take_action.status_options.not_relevant') },
+      { key: 'completed', title: this.t('take_action.status_options.completed') },
+    ];
+    take_action.SORT_OPTIONS = [
+      { id: 'inactive', title: ' - ' },
+      { id: 'title', title: this.t('take_action.sort_options.title') },
+      { id: 'tons_saved', title: this.t('take_action.sort_options.tons_saved') },
+      { id: 'dollars_saved', title: this.t('take_action.sort_options.dollars_saved') },
+      { id: 'upfront_cost', title: this.t('take_action.sort_options.upfront_cost') },
+    ];
     take_action.state = {
       show_category_filter: false,
       show_status_filter: false,
@@ -59,15 +70,15 @@ class TakeActionComponent extends Panel {
   }
 
   get category_list() {
-    return ([{ title: 'All', id: 'all' }]).concat(this.actions_by_category);
+    return ([{ title: this.t('take_action.categories.all'), id: 'all' }]).concat(this.actions_by_category);
   }
 
   get status_list() {
-    return this.user_authenticated ? STATUS_OPTIONS : STATUS_OPTIONS.slice(0, -1);
+    return this.user_authenticated ? this.STATUS_OPTIONS : this.STATUS_OPTIONS.slice(0, -1);
   }
 
   get sort_options() {
-    return SORT_OPTIONS;
+    return this.SORT_OPTIONS;
   }
 
   get isSortByActive() {
@@ -220,19 +231,19 @@ class TakeActionComponent extends Panel {
     let filtered;
 
     if (status === 'pledged' || status === 'completed') {
-      filtered = Object.keys(take_action.actions_profile.get(status).toJS());
-      filtered = actions_to_filter.filter(key => filtered.includes(key));
+      filtered = take_action.actions_profile.get(status);
+      filtered = actions_to_filter.filter(key => filtered.has(key));
     } else if (status === 'not_relevant') {
-      filtered = take_action.actions_profile.get(status).toJS();
-      filtered = actions_to_filter.filter(key => filtered.includes(key));
+      filtered = take_action.actions_profile.get(status);
+      filtered = actions_to_filter.filter(key => filtered.has(key));
     } else if (status === 'not_pledged') {
-      const pledged = Object.keys(take_action.actions_profile.get('pledged').toJS());
-      const not_pledged = actions_to_filter.filter(key => !pledged.includes(key));
+      const pledged = take_action.actions_profile.get('pledged');
+      const not_pledged = actions_to_filter.filter(key => !pledged.has(key));
 
       filtered = not_pledged;
     } else if (status === 'relevant') {
-      const not_relevant = take_action.actions_profile.get('not_relevant').toJS();
-      const relevant = actions_to_filter.filter(key => !not_relevant.includes(key));
+      const not_relevant = take_action.actions_profile.get('not_relevant');
+      const relevant = actions_to_filter.filter(key => !not_relevant.has(key));
 
       filtered = relevant;
     } else if (status === 'all') {

@@ -246,7 +246,27 @@
         "category": "Category",
         "status": "Status",
         "sort_by": "Sort by",
-        "empty_actions_list": "The current filter combination matches no actions."
+        "empty_actions_list": "The current filter combination matches no actions.",
+        "categories": {
+          "all": "All",
+          "transportation": "Transportation",
+          "housing": "Housing",
+          "food": "Food"
+        },
+        "status_options": {
+          "all": "All",
+          "pledged": "Pledged",
+          "not_pledged": "Not pledged",
+          "relevant": "Relevant",
+          "not_relevant": "Not relevant",
+          "completed": "Completed"
+        },
+        "sort_options": {
+          "title": "Title",
+          "tons_saved": "Carbon savings",
+          "dollars_saved": "Money savings",
+          "upfront_cost": "Down payment"
+        }
     },
     "graphs": {
         "your_footprint": "Your footprint",
