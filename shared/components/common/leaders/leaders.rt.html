@@ -37,7 +37,7 @@
           </div>
       </div>
       <div className="panel-body">
-        <Alerts list="{this.alert_list}"
+        <Alerts rt-if="this.alert_exists" list="{this.alert_list}"
           category="leaders"
           currentRoute="{this.current_route_name}"
           pushAlert="{this.props.pushAlert}" />

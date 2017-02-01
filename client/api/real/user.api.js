@@ -149,10 +149,10 @@ function setPhoto(photo, jwt) {
   });
 }
 
-function listLeaders(limit, offset, state, householdSize) {
+function listLeaders(limit, offset, state, household_size) {
   return new Promise((fnResolve, fnReject) => {
     superagent.get(`${BASE}/user/leaders`)
-      .query({ limit, offset, state, householdSize })
+      .query({ limit, offset, state, household_size })
       .end((err, res) => {
         if (err) fnReject(err);
         else {
