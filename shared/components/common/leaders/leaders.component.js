@@ -52,6 +52,10 @@ class LeadersComponent extends Panel {
     return template.call(this);
   }
 
+  get alert_exists() {
+    return this.props.ui.get('alert_exists');
+  }
+
   get selected_location() {
     return this.state.selected_location;
   }
