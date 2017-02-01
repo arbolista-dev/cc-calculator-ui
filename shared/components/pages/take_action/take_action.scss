@@ -113,11 +113,48 @@
   }
 }
 
-@media (max-width: 600px) {
-  #action_category_btn_group {
-    a {
-      font-size:0.8em;
-      width:95px;
+@media (max-width: 500px) {
+  #take_action {
+    .filter-sort {
+      .list-group-item {
+        display: inline-block;
+        width: 50% !important;
+        margin: 0 auto;
+      }
+    }
+
+    .carousel {
+      .carousel-control {
+        width: 8%;
+        &.left {
+          text-align: left;
+        }
+        &.right {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  #take_action {
+    .filter-sort {
+      .list-group-item {
+        select {
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  #take_action {
+    .filter-sort {
+      .list-group-item {
+        width: 33%;
+      }
     }
   }
 }

@@ -150,6 +150,11 @@
     }
   }
 }
+@media (max-width: 500px) {
+  .action {
+    width: 80%;
+  }
+}
 @media (min-width: 400px) and (max-width: 550px) {
   .action {
     .action__title {
