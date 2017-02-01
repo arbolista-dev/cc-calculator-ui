@@ -7,7 +7,7 @@ import extend from 'extend';
 import updateLocation from 'shared/reducers/location/location.actions';
 import defineRoutes from '../routes';
 
-const NON_MAIN_ROUTES = ['Settings', 'MissingRoute', 'ForgotPassword'];
+const NON_MAIN_ROUTES = ['Profile', 'Settings', 'MissingRoute', 'ForgotPassword'];
 
 const DEFAULT_UPDATE_LOCATION_ACTION = {
   type: updateLocation.getType(),
@@ -101,6 +101,19 @@ export default class Router {
     });
   }
 
+  goToActionByKey(action_key) {
+    const router = this;
+    const action = {
+      type: updateLocation.getType(),
+      payload: {},
+      no_scroll: false,
+    };
+
+    router.pushHistory({
+      pathname: `/${router.i18n.language}/${router.i18n.t('take_action.route_path')}/${action_key}`,
+      state: action,
+    });
+  }
 
   pushHistory(location) {
     this.history.push(location);

@@ -1,0 +1,162 @@
+<rt-require dependency="shared/components/common/graphs/graphs.component" as="Graphs"/>
+<main className="cc-component container container-md" id="profile">
+  <div rt-if="!this.loaded && !this.error" className="loader"></div>
+  <div rt-if="this.loaded">
+    <div className="cc-component__nav">
+      <a onClick="{this.viewRanking.bind(this)}">{this.t('profile.view_ranking')}</a>
+    </div>
+
+    <div class="profile-container">
+      <div class="privacy checkbox" rt-if="this.is_own_editable_profile">
+        <label>
+          <input type="checkbox"
+          onChange="{this.updatePrivacy.bind(this)}"
+          checked="{this.is_public}"/> {this.t('My profile is public')}
+        </label>
+      </div>
+      <div class="user-photo" rt-class="{'is-set': this.photo_url, 'is-auth': this.is_own_editable_profile, 'trigger-hover': this.show_upload_hover}">
+        <i rt-if="!this.photo_url" class="fa fa-user" aria-hidden="true"></i>
+        <img rt-if="this.photo_url" src="{this.photo_url}" alt="" />
+        <div rt-if="this.is_own_editable_profile" class="upload">
+          <input type="file" id="user-photo-upload" onChange="{this.selectedFile.bind(this)}" />
+          <div rt-class="{hidden: !this.is_loading}" className="loader"></div>
+          <a rt-if="!this.is_loading" onClick="{this.uploadPhoto.bind(this)}" class="action-btn">
+            {this.t('Upload')}
+          </a>
+        </div>
+      </div>
+      <h2 class="name">{this.full_name}</h2>
+      <h4><i class="fa fa-home" aria-hidden="true"></i> {this.location}</h4>
+      <div class="profile-data" rt-class="{'editable': this.is_own_editable_profile, 'trigger-hover': this.state.profile_edit_active}">
+        <div rt-if="!this.state.profile_edit_active" class="view">
+          <div class="social-media">
+            <div class="icons">
+              <div rt-repeat="name in this.social_media_platforms" key="{nameIndex}" class="platform {name}" rt-class="{'not-set': !this.getProfileData(name) && !this.is_own_editable_profile, 'not-yet-set': !this.getProfileData(name)}">
+                <a href="{this.getProfileLink(name)}" target="_blank">
+                  <i class="fa fa-{name}" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="introduction" rt-class="{'not-set': !this.getProfileData('intro') && !this.is_own_editable_profile}">
+            {this.getProfileData('intro') || 'Fill in your personal introduction here..'}
+          </div>
+          <a rt-if="this.is_own_editable_profile" onClick="{this.triggerEdit.bind(this)}" class="action-btn">
+            {this.t('Edit')}
+          </a>
+        </div>
+        <div rt-if="this.state.profile_edit_active" class="editing form-inline">
+          <div class="form-group">
+            <label for="facebookInput">Facebook</label>
+            <div class="input-group">
+              <div class="input-group-addon">http://facebook.com/</div>
+              <input type="text"
+                class="form-control"
+                id="facebookInput"
+                data-key="facebook"
+                value="{this.getProfileData('facebook')}"
+                placeholder="UC-Berkeley-CoolClimate-Network-161909000540511/"
+                onChange="{this.updateInput.bind(this)}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="twitterInput">Twitter</label>
+            <div class="input-group">
+              <div class="input-group-addon">http://twitter.com/</div>
+              <input type="text"
+                class="form-control"
+                id="twitterInput"
+                data-key="twitter"
+                value="{this.getProfileData('twitter')}"
+                placeholder="coolclimatenw"
+                onChange="{this.updateInput.bind(this)}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="instagramInput">Instagram</label>
+            <div class="input-group">
+              <div class="input-group-addon">http://instagram.com/</div>
+              <input type="text"
+                class="form-control"
+                id="instagramInput"
+                data-key="instagram"
+                value="{this.getProfileData('instagram')}"
+                placeholder="coolcalifornia"
+                onChange="{this.updateInput.bind(this)}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="linkedinInput">LinkedIn</label>
+            <div class="input-group">
+              <div class="input-group-addon">http://linkedin.com/</div>
+              <input type="text"
+                class="form-control"
+                id="linkedinInput"
+                data-key="linkedin"
+                value="{this.getProfileData('linkedin')}"
+                placeholder="company/1293183"
+                onChange="{this.updateInput.bind(this)}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mediumInput">Medium</label>
+            <div class="input-group">
+              <div class="input-group-addon">http://medium.com/</div>
+              <input type="text"
+                class="form-control"
+                id="mediumInput"
+                data-key="medium"
+                value="{this.getProfileData('medium')}"
+                placeholder="@nature_org"
+                onChange="{this.updateInput.bind(this)}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="introductionInput">{this.t('Personal introduction')}</label>
+            <textarea class="form-control textarea" id="introductionInput"
+              data-key="intro"
+              value="{this.getProfileData('intro')}"
+              rows="3"
+              placeholder="I am a climate activist, ..."
+              onChange="{this.updateInput.bind(this)}">
+          </div>
+          <div rt-class="{hidden: !this.is_loading}" className="loader"></div>
+          <a rt-if="!this.is_loading" class="action-btn" onClick="{this.updateProfile.bind(this)}">{this.t('Save')}</a>
+        </div>
+      </div>
+    </div>
+    <Graphs user_profile_footprint="{this.profile_footprint}"/>
+    <div class="actions-container">
+      <h3>How I take action!</h3>
+      <table className="table table-condensed table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th>{this.t('profile.action_title')}</th>
+            <th>{this.t('profile.status')}</th>
+            <th>{this.t('take_action.tons_saved')}</th>
+            <th>{this.t('take_action.dollars_saved')}</th>
+            <th>{this.t('take_action.upfront_cost')}</th>
+            <th>{this.t('profile.completed')} ?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr rt-if="!this.user_goals" class="danger"><td></td><td>{this.t('profile.none_pledged')}</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr rt-repeat="action in this.user_goals" key={actionIndex} rt-class="{'success': action.status === 'completed', 'warning': action.status === 'pledged'}">
+            <td><i class="fa fa-{this.getCategoryIcon(action.key)}" aria-hidden="true" title="Category"></i></td>
+            <td>{this.displayActionTitle(action.key)}</td>
+            <td>{action.status}</td>
+            <td>{action.tons_saved}</td>
+            <td>${this.displayActionDollarsSaved(action.dollars_saved)}</td>
+            <td>${this.displayActionUpfrontCost(action.upfront_cost)}</td>
+            <td>
+              <button rt-if="this.user_authenticated" class="btn btn-default" rt-class="{'completed': action.status === 'completed'}" onClick="{this.toggleActionComplete.bind(this, action)}"><i class="fa fa-check" aria-hidden="true"></i></button>
+              <button rt-if="!this.user_authenticated" class="btn btn-default btn-disabled" rt-class="{'completed': action.status === 'completed'}"><i class="fa fa-check" aria-hidden="true"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>

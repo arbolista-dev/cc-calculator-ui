@@ -5,7 +5,7 @@ import Panel from 'shared/lib/base_classes/panel';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './layout.rt.html';
 
-const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'ForgotPassword', 'Footprint', 'MissingRoute'];
+const NON_GRAPH_PANELS = ['Leaders', 'Settings', 'Profile', 'ForgotPassword', 'Footprint', 'MissingRoute'];
 
 class LayoutComponent extends Panel {
 
@@ -93,7 +93,7 @@ class LayoutComponent extends Panel {
           }
         }
       } catch (e) {
-        throw e;
+        // throw e;
       }
     }), false);
   }

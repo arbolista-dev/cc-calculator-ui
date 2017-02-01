@@ -61,12 +61,42 @@ function logoutUser(jwt) {
   });
 }
 
-function updateAnswers(input, jwt) {
+function updateUser(input, jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.put(`${BASE}/user`)
+      .set('Content-Type', 'application/json; charset=UTF-8')
+      .set('Authorization', jwt)
+      .send(JSON.stringify(input))
+      .end((err, res) => {
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
+function updateAnswers(answers, jwt) {
   return new Promise((fnResolve, fnReject) => {
     superagent.put(`${BASE}/user/answers`)
       .set('Content-Type', 'application/json; charset=UTF-8')
       .set('Authorization', jwt)
-      .send(JSON.stringify({ answers: input }))
+      .send(JSON.stringify({ answers }))
+      .end((err, res) => {
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
+function updateUserGoals(updated_goal, jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.put(`${BASE}/user/goals`)
+      .set('Content-Type', 'application/json; charset=UTF-8')
+      .set('Authorization', jwt)
+      .send(JSON.stringify(updated_goal))
       .end((err, res) => {
         if (err) fnReject(err);
         else {
@@ -105,6 +135,20 @@ function setLocation(input, jwt) {
   });
 }
 
+function setPhoto(photo, jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.post(`${BASE}/user/photo`)
+      .set('Authorization', jwt)
+      .send(photo)
+      .end((err, res) => {
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
 function listLeaders(limit, offset, state, householdSize) {
   return new Promise((fnResolve, fnReject) => {
     superagent.get(`${BASE}/user/leaders`)
@@ -130,12 +174,30 @@ function listLocations() {
   });
 }
 
+function showProfile(user_id, jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.get(`${BASE}/user/${user_id}/profile`)
+      .set('Authorization', jwt)
+      .end((err, res) => {
+        if (err) fnReject(err);
+        else {
+          fnResolve(res.body);
+        }
+      });
+  });
+}
+
 export { addUser,
   loginUser,
   loginUserFacebook,
   logoutUser,
+  updateUser,
   updateAnswers,
   forgotPassword,
   setLocation,
   listLeaders,
-  listLocations };
+  listLocations,
+  showProfile,
+  setPhoto,
+  updateUserGoals,
+};

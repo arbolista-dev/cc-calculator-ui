@@ -10,6 +10,7 @@ import Shopping from './routes/shopping/shopping';
 import TakeAction from './routes/take_action/take_action';
 import Travel from './routes/travel/travel';
 import Settings from './routes/settings/settings';
+import Profile from './routes/profile/profile';
 
 function includeHelpers(routes) {
   Object.defineProperty(routes, 'getRoute', {
@@ -51,8 +52,11 @@ export default function defineRoutes(i18n) {
       parameters: { 2: 'locale' },
     }),
     new TakeAction({
-      path: new RegExp(`^/?((\\w{2})/)?${i18n.t('take_action.route_path')}$`),
-      parameters: { 2: 'locale' },
+      path: new RegExp(`^/?((\\w{2})/)?${i18n.t('take_action.route_path')}/?((\\w+))?$`),
+      parameters: { 2: 'locale', 3: 'action_key' },
+      url(action) {
+        return action.payload ? `/${i18n.language}/${i18n.t('take_action.route_path')}/${action.payload.action_key}` : `/${i18n.language}/${i18n.t('take_action.route_path')}`;
+      },
     }),
     new Settings({
       path: new RegExp(`^/?((\\w{2})/)?(${i18n.t('settings.route_path')})$`),
@@ -61,6 +65,13 @@ export default function defineRoutes(i18n) {
     new ForgotPassword({
       path: new RegExp(`^/?((\\w{2})/)?(${i18n.t('forgot_password.route_path')})$`),
       parameters: { 2: 'locale' },
+    }),
+    new Profile({
+      path: new RegExp(`^/?((\\w{2})/)?${i18n.t('profile.route_path')}/(\\d+)$`),
+      parameters: { 2: 'locale', 3: 'user_id' },
+      url(action) {
+        return `/${i18n.language}/${i18n.t('profile.route_path')}/${action.payload.user_id}`;
+      },
     }),
     new Missing({
       path: /\.*/,

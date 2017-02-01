@@ -1,17 +1,17 @@
 <div className="cc-component" id="graphs">
   <div id="graphs_stats">
-    <table id="graphs_summary" className="table" rt-class="{highlighted: this.isFootprintRoute}">
+    <table id="graphs_summary" className="table" rt-class="{highlighted: this.displayCompactSummary}">
       <tbody>
         <tr>
           <td>
             <span className="amount">{Math.round(this.user_category_footprint)} </span>
             <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
           </td>
-          <td rt-class="{hidden: this.isFootprintRoute}">
+          <td rt-class="{hidden: this.displayCompactSummary}">
             {Math.round(this.average_category_footprint)}
             <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: '&nbsp;' + this.t('units.tons_co2_per_year')}}"></span>
           </td>
-          <td rt-class="{hidden: !this.isFootprintRoute}">
+          <td rt-class="{hidden: !this.displayCompactSummary}">
             <button className="btn btn-default" onClick="{this.toggleChart.bind(this)}">
               <img src="/assets/img/graphs-toggle.png"/>
             </button>
@@ -28,8 +28,8 @@
       <tfoot>
         <tr>
           <td>{this.category_user_byline}</td>
-          <td rt-class="{hidden: this.isFootprintRoute}">{this.category_average_byline}</td>
-          <td rt-class="{hidden: !this.isFootprintRoute}"></td>
+          <td rt-class="{hidden: this.displayCompactSummary}">{this.category_average_byline}</td>
+          <td rt-class="{hidden: !this.displayCompactSummary}"></td>
           <td>{this.category_percentage_byline}</td>
           <td rt-class="{hidden: !this.shouldShowTotal}">
             {this.t('summaries.total_footprint')}
@@ -38,7 +38,7 @@
       </tfoot>
     </table>
   </div>
-  <div id="graphs_toggle_chart" rt-class="{hidden: (!this.show_chart && this.isFootprintRoute)}">
+  <div id="graphs_toggle_chart" rt-class="{hidden: (!this.show_chart && this.displayCompact)}">
     <div className="btn-group">
       <button className="btn btn-default"
         rt-class="{'graphs--active': this.show_bar_chart}"
@@ -59,7 +59,7 @@
     <div className="chart-legend">
       <div>
         <img src="/assets/img/your-footprint-rect.png"/>
-        {this.t('footprint.your_footprint')}
+        {this.your_footprint_legend}
       </div>
       <div>
         <img src="/assets/img/average-footprint-rect.png"/>
@@ -73,7 +73,7 @@
     <div className="chart-legend">
       <div>
         <img src="/assets/img/your-footprint-icon.png"/>
-        {this.t('footprint.your_footprint')}
+        {this.your_footprint_legend}
       </div>
       <div>
         <img src="/assets/img/average-footprint-icon.png"/>

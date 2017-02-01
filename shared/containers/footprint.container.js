@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
-import { ensureFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult } from 'shared/reducers/user_footprint/user_footprint.actions';
+import { ensureFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateActionStatus } from 'shared/reducers/user_footprint/user_footprint.actions';
 import { updateUI, pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
 
 const mapStateToProps = state => ({
@@ -42,6 +42,10 @@ const mapDispatchToProps = dispatch => ({
     updateTakeactionResult.assignTo(dispatch);
     updateTakeactionResult();
   },
+  updateActionStatus: (updated_params) => {
+    updateActionStatus.assignTo(dispatch);
+    updateActionStatus(updated_params);
+  },
   updateUI: (payload) => {
     updateUI.assignTo(dispatch);
     updateUI(payload);
@@ -70,6 +74,7 @@ const footprintPropTypes = {
   ensureFootprintComputed: React.PropTypes.func.isRequired,
   updateTakeactionResult: React.PropTypes.func.isRequired,
   averageFootprintUpdated: React.PropTypes.func.isRequired,
+  updateActionStatus: React.PropTypes.func.isRequired,
   userFootprintUpdated: React.PropTypes.func.isRequired,
   userFootprintReset: React.PropTypes.func.isRequired,
   updatedFootprintComputed: React.PropTypes.func.isRequired,

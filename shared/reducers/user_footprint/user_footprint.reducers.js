@@ -3,14 +3,18 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { updateAnswers } from 'api/user.api';
+import { updateAnswers, updateUserGoals } from 'api/user.api';
 import { setLocalStorageItem, getLocalStorageItem, tokenIsValid } from 'shared/lib/utils/utils';
-import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateRemoteUserAnswers } from './user_footprint.actions';
-
+import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateRemoteUserAnswers, updateActionStatus, updateRemoteUserActions } from './user_footprint.actions';
 
 /*
   user_footprint: {
-    data: <Object>,
+    data: <Map>,
+    actions: {
+      pledged: <Map>,
+      completed: <Map>,
+      not_relevant: <List>
+    },
     loading: <Boolean>,
     load_error: <Boolean>
   }
@@ -168,6 +172,67 @@ const ACTIONS = {
     return fromJS(state);
   },
 
+  [updateActionStatus]: (state, params) => {
+    let actions;
+    let updated;
+
+    if (params.status === 'pledged' || params.status === 'completed') {
+      const action_update = {
+        [params.key]: params.details,
+      };
+      actions = state.getIn(['actions', params.status])
+                     .merge(action_update);
+
+      updated = state.setIn(['actions', params.status], actions);
+
+      if (state.getIn(['actions', 'not_relevant']).includes(params.key)) {
+        const filtered = state.getIn(['actions', 'not_relevant']).filterNot(key => key === params.key);
+        updated = state.setIn(['actions', 'not_relevant'], filtered);
+      }
+    } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted' || params.status === 'relevant') {
+      actions = state.get('actions');
+      updated = state;
+
+      if (params.status === 'uncompleted' || actions.hasIn(['completed', params.key])) {
+        const cleared = actions.deleteIn(['completed', params.key]);
+        updated = state.set('actions', cleared);
+      } else {
+        if (actions.hasIn(['pledged', params.key])) {
+          const cleared = actions.deleteIn(['pledged', params.key]);
+          updated = state.set('actions', cleared);
+        }
+
+        if (params.status === 'not_relevant') {
+          const not_relevant = actions.get('not_relevant');
+          const pushed = not_relevant.push(params.key);
+          updated = state.setIn(['actions', 'not_relevant'], pushed);
+        }
+
+        if (params.status === 'relevant' && actions.get('not_relevant').includes(params.key)) {
+          const filtered = actions.get('not_relevant').filterNot(key => key === params.key);
+          updated = state.setIn(['actions', 'not_relevant'], filtered);
+        }
+      }
+    }
+
+    setLocalStorageItem('actions', updated.get('actions').toJS());
+
+    return loop(
+      fromJS(updated),
+      Effects.constant(updateRemoteUserActions(params)),
+    );
+  },
+
+  [updateRemoteUserActions]: (state, updated_action) => {
+    const auth_status = getLocalStorageItem('auth');
+
+    if ({}.hasOwnProperty.call(auth_status, 'token')) {
+      if (tokenIsValid(auth_status.token)) {
+        updateUserGoals(updated_action, auth_status.token);
+      }
+    }
+    return fromJS(state);
+  },
 };
 
 const REDUCER = createReducer(ACTIONS, {});
