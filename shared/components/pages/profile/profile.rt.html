@@ -14,9 +14,9 @@
           checked="{this.is_public}"/> {this.t('My profile is public')}
         </label>
       </div>
-      <div class="user-photo" rt-class="{'is-set': this.photo_url, 'is-auth': this.is_own_editable_profile, 'trigger-hover': this.show_upload_hover}">
-        <i rt-if="!this.photo_url" class="fa fa-user" aria-hidden="true"></i>
-        <img rt-if="this.photo_url" src="{this.photo_url}" alt="" />
+      <div class="user-photo" rt-class="{'is-set': this.photo_is_set, 'is-auth': this.is_own_editable_profile, 'trigger-hover': this.show_upload_hover}">
+        <i rt-if="!this.photo_is_set" class="fa fa-user" aria-hidden="true"></i>
+        <img rt-if="this.photo_is_set" src="{this.photo_url}" alt="" />
         <div rt-if="this.is_own_editable_profile" class="upload">
           <input type="file" id="user-photo-upload" onChange="{this.selectedFile.bind(this)}" />
           <div rt-class="{hidden: !this.is_loading}" className="loader"></div>

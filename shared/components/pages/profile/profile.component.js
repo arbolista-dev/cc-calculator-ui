@@ -57,6 +57,10 @@ class ProfileComponent extends Panel {
     return `${this.user_profile.get('first_name')} ${this.user_profile.get('last_name')}`;
   }
 
+  get photo_is_set() {
+    return this.photo_url ? this.photo_url.length > 2 : false;
+  }
+
   get photo_url() {
     return this.state.uploaded_photo_src ? this.state.uploaded_photo_src : this.user_profile.get('photo_url');
   }
@@ -74,7 +78,7 @@ class ProfileComponent extends Panel {
   }
 
   get user_goals() {
-    if (this.user_profile.has('user_goals') && List.isList(this.user_profile.has('user_goals'))) {
+    if (this.user_profile.has('user_goals') && List.isList(this.user_profile.get('user_goals'))) {
       let user_goals = this.user_profile.get('user_goals').toJS();
       user_goals = user_goals.filter(key => key.status !== 'not_relevant');
       return user_goals.sort((a, b) => {
