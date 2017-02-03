@@ -26,7 +26,8 @@ class ProfileComponent extends Panel {
   }
 
   componentDidMount() {
-    this.props.retrieveProfile({ user_id: this.user_id, token: this.props.auth.getIn(['data', 'token']) });
+    const token = this.props.auth.getIn(['data', 'token']);
+    this.props.retrieveProfile({ user_id: this.user_id, token });
   }
 
   componentDidUpdate() {

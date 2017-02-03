@@ -80,7 +80,8 @@ export default class Panel extends mixin(Translatable, footprintable, resizable)
   }
 
   goToProfile(user_id) {
-    this.pushRoute('Profile', retrieveProfile, { user_id });
+    const token = this.props.auth.getIn(['data', 'token']);
+    this.pushRoute('Profile', retrieveProfile, { user_id, token });
   }
 
   setUserAnswersToDefault(show_alert) {
