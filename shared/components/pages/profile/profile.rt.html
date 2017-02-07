@@ -3,7 +3,9 @@
   <div rt-if="!this.loaded && !this.error" className="loader"></div>
   <div rt-if="this.loaded">
     <div className="cc-component__nav">
-      <a onClick="{this.viewRanking.bind(this)}">{this.t('profile.view_ranking')}</a>
+      <button onClick="{this.viewRanking.bind(this)}" class="btn btn-default">
+        {this.t('profile.view_ranking')}  <i className="fa fa-sort-amount-asc" aria-hidden="true"></i>
+      </button>
     </div>
 
     <div class="profile-container">

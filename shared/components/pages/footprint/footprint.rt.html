@@ -17,10 +17,7 @@
     </header>
 
     <Graphs />
-    <div className="cc-component__nav">
-        <a onClick="{this.router.previous.bind(this.router)}">{this.t('Previous')}</a>
-        <a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
-    </div>
+
     <div class="cc_leaders">
         <Leaders rt-if="this.show_leaders_comparison" />
     </div>

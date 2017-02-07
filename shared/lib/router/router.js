@@ -33,6 +33,12 @@ export default class Router {
     return this.findRoute(Router.currentWindowLocation().pathname);
   }
 
+  get next_route() {
+    const router = this;
+    const current_i = router.routes.indexOf(router.current_route);
+    return router.routes[current_i + 1];
+  }
+
   get main_routes() {
     return this.routes.filter(route => NON_MAIN_ROUTES.indexOf(route.route_name) < 0);
   }
@@ -121,9 +127,7 @@ export default class Router {
 
   next() {
     const router = this;
-    const current_i = router.routes.indexOf(router.current_route);
-    const next_route = router.routes[current_i + 1];
-    return router.pushRoute(next_route.route_name);
+    return router.pushRoute(router.next_route.route_name);
   }
 
   previous() {

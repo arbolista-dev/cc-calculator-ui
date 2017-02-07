@@ -82,11 +82,14 @@
 			</div>
 		</div>
 
+    <div rt-if="this.show_take_action_now" id="next-category" className="fixed-sidebar">
+      <button onClick="{this.router.next.bind(this.router)}" className="btn btn-success btn-block">
+        {this.t('Next')} <i class="fa fa-caret-right" aria-hidden="true"></i>  {this.next_route_title}
+      </button>
+    </div>
+
 	  <div rt-if="this.show_take_action_now" id="go_to_take_action" className="fixed-sidebar">
-	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" className="btn btn-info btn-lg btn-block desktop">
-	    	{this.t('Take action now')}
-	    </button>
-	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" className="btn btn-info btn-block mobile">
+	    <button onClick="{this.router.goToRouteByName.bind(this, 'TakeAction')}" className="btn btn-info btn-block">
 	    	{this.t('Take action now')}
 	    </button>
   </div>
