@@ -63,7 +63,15 @@
         "title": "Get Started",
         "byline": "Start with a quick carbon footprint estimate",
         "route_path": "get_started",
-        "location_prompt": "Enter your location",
+        "location_us_prefix": "Enter your U.S.",
+        "location_type": {
+            "zipcode": "zipcode",
+            "city": "city",
+            "county": "county",
+            "state": "state",
+            "country": "country"
+        },
+        "more_countries_soon": "More countries coming soon.",
         "income": {
             "label": "What is your approximate gross annual household income?"
         },

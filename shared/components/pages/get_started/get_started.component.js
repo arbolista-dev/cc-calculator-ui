@@ -8,7 +8,6 @@ import { setLocation } from 'api/user.api';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './get_started.rt.html';
 
-const LOCATION_MODES = [[1, 'Zipcode'], [4, 'State'], [2, 'City'], [3, 'County'], [5, 'Country']];
 const DEFAULT_LOCATION = { input_location_mode: 5, input_income: 1, input_size: 0 };
 
 class GetStartedComponent extends Panel {
@@ -80,8 +79,23 @@ class GetStartedComponent extends Panel {
     return this.state.input_location_mode_changed;
   }
 
+  get display_location_mode() {
+    return this.input_location_mode_changed ? this.input_location_mode : 1;
+  }
+
   get location_modes() {
-    return LOCATION_MODES;
+    return [
+      [1, this.t('get_started.location_type.zipcode')],
+      [2, this.t('get_started.location_type.city')],
+      [3, this.t('get_started.location_type.county')],
+      [4, this.t('get_started.location_type.state')],
+      [5, this.t('get_started.location_type.country')],
+    ];
+  }
+
+  get location_placeholder() {
+    const location_mode = this.location_modes[this.display_location_mode - 1];
+    return `${this.t('get_started.location_us_prefix')} ${this.t(`get_started.location_type.${location_mode[1]}`)}`;
   }
 
   get show_location_suggestions() {
@@ -127,6 +141,13 @@ class GetStartedComponent extends Panel {
       get_started.props.updateUI({ id: 'location_mode_changed', data: true });
     }
     get_started.updateFootprintParams({ input_location_mode: location_mode });
+  }
+
+  getLocationModeTitle(mode) {
+    if (mode === 'country') {
+      return this.t('get_started.more_countries_soon');
+    }
+    return `${this.t('get_started.location_us_prefix')} ${this.t(`get_started.location_type.${mode}`)}`;
   }
 
   unsetLocation(e) {
@@ -188,10 +209,9 @@ class GetStartedComponent extends Panel {
   // called when input_location input changed.
   setLocationSuggestions(event) {
     if (this.country_mode) return;
-    const display_location_mode = this.input_location_mode_changed ? this.input_location_mode : 1;
     const get_started = this;
     const new_location = {
-      input_location_mode: display_location_mode,
+      input_location_mode: get_started.display_location_mode,
       input_location: event.target.value,
     };
 
