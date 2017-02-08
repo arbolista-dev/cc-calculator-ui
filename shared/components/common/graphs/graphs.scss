@@ -10,6 +10,16 @@
     stroke-width:s;
     stroke:#A4A4A4;
   }
+  rect.reduction {
+    fill: #5cb85c;
+  }
+  .reduction-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #5cb85c;
+    vertical-align: middle;
+  }
 }
 
 #overview_chart {

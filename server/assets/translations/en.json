@@ -236,7 +236,7 @@
         "title": "Your Footprint",
         "route_path": "footprint",
         "your_footprint": "Your household footprint",
-        "average_footprint": "Similar households",
+        "average_footprint": "Similar households footprint",
         "go_to_profile": "Go to your profile"
     },
     "take_action": {
@@ -280,6 +280,8 @@
     "graphs": {
         "your_footprint": "Your footprint",
         "average_footprint": "Average",
+        "reduced_footprint": "Reduction",
+        "your_reductions": "Your pledged footprint reductions",
         "total_home_footprint": "Total Home Footprint",
         "total_travel_footprint": "Total Travel Footprint",
         "total_shopping_footprint": "Total Shopping Footprint",
@@ -4705,6 +4707,7 @@
         "usd_per_year": "$/year",
         "usd_per_month": "$/month",
         "kwh_per_year": "kWh/year",
+        "per_year": "/year",
         "therms_per_year": "therms/year",
         "cuft_per_year": "cuft/year",
         "gallons_per_year": "gallons/month",
