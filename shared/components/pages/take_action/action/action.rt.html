@@ -6,7 +6,7 @@
           <button className="btn btn-default"
             onClick="{this.toggleActionPledge.bind(this)}" rt-class="{'action__status--taken': this.taken}"> <span rt-if="!this.taken">Pledge </span>
             <span rt-if="this.taken">Pledged </span>
-            <i rt-if="!this.taken" className="fa" class="fa-check-square-o"></i>
+            <i className="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken && !this.props.is_authenticated}"></i>
           </button>
           <button rt-if="this.taken && this.props.is_authenticated"
             className="btn btn-default"

@@ -312,7 +312,7 @@ class GraphsComponent extends Panel {
   get user_category_footprint() {
     const graphs = this;
     if (graphs.current_route_name === 'TakeAction') {
-      return graphs.userApiValue('result_grand_total') - graphs.displayTakeactionSavings('result_takeaction_pounds');
+      return graphs.userApiValue('result_takeaction_grand_total');
     } else if (graphs.current_route_name === 'GetStarted') {
       return graphs.userApiValue('result_grand_total');
     } else if (graphs.current_route_name === 'Profile') {
