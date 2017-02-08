@@ -3,6 +3,7 @@
 import React from 'react';
 import Panel from 'shared/lib/base_classes/panel';
 import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
+import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './home.rt.html';
 
@@ -146,13 +147,13 @@ class HomeComponent extends Panel {
     const home = this;
     const cleanpercent_api_key = home.apiKey('cleanpercent');
 
-    home.cleanpercent_slider = new SimpleSlider({
+    home.cleanpercent_slider = new SnapSlider({
       container: '#home_cleanpercent_slider',
       tick_values: [0, 20, 40, 60, 80, 100],
       outer_width: home.slider_width,
       handle_r: 16,
       axis_click_handle: true,
-      onChange: (cleanpercent) => {
+      onSnap: (cleanpercent) => {
         const api_key = home.apiKey('cleanpercent');
         const update = {
           [api_key]: cleanpercent,
