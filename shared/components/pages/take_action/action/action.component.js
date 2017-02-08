@@ -163,13 +163,18 @@ class ActionComponent extends Translatable {
 
   displayStateValue(id, suffix) {
     let state_id = id;
+    let state_suffix = suffix;
+    if (!suffix) state_suffix = '';
     if (state_id.includes('display_takeaction')) {
       state_id = state_id.replace(/display_takeaction/i, 'input_takeaction');
     }
-    if (!suffix) {
-      return this.userApiValue(state_id);
+    let val = this.userApiValue(state_id);
+    if (val < 1) {
+      val = parseFloat(val).toFixed(2);
+    } else {
+      val = Math.round(val);
     }
-    return `${this.userApiValue(state_id)} ${suffix}`;
+    return `${val} ${state_suffix}`;
   }
 
   updateActionInput(event) {

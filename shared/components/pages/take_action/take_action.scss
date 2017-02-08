@@ -90,14 +90,11 @@
 }
 
 #take_action_savings {
-  bottom:5px;
-  h3 { margin-top:7px; margin-bottom:0px; }
-  .mobile {
-    display:none;
-  }
-  .desktop {
-    display:inline-block;
-  }
+  top:90px;
+  width: initial;
+  h3 { margin-top:7px; margin-bottom:0px; font-size: 24px; }
+  display:inline-block;
+  cursor: default;
 }
 
 #action_category_btn_group_container {
@@ -159,13 +156,10 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   #take_action_savings {
-    .mobile {
-      display:inline-block;
-    }
-    .desktop {
-      display:none;
+    h3 {
+      font-size: 18px;
     }
   }
 }

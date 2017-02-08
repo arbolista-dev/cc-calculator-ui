@@ -1025,7 +1025,7 @@
                 }, {
                     "description": "You currently consume about",
                     "show": "result_takeaction_ride_my_bike_totalcalories",
-                    "suffix": "per day"
+                    "suffix": "calories per day"
                 }, {
                     "description": "with a corresponding carbon footprint of about",
                     "show": "result_takeaction_ride_my_bike_ghgper100cal",
@@ -1228,6 +1228,32 @@
                 "url": "http://www.coolcalifornia.org/funding-wizard#search//%255BZipcode%253D%253D94720%255D%255BCategory%253D%253DTransportation%255D%255BEligible+Applicants%253D%253DIndividual%255D/false/none/false/1/12",
                 "text": "Find rebates and incentives for this action"
             }
+        },
+        "offset_transportation": {
+            "label": "Offset Transportation Footprint",
+            "content": [{
+                "description": "I have already pledged to reduce my transportation footprint by",
+                "show": "result_takeaction_offset_transportation_transpledges",
+                "suffix": "metric tons of CO2e per year."
+            }, {
+                "description": "I will purchase carbon offsets for the remaining",
+                "show": "result_takeaction_offset_transportation_transtonsleft",
+                "suffix": "tons of CO2e"
+            }, {
+                "description": "at a cost of",
+                "input": {
+                    "id": "input_takeaction_offset_transportation_offset",
+                    "size": "2",
+                    "maxlength": "2"
+                },
+                "suffix": "dollars per metric ton."
+            }, {
+                "assumptions": [{
+                    "description": "Offsets are assumed to be 'additional' greenhouse gas emissions that would NOT otherwise be reduced without your purchase of carbon offsets. Examples include projects that would not be profitable, and therefore not undertaken, without the additional funds provided by carbon offset sponsors.",
+                    "text_only": true
+                }]
+            }],
+            "fact": "Avoiding GHG emissions in one place can 'offset' GHG emissions occurring somewhere else. Offsets can go toward projects such as financing a wind turbine in Asia, a solar roof-top in Africa or a reforestation program in South America. Plus, carbon offset projects can produce positive quality-of-life impacts such as increasing economic and social development and supporting clean technology."
         },
         "switch_to_cfl": {
             "label": "Switch to CFLs",
@@ -3818,6 +3844,32 @@
                 ]
             }]
         },
+        "offset_housing": {
+            "label": "Offset Housing Footprint",
+            "content": [{
+                "description": "I have already pledged to reduce my housing footprint by",
+                "show": "result_takeaction_offset_housing_transpledges",
+                "suffix": "metric tons of CO2e per year."
+            }, {
+                "description": "I will purchase carbon offsets for the remaining",
+                "show": "result_takeaction_offset_housing_transtonsleft",
+                "suffix": "tons of CO2e"
+            }, {
+                "description": "at a cost of",
+                "input": {
+                    "id": "input_takeaction_offset_housing_offset",
+                    "size": "2",
+                    "maxlength": "2"
+                },
+                "suffix": "dollars per metric ton."
+            }, {
+                "assumptions": [{
+                    "description": "Offsets are assumed to be 'additional' greenhouse gas emissions that would NOT otherwise be reduced without your purchase of carbon offsets. Examples include projects that would not be profitable, and therefore not undertaken, without the additional funds provided by carbon offset sponsors.",
+                    "text_only": true
+                }]
+            }],
+            "fact": "Avoiding GHG emissions in one place can 'offset' GHG emissions occurring somewhere else. Offsets can go toward projects such as financing a wind turbine in Asia, a solar roof-top in Africa or a reforestation program in South America. Plus, carbon offset projects can produce positive quality-of-life impacts such as increasing economic and social development and supporting clean technology."
+        },
         "low_carbon_diet": {
             "label": "Eat a low carbon diet",
             "content": [{
@@ -4621,6 +4673,32 @@
                 ]
             }],
             "fact": "Organic products are available in nearly 20,000 natural foods stores, and are sold in nearly three-quarters of all conventional grocery stores."
+        },
+        "offset_shopping": {
+            "label": "Offset Shopping Footprint",
+            "content": [{
+                "description": "I have already pledged to reduce my food, goods and services footprint by",
+                "show": "result_takeaction_offset_shopping_transpledges",
+                "suffix": "metric tons of CO2e per year."
+            }, {
+                "description": "I will purchase carbon offsets for the remaining",
+                "show": "result_takeaction_offset_shopping_transtonsleft",
+                "suffix": "tons of CO2e"
+            }, {
+                "description": "at a cost of",
+                "input": {
+                    "id": "input_takeaction_offset_shopping_offset",
+                    "size": "2",
+                    "maxlength": "2"
+                },
+                "suffix": "dollars per metric ton."
+            }, {
+                "assumptions": [{
+                    "description": "Offsets are assumed to be 'additional' greenhouse gas emissions that would NOT otherwise be reduced without your purchase of carbon offsets. Examples include projects that would not be profitable, and therefore not undertaken, without the additional funds provided by carbon offset sponsors.",
+                    "text_only": true
+                }]
+            }],
+            "fact": "Avoiding GHG emissions in one place can 'offset' GHG emissions occurring somewhere else. Offsets can go toward projects such as financing a wind turbine in Asia, a solar roof-top in Africa or a reforestation program in South America. Plus, carbon offset projects can produce positive quality-of-life impacts such as increasing economic and social development and supporting clean technology."
         }
     },
     "units": {

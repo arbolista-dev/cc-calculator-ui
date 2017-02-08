@@ -116,6 +116,18 @@
                      <span>{a.prefix} </span>
                      {this.displayStateValue(a.show, a.suffix)}
                    </p>
+                   <p rt-if="a.select">
+                     {a.prefix}
+                     <select id="{a.select.id}"
+                     data-action_key="{this.state.key}"
+                     onChange="{this.handleChange.bind(this)}"
+                     value="{this.getSelectedOption(a.select.id)}">
+                      <option rt-repeat="option in this.setSelectOptions(a.select)"
+                        value="{option.value}"
+                        key="{optionIndex}">{option.text}</option>
+                    </select>
+                    {a.suffix}
+                   </p>
                  </td>
                </tr>
              </virtual>
