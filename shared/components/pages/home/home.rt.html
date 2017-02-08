@@ -169,9 +169,15 @@
 		<div className="cc-component__question">
 			<h4>{this.t('home.watersewage.label')}</h4>
 			<div className="label-container">
+        <span className="label label-slider">
+          {this.display_annual_water_percentage}
+          <i>{this.t('units.percent_of_avg')}</i>
+        </span>
+      </div>
+      <div className="label-container mini-label">
 				<span className="label label-slider">
-					{this.display_annual_water_dollars}
-					<i>{this.t('units.usd_per_year')}</i>
+					${this.display_annual_water_dollars}
+					<i>{this.t('units.per_year')}</i>
 				</span>
 			</div>
 			<div id="home_watersewage_slider"></div>

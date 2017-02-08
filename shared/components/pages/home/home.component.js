@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Panel from 'shared/lib/base_classes/panel';
-import SimpleSlider from 'd3-object-charts/src/slider/simple_slider';
 import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './home.rt.html';
@@ -59,6 +58,14 @@ class HomeComponent extends Panel {
     return Math.round(this.state.input_footprint_housing_watersewage);
   }
 
+  get default_watersewage() {
+    return this.defaultApiValue(this.apiKey('watersewage'));
+  }
+
+  get display_annual_water_percentage() {
+    return (this.userApiValue(this.apiKey('watersewage')) / this.default_watersewage) * 100;
+  }
+
   get relevant_api_keys() {
     return RELEVANT_API_KEYS;
   }
@@ -104,9 +111,8 @@ class HomeComponent extends Panel {
   initializeWaterSlider() {
     const home = this;
     const watersewage_api_key = home.apiKey('watersewage');
-    const default_watersewage = home.defaultApiValue(watersewage_api_key);
 
-    home.water_slider = new SimpleSlider({
+    home.water_slider = new SnapSlider({
       container: '#home_watersewage_slider',
       outer_width: home.slider_width,
       handle_r: 16,
@@ -119,9 +125,9 @@ class HomeComponent extends Panel {
         5: '5x',
       },
       axis_click_handle: true,
-      onChange: (multiplier) => {
+      onSnap: (multiplier) => {
         const update = {
-          [watersewage_api_key]: multiplier * parseFloat(default_watersewage),
+          [watersewage_api_key]: multiplier * parseFloat(this.default_watersewage),
         };
         home.setState(update);
         home.updateFootprint(update);
@@ -130,7 +136,7 @@ class HomeComponent extends Panel {
     home.water_slider.drawData({
       abs_min: 0,
       abs_max: 5,
-      current_value: home.userApiValue(watersewage_api_key) / default_watersewage,
+      current_value: home.userApiValue(watersewage_api_key) / this.default_watersewage,
     });
   }
 
