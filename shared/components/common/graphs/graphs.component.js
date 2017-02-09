@@ -89,8 +89,12 @@ class GraphsComponent extends Panel {
     }, {});
   }
 
+  get user_profile_footprint() {
+    return this.props.user_profile_footprint ? this.props.user_profile_footprint : {};
+  }
+
   get user_footprint() {
-    return this.props.user_footprint.get('data').toJS();
+    return (Object.keys(this.user_profile_footprint).length !== 0) ? this.user_profile_footprint : this.props.user_footprint.get('data').toJS();
   }
 
   get average_footprint() {
@@ -101,12 +105,12 @@ class GraphsComponent extends Panel {
     return this.defaultApiValue('result_grand_total');
   }
 
-  get isFootprintRoute() {
-    return this.current_route_name === 'Footprint';
+  get displayCompactSummary() {
+    return (this.current_route_name === 'Footprint' || this.current_route_name === 'Profile');
   }
 
   get shouldShowTotal() {
-    return !(this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction');
+    return !(this.current_route_name === 'GetStarted' || this.current_route_name === 'Footprint' || this.current_route_name === 'TakeAction' || this.current_route_name === 'Profile');
   }
 
   toggleChart() {
@@ -311,6 +315,8 @@ class GraphsComponent extends Panel {
       return graphs.userApiValue('result_grand_total') - graphs.displayTakeactionSavings('result_takeaction_pounds');
     } else if (graphs.current_route_name === 'GetStarted') {
       return graphs.userApiValue('result_grand_total');
+    } else if (graphs.current_route_name === 'Profile') {
+      return graphs.user_footprint.result_grand_total;
     }
     return graphs.category_keys.reduce((sum, category_key) =>
       sum + parseFloat(graphs.userApiValue(category_key)), 0);
@@ -324,11 +330,8 @@ class GraphsComponent extends Panel {
 
   get display_category_percent() {
     const graphs = this;
-    if (graphs.userApiValue('input_changed') !== 1) {
-      return 0;
-    }
     return Math.round(Math.abs(
-      (100 * graphs.user_category_footprint) / (graphs.average_category_footprint - 100),
+      ((100 * graphs.user_category_footprint) / graphs.average_category_footprint) - 100,
     ));
   }
 
@@ -378,13 +381,17 @@ class GraphsComponent extends Panel {
     }
   }
 
+  get your_footprint_legend() {
+    const graphs = this;
+    return (graphs.current_route_name === 'Profile') ? graphs.t('graphs.this_household') : graphs.t('footprint.your_footprint');
+  }
+
   get display_total_footprint() {
     const graphs = this;
     return Math.round(graphs.userApiValue('result_grand_total'));
   }
 
 }
-
 GraphsComponent.propTypes = footprintPropTypes;
 GraphsComponent.NAME = 'Graphs';
 

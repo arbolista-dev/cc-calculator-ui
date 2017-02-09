@@ -11,31 +11,116 @@
 
   <ExternalOffset totalUserFootprint={this.total_user_footprint} ui={this.props.ui} rt-if="this.external_offset_set"></ExternalOffset>
 
-  <div id="action_category_btn_group_container" className="cc-component__question">
-    <div id="action_category_btn_group" className="btn-group" role="group">
-      <a rt-repeat="category in this.actions_list"
-        rt-class="{'btn-success': this.isCategoryActive(category.category), 'btn-default': !this.isCategoryActive(category.category)}"
-        key="action_category_{category.category}"
-        type="button"
-        className="btn"
-        onClick="{this.setCategory.bind(this, category.category)}"
-         >{this.t(category.title)}</a>
-    </div>
+  <div class="filter-sort list-group">
+    <li class="list-group-item category-filter">
+      <label onClick="{this.toggleFilterAndSort.bind(this, 'show_category_filter')}">
+        {this.t('take_action.category')}
+      </label>
+      <ul rt-if="this.state.show_category_filter">
+        <button rt-repeat="category in this.category_list"
+          key="action_category_{category.id}"
+          className="btn btn-link"
+          onClick="{this.setCategory.bind(this, category.id)}"
+           ><li rt-class="{'shifted': this.isCategoryActive(category.id)}">
+             <i rt-if="this.isCategoryActive(category.id)" class="fa fa-check" aria-hidden="true"></i>{this.t(category.title)}
+           </li>
+         </button>
+      </ul>
+    </li>
+    <li class="list-group-item status-filter">
+      <label onClick="{this.toggleFilterAndSort.bind(this, 'show_status_filter')}">
+        {this.t('take_action.status')}
+      </label>
+      <ul rt-if="this.state.show_status_filter">
+        <button rt-repeat="status in this.status_list"
+          key="{statusIndex}"
+          className="btn btn-link"
+          onClick="{this.setStatusFilter.bind(this, status.key)}"
+           ><li rt-class="{'shifted': this.isStatusFilterActive(status.key)}">
+             <i rt-if="this.isStatusFilterActive(status.key)" class="fa fa-check" aria-hidden="true"></i>{this.t(status.title)}
+           </li>
+         </button>
+      </ul>
+    </li>
+    <li class="list-group-item sort-by">
+      <label onClick="{this.toggleFilterAndSort.bind(this, 'show_sort_by')}">
+        {this.t('take_action.sort_by')}
+      </label>
+      <select rt-if="this.state.show_sort_by" class="form-control" onChange="{this.handleSortByChange.bind(this)}" value="{this.active_sort_by}">
+        <option rt-repeat="option in this.sort_options" key="{optionIndex}" value="{option.id}">{option.title}</option>
+      </select>
+    </li>
   </div>
 
-  <div id="action_critical_assumptions">
-    <a type="button"
-      className="btn btn-sm btn-info"
+  <div class="action-detailing">
+    <button className="btn btn-xs btn-link"
       onClick="{this.toggleCriticalAssumptions.bind(this)}"
-       >{this.t('take_action.critical_assumptions')}</a>
+       >{this.t('take_action.critical_assumptions')}</button>
        <Action is_assumption={true} show="{this.state.show_critical_assumptions}"></Action>
   </div>
 
   <div className="cc-component__form">
-    <div>
-      <rt-virtual rt-repeat="category in this.actions_list">
-        <Action rt-repeat="key in category.keys" action_key="{key}" category="{category.category}" show="{this.showAction(key)}" is_assumption={false}></Action>
-      </virtual>
+    <div rt-if="this.current_actions_list.length !== 0" id="action-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+      <div class="carousel-inner" role="listbox">
+        <Action rt-if="!this.isSortByActive"
+          rt-repeat="key in this.all_actions"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          is_transportation="{this.categoryIsTransportation(key)}"
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
+        <Action rt-if="this.active_sort_by === 'title'"
+          rt-repeat="key in this.current_actions_list"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          is_transportation="{this.categoryIsTransportation(key)}"
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
+        <Action rt-if="this.active_sort_by === 'tons_saved'"
+          rt-repeat="key in this.current_actions_list"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          is_transportation="{this.categoryIsTransportation(key)}"
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
+        <Action rt-if="this.active_sort_by === 'dollars_saved'"
+          rt-repeat="key in this.current_actions_list"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          is_transportation="{this.categoryIsTransportation(key)}"
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
+        <Action rt-if="this.active_sort_by === 'upfront_cost'"
+          rt-repeat="key in this.current_actions_list"
+          key={keyIndex}
+          show="{this.showActionCard(key)}"
+          active="{this.activateCarouselItem(key)}"
+          action_key="{key}"
+          is_transportation="{this.categoryIsTransportation(key)}"
+          is_assumption={false}
+          is_authenticated={this.user_authenticated} />
+      </div>
+
+      <a class="left carousel-control" href="#action-carousel" role="button" data-slide="prev">
+        <span class="icon-prev" aria-hidden="true"></span>
+      </a>
+      <a class="right carousel-control" href="#action-carousel" role="button" data-slide="next">
+        <span class="icon-next" aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div rt-if="this.current_actions_list.length === 0">
+      <div class="alert alert-warning" role="alert">
+        {this.t('take_action.empty_actions_list')}
+      </div>
     </div>
   </div>
 

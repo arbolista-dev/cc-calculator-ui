@@ -12,6 +12,7 @@ import defaultsReducers from 'shared/reducers/average_footprint/average_footprin
 import computeFootprintReducers from 'shared/reducers/user_footprint/user_footprint.reducers';
 import authReducers from 'shared/reducers/auth/auth.reducers';
 import uiReducers from 'shared/reducers/ui/ui.reducers';
+import profileReducers from 'shared/reducers/profile/profile.reducers';
 import { getLocalStorageItem } from '../utils/utils';
 
 const DEFAULT_LOCATION = { input_location_mode: 5, input_income: 1, input_size: 0 };
@@ -41,6 +42,10 @@ export default class StateManager {
     return getLocalStorageItem('user_footprint');
   }
 
+  get actions_storage() {
+    return getLocalStorageItem('actions');
+  }
+
   get average_footprint_storage() {
     return getLocalStorageItem('average_footprint');
   }
@@ -68,6 +73,11 @@ export default class StateManager {
         shared: [],
         activation: [],
       },
+      take_action: {
+        category_filter: 'all',
+        status_filter: 'all',
+        sort_by: 'inactive',
+      },
       show_leaders_chart: false,
       alert_exists: false,
       connect_to_api: true,
@@ -78,13 +88,13 @@ export default class StateManager {
 
   initializeStore(initial_state) {
     const state_manager = this;
-
     const reducer = combineReducers({
       location: locationReducers,
       average_footprint: defaultsReducers,
       user_footprint: computeFootprintReducers,
       auth: authReducers,
       ui: uiReducers,
+      profile: profileReducers,
     });
 
     const enhancer = window.__REDUX_DEVTOOLS_EXTENSION__ ?
@@ -119,8 +129,10 @@ export default class StateManager {
         result_takeaction_dollars: state_manager.take_action_storage.dollars || {},
         result_takeaction_net10yr: state_manager.take_action_storage.net10yr || {},
         result_takeaction_pounds: state_manager.take_action_storage.pounds || {},
+        actions: state_manager.actions_storage || { pledged: {}, completed: {}, not_relevant: [] },
       }),
       ui: fromJS(state_manager.ui_storage || state_manager.default_ui_state),
+      profile: fromJS({ data: {} }),
     }, opts);
   }
 }

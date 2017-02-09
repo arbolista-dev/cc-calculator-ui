@@ -8,6 +8,7 @@
 <rt-require dependency="shared/components/pages/missing/missing.component" as="Missing"/>
 <rt-require dependency="shared/components/pages/settings/user/forgot_password/forgot_password.component" as="ForgotPassword"/>
 <rt-require dependency="shared/components/pages/settings/settings.component" as="Settings"/>
+<rt-require dependency="shared/components/pages/profile/profile.component" as="Profile"/>
 <rt-require dependency="shared/components/common/alerts/alerts.component" as="Alerts"/>
 <rt-require dependency="shared/components/common/graphs/graphs.component" as="Graphs"/>
 <div>
@@ -53,6 +54,7 @@
 			<Shopping rt-if="this.current_route_name === 'Shopping'" />
 			<Footprint rt-if="this.current_route_name === 'Footprint'" />
 			<TakeAction rt-if="this.current_route_name === 'TakeAction'" />
+			<Profile rt-if="this.current_route_name === 'Profile'" />
 			<Missing rt-if="this.is_no_app_route" />
 		</main>
 		<Graphs rt-if="this.graphing_route" />

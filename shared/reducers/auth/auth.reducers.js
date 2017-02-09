@@ -18,7 +18,8 @@ import { pushAlert } from '../ui/ui.actions';
       data: {
         token: undefined,
         name: undefined,
-        answers: undefined
+        answers: undefined,
+        user_id: undefined
       },
       loading: false,
       load_error: false,
@@ -55,6 +56,7 @@ const ACTIONS = {
       const auth = {
         token: api_response.data.token,
         name: api_response.data.name,
+        user_id: api_response.data.user_id,
       };
       const remote_answers = JSON.parse(api_response.data.answers);
 
@@ -62,6 +64,7 @@ const ACTIONS = {
 
       const updated = state.setIn(['data', 'token'], auth.token)
                          .setIn(['data', 'name'], auth.name)
+                         .setIn(['data', 'user_id'], auth.user_id)
                          .set('loading', false)
                          .set('received', true)
                          .set('success', true);
@@ -123,12 +126,14 @@ const ACTIONS = {
       const auth = {
         token: api_response.data.token,
         name: api_response.data.name,
+        user_id: api_response.data.user_id,
       };
 
       setLocalStorageItem('auth', auth);
 
       updated = state.setIn(['data', 'token'], auth.token)
                      .setIn(['data', 'name'], auth.name)
+                     .setIn(['data', 'user_id'], auth.user_id)
                      .set('loading', false)
                      .set('received', true)
                      .set('success', true);
@@ -175,37 +180,39 @@ const ACTIONS = {
   },
 
   [logout]: state => loop(
-      state.set('loading', true),
-      Effects.promise(() => logoutUser(state.getIn(['data', 'token']))
-          .then(loggedOut)
-          .catch(authError)),
-    ),
+    state.set('loading', true),
+    Effects.promise(() => logoutUser(state.getIn(['data', 'token']))
+        .then(loggedOut)
+        .catch(authError)),
+  ),
 
-  [loggedOut]: (state) => {
-    // not checking if logout API response = success
-    localStorage.removeItem('auth');
+  [loggedOut]: (state, api_response) => {
+    if (api_response.success) {
+      localStorage.removeItem('auth');
+      const updated = state.deleteIn(['data', 'token'])
+                           .deleteIn(['data', 'name'])
+                           .deleteIn(['data', 'user_id'])
+                           .set('loading', false)
+                           .delete('received')
+                           .delete('success');
+      const alert = {
+        id: 'shared',
+        data: [{
+          needs_i18n: true,
+          type: 'success',
+          message: 'success.logout',
+        }],
+      };
 
-    const updated = state.deleteIn(['data', 'token'])
-                       .deleteIn(['data', 'name'])
-                       .set('loading', false)
-                       .delete('received')
-                       .delete('success');
-    const alert = {
-      id: 'shared',
-      data: [{
-        needs_i18n: true,
-        type: 'success',
-        message: 'success.logout',
-      }],
-    };
-
-    return loop(
-      fromJS(updated),
-      Effects.batch([
-        Effects.constant(averageFootprintResetRequested()),
-        Effects.constant(pushAlert(alert)),
-      ]),
-    );
+      return loop(
+        fromJS(updated),
+        Effects.batch([
+          Effects.constant(averageFootprintResetRequested()),
+          Effects.constant(pushAlert(alert)),
+        ]),
+      );
+    }
+    return state;
   },
 
   [requestNewPassword]: (state, payload) => loop(

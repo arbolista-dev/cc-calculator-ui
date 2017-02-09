@@ -17,7 +17,7 @@
                 <div rt-if="this.show_locations_list" id="leaders_locations_list">
                   <div className="leaders__location-suggestion"
                     onClick="{this.resetLocation.bind(this)}">{this.t('leaders.reset')} <i className="fa fa-undo" aria-hidden="true"></i></div>
-                    <div rt-repeat="location in this.filtered_locations" className="leaders__location-suggestion" data-city="{location.city}" data-state="{location.state}" onClick="{this.setLocationFilter.bind(this)}" title="{location.state}" key="{locationIndex}">{location.state}</div>
+                    <div rt-repeat="state in this.filtered_locations" className="leaders__location-suggestion" data-state="{state}" onClick="{this.setLocationFilter.bind(this)}" title="{state}" key="{stateIndex}">{state}</div>
                 </div>
               </div>
             </div>
@@ -37,14 +37,14 @@
           </div>
       </div>
       <div className="panel-body">
-        <Alerts list="{this.alert_list}"
+        <Alerts rt-if="this.alert_exists" list="{this.alert_list}"
           category="leaders"
           currentRoute="{this.current_route_name}"
           pushAlert="{this.props.pushAlert}" />
         <table className="table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>{this.t('leaders.ranking')}</th>
               <th>{this.t('Name')}</th>
               <th>{this.t('Location')}</th>
               <th>{this.t('leaders.household_size')}</th>
@@ -54,9 +54,9 @@
           <tbody>
             <tr rt-repeat="user in this.list" key={userIndex}>
               <td scope="row">{userIndex + 1}</td>
-              <td>{user.first_name} {user.last_name}</td>
+              <td><a onClick="{this.goToProfile.bind(this, user.user_id)}">{user.first_name} {user.last_name}</a></td>
               <td>{this.displayLocation(user)}</td>
-              <td>{user.household_size}</td>
+              <td>{this.displayHouseholdSize(user)}</td>
               <td>{user.total_footprint.result_grand_total} <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></td>
             </tr>
           </tbody>

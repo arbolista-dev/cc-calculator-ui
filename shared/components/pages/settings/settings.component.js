@@ -27,6 +27,14 @@ class SettingsComponent extends Panel {
     }
   }
 
+  get user_id() {
+    return this.props.auth.getIn(['data', 'user_id']);
+  }
+
+  viewProfile() {
+    this.goToProfile(this.user_id);
+  }
+
   render() {
     return template.call(this);
   }

@@ -1,10 +1,39 @@
 .action {
+
   padding-bottom: 2px;
+  width: 70%;
+  margin: 0 auto;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 5px;
+  text-align: center;
 
   .action__heading {
-    border-bottom:1px solid lightgrey;
-    background-color:#F2F2F2;
-    border-radius:5px;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    background-color: #F2F2F2;
+
+    .action__status {
+      padding: 10px 0;
+      .btn-group {
+        .btn {
+          border-color: #449D44;
+          background-color: #fff;
+          &:hover {
+            background-color: #e6e6e6;
+          }
+          &.action__status--taken {
+            background-color: #449D44;
+            border-color: #449D44;
+            color: #fff;
+          }
+          &.action__status--completed {
+            background-color: #449D44;
+            border-color: #449D44;
+            border-left-color: #fff;
+            color: #fff;
+          }
+        }
+      }
+    }
   }
 
   .action__heading--taken {
@@ -13,8 +42,8 @@
   }
 
   .action__title {
-    h5 {
-      cursor:pointer;
+    padding-bottom: 10px;
+    h4 {
       padding: 14px 4px;
       display: inline-block;
       width: 100%;
@@ -32,6 +61,19 @@
     }
   }
 
+  .action__more-details {
+    margin: 20px 0 15px 0;
+    &.toggled {
+      margin-bottom: 0;
+    }
+  }
+
+  .mark-not-relevant {
+    .not-relevant {
+      color: #ff0000;
+    }
+  }
+
   .action__savings-amount {
     font-size:1.25em;
   }
@@ -41,11 +83,8 @@
     font-size:0.9em;
   }
 
-  .action__body {
-    padding-top: 15px;
-    border: 1px solid #F2F2F2;
-    border-top: 0px;
-    border-radius: 8px;
+  .action__content {
+    text-align: left;
   }
 
   .action__assumptions-header,
@@ -73,7 +112,7 @@
     border-top: 0px;
     line-height: 1em;
     vertical-align: middle;
-    padding: 3px;
+    padding: 5px 12px;
     width: 50%;
     &:nth-child(2){
       vertical-align: top;
@@ -97,7 +136,7 @@
     border-top: 0px;
     line-height: 1em;
     vertical-align: middle;
-    padding: 3px;
+    padding: 5px 12px;
     width: 50%;
   }
 }
@@ -109,6 +148,11 @@
         width: 70%;
       }
     }
+  }
+}
+@media (max-width: 500px) {
+  .action {
+    width: 80%;
   }
 }
 @media (min-width: 400px) and (max-width: 550px) {

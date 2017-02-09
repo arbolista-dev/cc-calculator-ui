@@ -12,14 +12,13 @@ class ActionComponent extends Translatable {
     const action = this;
     action.state = {
       key: this.props.action_key,
-      category: this.props.category,
       show: this.props.show,
       detailed: false,
     };
   }
 
   componentDidMount() {
-    if (this.category === 'transportation') this.selectVehicle(1, this.key);
+    if (this.props.is_transportation) this.selectVehicle(1, this.key);
   }
 
   render() {
@@ -39,11 +38,11 @@ class ActionComponent extends Translatable {
   }
 
   get display_name() {
-    return this.t(`actions.${this.state.category}.${this.state.key}.label`);
+    return this.t(`actions.${this.state.key}.label`);
   }
 
   get fact() {
-    const fact = this.t(`actions.${this.state.category}.${this.state.key}.fact`, { defaultValue: '' });
+    const fact = this.t(`actions.${this.state.key}.fact`, { defaultValue: '' });
 
     if (fact.length > 0) {
       return fact;
@@ -52,11 +51,21 @@ class ActionComponent extends Translatable {
   }
 
   get rebates() {
-    return this.t(`actions.${this.state.category}.${this.state.key}.rebates`, { returnObjects: true });
+    return this.t(`actions.${this.state.key}.rebates`, { returnObjects: true });
   }
 
   get taken() {
     return parseInt(this.userApiValue(this.api_key), 10) === 1;
+  }
+
+  get completed() {
+    const completedActions = this.props.user_footprint.getIn(['actions', 'completed']);
+    return completedActions.has(this.state.key);
+  }
+
+  get not_relevant() {
+    const notRelevant = this.props.user_footprint.getIn(['actions', 'not_relevant']);
+    return notRelevant.includes(this.state.key);
   }
 
   get is_shown_detailed() {
@@ -64,7 +73,7 @@ class ActionComponent extends Translatable {
   }
 
   get content() {
-    return this.t(`actions.${this.state.category}.${this.state.key}.content`, { returnObjects: true });
+    return this.t(`actions.${this.state.key}.content`, { returnObjects: true });
   }
 
   get assumptions_content() {
@@ -72,27 +81,75 @@ class ActionComponent extends Translatable {
   }
 
   get tons_saved() {
-    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_pounds', this.state.key]) * 100) / 100);
+    return this.props.user_footprint.getIn(['result_takeaction_pounds', this.state.key]);
   }
 
   get dollars_saved() {
-    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_dollars', this.state.key])));
+    return Math.round(this.props.user_footprint.getIn(['result_takeaction_dollars', this.state.key]));
   }
 
   get upfront_cost() {
-    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_net10yr', this.state.key])));
+    return Math.round(this.props.user_footprint.getIn(['result_takeaction_net10yr', this.state.key]));
   }
 
-  toggleAction() {
+  get tons_saved_formatted() {
+    return this.numberWithCommas(Math.round(this.tons_saved * 100) / 100);
+  }
+
+  get dollars_saved_formatted() {
+    return this.numberWithCommas(this.dollars_saved);
+  }
+
+  get upfront_cost_formatted() {
+    return this.numberWithCommas(this.upfront_cost);
+  }
+
+  toggleActionPledge() {
     const action = this;
     const update = {};
+    const action_status = {};
     if (action.taken) {
       update[action.api_key] = 0;
+      action_status[action.api_key] = 'unpledged';
     } else {
       update[action.api_key] = 1;
+      action_status[action.api_key] = 'pledged';
     }
     action.setState(update);
     action.updateTakeaction(update);
+    action.updateActionStatus(action_status);
+  }
+
+  toggleActionComplete() {
+    const action = this;
+    const update = {};
+    const action_status = {};
+    if (action.completed) {
+      update[action.api_key] = -2;
+      action_status[action.api_key] = 'uncompleted';
+    } else {
+      update[action.api_key] = 2;
+      action_status[action.api_key] = 'completed';
+    }
+    action.setState(update);
+    action.updateActionStatus(action_status);
+  }
+
+  discardAction() {
+    const action = this;
+    if (this.taken) {
+      const update = { [this.api_key]: 0 };
+      update[this.api_key] = 0;
+      action.setState(update);
+      action.updateTakeaction(update);
+    }
+    const action_status = {};
+    if (this.not_relevant) {
+      action_status[this.api_key] = 'relevant';
+    } else {
+      action_status[this.api_key] = 'not_relevant';
+    }
+    action.updateActionStatus(action_status);
   }
 
   toggleActionDetails() {
@@ -240,13 +297,37 @@ class ActionComponent extends Translatable {
       action.setState(user_api_state);
     }, 500);
   }
+
+  updateActionStatus(params) {
+    const key = this.state.key;
+    const status = params[this.api_key];
+    let update = {};
+
+    if (status === 'completed' || status === 'pledged') {
+      update = {
+        key,
+        status,
+        details: {
+          tons_saved: parseFloat(this.tons_saved),
+          dollars_saved: parseFloat(this.dollars_saved),
+          upfront_cost: parseFloat(this.upfront_cost),
+        },
+      };
+    } else {
+      update = {
+        key,
+        status,
+      };
+    }
+    this.props.updateActionStatus(update);
+  }
 }
 
 ActionComponent.NAME = 'Action';
 ActionComponent.propTypes = Object.assign({}, {
   is_assumption: React.PropTypes.bool.isRequired,
   action_key: React.PropTypes.string,
-  category: React.PropTypes.string,
+  is_transportation: React.PropTypes.bool,
   show: React.PropTypes.bool,
 }, footprintPropTypes);
 
