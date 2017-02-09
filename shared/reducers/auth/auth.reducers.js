@@ -84,7 +84,7 @@ const ACTIONS = {
           Effects.batch([
             Effects.constant(pushAlert(alert)),
             Effects.constant(updatedFootprintComputed(remote_answers)),
-            Effects.constant(verifyActivation()),
+            // Effects.constant(verifyActivation()),
           ]),
         );
       }
@@ -92,7 +92,7 @@ const ACTIONS = {
         fromJS(updated),
         Effects.batch([
           Effects.constant(pushAlert(alert)),
-          Effects.constant(verifyActivation()),
+          // Effects.constant(verifyActivation()),
         ]),
       );
     }
