@@ -92,6 +92,7 @@ class LoginComponent extends Panel {
 
   submitLogin(event) {
     event.preventDefault();
+    this.props.resetAlerts();
     if (this.validateAll()) this.props.login(this.state);
   }
 
@@ -103,6 +104,7 @@ class LoginComponent extends Panel {
       facebookID: response.userID,
       facebookToken: response.accessToken,
     };
+    this.props.resetAlerts();
     this.props.loginFacebook(login);
   }
 }

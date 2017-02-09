@@ -104,6 +104,7 @@ class SignUpComponent extends Panel {
   submitSignup(event) {
     const sign_up = this;
     event.preventDefault();
+    sign_up.props.resetAlerts();
     if (sign_up.validateAll()) {
       const state_input = {
         first_name: sign_up.state.first_name,
