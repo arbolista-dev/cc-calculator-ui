@@ -93,6 +93,7 @@
         "miles_per_year": "miles/year",
         "km_per_year": "km/year",
         "miles_per_gallon": "miles per gallon",
+        "mpg_equivalent": "miles per gallon equivalent",
         "gallons_per_year": "gallons per year",
         "co2_per_year": "CO2 per year",
         "liters_per_km": "liters per 100 kilometers",
@@ -100,6 +101,7 @@
         "km_abbr": "km",
         "gasoline": "Gasoline",
         "diesel": "Diesel",
+        "electric": "Electric",
         "flights_per_year": "flights/year",
         "publictrans": {
             "label": "Public Transit",

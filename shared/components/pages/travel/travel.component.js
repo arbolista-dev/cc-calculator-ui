@@ -106,12 +106,13 @@ class TravelComponent extends Panel {
     return garage;
   }
 
-  newVehicleParams(n) {
+  newVehicleParams(n, isElectric) {
     const travel = this;
     return {
       miles: travel.userApiValue(`input_footprint_transportation_miles${n}`),
-      mpg: travel.userApiValue(`input_footprint_transportation_mpg${n}`),
+      mpg: isElectric ? 115 : travel.userApiValue(`input_footprint_transportation_mpg${n}`),
       fuel_type: travel.userApiValue(`input_footprint_transportation_fuel${n}`),
+      electric: isElectric ? 1 : travel.userApiValue(`input_footprint_transportation_electric${n}`),
     };
   }
 
@@ -130,8 +131,6 @@ class TravelComponent extends Panel {
           vehicle_params[`input_footprint_transportation_miles${i}`] = travel.convertKmToMiles(curr_distance);
           vehicle_params[`input_footprint_transportation_mpg${i}`] = travel.convertMetricConsumptionToMPG(consumption);
         }
-      } else {
-        vehicle_params[`input_footprint_transportation_miles${i}`] = 0;
       }
     }
     travel.setState({ vehicles: travel.state.vehicles });
@@ -148,22 +147,33 @@ class TravelComponent extends Panel {
     travel.updateVehicleFootprint();
   }
   // vehicle input changed.
-  updateVehicleFuelType(vehicle, fuel_type) {
+  updateVehicleFuelType(vehicle, fuel_type, electric) {
     const travel = this;
-    const updated = vehicle;
-    updated.fuel_type = fuel_type;
+    const updated_vehicle = vehicle;
+    updated_vehicle.fuel_type = fuel_type;
+    if (electric) travel.makeElectric(updated_vehicle);
     travel.updateVehicleFootprint();
   }
 
+  makeElectric(vehicle) {
+    this.removeVehicle(vehicle);
+    this.addVehicle(true);
+    vehicle.updateConsumptionSlider();
+  }
+
   displayFuelType(vehicle) {
-    if (vehicle.fuel_type === '1') return this.t('travel.gasoline');
+    if (vehicle.electric) {
+      return this.t('travel.electric');
+    } else if (vehicle.fuel_type === 1) {
+      return this.t('travel.gasoline');
+    }
     return this.t('travel.diesel');
   }
 
-  addVehicle() {
+  addVehicle(electric) {
     const travel = this;
     if (travel.vehicles_maxed) return;
-    const params = travel.newVehicleParams(travel.vehicles.length + 1);
+    const params = travel.newVehicleParams(travel.vehicles.length + 1, electric);
     const new_vehicle = new Vehicle(params, travel, travel.state.consumption_unit);
     travel.vehicles.push(new_vehicle);
     travel.setState({
@@ -211,6 +221,11 @@ class TravelComponent extends Panel {
     const travel = this;
     if (travel.state.consumption_unit === 'mpg') return this.t('travel.miles_per_gallon');
     return this.t('travel.liters_per_km');
+  }
+
+  displayVehicleConsumptionUnit(isElectric) {
+    if (isElectric) return this.t('travel.mpg_equivalent');
+    return this.displayConsumptionUnit();
   }
 
   displayYearlyDistanceUnit() {
