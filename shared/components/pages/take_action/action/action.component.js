@@ -58,6 +58,16 @@ class ActionComponent extends Translatable {
     return parseInt(this.userApiValue(this.api_key), 10) === 1;
   }
 
+  get pledged() {
+    const pledgedActions = this.props.user_footprint.getIn(['actions', 'pledged']);
+    return pledgedActions.has(this.state.key) && this.taken;
+  }
+
+  get already_done() {
+    const doneActions = this.props.user_footprint.getIn(['actions', 'already_done']);
+    return doneActions.has(this.state.key);
+  }
+
   get completed() {
     const completedActions = this.props.user_footprint.getIn(['actions', 'completed']);
     return completedActions.has(this.state.key);
@@ -132,6 +142,22 @@ class ActionComponent extends Translatable {
       action_status[action.api_key] = 'completed';
     }
     action.setState(update);
+    action.updateActionStatus(action_status);
+  }
+
+  toggleActionDone() {
+    const action = this;
+    const update = {};
+    const action_status = {};
+    if (action.already_done) {
+      update[action.api_key] = 0;
+      action_status[action.api_key] = 'not_already_done';
+    } else {
+      update[action.api_key] = 1;
+      action_status[action.api_key] = 'already_done';
+    }
+    action.setState(update);
+    action.updateTakeaction(update);
     action.updateActionStatus(action_status);
   }
 

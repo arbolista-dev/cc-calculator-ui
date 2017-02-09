@@ -264,11 +264,9 @@
         },
         "status_options": {
             "all": "All",
-            "pledged": "Pledged",
             "not_pledged": "Not pledged",
             "relevant": "Relevant",
-            "not_relevant": "Not relevant",
-            "completed": "Completed"
+            "not_relevant": "Not relevant"
         },
         "sort_options": {
             "title": "Title",
@@ -276,6 +274,17 @@
             "dollars_saved": "Money savings",
             "upfront_cost": "Down payment"
         }
+    },
+    "action": {
+        "already_done": "Already done",
+        "pledge": "Pledge",
+        "pledged": "Pledged",
+        "complete": "Complete",
+        "completed": "Completed",
+        "more_details": "More details",
+        "assumptions": "Assumptions",
+        "mark_not_relevant": "Mark this action as not relevant.",
+        "marked_not_relevant": "This action is marked as not relevant."
     },
     "graphs": {
         "your_footprint": "Your footprint",

@@ -3,15 +3,20 @@
     <div className="action__heading">
       <div className="action__status">
         <div class="btn-group" role="group">
+          <button rt-if="!this.pledged" className="btn btn-default"
+            onClick="{this.toggleActionDone.bind(this)}" rt-class="{'action__status--done': this.already_done}">
+              {this.t('action.already_done')}
+          </button>
           <button className="btn btn-default"
-            onClick="{this.toggleActionPledge.bind(this)}" rt-class="{'action__status--taken': this.taken}"> <span rt-if="!this.taken">Pledge </span>
-            <span rt-if="this.taken">Pledged </span>
-            <i className="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken && !this.props.is_authenticated}"></i>
+            rt-if="!this.already_done"
+            onClick="{this.toggleActionPledge.bind(this)}" rt-class="{'action__status--taken': this.pledged}"> <span rt-if="!this.pledged">{this.t('action.pledge')} </span>
+            <span rt-if="this.pledged">{this.t('action.pledged')} </span>
+            <i className="fa" rt-class="{'fa-check-square-o': !this.pledged, 'fa-check-square': this.pledged && !this.props.is_authenticated}"></i>
           </button>
           <button rt-if="this.taken && this.props.is_authenticated"
             className="btn btn-default"
-            onClick="{this.toggleActionComplete.bind(this)}" rt-class="{'action__status--completed': this.completed}"> <span rt-if="!this.completed">Complete </span>
-            <span rt-if="this.completed">Completed </span>
+            onClick="{this.toggleActionComplete.bind(this)}" rt-class="{'action__status--completed': this.completed}"> <span rt-if="!this.completed">{this.t('action.complete')} </span>
+            <span rt-if="this.completed">{this.t('action.completed')} </span>
             <i className="fa" rt-class="{'fa-check-square-o': !this.completed, 'fa-check-square': this.completed}"></i>
           </button>
         </div>
@@ -36,7 +41,7 @@
         </div>
       </div>
       <div className="action__more-details" rt-class="{toggled: this.state.detailed}">
-        <button className="btn btn-default" onClick="{this.toggleActionDetails.bind(this)}">More details <span class="caret"></span></button>
+        <button className="btn btn-default" onClick="{this.toggleActionDetails.bind(this)}">{this.t('action.more_details')} <span class="caret"></span></button>
       </div>
     </div>
     <div className="action__details" rt-class="{hidden: !this.state.detailed}" rt-if="this.vehicles_loaded">
@@ -87,7 +92,7 @@
                  </td>
                </tr>
                <tr rt-if="block.assumptions" className="action__assumptions-header">
-                 <td colspan="2"><h4 className="text-center">Assumptions:</h4></td>
+                 <td colspan="2"><h4 className="text-center">{this.t('action.assumptions')}:</h4></td>
                </tr>
                <tr rt-if="block.assumptions" rt-repeat="a in block.assumptions"
                 className="action__assumptions-body"
@@ -154,8 +159,8 @@
     <div class="mark-not-relevant">
       <button type="button" class="btn btn-link btn-xs"
         onClick="{this.discardAction.bind(this)}">
-        <span rt-if="!this.not_relevant">Mark this action as not relevant.</span>
-        <span class="not-relevant" rt-if="this.not_relevant">This action is marked as not relevant.</span>
+        <span rt-if="!this.not_relevant">{this.t('action.mark_not_relevant')}</span>
+        <span class="not-relevant" rt-if="this.not_relevant">{this.t('action.marked_not_relevant')}</span>
       </button>
     </div>
   </div>

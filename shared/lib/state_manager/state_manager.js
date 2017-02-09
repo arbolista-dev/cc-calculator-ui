@@ -127,7 +127,8 @@ export default class StateManager {
         result_takeaction_dollars: state_manager.take_action_storage.dollars || {},
         result_takeaction_net10yr: state_manager.take_action_storage.net10yr || {},
         result_takeaction_pounds: state_manager.take_action_storage.pounds || {},
-        actions: state_manager.actions_storage || { pledged: {}, completed: {}, not_relevant: [] },
+        actions: state_manager.actions_storage ||
+        { pledged: {}, completed: {}, not_relevant: [], already_done: {} },
       }),
       ui: fromJS(state_manager.ui_storage || state_manager.default_ui_state),
       profile: fromJS({ data: {} }),
