@@ -71,6 +71,7 @@ export default class StateManager {
         forgot_password: [],
         leaders: [],
         shared: [],
+        activation: [],
       },
       take_action: {
         category_filter: 'all',
@@ -118,6 +119,7 @@ export default class StateManager {
     return Object.assign({
       auth: fromJS({
         data: state_manager.auth_storage || {},
+        canReset: true,
       }),
       average_footprint: fromJS({
         data: state_manager.average_footprint_storage || state_manager.default_inputs,

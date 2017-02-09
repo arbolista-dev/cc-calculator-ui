@@ -20,6 +20,12 @@ class AlertsComponent extends Translatable {
     return this.props.list.length !== 0;
   }
 
+  alertAction(action) {
+    if (action === 'confirmAccount') {
+      this.props.confirmAccount();
+    }
+  }
+
   translateAlert(alert) {
     const alerts = this;
     if (alert.needs_i18n) {
@@ -31,6 +37,7 @@ class AlertsComponent extends Translatable {
 
 AlertsComponent.propTypes = {
   list: React.PropTypes.array.isRequired,
+  confirmAccount: React.PropTypes.func,
 };
 
 AlertsComponent.NAME = 'Alerts';

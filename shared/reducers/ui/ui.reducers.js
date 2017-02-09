@@ -43,7 +43,9 @@ const ACTIONS = {
   [resetAlerts]: (state) => {
     let updated = state;
     Object.keys(state.get('alerts').toJS()).forEach((type) => {
-      updated = state.setIn(['alerts', type], new List());
+      if (type !== 'activation') {
+        updated = updated.setIn(['alerts', type], new List());
+      }
     });
     updated = updated.set('alert_exists', false);
     return updated;

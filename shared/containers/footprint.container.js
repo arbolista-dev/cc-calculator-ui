@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average_footprint/average_footprint.actions';
 import { ensureFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateActionStatus } from 'shared/reducers/user_footprint/user_footprint.actions';
 import { updateUI, pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
+import { sendEmailConfirmation } from 'shared/reducers/auth/auth.actions';
 
 const mapStateToProps = state => ({
   location: state.location,
@@ -52,6 +53,9 @@ const mapDispatchToProps = dispatch => ({
   },
   pushAlert: (payload) => {
     dispatch(pushAlert(payload));
+  },
+  confirmAccount: () => {
+    dispatch(sendEmailConfirmation());
   },
   resetAlerts: () => {
     resetAlerts.assignTo(dispatch);

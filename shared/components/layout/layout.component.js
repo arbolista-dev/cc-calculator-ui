@@ -47,6 +47,10 @@ class LayoutComponent extends Panel {
     return this.props.ui.getIn(['alerts', 'shared']).toJS();
   }
 
+  get alert_list_activation() {
+    return this.props.ui.getIn(['alerts', 'activation']).toJS();
+  }
+
   get current_route() {
     return this.router.routes.getRoute(this.current_route_name);
   }

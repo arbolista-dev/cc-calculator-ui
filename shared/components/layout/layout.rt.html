@@ -41,7 +41,9 @@
 		<div rt-if="this.external_offset.banner_url" id="external_banner">
 			<img src="{this.external_offset.banner_url}" rt-props="{style: this.external_offset.banner_style}"/>
 		</div>
-		<Alerts list="{this.alert_list}" />
+		<Alerts list="{this.alert_list_activation}" rt-props="{confirmAccount: this.props.confirmAccount}" />
+		<Alerts list="{this.alert_list}"  />
+
 		<main>
 			<ForgotPassword rt-if="this.current_route_name === 'ForgotPassword'" />
 			<Settings rt-if="this.current_route_name === 'Settings'" />

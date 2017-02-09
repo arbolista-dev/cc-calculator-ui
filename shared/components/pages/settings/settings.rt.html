@@ -1,11 +1,13 @@
 <rt-require dependency="./user/login/login.component" as="Login"/>
 <rt-require dependency="./user/sign_up/sign_up.component" as="SignUp"/>
 <rt-require dependency="./user/logout/logout.component" as="Logout"/>
+<rt-require dependency="./user/reset/reset.component" as="Reset"/>
 <main className="cc-component container container-md" id="settings">
   <div className="cc-component__form">
-    <Login rt-if="!this.user_authenticated" />
-    <SignUp rt-if="!this.user_authenticated" />
-    <Logout rt-if="this.user_authenticated" />
+    <Reset rt-if="this.reset_password" />
+    <Login rt-if="!this.user_authenticated && !this.reset_password" />
+    <SignUp rt-if="!this.user_authenticated && !this.reset_password" />
+    <Logout rt-if="this.user_authenticated && !this.reset_password" />
 
     <div rt-if="this.user_authenticated" className="panel panel-coolclimate">
       <div className="panel-heading">
@@ -22,7 +24,7 @@
       </div>
     </div>
 
-    <div className="panel panel-coolclimate">
+    <div className="panel panel-coolclimate" rt-if="!this.reset_password">
       <div className="panel-heading">
         {this.t('settings.restore_defaults')}
       </div>
