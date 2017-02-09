@@ -33,7 +33,8 @@
 						rt-class="{'cc-nav__item--active': this.current_route_name === 'Settings'}"
 						rt-if="this.connect_to_api"
 						onClick="{this.router.goToRouteByName.bind(this, 'Settings')}">
-					  <img src="/assets/img/settings.png"/>
+          	<img rt-if="(this.current_route_name !== 'Settings')" src="/assets/img/profile.png"/>
+          	<img rt-if="(this.current_route_name === 'Settings')" src="/assets/img/profile-active.png"/>
 						<div>{this.t('settings.title')}</div>
 					</div>
 				</div>

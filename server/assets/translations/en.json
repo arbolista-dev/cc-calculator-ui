@@ -64,7 +64,7 @@
     },
     "settings": {
         "route_path": "settings",
-        "title": "Settings",
+        "title": "Profile",
         "profile_title": "Your profile",
         "view_profile": "View",
         "restore_defaults": "Restore Defaults",
