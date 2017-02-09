@@ -8,7 +8,7 @@ import { addUser, loginUser, loginUserFacebook, logoutUser, forgotPassword, need
 import { setLocalStorageItem, getLocalStorageItem, tokenIsValid } from 'shared/lib/utils/utils';
 import { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut,
   requestNewPassword, newPasswordRequested, authError, processActivation, verifyActivation,
-  activationError, sendEmailConfirmation, resetPassword, resetedPassword, resetPasswordError } from './auth.actions';
+  activationError, sendEmailConfirmation, resetPassword, resetPasswordSuccess, resetPasswordError } from './auth.actions';
 import { updatedFootprintComputed } from '../user_footprint/user_footprint.actions';
 import { averageFootprintResetRequested } from '../average_footprint/average_footprint.actions';
 import { pushAlert } from '../ui/ui.actions';
@@ -225,14 +225,15 @@ const ACTIONS = {
     if (api_response.success) {
       alert.data = [{
         needs_i18n: true,
-        type: 'success',
+        type: 'info',
         message: 'success.forgot_password',
       }];
     } else {
+      const err = JSON.parse(api_response.error);
       alert.data = [{
         needs_i18n: true,
         type: 'danger',
-        message: api_response.error,
+        message: `errors.${Object.keys(err)[0]}.${Object.values(err)[0]}`,
       }];
     }
 
@@ -310,15 +311,16 @@ const ACTIONS = {
   [activationError]: state => state.set('needActivate', false),
 
   [resetPassword]: (state, params) => loop(
-          state.set('loading', true),
-          Effects.promise(() => changePassword(params)
-              .then(resetedPassword)
-              .catch(resetPasswordError)),
-        ),
+    state.set('loading', true),
+    Effects.promise(() => changePassword(params)
+      .then(resetPasswordSuccess)
+      .catch(resetPasswordError)),
+  ),
+
   [resetPasswordError]: state => state.set('loading', false)
                                       .set('canReset', false),
 
-  [resetedPassword]: (state, api_response) => {
+  [resetPasswordSuccess]: (state, api_response) => {
     const updated = state.set('loading', false)
                            .set('canReset', false);
     if (api_response.success) {
@@ -333,9 +335,7 @@ const ACTIONS = {
 
       return loop(
         fromJS(updated),
-        Effects.batch([
-          Effects.constant(pushAlert(alert)),
-        ]),
+        Effects.constant(pushAlert(alert)),
       );
     }
 

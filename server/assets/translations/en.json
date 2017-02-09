@@ -15,7 +15,7 @@
         "title":"Change your password",
         "password": "New password",
         "submit":"Change password",
-        "confirm":"You change your password successfully"
+        "confirm":"You have successfully changed your password."
     },
     "login": {
         "title": "Login",
@@ -4636,7 +4636,9 @@
             "non-existent": "Please log in again."
         },
         "password-reset": {
-            "expired": "Your password reset link has expired. Please request a new one by visiting 'Forgot your password'."
+            "expired": "Your password reset link has expired. Please request a new one by visiting 'Forgot your password'.",
+            "user-non-existent": "User with this email address does not exist. Please make sure you entered it correctly or sign up as a new user.",
+            "req-non-existent": "This password reset link is invalid or you haven't requested one to be sent to your email address."
         },
         "reset-token": {
             "corrupt": "Your password reset link is invalid. Please request a new one by visiting 'Forgot your password'."
