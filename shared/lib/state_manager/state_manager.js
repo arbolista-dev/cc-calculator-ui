@@ -59,7 +59,8 @@ export default class StateManager {
   }
 
   get ui_storage() {
-    return getLocalStorageItem('ui');
+    if (!getLocalStorageItem('ui')) return 0;
+    return Object.assign({}, getLocalStorageItem('ui'), { external_offset: {}, connect_to_api: true });
   }
 
   get default_ui_state() {

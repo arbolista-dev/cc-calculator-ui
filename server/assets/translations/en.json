@@ -9,6 +9,7 @@
         "city": "City",
         "input_location": "City",
         "public": "Yes, make my profile page public.",
+        "enter_location": "Enter your location",
         "submit": "Sign up"
     },
     "reset":{
@@ -4729,6 +4730,7 @@
         "usd_per_year": "$/year",
         "usd_per_month": "$/month",
         "kwh_per_year": "kWh/year",
+        "percent_of_avg": "% of average",
         "per_year": "/year",
         "therms_per_year": "therms/year",
         "cuft_per_year": "cuft/year",

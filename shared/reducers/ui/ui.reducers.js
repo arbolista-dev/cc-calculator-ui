@@ -30,7 +30,7 @@ const ACTIONS = {
     } else {
       updated = fromJS(state.set(payload.id, payload.data));
     }
-    setLocalStorageItem('ui', updated.toJS());
+    setLocalStorageItem('ui', updated.delete('external_offset').delete('connect_to_api').toJS());
     return updated;
   },
 
