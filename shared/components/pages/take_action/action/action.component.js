@@ -78,6 +78,10 @@ class ActionComponent extends Translatable {
     return notRelevant.includes(this.state.key);
   }
 
+  get show_complete() {
+    return this.taken && this.props.is_authenticated && !this.already_done;
+  }
+
   get is_shown_detailed() {
     return this.state.detailed;
   }
@@ -135,7 +139,8 @@ class ActionComponent extends Translatable {
     const update = {};
     const action_status = {};
     if (action.completed) {
-      update[action.api_key] = -2;
+      update[action.api_key] = 2;
+      action.updateTakeaction({ [action.api_key]: 0 });
       action_status[action.api_key] = 'uncompleted';
     } else {
       update[action.api_key] = 2;
@@ -334,7 +339,7 @@ class ActionComponent extends Translatable {
     const status = params[this.api_key];
     let update = {};
 
-    if (status === 'completed' || status === 'pledged') {
+    if (status === 'completed' || status === 'pledged' || status === 'already_done') {
       update = {
         key,
         status,

@@ -191,6 +191,15 @@ class ProfileComponent extends Panel {
     return this.t(`actions.${key}.label`);
   }
 
+  displayActionStatus(status) {
+    if (status === 'already_done') return 'already done';
+    return status;
+  }
+
+  actionIsCompleteOrDone(action) {
+    return action.status === 'completed' || action.status === 'already_done';
+  }
+
   getCategoryIcon(key) {
     const category = this.getCategoryByAction(key);
     if (category === 'transportation') {

@@ -3,17 +3,17 @@
     <div className="action__heading">
       <div className="action__status">
         <div class="btn-group" role="group">
-          <button rt-if="!this.pledged" className="btn btn-default"
+          <button rt-if="!this.pledged && !this.completed" className="btn btn-default"
             onClick="{this.toggleActionDone.bind(this)}" rt-class="{'action__status--done': this.already_done}">
               {this.t('action.already_done')}
           </button>
           <button className="btn btn-default"
-            rt-if="!this.already_done"
+            rt-if="!this.already_done && !this.completed"
             onClick="{this.toggleActionPledge.bind(this)}" rt-class="{'action__status--taken': this.pledged}"> <span rt-if="!this.pledged">{this.t('action.pledge')} </span>
             <span rt-if="this.pledged">{this.t('action.pledged')} </span>
             <i className="fa" rt-class="{'fa-check-square-o': !this.pledged, 'fa-check-square': this.pledged && !this.props.is_authenticated}"></i>
           </button>
-          <button rt-if="this.taken && this.props.is_authenticated"
+          <button rt-if="this.show_complete"
             className="btn btn-default"
             onClick="{this.toggleActionComplete.bind(this)}" rt-class="{'action__status--completed': this.completed}"> <span rt-if="!this.completed">{this.t('action.complete')} </span>
             <span rt-if="this.completed">{this.t('action.completed')} </span>
