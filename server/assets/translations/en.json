@@ -331,10 +331,37 @@
     },
     "categories": {
         "result_transport_total": "Travel",
+        "transport": {
+          "car_fuel": "Car Fuel",
+          "car_mfg": "Car MFG",
+          "public_transit": "Public Transit",
+          "air_travel": "Air Travel"
+        },
         "result_housing_total": "Home",
+        "housing": {
+          "electricity": "Electricity",
+          "natural_gas": "Natural Gas",
+          "other_fuels": "Other Fuels",
+          "water": "Water",
+          "construction": "Construction"
+        },
         "result_food_total": "Food",
+        "food": {
+          "meat": "Meat",
+          "dairy": "Dairy",
+          "fruitsveggies": "Fruits & Vegetables",
+          "cereals": "Cereals",
+          "other": "Other Food"
+        },
         "result_goods_total": "Goods",
-        "result_services_total": "Services"
+        "goods": {
+          "clothing": "Clothing",
+          "furniture": "Furniture",
+          "other": "Other Goods"
+        },
+        "result_services_total": "Services",
+        "all_services": "All Services",
+        "reduction": "Reduction"
     },
     "critical_assumptions": {
         "content": [{
