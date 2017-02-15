@@ -140,6 +140,7 @@
         "cleanpercent": {
             "label": "Percent purchased from a clean energy program"
         },
+        "utility_provider": "Utility Provider",
         "naturalgas": {
             "label": "Natural Gas"
         },
