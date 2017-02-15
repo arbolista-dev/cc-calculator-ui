@@ -80,7 +80,12 @@ class HomeComponent extends Panel {
   }
 
   get utility_provider_options() {
-    return JSON.parse(this.userApiValue('result_utility_providers'));
+    try {
+      return JSON.parse(this.userApiValue('result_utility_providers'));
+    } catch (e) {
+      // throw e;
+    }
+    return [];
   }
 
   displayRoundedValues(value) {
@@ -98,7 +103,9 @@ class HomeComponent extends Panel {
   }
 
   setDefaultUtilityProvider() {
-    this.setUtiltyProvider(this.utility_provider_options[0].utility_id);
+    if (this.utility_provider_options.length > 0) {
+      this.setUtiltyProvider(this.utility_provider_options[0].utility_id);
+    }
   }
 
   setUtiltyProvider(utility_id) {
