@@ -10,7 +10,7 @@ process.env.APP_ID = '651280398386350';
 if (process.env.NODE_ENV === 'development' && !argv.production_api) {
   process.env.API_BASE_URL = 'http://localhost:8082';
 } else {
-  process.env.API_BASE_URL = 'http://calculator.coolclimatenetwork.net';
+  process.env.API_BASE_URL = 'https://calculator.coolclimatenetwork.net';
 }
 
 const envServerPath = path.join(__dirname, 'config', process.env.NODE_ENV.toLowerCase(), 'server');

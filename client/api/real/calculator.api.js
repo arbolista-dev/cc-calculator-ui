@@ -12,7 +12,7 @@ const KEY_ID = '15a335b6';
 const KEY = '26ffc87cf832d3d2c6dfb6241a88937a';
 */
 
-const BASE = 'http://coolclimate.berkeley.edu/calculators/household/api.php';
+const BASE = 'https://coolclimate.berkeley.edu/calculators/household/api.php';
 const APP_TOKEN = 'DPP6zZDkSQAlRKfQ-iWgdg';
 
 class CalculatorApi {
