@@ -3,7 +3,7 @@ a { cursor: pointer; }
 #cc_calculator_ui {
 	#cc_nav {
 		div:first-child {
-			margin-left: 40px;
+			margin-left: 20px;
 		}
 
 		&.cc-nav__no-settings {
@@ -39,13 +39,13 @@ a { cursor: pointer; }
 		}
 	}
 
-	#settings_nav_item,
-	#leaders_nav_item, {
+	#settings_nav_item {
 		padding-top:10px;
 		div { opacity:0.9; }
 		img {
 			height:35px;
 			opacity:0.5;
+      padding-bottom: 3px;
 		}
 	}
 
@@ -171,18 +171,17 @@ main > header {
 	text-align:center;
 }
 
-#go_to_take_action {
-  bottom:0px;
+.fixed-sidebar {
   display:block;
   width:100%;
   opacity:0.9;
   cursor:pointer;
-	  .mobile {
-	  	display:none;
-	  }
-	  .desktop {
-	  	display:block;
-	  }
+  &#go_to_take_action {
+    bottom:0px;
+  }
+  &#next-category {
+    bottom: 38px;
+  }
 }
 
 .loader {
@@ -216,14 +215,14 @@ main > header {
 	}
 }
 
-@media (max-width: 400px) {
-	#go_to_take_action {
-	  .mobile {
-	  	display:block;
-	  }
-	  .desktop {
-	  	display:none;
-	  }
+@media (min-width: 400px) {
+	.fixed-sizebar {
+    .btn {
+      padding: 10px 16px;
+      font-size: 18px;
+      line-height: 1.3333333;
+      border-radius: 6px;
+    }
 	}
 }
 

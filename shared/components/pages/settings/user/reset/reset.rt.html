@@ -1,0 +1,31 @@
+<rt-require dependency="shared/components/common/alerts/alerts.component" as="Alerts"/>
+
+<main className="panel panel-coolclimate" id="reset">
+    <div className="panel-heading">
+        {this.t('reset.title')}
+    </div>
+
+    <div className="panel-body cc-component__form form-horizontal">
+        <div className="cc-component__auth">
+          <form onsubmit="{this.submitReset.bind(this)}">
+            <div className="form-group">
+                <label for="inputPassword" className="control-label">
+                  {this.t('reset.password')}
+                </label>
+                <input type="password" className="form-control" id="inputPassword"
+                rt-class="{error: !this.paramValid('password')}"
+                onChange="{this.updateInput.bind(this)}"
+                data-api_key="password"
+                value="{this.state.password}"
+                placeholder="{this.t('reset.password')}"/>
+            </div>
+            <div className="cc-component__auth-submit">
+                <button className="btn btn-default"
+                onClick="{this.submitReset.bind(this)}">
+                  {this.t('reset.submit')}
+                </button>
+            </div>
+          </form>
+        </div>
+    </div>
+</main>

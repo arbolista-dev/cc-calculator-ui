@@ -58,6 +58,16 @@ class ActionComponent extends Translatable {
     return parseInt(this.userApiValue(this.api_key), 10) === 1;
   }
 
+  get pledged() {
+    const pledgedActions = this.props.user_footprint.getIn(['actions', 'pledged']);
+    return pledgedActions.has(this.state.key) && this.taken;
+  }
+
+  get already_done() {
+    const doneActions = this.props.user_footprint.getIn(['actions', 'already_done']);
+    return doneActions.has(this.state.key);
+  }
+
   get completed() {
     const completedActions = this.props.user_footprint.getIn(['actions', 'completed']);
     return completedActions.has(this.state.key);
@@ -66,6 +76,10 @@ class ActionComponent extends Translatable {
   get not_relevant() {
     const notRelevant = this.props.user_footprint.getIn(['actions', 'not_relevant']);
     return notRelevant.includes(this.state.key);
+  }
+
+  get show_complete() {
+    return this.taken && this.props.is_authenticated && !this.already_done;
   }
 
   get is_shown_detailed() {
@@ -125,13 +139,30 @@ class ActionComponent extends Translatable {
     const update = {};
     const action_status = {};
     if (action.completed) {
-      update[action.api_key] = -2;
+      update[action.api_key] = 2;
+      action.updateTakeaction({ [action.api_key]: 0 });
       action_status[action.api_key] = 'uncompleted';
     } else {
       update[action.api_key] = 2;
       action_status[action.api_key] = 'completed';
     }
     action.setState(update);
+    action.updateActionStatus(action_status);
+  }
+
+  toggleActionDone() {
+    const action = this;
+    const update = {};
+    const action_status = {};
+    if (action.already_done) {
+      update[action.api_key] = 0;
+      action_status[action.api_key] = 'not_already_done';
+    } else {
+      update[action.api_key] = 1;
+      action_status[action.api_key] = 'already_done';
+    }
+    action.setState(update);
+    action.updateTakeaction(update);
     action.updateActionStatus(action_status);
   }
 
@@ -163,13 +194,18 @@ class ActionComponent extends Translatable {
 
   displayStateValue(id, suffix) {
     let state_id = id;
+    let state_suffix = suffix;
+    if (!suffix) state_suffix = '';
     if (state_id.includes('display_takeaction')) {
       state_id = state_id.replace(/display_takeaction/i, 'input_takeaction');
     }
-    if (!suffix) {
-      return this.userApiValue(state_id);
+    let val = this.userApiValue(state_id);
+    if (val < 1) {
+      val = parseFloat(val).toFixed(2);
+    } else {
+      val = Math.round(val);
     }
-    return `${this.userApiValue(state_id)} ${suffix}`;
+    return `${val} ${state_suffix}`;
   }
 
   updateActionInput(event) {
@@ -303,7 +339,7 @@ class ActionComponent extends Translatable {
     const status = params[this.api_key];
     let update = {};
 
-    if (status === 'completed' || status === 'pledged') {
+    if (status === 'completed' || status === 'pledged' || status === 'already_done') {
       update = {
         key,
         status,

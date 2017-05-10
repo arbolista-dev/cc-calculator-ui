@@ -47,6 +47,10 @@ class LayoutComponent extends Panel {
     return this.props.ui.getIn(['alerts', 'shared']).toJS();
   }
 
+  get alert_list_activation() {
+    return this.props.ui.getIn(['alerts', 'activation']).toJS();
+  }
+
   get current_route() {
     return this.router.routes.getRoute(this.current_route_name);
   }
@@ -65,7 +69,7 @@ class LayoutComponent extends Panel {
   }
 
   get show_take_action_now() {
-    return ['TakeAction', 'Settings'].indexOf(this.current_route_name) < 0;
+    return ['TakeAction', 'Settings', 'Profile'].indexOf(this.current_route_name) < 0;
   }
 
   get show_user_answers_reset() {
@@ -73,6 +77,10 @@ class LayoutComponent extends Panel {
       return {}.hasOwnProperty.call(this.state_manager.user_footprint_storage, 'input_size');
     }
     return false;
+  }
+
+  get next_route_title() {
+    return this.getRouteTitle(this.router.next_route);
   }
 
   getRouteTitle(route) {

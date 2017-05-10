@@ -17,6 +17,14 @@ class FootprintComponent extends Panel {
     return this.connect_to_api && this.props.ui.get('show_leaders_chart');
   }
 
+  get user_id() {
+    return this.props.auth.getIn(['data', 'user_id']);
+  }
+
+  viewProfile() {
+    this.goToProfile(this.user_id);
+  }
+
   render() {
     return template.call(this);
   }

@@ -12,7 +12,7 @@
       <div className="panel-heading">
         {this.t('travel.your_vehicles')}
         <button className="btn btn-default btn-xs"
-          onClick="{this.addVehicle.bind(this)}"
+          onClick="{this.addVehicle.bind(this, false)}"
           rt-props="{disabled: this.vehicles_maxed}">
           <i className="fa fa-plus"></i>.
           {this.t('add')}
@@ -39,7 +39,7 @@
           </div>
       </div>
       </div>
-      <div className="panel panel-body">
+      <div className="panel-body">
         <div rt-repeat="vehicle in this.vehicles"
              className="cc-component__question cc-component__question--vehicle"
              key="{vehicle.id}">
@@ -50,13 +50,18 @@
               </button>
               <ul className="dropdown-menu">
                 <li>
-                  <a href="#" onClick="{this.updateVehicleFuelType.bind(this, vehicle, '1')}">
+                  <a href="#" onClick="{this.updateVehicleFuelType.bind(this, vehicle, 1, false)}">
                     {this.t('travel.gasoline')}
                   </a>
                 </li>
                 <li>
-                  <a href="#" onClick="{this.updateVehicleFuelType.bind(this, vehicle, '2')}">
+                  <a href="#" onClick="{this.updateVehicleFuelType.bind(this, vehicle, 2, false)}">
                   {this.t('travel.diesel')}
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onClick="{this.updateVehicleFuelType.bind(this, vehicle, 1, true)}">
+                  {this.t('travel.electric')}
                   </a>
                 </li>
               </ul>
@@ -73,7 +78,7 @@
             </span>
           </div>
           <div className="label-container">
-            <span className="label label-slider">{vehicle.display_mpg} <i>{this.displayConsumptionUnit()}</i></span>
+            <span className="label label-slider">{vehicle.display_mpg} <i>{this.displayVehicleConsumptionUnit(vehicle.electric)}</i></span>
           </div>
           <div className="vehicle-slider__container" id="{vehicle.slider_id}"></div>
           <hr rt-if="vehicleIndex !== (this.number_of_vehicles - 1)">
@@ -217,10 +222,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div className="cc-component__nav">
-    <a onClick="{this.router.previous.bind(this.router)}" >{this.t('Previous')}</a>
-    <a onClick="{this.router.next.bind(this.router)}" >{this.t('Next')}</a>
   </div>
 </main>

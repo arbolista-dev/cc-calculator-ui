@@ -101,6 +101,10 @@ class GraphsComponent extends Panel {
     return this.props.average_footprint.get('data').toJS();
   }
 
+  get is_takeaction_page() {
+    return this.current_route_name === 'TakeAction';
+  }
+
   get average_footprint_total() {
     return this.defaultApiValue('result_grand_total');
   }
@@ -153,6 +157,13 @@ class GraphsComponent extends Panel {
     return CATEGORIES.map(category => footprint[category]);
   }
 
+  generateReductionData(footprint) {
+    const takeaction_categories = ['result_takeaction_transport_total', 'result_takeaction_housing_total',
+      'result_takeaction_shopping_food_total', 'result_takeaction_shopping_goods_total', 'result_takeaction_shopping_services_total'];
+    const reduced = takeaction_categories.map(category => footprint[category]);
+    return CATEGORIES.map((category, i) => (footprint[category] - reduced[i]));
+  }
+
   resize() {
     const graphs = this;
     graphs.bar_chart.redraw(graphs.graph_dimensions);
@@ -197,19 +208,38 @@ class GraphsComponent extends Panel {
     graphs.drawBarData();
   }
 
-  drawBarData() {
+  get composed_bar_series() {
     const graphs = this;
-    graphs.bar_chart.drawData({
-      categories: graphs.categories,
-      series: [
+    if (graphs.is_takeaction_page) {
+      return [
         {
           name: graphs.t('graphs.your_footprint'),
           values: graphs.generateData(graphs.user_footprint),
         }, {
+          name: graphs.t('graphs.reduced_footprint'),
+          values: graphs.generateReductionData(graphs.user_footprint),
+        }, {
           name: graphs.t('graphs.average_footprint'),
           values: graphs.generateData(graphs.average_footprint),
         },
-      ],
+      ];
+    }
+    return [
+      {
+        name: graphs.t('graphs.your_footprint'),
+        values: graphs.generateData(graphs.user_footprint),
+      }, {
+        name: graphs.t('graphs.average_footprint'),
+        values: graphs.generateData(graphs.average_footprint),
+      },
+    ];
+  }
+
+  drawBarData() {
+    const graphs = this;
+    graphs.bar_chart.drawData({
+      categories: graphs.categories,
+      series: graphs.composed_bar_series,
     });
     graphs.initializeBarPopovers();
   }
@@ -312,7 +342,7 @@ class GraphsComponent extends Panel {
   get user_category_footprint() {
     const graphs = this;
     if (graphs.current_route_name === 'TakeAction') {
-      return graphs.userApiValue('result_grand_total') - graphs.displayTakeactionSavings('result_takeaction_pounds');
+      return graphs.userApiValue('result_takeaction_grand_total');
     } else if (graphs.current_route_name === 'GetStarted') {
       return graphs.userApiValue('result_grand_total');
     } else if (graphs.current_route_name === 'Profile') {

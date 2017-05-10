@@ -20,7 +20,8 @@
           &:hover {
             background-color: #e6e6e6;
           }
-          &.action__status--taken {
+          &.action__status--taken,
+          &.action__status--done {
             background-color: #449D44;
             border-color: #449D44;
             color: #fff;

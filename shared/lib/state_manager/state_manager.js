@@ -59,7 +59,8 @@ export default class StateManager {
   }
 
   get ui_storage() {
-    return getLocalStorageItem('ui');
+    if (!getLocalStorageItem('ui')) return 0;
+    return Object.assign({}, getLocalStorageItem('ui'), { external_offset: {}, connect_to_api: true });
   }
 
   get default_ui_state() {
@@ -71,6 +72,7 @@ export default class StateManager {
         forgot_password: [],
         leaders: [],
         shared: [],
+        activation: [],
       },
       take_action: {
         category_filter: 'all',
@@ -118,6 +120,7 @@ export default class StateManager {
     return Object.assign({
       auth: fromJS({
         data: state_manager.auth_storage || {},
+        canReset: true,
       }),
       average_footprint: fromJS({
         data: state_manager.average_footprint_storage || state_manager.default_inputs,
@@ -127,7 +130,8 @@ export default class StateManager {
         result_takeaction_dollars: state_manager.take_action_storage.dollars || {},
         result_takeaction_net10yr: state_manager.take_action_storage.net10yr || {},
         result_takeaction_pounds: state_manager.take_action_storage.pounds || {},
-        actions: state_manager.actions_storage || { pledged: {}, completed: {}, not_relevant: [] },
+        actions: state_manager.actions_storage ||
+        { pledged: {}, completed: {}, not_relevant: [], already_done: {} },
       }),
       ui: fromJS(state_manager.ui_storage || state_manager.default_ui_state),
       profile: fromJS({ data: {} }),

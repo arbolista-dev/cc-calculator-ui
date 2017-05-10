@@ -61,6 +61,10 @@
         <img src="/assets/img/your-footprint-rect.png"/>
         {this.your_footprint_legend}
       </div>
+      <div rt-if="this.is_takeaction_page">
+        <div class="reduction-icon"></div>
+        {this.t('graphs.your_reductions')}
+      </div>
       <div>
         <img src="/assets/img/average-footprint-rect.png"/>
         {this.t('footprint.average_footprint')}

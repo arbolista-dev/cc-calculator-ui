@@ -13,7 +13,8 @@ import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseF
     actions: {
       pledged: <Map>,
       completed: <Map>,
-      not_relevant: <List>
+      not_relevant: <List>,
+      already_done: <Map>
     },
     loading: <Boolean>,
     load_error: <Boolean>
@@ -176,10 +177,11 @@ const ACTIONS = {
     let actions;
     let updated;
 
-    if (params.status === 'pledged' || params.status === 'completed') {
+    if (params.status === 'pledged' || params.status === 'completed' || params.status === 'already_done') {
       const action_update = {
         [params.key]: params.details,
       };
+
       actions = state.getIn(['actions', params.status])
                      .merge(action_update);
 
@@ -189,7 +191,11 @@ const ACTIONS = {
         const filtered = state.getIn(['actions', 'not_relevant']).filterNot(key => key === params.key);
         updated = state.setIn(['actions', 'not_relevant'], filtered);
       }
-    } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted' || params.status === 'relevant') {
+      if (params.status === 'completed' && state.getIn(['actions', 'pledged']).has(params.key)) {
+        const cleared = updated.get('actions').deleteIn(['pledged', params.key]);
+        updated = updated.set('actions', cleared);
+      }
+    } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted' || params.status === 'relevant' || params.status === 'not_already_done') {
       actions = state.get('actions');
       updated = state;
 
@@ -199,6 +205,11 @@ const ACTIONS = {
       } else {
         if (actions.hasIn(['pledged', params.key])) {
           const cleared = actions.deleteIn(['pledged', params.key]);
+          updated = state.set('actions', cleared);
+        }
+
+        if (actions.hasIn(['already_done', params.key])) {
+          const cleared = actions.deleteIn(['already_done', params.key]);
           updated = state.set('actions', cleared);
         }
 

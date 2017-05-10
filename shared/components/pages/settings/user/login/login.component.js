@@ -23,6 +23,7 @@ class LoginComponent extends Panel {
       email: '',
       password: '',
     };
+    login.responseFacebook = login.responseFacebook.bind(login);
   }
 
   render() {
@@ -30,16 +31,15 @@ class LoginComponent extends Panel {
   }
   facebookLogin() {
     const login = this;
-    return (
-      <FacebookLogin
-        appId={appId}
-        autoLoad={false}
-        fields="name,email,picture"
-        cssClass="cc-component__login-facebook"
-        callback={this.responseFacebook}
-        textButton={login.t('login.facebook')}
-        icon="fa-facebook"
-      />
+    return (<
+            FacebookLogin appId={appId}
+      autoLoad={false}
+      fields="name,email,picture"
+      cssClass="cc-component__login-facebook"
+      callback={login.responseFacebook}
+      textButton={login.t('login.facebook')}
+      icon="fa-facebook"
+    />
     );
   }
 
@@ -92,6 +92,7 @@ class LoginComponent extends Panel {
 
   submitLogin(event) {
     event.preventDefault();
+    this.props.resetAlerts();
     if (this.validateAll()) this.props.login(this.state);
   }
 
@@ -103,6 +104,7 @@ class LoginComponent extends Panel {
       facebookID: response.userID,
       facebookToken: response.accessToken,
     };
+    this.props.resetAlerts();
     this.props.loginFacebook(login);
   }
 }

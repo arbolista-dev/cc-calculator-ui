@@ -30,7 +30,7 @@ const ACTIONS = {
     } else {
       updated = fromJS(state.set(payload.id, payload.data));
     }
-    setLocalStorageItem('ui', updated.toJS());
+    setLocalStorageItem('ui', updated.delete('external_offset').delete('connect_to_api').toJS());
     return updated;
   },
 
@@ -43,7 +43,9 @@ const ACTIONS = {
   [resetAlerts]: (state) => {
     let updated = state;
     Object.keys(state.get('alerts').toJS()).forEach((type) => {
-      updated = state.setIn(['alerts', type], new List());
+      if (type !== 'activation') {
+        updated = updated.setIn(['alerts', type], new List());
+      }
     });
     updated = updated.set('alert_exists', false);
     return updated;

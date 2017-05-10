@@ -12,11 +12,12 @@ class TakeActionComponent extends Panel {
     const take_action = this;
     take_action.STATUS_OPTIONS = [
       { key: 'all', title: this.t('take_action.status_options.all') },
-      { key: 'pledged', title: this.t('take_action.status_options.pledged') },
+      { key: 'pledged', title: this.t('action.pledged') },
       { key: 'not_pledged', title: this.t('take_action.status_options.not_pledged') },
       { key: 'relevant', title: this.t('take_action.status_options.relevant') },
       { key: 'not_relevant', title: this.t('take_action.status_options.not_relevant') },
-      { key: 'completed', title: this.t('take_action.status_options.completed') },
+      { key: 'already_done', title: this.t('action.already_done') },
+      { key: 'completed', title: this.t('action.completed') },
     ];
     take_action.SORT_OPTIONS = [
       { id: 'inactive', title: ' - ' },
@@ -230,12 +231,12 @@ class TakeActionComponent extends Panel {
     const take_action = this;
     let filtered;
 
-    if (status === 'pledged' || status === 'completed') {
+    if (status === 'pledged' || status === 'completed' || status === 'already_done') {
       filtered = take_action.actions_profile.get(status);
       filtered = actions_to_filter.filter(key => filtered.has(key));
     } else if (status === 'not_relevant') {
       filtered = take_action.actions_profile.get(status);
-      filtered = actions_to_filter.filter(key => filtered.has(key));
+      filtered = actions_to_filter.filter(key => filtered.includes(key));
     } else if (status === 'not_pledged') {
       const pledged = take_action.actions_profile.get('pledged');
       const not_pledged = actions_to_filter.filter(key => !pledged.has(key));
@@ -243,7 +244,7 @@ class TakeActionComponent extends Panel {
       filtered = not_pledged;
     } else if (status === 'relevant') {
       const not_relevant = take_action.actions_profile.get('not_relevant');
-      const relevant = actions_to_filter.filter(key => !not_relevant.has(key));
+      const relevant = actions_to_filter.filter(key => !not_relevant.includes(key));
 
       filtered = relevant;
     } else if (status === 'all') {

@@ -50,12 +50,29 @@
 			</div>
 		</div>
 		<div className="cc-component__question">
-			<div className="cc-component__question-label">{this.t('home.cleanpercent.label')}</div>
-			<div className="label-container">
-				<span className="label label-slider">{this.display_cleanpercent} %</span>
-			</div>
+      <div className="selected-percentage">
+        <div className="cc-component__question-label">{this.t('home.cleanpercent.label')}: </div>
+  			<div className="label-container">
+  				<span className="label label-slider">{this.display_cleanpercent} %</span>
+  			</div>
+      </div>
 			<div id="home_cleanpercent_slider"></div>
 		</div>
+    <div className="cc-component__question utility-provider" rt-if="this.utility_provider_set">
+      <h4 class="title">{this.t('home.utility_provider')}</h4>
+      <div className="dropdown">
+        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          {this.selected_utility_provider} <span className="caret"></span>
+        </button>
+        <ul className="dropdown-menu">
+          <li rt-repeat="provider in this.utility_provider_options" key="{providerIndex}">
+            <a href="#"
+              onClick="{this.setUtiltyProvider.bind(this, provider.utility_id)}">{provider.company}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
 		<div className="cc-component__question">
 			<h4>{this.t('home.naturalgas.label')}</h4>
 			<div className="input-group">
@@ -169,17 +186,18 @@
 		<div className="cc-component__question">
 			<h4>{this.t('home.watersewage.label')}</h4>
 			<div className="label-container">
+        <span className="label label-slider">
+          {this.display_annual_water_percentage}
+          <i>{this.t('units.percent_of_avg')}</i>
+        </span>
+      </div>
+      <div className="label-container mini-label">
 				<span className="label label-slider">
-					{this.display_annual_water_dollars}
-					<i>{this.t('units.usd_per_year')}</i>
+					${this.display_annual_water_dollars}
+					<i>{this.t('units.per_year')}</i>
 				</span>
 			</div>
 			<div id="home_watersewage_slider"></div>
 		</div>
-	</div>
-
-	<div className="cc-component__nav">
-		<a onClick="{this.router.previous.bind(this.router)}">{this.t('Previous')}</a>
-		<a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
 	</div>
 </main>

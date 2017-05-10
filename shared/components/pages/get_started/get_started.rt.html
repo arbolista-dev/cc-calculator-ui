@@ -15,6 +15,7 @@
 					key="location_mode_{mode[0]}"
 					type="button"
 					className="btn"
+          title="{this.getLocationModeTitle(mode[1])}"
 					onClick="{this.setLocationMode.bind(this, mode[0])}" >{this.t(mode[1])}</a>
 			</div>
 		</div>
@@ -22,7 +23,7 @@
 		<div id="location_suggestions_container" className="cc-component__question">
 			<input className="form-control"
 				rt-props="{disabled: this.country_mode}"
-				placeholder="{this.t('get_started.location_prompt')}"
+				placeholder="{this.location_placeholder}"
 				value="{this.input_location_display}"
 				onClick="{this.unsetLocation.bind(this)}"
 				onChange="{this.setLocationSuggestions.bind(this)}"/>
@@ -44,12 +45,7 @@
 		</div>
 		<div className="cc-component__question">
 			<h4>{this.t('get_started.income.label')}</h4>
-			<div  className="cc-slider-container" id="income_slider"></div>
+			<div className="cc-slider-container" id="income_slider"></div>
 		</div>
-
-	</div>
-
-	<div className="cc-component__nav">
-		<a onClick="{this.router.next.bind(this.router)}">{this.t('Next')}</a>
 	</div>
 </main>

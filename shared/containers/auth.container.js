@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { signup, login, loginFacebook, logout, requestNewPassword } from 'shared/reducers/auth/auth.actions';
+import { signup, login, loginFacebook, logout, requestNewPassword, resetPassword } from 'shared/reducers/auth/auth.actions';
 import { pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
 
 const mapStateToProps = state => ({
@@ -37,6 +37,10 @@ const mapDispatchToProps = dispatch => ({
   requestNewPassword: (params) => {
     requestNewPassword.assignTo(dispatch);
     requestNewPassword(params);
+  },
+  resetPassword: (params) => {
+    resetPassword.assignTo(dispatch);
+    resetPassword(params);
   },
 });
 

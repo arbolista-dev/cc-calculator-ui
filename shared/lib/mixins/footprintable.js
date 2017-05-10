@@ -76,7 +76,6 @@ export default {
   totalTakeactionSavings(savings_type) {
     const component = this;
     return Object.keys(component.props.user_footprint.get('result_takeaction_pounds').toJS())
-      .filter(key => !/^offset_/.test(key))
       .reduce((sum, action_key) => {
         if (component.userApiValue(`input_takeaction_${action_key}`) === 1) {
           // eslint-disable-next-line no-param-reassign
