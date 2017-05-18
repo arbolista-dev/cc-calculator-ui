@@ -2,7 +2,27 @@
   .cc-component__form {
     margin-top: 10px;
   }
-
+  .table{
+    display:table;
+    .header{
+      display:table-header-group;
+    }
+    .headers{
+       display:table-row;
+    }
+    .header-column{
+      display: table-cell;
+    }
+    .body{
+      display:table-row-group;
+    }
+    .row{
+      display: table-row;
+    }
+    .cell{
+      display: table-cell;
+    }
+  }
   .panel-heading {
     height: 95px;
     .table-title {

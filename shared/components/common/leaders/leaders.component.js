@@ -38,7 +38,7 @@ class LeadersComponent extends Panel {
 
     if (leaders.props.ui.get('show_leaders_chart')) {
       leaders.retrieveLocations();
-      leaders.retrieveAndShow();
+      leaders.retrieveAndShow(0);
     }
   }
 
@@ -103,6 +103,13 @@ class LeadersComponent extends Panel {
     return this.state.locations;
   }
 
+  loadMoreLeaders(page) {
+    this.retrieveAndShow(page*this.state.limit);
+  }
+  get loadMore(){
+    return true;
+  }
+
   displayLocation(location_object) {
     if (location_object.city) {
       return `${location_object.city}, ${location_object.state}`;
@@ -114,12 +121,12 @@ class LeadersComponent extends Panel {
     return user.household_size === 0 ? '2.5' : user.household_size;
   }
 
-  retrieveAndShow() {
+  retrieveAndShow(offset) {
     const leaders = this;
-    leaders.props.resetAlerts();
-    leaders.retrieveLeaders().then(() => {
+    //leaders.props.resetAlerts();
+    leaders.retrieveLeaders(offset).then(() => {
       leaders.showRetrievedLeaders();
-      if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
+      //if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
     }).catch((err) => {
       if (err === 'total_count=0') {
         leaders.setState({
@@ -150,7 +157,7 @@ class LeadersComponent extends Panel {
   }
 
   detectScroll() {
-    const leaders = this;
+    /*const leaders = this;
     $(window).scroll(() => {
       const window_top = $(window).scrollTop();
       const doc_height = $(document).height();
@@ -175,13 +182,13 @@ class LeadersComponent extends Panel {
           });
         }, 1000);
       }
-    });
+    });*/
   }
 
-  retrieveLeaders() {
+  retrieveLeaders(offset) {
     const leaders = this;
     return new Promise((resolve, reject) => {
-      listLeaders(leaders.state.limit, leaders.state.offset,
+      listLeaders(leaders.state.limit, offset,
         leaders.state.selected_location.state, leaders.state.selected_household).then((res) => {
           if (res.success) {
             if (res.data.list != null) {
@@ -268,7 +275,7 @@ class LeadersComponent extends Panel {
     }
 
     leaders.$household_unfilter = setTimeout(() => {
-      leaders.retrieveAndShow();
+      leaders.retrieveAndShow(0);
     }, 100);
   }
 
@@ -293,7 +300,7 @@ class LeadersComponent extends Panel {
     }
 
     leaders.$location_unfilter = setTimeout(() => {
-      leaders.retrieveAndShow();
+      leaders.retrieveAndShow(0);
     }, 100);
   }
 
@@ -319,7 +326,7 @@ class LeadersComponent extends Panel {
     }
 
     leaders.$location_filter = setTimeout(() => {
-      leaders.retrieveAndShow();
+      leaders.retrieveAndShow(0);
     }, 100);
   }
 
