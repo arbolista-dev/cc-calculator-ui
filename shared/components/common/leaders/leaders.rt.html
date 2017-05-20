@@ -52,20 +52,23 @@
               <div className="header-column">{this.t('leaders.total_footprint')}</div>
             </div>
           </header>
-             <InfiniteScroll
+          <InfiniteScroll
+                key="{this.infinteScrollKey}"
                 pageStart="{0}"
                 loadMore="{this.loadMoreLeaders.bind(this)}"
                 hasMore="{this.loadMore}"
                 threshold="{50}"
+                element="article"
+                className="body"
                 initialLoad="{false}">
-              <div rt-repeat="user in this.list" key={userIndex} className="row">
+              <div rt-repeat="user in this.list" key={userIndex} className="row-table">
                 <div className="cell" scope="row">{userIndex + 1}</div>
                 <div className="cell"><a onClick="{this.goToProfile.bind(this, user.user_id)}">{user.first_name} {user.last_name}</a></div>
                 <div className="cell">{this.displayLocation(user)}</div>
                 <div className="cell">{this.displayHouseholdSize(user)}</div>
                 <div className="cell">{user.total_footprint.result_grand_total} <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></div>
               </div>
-          </article>
+          </InfiniteScroll>
         </section>
         
       </div>

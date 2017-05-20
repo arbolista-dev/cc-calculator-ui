@@ -4,6 +4,7 @@
   }
   .table{
     display:table;
+    border-collapse: collapse;
     .header{
       display:table-header-group;
     }
@@ -12,15 +13,26 @@
     }
     .header-column{
       display: table-cell;
+      border-top: 0;
+      vertical-align: bottom;
+      border-bottom: 2px solid #ddd;
+      padding: 8px;
+      line-height: 1.42857143;
+      text-align: left;
+      font-weight: bold;
     }
     .body{
       display:table-row-group;
     }
-    .row{
+    .row-table{
       display: table-row;
     }
     .cell{
       display: table-cell;
+      padding: 8px;
+      line-height: 1.42857143;
+      vertical-align: top;
+      border-top: 1px solid #ddd;
     }
   }
   .panel-heading {

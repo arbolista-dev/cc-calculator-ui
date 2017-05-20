@@ -199,6 +199,7 @@ class LeadersComponent extends Panel {
             } else {
               leaders.setState({
                 all_loaded: true,
+                cache: []
               });
             }
             if (res.data.total_count > 0) {
@@ -302,6 +303,10 @@ class LeadersComponent extends Panel {
     leaders.$location_unfilter = setTimeout(() => {
       leaders.retrieveAndShow(0);
     }, 100);
+  }
+
+  get infinteScrollKey() {
+    return this.state.selected_location.state+","+this.state.selected_household;      
   }
 
   setLocationFilter(event) {
