@@ -6,7 +6,7 @@ import { listLeaders, listLocations } from 'api/user.api';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './leaders.rt.html';
 
-const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [0, '2.5 (avg)'], [3, '3'], [4, '4'], [5, '5+']];
+const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [0, 'Average'], [3, '3'], [4, '4'], [5, '5+']];
 
 class LeadersComponent extends Panel {
 
@@ -26,7 +26,7 @@ class LeadersComponent extends Panel {
         city: '',
         state: '',
       },
-      selected_household: 0,
+      selected_household: undefined,
       locations: [],
       show_locations_list: false,
       show_household_list: false,
@@ -43,7 +43,6 @@ class LeadersComponent extends Panel {
   }
 
   componentWillUnmount() {
-    $(window).off('scroll', this.detectScroll());
     $(document).off('click.hideLocations');
     $(document).off('click.hideHouseholdList');
   }
@@ -126,7 +125,6 @@ class LeadersComponent extends Panel {
     //leaders.props.resetAlerts();
     leaders.retrieveLeaders(offset).then(() => {
       leaders.showRetrievedLeaders();
-      //if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
     }).catch((err) => {
       if (err === 'total_count=0') {
         leaders.setState({
@@ -154,35 +152,6 @@ class LeadersComponent extends Panel {
       list: leaders.state.list.concat(leaders.state.cache),
       is_loading: false,
     });
-  }
-
-  detectScroll() {
-    /*const leaders = this;
-    $(window).scroll(() => {
-      const window_top = $(window).scrollTop();
-      const doc_height = $(document).height();
-      const window_height = $(window).height();
-      leaders.setState({
-        scrolled: (window_top / (doc_height - window_height)) * 100,
-      });
-      if (leaders.state.scrolled >= 75 && leaders.state.trigger_update &&
-        !leaders.total_count_reached && !leaders.state.all_loaded) {
-        leaders.setState({
-          offset: leaders.state.offset + 20,
-          is_loading: true,
-          trigger_update: false,
-        });
-
-        setTimeout(() => {
-          leaders.retrieveLeaders().then(() => {
-            leaders.showRetrievedLeaders();
-            leaders.setState({
-              trigger_update: true,
-            });
-          });
-        }, 1000);
-      }
-    });*/
   }
 
   retrieveLeaders(offset) {
@@ -231,14 +200,6 @@ class LeadersComponent extends Panel {
     leaders.setState({
       show_household_list: true,
     });
-
-    $(document).on('click.hideHouseholdList', (event) => {
-      if (!$(event.target).closest('#leaders_household_list').length) {
-        leaders.setState({
-          show_household_list: false,
-        });
-      }
-    });
   }
 
   showLocationsList() {
@@ -246,17 +207,10 @@ class LeadersComponent extends Panel {
     leaders.setState({
       show_locations_list: true,
     });
-
-    $(document).on('click.hideLocations', (event) => {
-      if (!$(event.target).closest('#leaders_locations_list').length) {
-        leaders.setState({
-          show_locations_list: false,
-        });
-      }
-    });
   }
 
-  resetHousehold() {
+  resetHousehold(event) {
+    event.preventDefault();
     const leaders = this;
 
     leaders.setState({
@@ -280,7 +234,8 @@ class LeadersComponent extends Panel {
     }, 100);
   }
 
-  resetLocation() {
+  resetLocation(ev) {
+    ev.preventDefault();
     const leaders = this;
     const location = { city: '', state: '' };
 
@@ -310,6 +265,7 @@ class LeadersComponent extends Panel {
   }
 
   setLocationFilter(event) {
+    event.preventDefault();
     const leaders = this;
     const state = event.target.dataset.state;
     const location = { state };
@@ -336,6 +292,7 @@ class LeadersComponent extends Panel {
   }
 
   setHouseholdFilter(event) {
+    event.preventDefault();
     const leaders = this;
     const size = event.target.dataset.size;
 

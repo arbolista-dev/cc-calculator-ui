@@ -11,28 +11,43 @@
           <div class="filters">
             <div class="location_filter">
               <span className="hint">{this.t('leaders.location_filter')}</span>
-              <div className="cc-component__question">
-                <button className="btn btn-default" type="button" aria-haspopup="true" aria-expanded="true" onClick="{this.showLocationsList.bind(this)}">
-                  {this.t('leaders.us_state')} <span className="caret"></span>
+              <div className="dropdown cc-component__question">
+                <button className="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"   onClick="{this.showLocationsList.bind(this)}">
+                  {this.t('leaders.us_state')} 
+                  <span class="caret"></span>
                 </button>
-                <div rt-if="this.show_locations_list" id="leaders_locations_list">
-                  <div className="leaders__location-suggestion"
-                    onClick="{this.resetLocation.bind(this)}">{this.t('leaders.reset')} <i className="fa fa-undo" aria-hidden="true"></i></div>
-                    <div rt-repeat="state in this.filtered_locations" className="leaders__location-suggestion" data-state="{state}" onClick="{this.setLocationFilter.bind(this)}" title="{state}" key="{stateIndex}">{state}</div>
-                </div>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="#" onClick="{this.resetLocation.bind(this)}">{this.t('leaders.reset')} 
+                      <i className="fa fa-undo" aria-hidden="true"></i>
+                    </a>
+                  </li>
+                  <li role="separator" class="divider"></li>
+                  <li rt-repeat="state in this.filtered_locations"  key="{stateIndex}">
+                    <a href="#" data-state="{state}" onClick="{this.setLocationFilter.bind(this)}">{state}</a>
+                  </li>
+                </ul>
               </div>
             </div>
             <div class="household_filter">
               <span className="hint">{this.t('leaders.household_filter')}</span>
-              <div className="cc-component__question">
-                <button className="btn btn-default" type="button" aria-haspopup="true" aria-expanded="true" onClick="{this.showHouseholdList.bind(this)}">
+              <div className="dropdown cc-component__question">
+
+                <button className="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"  onClick="{this.showHouseholdList.bind(this)}">
                   {this.t('#')} <span className="caret"></span>
                 </button>
-                <div rt-if="this.show_household_list" id="leaders_household_list">
-                  <div className="leaders__household-suggestion"
-                    onClick="{this.resetHousehold.bind(this)}">{this.t('leaders.reset')} <i className="fa fa-undo" aria-hidden="true"></i></div>
-                    <div rt-repeat="size in this.household_sizes" className="leaders__household-suggestion" data-size="{size[0]}" onClick="{this.setHouseholdFilter.bind(this)}" key="{sizeIndex}">{size[1]}</div>
-                </div>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="#" onClick="{this.resetHousehold.bind(this)}">
+                      {this.t('leaders.reset')} <i className="fa fa-undo" aria-hidden="true"></i>
+                    </a>
+                  </li>
+                  <li rt-repeat="size in this.household_sizes" key="{sizeIndex}">
+                    <a href="#" data-size="{size[0]}" onClick="{this.setHouseholdFilter.bind(this)}">
+                      {size[1]}
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
