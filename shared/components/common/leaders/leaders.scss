@@ -26,6 +26,9 @@
     }
     .row-table{
       display: table-row;
+      &.user{
+        font-weight: bold;
+      }
     }
     .cell{
       display: table-cell;

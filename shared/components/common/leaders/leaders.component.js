@@ -22,6 +22,7 @@ class LeadersComponent extends Panel {
       trigger_update: true,
       is_loading: true,
       all_loaded: false,
+      found:true,
       selected_location: {
         city: '',
         state: '',
@@ -49,6 +50,10 @@ class LeadersComponent extends Panel {
 
   render() {
     return template.call(this);
+  }
+
+  get user_id() {
+    return this.props.auth.getIn(['data', 'user_id']);
   }
 
   get alert_exists() {
@@ -103,15 +108,20 @@ class LeadersComponent extends Panel {
   }
 
   loadMoreLeaders(page) {
-    this.retrieveAndShow(page*this.state.limit);
+    if(this.loadMore) {
+      this.retrieveAndShow(page*this.state.limit);
+    }
   }
   get loadMore(){
-    return true;
+    return !this.state.all_loaded;
   }
 
   displayLocation(location_object) {
     if (location_object.city) {
       return `${location_object.city}, ${location_object.state}`;
+    }
+    if(location_object.state) {
+     return `${location_object.state}`; 
     }
     return '';
   }
@@ -154,6 +164,22 @@ class LeadersComponent extends Panel {
     });
   }
 
+  retrieveProfile(){
+    return new Promise((resolve,reject)=>{
+      const token = this.props.auth.getIn(['data', 'token']);
+      this.props.retrieveProfile({ user_id: this.user_id, token });
+    });
+  }
+  get profile() { 
+    return this.props.profile.get('data');
+  }
+  get profile_total(){
+    if(this.profile) {
+      return JSON.parse(this.profile.get("total_footprint")).result_grand_total;
+    }
+    return 0;
+  }
+
   retrieveLeaders(offset) {
     const leaders = this;
     return new Promise((resolve, reject) => {
@@ -166,10 +192,20 @@ class LeadersComponent extends Panel {
                 total_count: res.data.total_count,
               });
             } else {
+
+              let found =leaders.state.list.find((e)=> e.user_id == this.user_id);
+              if(!found){
+                this.retrieveProfile();
+              }
               leaders.setState({
                 all_loaded: true,
-                cache: []
+                cache: [],
+                found: found
               });
+
+  
+
+
             }
             if (res.data.total_count > 0) {
               resolve();

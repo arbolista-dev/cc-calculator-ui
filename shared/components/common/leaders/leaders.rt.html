@@ -76,14 +76,25 @@
                 element="article"
                 className="body"
                 initialLoad="{false}">
-              <div rt-repeat="user in this.list" key={userIndex} className="row-table">
+              <div rt-repeat="user in this.list" key={userIndex} className="row-table" rt-class="{user: user.user_id == this.user_id}">
                 <div className="cell" scope="row">{userIndex + 1}</div>
                 <div className="cell"><a onClick="{this.goToProfile.bind(this, user.user_id)}">{user.first_name} {user.last_name}</a></div>
                 <div className="cell">{this.displayLocation(user)}</div>
                 <div className="cell">{this.displayHouseholdSize(user)}</div>
                 <div className="cell">{user.total_footprint.result_grand_total} <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></div>
               </div>
+         
+                
           </InfiniteScroll>
+          <div className="body" rt-if="!this.state.found && this.profile">
+            <div  className="row-table user">
+                <div className="cell" scope="row"></div>
+                <div className="cell"><a onClick="{this.goToProfile.bind(this, this.profile.get('user_id'))}">{this.profile.get('first_name')} {this.profile.get('last_name')}</a></div>
+                <div className="cell">{this.displayLocation(this.profile.toJS())}</div>
+                <div className="cell">{this.displayHouseholdSize(this.profile.toJS())}</div>
+                <div className="cell">{this.profile_total} <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></div>
+            </div>
+          </div>
         </section>
         
       </div>
