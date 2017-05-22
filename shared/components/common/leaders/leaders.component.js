@@ -5,6 +5,7 @@ import Panel from 'shared/lib/base_classes/panel';
 import { listLeaders, listLocations } from 'api/user.api';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './leaders.rt.html';
+import loader from './loader.rt.html';
 
 const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [0, 'Average'], [3, '3'], [4, '4'], [5, '5+']];
 
@@ -22,7 +23,7 @@ class LeadersComponent extends Panel {
       trigger_update: true,
       is_loading: true,
       all_loaded: false,
-      found:true,
+      found: true,
       selected_location: {
         city: '',
         state: '',
@@ -108,30 +109,23 @@ class LeadersComponent extends Panel {
   }
 
   loadMoreLeaders(page) {
-    if(this.loadMore) {
-      this.retrieveAndShow(page*this.state.limit);
+    if (this.loadMore) {
+      this.retrieveAndShow(page * this.state.limit);
     }
   }
-  get loadMore(){
+  get loadMore() {
     return !this.state.all_loaded;
   }
   get loader() {
-    return (
-      <div  className="row-table">
-        <div className="cell"></div>
-        <div className="cell"></div>
-        
-        <div className="loader"></div>
-      </div>
-    )
+    return loader.call(this);
   }
 
   displayLocation(location_object) {
     if (location_object.city) {
       return `${location_object.city}, ${location_object.state}`;
     }
-    if(location_object.state) {
-     return `${location_object.state}`; 
+    if (location_object.state) {
+      return `${location_object.state}`;
     }
     return '';
   }
@@ -142,7 +136,7 @@ class LeadersComponent extends Panel {
 
   retrieveAndShow(offset) {
     const leaders = this;
-    //leaders.props.resetAlerts();
+    // leaders.props.resetAlerts();
     leaders.retrieveLeaders(offset).then(() => {
       leaders.showRetrievedLeaders();
     }).catch((err) => {
@@ -174,17 +168,16 @@ class LeadersComponent extends Panel {
     });
   }
 
-  retrieveProfile(){
+  retrieveProfile() {
     const token = this.props.auth.getIn(['data', 'token']);
     this.props.retrieveProfile({ user_id: this.user_id, token });
-
   }
-  get profile() { 
+  get profile() {
     return this.props.profile.get('data');
   }
-  get profile_total(){
-    if(this.profile) {
-      return JSON.parse(this.profile.get("total_footprint")).result_grand_total;
+  get profile_total() {
+    if (this.profile) {
+      return JSON.parse(this.profile.get('total_footprint')).result_grand_total;
     }
     return 0;
   }
@@ -201,20 +194,15 @@ class LeadersComponent extends Panel {
                 total_count: res.data.total_count,
               });
             } else {
-
-              let found =leaders.state.list.find((e)=> e.user_id === this.user_id);
-              if(!found){
+              const found = leaders.state.list.find(e => e.user_id === this.user_id);
+              if (!found) {
                 this.retrieveProfile();
               }
               leaders.setState({
                 all_loaded: true,
                 cache: [],
-                found: found
+                found,
               });
-
-  
-
-
             }
             if (res.data.total_count > 0) {
               resolve();
@@ -306,7 +294,7 @@ class LeadersComponent extends Panel {
   }
 
   get infinteScrollKey() {
-    return this.state.selected_location.state+","+this.state.selected_household;      
+    return `${this.state.selected_location.state},${this.state.selected_household}`;
   }
 
   setLocationFilter(event) {
