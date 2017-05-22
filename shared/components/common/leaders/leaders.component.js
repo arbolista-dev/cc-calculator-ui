@@ -115,6 +115,16 @@ class LeadersComponent extends Panel {
   get loadMore(){
     return !this.state.all_loaded;
   }
+  get loader() {
+    return (
+      <div  className="row-table">
+        <div className="cell"></div>
+        <div className="cell"></div>
+        
+        <div className="loader"></div>
+      </div>
+    )
+  }
 
   displayLocation(location_object) {
     if (location_object.city) {
@@ -165,10 +175,9 @@ class LeadersComponent extends Panel {
   }
 
   retrieveProfile(){
-    return new Promise((resolve,reject)=>{
-      const token = this.props.auth.getIn(['data', 'token']);
-      this.props.retrieveProfile({ user_id: this.user_id, token });
-    });
+    const token = this.props.auth.getIn(['data', 'token']);
+    this.props.retrieveProfile({ user_id: this.user_id, token });
+
   }
   get profile() { 
     return this.props.profile.get('data');
@@ -193,7 +202,7 @@ class LeadersComponent extends Panel {
               });
             } else {
 
-              let found =leaders.state.list.find((e)=> e.user_id == this.user_id);
+              let found =leaders.state.list.find((e)=> e.user_id === this.user_id);
               if(!found){
                 this.retrieveProfile();
               }

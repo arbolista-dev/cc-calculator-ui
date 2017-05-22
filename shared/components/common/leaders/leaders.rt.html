@@ -74,6 +74,7 @@
                 hasMore="{this.loadMore}"
                 threshold="{50}"
                 element="article"
+                loader="{this.loader}"
                 className="body"
                 initialLoad="{false}">
               <div rt-repeat="user in this.list" key={userIndex} className="row-table" rt-class="{user: user.user_id == this.user_id}">
