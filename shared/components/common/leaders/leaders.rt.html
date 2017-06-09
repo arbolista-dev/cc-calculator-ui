@@ -1,4 +1,5 @@
 <rt-require dependency="./../alerts/alerts.component" as="Alerts"/>
+<rt-require dependency="react-infinite-scroller" as="InfiniteScroll"/>
 
 <div className="cc-component" id="leaders">
   <div className="cc-component__form">
@@ -10,28 +11,43 @@
           <div class="filters">
             <div class="location_filter">
               <span className="hint">{this.t('leaders.location_filter')}</span>
-              <div className="cc-component__question">
-                <button className="btn btn-default" type="button" aria-haspopup="true" aria-expanded="true" onClick="{this.showLocationsList.bind(this)}">
-                  {this.t('leaders.us_state')} <span className="caret"></span>
+              <div className="dropdown cc-component__question">
+                <button className="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"   onClick="{this.showLocationsList.bind(this)}">
+                  {this.t('leaders.us_state')} 
+                  <span class="caret"></span>
                 </button>
-                <div rt-if="this.show_locations_list" id="leaders_locations_list">
-                  <div className="leaders__location-suggestion"
-                    onClick="{this.resetLocation.bind(this)}">{this.t('leaders.reset')} <i className="fa fa-undo" aria-hidden="true"></i></div>
-                    <div rt-repeat="state in this.filtered_locations" className="leaders__location-suggestion" data-state="{state}" onClick="{this.setLocationFilter.bind(this)}" title="{state}" key="{stateIndex}">{state}</div>
-                </div>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="#" onClick="{this.resetLocation.bind(this)}">{this.t('leaders.reset')} 
+                      <i className="fa fa-undo" aria-hidden="true"></i>
+                    </a>
+                  </li>
+                  <li role="separator" class="divider"></li>
+                  <li rt-repeat="state in this.filtered_locations"  key="{stateIndex}">
+                    <a href="#" data-state="{state}" onClick="{this.setLocationFilter.bind(this)}">{state}</a>
+                  </li>
+                </ul>
               </div>
             </div>
             <div class="household_filter">
               <span className="hint">{this.t('leaders.household_filter')}</span>
-              <div className="cc-component__question">
-                <button className="btn btn-default" type="button" aria-haspopup="true" aria-expanded="true" onClick="{this.showHouseholdList.bind(this)}">
+              <div className="dropdown cc-component__question">
+
+                <button className="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"  onClick="{this.showHouseholdList.bind(this)}">
                   {this.t('#')} <span className="caret"></span>
                 </button>
-                <div rt-if="this.show_household_list" id="leaders_household_list">
-                  <div className="leaders__household-suggestion"
-                    onClick="{this.resetHousehold.bind(this)}">{this.t('leaders.reset')} <i className="fa fa-undo" aria-hidden="true"></i></div>
-                    <div rt-repeat="size in this.household_sizes" className="leaders__household-suggestion" data-size="{size[0]}" onClick="{this.setHouseholdFilter.bind(this)}" key="{sizeIndex}">{size[1]}</div>
-                </div>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="#" onClick="{this.resetHousehold.bind(this)}">
+                      {this.t('leaders.reset')} <i className="fa fa-undo" aria-hidden="true"></i>
+                    </a>
+                  </li>
+                  <li rt-repeat="size in this.household_sizes" key="{sizeIndex}">
+                    <a href="#" data-size="{size[0]}" onClick="{this.setHouseholdFilter.bind(this)}">
+                      {size[1]}
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -41,27 +57,47 @@
           category="leaders"
           currentRoute="{this.current_route_name}"
           pushAlert="{this.props.pushAlert}" />
-        <table className="table">
-          <thead>
-            <tr>
-              <th>{this.t('leaders.ranking')}</th>
-              <th>{this.t('Name')}</th>
-              <th>{this.t('Location')}</th>
-              <th>{this.t('leaders.household_size')}</th>
-              <th>{this.t('leaders.total_footprint')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr rt-repeat="user in this.list" key={userIndex}>
-              <td scope="row">{userIndex + 1}</td>
-              <td><a onClick="{this.goToProfile.bind(this, user.user_id)}">{user.first_name} {user.last_name}</a></td>
-              <td>{this.displayLocation(user)}</td>
-              <td>{this.displayHouseholdSize(user)}</td>
-              <td>{user.total_footprint.result_grand_total} <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></td>
-            </tr>
-          </tbody>
-        </table>
-        <div rt-class="{hidden: !this.is_loading}" className="loader"></div>
+        <section className="table">
+          <header className="header">
+            <div className="headers">
+              <div className="header-column">{this.t('leaders.ranking')}</div>
+              <div className="header-column">{this.t('Name')}</div>
+              <div className="header-column">{this.t('Location')}</div>
+              <div className="header-column">{this.t('leaders.household_size')}</div>
+              <div className="header-column">{this.t('leaders.total_footprint')}</div>
+            </div>
+          </header>
+          <InfiniteScroll
+                key="{this.infinteScrollKey}"
+                pageStart="{0}"
+                loadMore="{this.loadMoreLeaders.bind(this)}"
+                hasMore="{this.loadMore}"
+                threshold="{50}"
+                element="article"
+                loader="{this.loader}"
+                className="body"
+                initialLoad="{false}">
+              <div rt-repeat="user in this.list" key={userIndex} className="row-table" rt-class="{user: user.user_id == this.user_id}">
+                <div className="cell" scope="row">{userIndex + 1}</div>
+                <div className="cell"><a onClick="{this.goToProfile.bind(this, user.user_id)}">{user.first_name} {user.last_name}</a></div>
+                <div className="cell">{this.displayLocation(user)}</div>
+                <div className="cell">{this.displayHouseholdSize(user)}</div>
+                <div className="cell">{user.total_footprint.result_grand_total} <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></div>
+              </div>
+         
+                
+          </InfiniteScroll>
+          <div className="body" rt-if="!this.state.found && this.profile">
+            <div  className="row-table user">
+                <div className="cell" scope="row"></div>
+                <div className="cell"><a onClick="{this.goToProfile.bind(this, this.profile.get('user_id'))}">{this.profile.get('first_name')} {this.profile.get('last_name')}</a></div>
+                <div className="cell">{this.displayLocation(this.profile.toJS())}</div>
+                <div className="cell">{this.displayHouseholdSize(this.profile.toJS())}</div>
+                <div className="cell">{this.profile_total} <span className="graphs__units" dangerouslySetInnerHTML="{{ __html: this.t('units.tons_co2_per_year')}}"></span></div>
+            </div>
+          </div>
+        </section>
+        
       </div>
     </div>
     <div className="cc-component__scroll-top"><a className="btn btn-default" onClick="{this.scrollToTop.bind(this)}"><i className="fa fa-arrow-up"></i></a></div>

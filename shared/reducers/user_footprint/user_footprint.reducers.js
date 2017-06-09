@@ -243,13 +243,13 @@ const ACTIONS = {
   },
 
   [updateRemoteUserActions]: (state, updated_action) => {
-    // const auth_status = getLocalStorageItem('auth');
-    //
-    // if ({}.hasOwnProperty.call(auth_status, 'token')) {
-    //   if (tokenIsValid(auth_status.token)) {
-    //     updateUserGoals(updated_action, auth_status.token);
-    //   }
-    // }
+    const auth_status = getLocalStorageItem('auth');
+
+    if ({}.hasOwnProperty.call(auth_status, 'token')) {
+      if (tokenIsValid(auth_status.token)) {
+        updateUserGoals(updated_action, auth_status.token);
+      }
+    }
 
     const competition_auth_status = getLocalStorageItem('competition_auth');
     if ({}.hasOwnProperty.call(competition_auth_status, 'token')) {

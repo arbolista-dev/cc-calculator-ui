@@ -18,7 +18,7 @@ if (argv.local_api) {
 }
 
 export default function build(options, done) {
-  // build assets/app.js and assets/style.css with webpack
+    // build assets/app.js and assets/style.css with webpack
   const config = require(`${__dirname}/../client/config/webpack/${process.env.NODE_ENV}`);
   webpack(config, (err) => {
     if (err) {

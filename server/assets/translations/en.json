@@ -12,11 +12,11 @@
         "enter_location": "Enter your location",
         "submit": "Sign up"
     },
-    "reset":{
-        "title":"Change your password",
+    "reset": {
+        "title": "Change your password",
         "password": "New password",
-        "submit":"Change password",
-        "confirm":"You have successfully changed your password."
+        "submit": "Change password",
+        "confirm": "You have successfully changed your password."
     },
     "login": {
         "title": "Login",
@@ -27,10 +27,10 @@
         "submit": "Login",
         "facebook": "Login or Sign up with Facebook"
     },
-    "confirmation":{
-        "message":"Your email has not been confirmed, ",
-        "successful":"Your account has been confirmed!",
-        "error":"Your link has expired please try again"
+    "confirmation": {
+        "message": "Your email has not been confirmed, ",
+        "successful": "Your account has been confirmed!",
+        "error": "Your link has expired please try again"
     },
     "logout": {
         "title": "Logout"
@@ -332,10 +332,37 @@
     },
     "categories": {
         "result_transport_total": "Travel",
+        "transport": {
+            "car_fuel": "Car Fuel",
+            "car_mfg": "Car MFG",
+            "public_transit": "Public Transit",
+            "air_travel": "Air Travel"
+        },
         "result_housing_total": "Home",
+        "housing": {
+            "electricity": "Electricity",
+            "natural_gas": "Natural Gas",
+            "other_fuels": "Other Fuels",
+            "water": "Water",
+            "construction": "Construction"
+        },
         "result_food_total": "Food",
+        "food": {
+            "meat": "Meat",
+            "dairy": "Dairy",
+            "fruitsveggies": "Fruits & Vegetables",
+            "cereals": "Cereals",
+            "other": "Others"
+        },
         "result_goods_total": "Goods",
-        "result_services_total": "Services"
+        "goods": {
+            "clothing": "Clothing",
+            "furniture": "Furniture",
+            "other": "Others"
+        },
+        "result_services_total": "Services",
+        "all_services": "All",
+        "reduction": "Reduction"
     },
     "critical_assumptions": {
         "content": [{

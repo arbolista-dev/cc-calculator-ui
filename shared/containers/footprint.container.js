@@ -8,6 +8,7 @@ import { sendEmailConfirmation, storeCompetitionSession } from 'shared/reducers/
 
 const mapStateToProps = state => ({
   location: state.location,
+  profile: state.profile,
   average_footprint: state.average_footprint,
   user_footprint: state.user_footprint,
   auth: state.auth,
@@ -15,6 +16,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  retrieveProfile: (user_id) => {
+    retrieveProfile.assignTo(dispatch);
+    retrieveProfile(user_id);
+  },
   ensureDefaults: (default_basic_inputs) => {
     ensureDefaults.assignTo(dispatch);
     ensureDefaults(default_basic_inputs);

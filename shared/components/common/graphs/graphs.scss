@@ -1,24 +1,38 @@
 #graphs {
   margin-top: 30px;
   text-align:center;
-	rect.your-footprint {
-    fill: #0D793E;
-  }
-  rect.average {
-    fill: none;
-    stroke-dasharray:5,5;
-    stroke-width:s;
-    stroke:#A4A4A4;
-  }
-  rect.reduction {
-    fill: #5cb85c;
-  }
+
   .reduction-icon {
     display: inline-block;
     width: 30px;
     height: 30px;
     background-color: #5cb85c;
     vertical-align: middle;
+  }
+  /* Stacked Bar-Chart */
+  .stacked-bar-tooltip {
+    display: none;
+    position: absolute;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    border: 0 none;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: inset 0 0 3px #888;
+    font: 12px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: none repeat scroll 0 0 white;
+    color: black;
+    text-align: center;
+  }
+
+  .d3-stacked-bar-chart rect.reduction{
+    fill: #5cb85c !important;
+  }
+
+  .d3-stacked-bar-chart rect:hover,
+  .d3-stacked-bar-chart rect:focus {
+    opacity: 0.9;
+    filter: alpha(opacity=90);
   }
 }
 
@@ -31,6 +45,7 @@
   rect.your-footprint.dining { fill: #5E893C; }
   rect.your-footprint.goods { fill: #0B713D; }
   rect.your-footprint.services { fill: #4AAA48; }
+
 }
 
 .d3-overlap-bar { cursor:pointer; }

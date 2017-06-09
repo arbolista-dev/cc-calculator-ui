@@ -2,7 +2,42 @@
   .cc-component__form {
     margin-top: 10px;
   }
-
+  .table{
+    display:table;
+    border-collapse: collapse;
+    .header{
+      display:table-header-group;
+    }
+    .headers{
+       display:table-row;
+    }
+    .header-column{
+      display: table-cell;
+      border-top: 0;
+      vertical-align: bottom;
+      border-bottom: 2px solid #ddd;
+      padding: 8px;
+      line-height: 1.42857143;
+      text-align: left;
+      font-weight: bold;
+    }
+    .body{
+      display:table-row-group;
+    }
+    .row-table{
+      display: table-row;
+      &.user{
+        font-weight: bold;
+      }
+    }
+    .cell{
+      display: table-cell;
+      padding: 8px;
+      line-height: 1.42857143;
+      vertical-align: top;
+      border-top: 1px solid #ddd;
+    }
+  }
   .panel-heading {
     height: 95px;
     .table-title {

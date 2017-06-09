@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "cc-calculator-staging"
+    "default": "coolclimate-calculator",
+    "staging": "cc-calculator-staging"
   }
 }

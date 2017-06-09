@@ -1,11 +1,9 @@
 {
-  "hosting": {
-    "public": "build/production",
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  }
+    "hosting": {
+        "public": "build/production",
+        "rewrites": [{
+            "source": "**",
+            "destination": "/index.html"
+        }]
+    }
 }
