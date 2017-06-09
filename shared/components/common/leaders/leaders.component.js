@@ -5,8 +5,9 @@ import Panel from 'shared/lib/base_classes/panel';
 import { listLeaders, listLocations } from 'api/user.api';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './leaders.rt.html';
+import loader from './loader.rt.html';
 
-const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [0, '2.5 (avg)'], [3, '3'], [4, '4'], [5, '5+']];
+const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [0, 'Average'], [3, '3'], [4, '4'], [5, '5+']];
 
 class LeadersComponent extends Panel {
 
@@ -22,11 +23,12 @@ class LeadersComponent extends Panel {
       trigger_update: true,
       is_loading: true,
       all_loaded: false,
+      found: true,
       selected_location: {
         city: '',
         state: '',
       },
-      selected_household: 0,
+      selected_household: undefined,
       locations: [],
       show_locations_list: false,
       show_household_list: false,
@@ -38,18 +40,21 @@ class LeadersComponent extends Panel {
 
     if (leaders.props.ui.get('show_leaders_chart')) {
       leaders.retrieveLocations();
-      leaders.retrieveAndShow();
+      leaders.retrieveAndShow(0);
     }
   }
 
   componentWillUnmount() {
-    $(window).off('scroll', this.detectScroll());
     $(document).off('click.hideLocations');
     $(document).off('click.hideHouseholdList');
   }
 
   render() {
     return template.call(this);
+  }
+
+  get user_id() {
+    return this.props.auth.getIn(['data', 'user_id']);
   }
 
   get alert_exists() {
@@ -103,9 +108,24 @@ class LeadersComponent extends Panel {
     return this.state.locations;
   }
 
+  loadMoreLeaders(page) {
+    if (this.loadMore) {
+      this.retrieveAndShow(page * this.state.limit);
+    }
+  }
+  get loadMore() {
+    return !this.state.all_loaded;
+  }
+  get loader() {
+    return loader.call(this);
+  }
+
   displayLocation(location_object) {
     if (location_object.city) {
       return `${location_object.city}, ${location_object.state}`;
+    }
+    if (location_object.state) {
+      return `${location_object.state}`;
     }
     return '';
   }
@@ -114,12 +134,11 @@ class LeadersComponent extends Panel {
     return user.household_size === 0 ? '2.5' : user.household_size;
   }
 
-  retrieveAndShow() {
+  retrieveAndShow(offset) {
     const leaders = this;
-    leaders.props.resetAlerts();
-    leaders.retrieveLeaders().then(() => {
+    // leaders.props.resetAlerts();
+    leaders.retrieveLeaders(offset).then(() => {
       leaders.showRetrievedLeaders();
-      if (!leaders.total_count_reached) $(window).scroll(leaders.detectScroll());
     }).catch((err) => {
       if (err === 'total_count=0') {
         leaders.setState({
@@ -149,39 +168,24 @@ class LeadersComponent extends Panel {
     });
   }
 
-  detectScroll() {
-    const leaders = this;
-    $(window).scroll(() => {
-      const window_top = $(window).scrollTop();
-      const doc_height = $(document).height();
-      const window_height = $(window).height();
-      leaders.setState({
-        scrolled: (window_top / (doc_height - window_height)) * 100,
-      });
-      if (leaders.state.scrolled >= 75 && leaders.state.trigger_update &&
-        !leaders.total_count_reached && !leaders.state.all_loaded) {
-        leaders.setState({
-          offset: leaders.state.offset + 20,
-          is_loading: true,
-          trigger_update: false,
-        });
-
-        setTimeout(() => {
-          leaders.retrieveLeaders().then(() => {
-            leaders.showRetrievedLeaders();
-            leaders.setState({
-              trigger_update: true,
-            });
-          });
-        }, 1000);
-      }
-    });
+  retrieveProfile() {
+    const token = this.props.auth.getIn(['data', 'token']);
+    this.props.retrieveProfile({ user_id: this.user_id, token });
+  }
+  get profile() {
+    return this.props.profile.get('data');
+  }
+  get profile_total() {
+    if (this.profile) {
+      return JSON.parse(this.profile.get('total_footprint')).result_grand_total;
+    }
+    return 0;
   }
 
-  retrieveLeaders() {
+  retrieveLeaders(offset) {
     const leaders = this;
     return new Promise((resolve, reject) => {
-      listLeaders(leaders.state.limit, leaders.state.offset,
+      listLeaders(leaders.state.limit, offset,
         leaders.state.selected_location.state, leaders.state.selected_household).then((res) => {
           if (res.success) {
             if (res.data.list != null) {
@@ -190,8 +194,14 @@ class LeadersComponent extends Panel {
                 total_count: res.data.total_count,
               });
             } else {
+              const found = leaders.state.list.find(e => e.user_id === this.user_id);
+              if (!found) {
+                this.retrieveProfile();
+              }
               leaders.setState({
                 all_loaded: true,
+                cache: [],
+                found,
               });
             }
             if (res.data.total_count > 0) {
@@ -223,14 +233,6 @@ class LeadersComponent extends Panel {
     leaders.setState({
       show_household_list: true,
     });
-
-    $(document).on('click.hideHouseholdList', (event) => {
-      if (!$(event.target).closest('#leaders_household_list').length) {
-        leaders.setState({
-          show_household_list: false,
-        });
-      }
-    });
   }
 
   showLocationsList() {
@@ -238,17 +240,10 @@ class LeadersComponent extends Panel {
     leaders.setState({
       show_locations_list: true,
     });
-
-    $(document).on('click.hideLocations', (event) => {
-      if (!$(event.target).closest('#leaders_locations_list').length) {
-        leaders.setState({
-          show_locations_list: false,
-        });
-      }
-    });
   }
 
-  resetHousehold() {
+  resetHousehold(event) {
+    event.preventDefault();
     const leaders = this;
 
     leaders.setState({
@@ -268,11 +263,12 @@ class LeadersComponent extends Panel {
     }
 
     leaders.$household_unfilter = setTimeout(() => {
-      leaders.retrieveAndShow();
+      leaders.retrieveAndShow(0);
     }, 100);
   }
 
-  resetLocation() {
+  resetLocation(ev) {
+    ev.preventDefault();
     const leaders = this;
     const location = { city: '', state: '' };
 
@@ -293,11 +289,16 @@ class LeadersComponent extends Panel {
     }
 
     leaders.$location_unfilter = setTimeout(() => {
-      leaders.retrieveAndShow();
+      leaders.retrieveAndShow(0);
     }, 100);
   }
 
+  get infinteScrollKey() {
+    return `${this.state.selected_location.state},${this.state.selected_household}`;
+  }
+
   setLocationFilter(event) {
+    event.preventDefault();
     const leaders = this;
     const state = event.target.dataset.state;
     const location = { state };
@@ -319,11 +320,12 @@ class LeadersComponent extends Panel {
     }
 
     leaders.$location_filter = setTimeout(() => {
-      leaders.retrieveAndShow();
+      leaders.retrieveAndShow(0);
     }, 100);
   }
 
   setHouseholdFilter(event) {
+    event.preventDefault();
     const leaders = this;
     const size = event.target.dataset.size;
 

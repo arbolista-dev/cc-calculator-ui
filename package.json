@@ -84,6 +84,7 @@
     "react": "0.14.x",
     "react-dom": "0.14.x",
     "react-facebook-login": "3.4.x",
+    "react-infinite-scroller": "1.0.6",
     "react-redux": "^4.4.5",
     "react-templates": "0.4.3",
     "react-templates-loader": "0.4.x",
