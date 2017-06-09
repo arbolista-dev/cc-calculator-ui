@@ -5,6 +5,21 @@
         z-index: 9999 !important;
       }
     }
+    &.utility-provider {
+      .title,
+      .dropdown {
+        display: block;
+      }
+    }
+    .selected-percentage {
+      text-align: center;
+      div {
+        display: inline-block;
+      }
+      .label-container {
+        margin-left: 10px;
+      }
+    }
   }
 
   .mini-label {
@@ -14,4 +29,20 @@
     }
   }
 
+}
+
+@media (min-width: 500px) {
+  #home {
+    .cc-component__question {
+      &.utility-provider {
+        .title,
+        .dropdown {
+          display: inline-block;
+        }
+        .dropdown {
+          margin-left: 20px;
+        }
+      }
+    }  
+  }
 }

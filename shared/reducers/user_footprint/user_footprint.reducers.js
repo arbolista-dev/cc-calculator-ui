@@ -195,7 +195,6 @@ const ACTIONS = {
         const cleared = updated.get('actions').deleteIn(['pledged', params.key]);
         updated = updated.set('actions', cleared);
       }
-
     } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted' || params.status === 'relevant' || params.status === 'not_already_done') {
       actions = state.get('actions');
       updated = state;

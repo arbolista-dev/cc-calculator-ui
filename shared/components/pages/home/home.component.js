@@ -26,6 +26,7 @@ class HomeComponent extends Panel {
     const home = this;
     home.initializeWaterSlider();
     home.initializeCleanPercentSlider();
+    home.setDefaultUtilityProvider();
   }
 
   render() {
@@ -44,6 +45,14 @@ class HomeComponent extends Panel {
   get display_heatingoil_units() {
     if (this.unitsSet('heatingoil', 0)) return this.t('units.usd_per_year');
     return this.t('units.gallons_per_year');
+  }
+  get selected_utility_provider() {
+    const selected = this.utility_provider_options.filter(item =>
+       item.utility_id === this.state.utility_id);
+    return selected[0].company;
+  }
+  get utility_provider_set() {
+    return !!this.state.utility_id;
   }
 
   get api_key_base() {
@@ -70,6 +79,15 @@ class HomeComponent extends Panel {
     return RELEVANT_API_KEYS;
   }
 
+  get utility_provider_options() {
+    try {
+      return JSON.parse(this.userApiValue('result_utility_providers'));
+    } catch (e) {
+      // throw e;
+    }
+    return [];
+  }
+
   displayRoundedValues(value) {
     return Math.round(value);
   }
@@ -82,6 +100,20 @@ class HomeComponent extends Panel {
   defaultCategoryInput(key_end) {
     const home = this;
     return Math.round(parseInt(home.defaultApiValue(home.apiKey(key_end)), 10));
+  }
+
+  setDefaultUtilityProvider() {
+    if (this.utility_provider_options.length > 0) {
+      this.setUtiltyProvider(this.utility_provider_options[0].utility_id);
+    }
+  }
+
+  setUtiltyProvider(utility_id) {
+    const home = this;
+    const utility = home.utility_provider_options.filter(item => item.utility_id === utility_id);
+    const update = { input_footprint_housing_gco2_per_kwh: utility[0].weighted_emission_rate };
+    home.updateFootprintParams(update);
+    home.setState({ utility_id });
   }
 
   /*
