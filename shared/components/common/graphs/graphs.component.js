@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Panel from 'shared/lib/base_classes/panel';
-import OverlapBar from 'd3-object-charts/src/bar/overlap';
+import StackedBar from 'd3-object-charts/src/bar/stacked';
 import ComparativePie from 'd3-object-charts/src/pie/comparative';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './graphs.rt.html';
@@ -157,13 +157,6 @@ class GraphsComponent extends Panel {
     return CATEGORIES.map(category => footprint[category]);
   }
 
-  generateReductionData(footprint) {
-    const takeaction_categories = ['result_takeaction_transport_total', 'result_takeaction_housing_total',
-      'result_takeaction_shopping_food_total', 'result_takeaction_shopping_goods_total', 'result_takeaction_shopping_services_total'];
-    const reduced = takeaction_categories.map(category => footprint[category]);
-    return CATEGORIES.map((category, i) => (footprint[category] - reduced[i]));
-  }
-
   resize() {
     const graphs = this;
     graphs.bar_chart.redraw(graphs.graph_dimensions);
@@ -197,67 +190,204 @@ class GraphsComponent extends Panel {
     const graphs = this;
     const dimensions = graphs.graph_dimensions;
     document.getElementById('overview_bar_chart').innerHTML = '';
-    graphs.bar_chart = new OverlapBar({
+    graphs.bar_chart = new StackedBar({
       outer_height: dimensions.outer_height,
       outer_width: dimensions.outer_width,
       container: '#overview_bar_chart',
       y_ticks: 5,
       margin: { top: 4, bottom: 30, left: 40, right: 0 },
-      seriesClass: series => series.name.replace(/\s+/g, '-').toLowerCase(),
     });
     graphs.drawBarData();
   }
 
-  get composed_bar_series() {
-    const graphs = this;
-    if (graphs.is_takeaction_page) {
-      return [
-        {
-          name: graphs.t('graphs.your_footprint'),
-          values: graphs.generateData(graphs.user_footprint),
-        }, {
-          name: graphs.t('graphs.reduced_footprint'),
-          values: graphs.generateReductionData(graphs.user_footprint),
-        }, {
-          name: graphs.t('graphs.average_footprint'),
-          values: graphs.generateData(graphs.average_footprint),
-        },
-      ];
-    }
-    return [
-      {
-        name: graphs.t('graphs.your_footprint'),
-        values: graphs.generateData(graphs.user_footprint),
-      }, {
-        name: graphs.t('graphs.average_footprint'),
-        values: graphs.generateData(graphs.average_footprint),
-      },
-    ];
-  }
-
   drawBarData() {
     const graphs = this;
-    graphs.bar_chart.drawData({
-      categories: graphs.categories,
-      series: graphs.composed_bar_series,
-    });
-    graphs.initializeBarPopovers();
-  }
+    const footprint = graphs.user_footprint;
+    const reduced = graphs.is_takeaction_page;
 
-  initializeBarPopovers() {
-    const component = this;
-    window.jQuery('.your-footprint').popover({
-      placement: 'top',
-      html: true,
-      container: 'body',
-      trigger: 'hover',
-      content() {
-        const klasses = window.jQuery(this).attr('class').split(' ');
-        const category = klasses[klasses.length - 1];
-        return component.popoverContentForCategory(category);
-      },
-
-    });
+    if (Object.keys(footprint).length !== 0) {
+      const stacked = [
+        {
+          name: graphs.t('categories.result_transport_total'),
+          values: [
+            {
+              title: graphs.t('categories.transport.car_fuel'),
+              value: reduced ? (parseFloat(footprint.result_motor_vehicles_direct)
+                + parseFloat(footprint.result_motor_vehicles_indirect)) -
+                 parseFloat(footprint.result_takeaction_carfuel_reduction) :
+                  (parseFloat(footprint.result_motor_vehicles_direct)
+                   + parseFloat(footprint.result_motor_vehicles_indirect)),
+            },
+            {
+              title: graphs.t('categories.transport.car_mfg'),
+              value: reduced ? parseFloat(footprint.result_vehicle_manufact) -
+               parseFloat(footprint.result_takeaction_carmfg_reduction) :
+               parseFloat(footprint.result_vehicle_manufact),
+            },
+            {
+              title: graphs.t('categories.transport.public_transit'),
+              value: reduced ? (parseFloat(footprint.result_publictrans_direct) +
+                 parseFloat(footprint.result_publictrans_indirect)) -
+                  parseFloat(footprint.result_takeaction_pubtrans_reduction) :
+                   (parseFloat(footprint.result_publictrans_direct) +
+                     parseFloat(footprint.result_publictrans_indirect)),
+            },
+            {
+              title: graphs.t('categories.transport.air_travel'),
+              value: reduced ? (parseFloat(footprint.result_air_travel_direct) +
+                 parseFloat(footprint.result_air_travel_indirect)) -
+                  parseFloat(footprint.result_takeaction_airtravel_reduction) :
+                   (parseFloat(footprint.result_air_travel_direct) +
+                     parseFloat(footprint.result_air_travel_indirect)),
+            },
+            {
+              title: graphs.t('categories.reduction'),
+              value: reduced ? parseFloat(footprint.result_takeaction_carfuel_reduction) +
+               parseFloat(footprint.result_takeaction_carmfg_reduction) +
+                parseFloat(footprint.result_takeaction_pubtrans_reduction) +
+                 parseFloat(footprint.result_takeaction_airtravel_reduction) : 0,
+            },
+          ],
+        },
+        {
+          name: graphs.t('categories.result_housing_total'),
+          values: [
+            {
+              title: graphs.t('categories.housing.electricity'),
+              value: reduced ? (parseFloat(footprint.result_electricity_direct) +
+                 parseFloat(footprint.result_electricity_indirect)) -
+                  parseFloat(footprint.result_takeaction_electricity_reduction) :
+                  (parseFloat(footprint.result_electricity_direct) +
+                     parseFloat(footprint.result_electricity_indirect)),
+            },
+            {
+              title: graphs.t('categories.housing.natural_gas'),
+              value: reduced ? (parseFloat(footprint.result_natgas_direct) +
+                 parseFloat(footprint.result_natgas_indirect)) -
+                  parseFloat(footprint.result_takeaction_natgas_reduction) :
+                  (parseFloat(footprint.result_natgas_direct) +
+                     parseFloat(footprint.result_natgas_indirect)),
+            },
+            {
+              title: graphs.t('categories.housing.other_fuels'),
+              value: reduced ? (parseFloat(footprint.result_heatingoil_direct) +
+                 parseFloat(footprint.result_heatingoil_indirect)) -
+                  parseFloat(footprint.result_takeaction_otherfuels_reduction) :
+                  (parseFloat(footprint.result_heatingoil_direct) +
+                     parseFloat(footprint.result_heatingoil_indirect)),
+            },
+            {
+              title: graphs.t('categories.housing.water'),
+              value: reduced ? parseFloat(footprint.result_watersewage) -
+               footprint.result_takeaction_watersewage_reduction :
+                parseFloat(footprint.result_watersewage),
+            },
+            {
+              title: graphs.t('categories.housing.construction'),
+              value: reduced ? parseFloat(footprint.result_shelter) -
+               parseFloat(footprint.result_takeaction_construction_reduction) :
+               parseFloat(footprint.result_shelter),
+            },
+            {
+              title: graphs.t('categories.reduction'),
+              value: reduced ? parseFloat(footprint.result_takeaction_electricity_reduction) +
+               parseFloat(footprint.result_takeaction_natgas_reduction) +
+                parseFloat(footprint.result_takeaction_otherfuels_reduction) +
+                 parseFloat(footprint.result_takeaction_watersewage_reduction) +
+                 parseFloat(footprint.result_takeaction_construction_reduction) : 0,
+            },
+          ],
+        },
+        {
+          name: graphs.t('categories.result_food_total'),
+          values: [
+            {
+              title: graphs.t('categories.food.meat'),
+              value: reduced ? parseFloat(footprint.result_food_meat) -
+               parseFloat(footprint.result_takeaction_meat_reduction) :
+                parseFloat(footprint.result_food_meat),
+            },
+            {
+              title: graphs.t('categories.food.dairy'),
+              value: reduced ? parseFloat(footprint.result_food_dairy) -
+               parseFloat(footprint.result_takeaction_dairy_reduction) :
+               parseFloat(footprint.result_food_dairy),
+            },
+            {
+              title: graphs.t('categories.food.fruitsveggies'),
+              value: reduced ? parseFloat(footprint.result_food_fruitsveg) -
+               parseFloat(footprint.result_takeaction_fruitsveg_reduction) :
+               parseFloat(footprint.result_food_fruitsveg),
+            },
+            {
+              title: graphs.t('categories.food.cereals'),
+              value: reduced ? parseFloat(footprint.result_food_cereals) -
+               parseFloat(footprint.result_takeaction_cereals_reduction) :
+               parseFloat(footprint.result_food_cereals),
+            },
+            {
+              title: graphs.t('categories.food.other'),
+              value: reduced ? parseFloat(footprint.result_food_other) -
+               parseFloat(footprint.result_takeaction_foodother_reduction) :
+               parseFloat(footprint.result_food_other),
+            },
+            {
+              title: graphs.t('categories.reduction'),
+              value: reduced ? parseFloat(footprint.result_takeaction_meat_reduction) +
+               parseFloat(footprint.result_takeaction_dairy_reduction) +
+                parseFloat(footprint.result_takeaction_fruitsveg_reduction) +
+                 parseFloat(footprint.result_takeaction_cereals_reduction) +
+                  parseFloat(footprint.result_takeaction_foodother_reduction) : 0,
+            },
+          ],
+        },
+        {
+          name: graphs.t('categories.result_goods_total'),
+          values: [
+            {
+              title: graphs.t('categories.goods.clothing'),
+              value: reduced ? parseFloat(footprint.result_goods_clothing) -
+               parseFloat(footprint.result_takeaction_clothing_reduction) :
+               parseFloat(footprint.result_goods_clothing),
+            },
+            {
+              title: graphs.t('categories.goods.furniture'),
+              value: reduced ? parseFloat(footprint.result_goods_furniture) -
+               parseFloat(footprint.result_takeaction_furniture_reduction) :
+               parseFloat(footprint.result_goods_furniture),
+            },
+            {
+              title: graphs.t('categories.goods.other'),
+              value: reduced ? parseFloat(footprint.result_goods_other) -
+               parseFloat(footprint.result_takeaction_goodsother_reduction) :
+               parseFloat(footprint.result_goods_other),
+            },
+            {
+              title: graphs.t('categories.reduction'),
+              value: reduced ? parseFloat(footprint.result_takeaction_clothing_reduction) +
+               parseFloat(footprint.result_takeaction_furniture_reduction) +
+                parseFloat(footprint.result_takeaction_goodsother_reduction) : 0,
+            },
+          ],
+        },
+        {
+          name: graphs.t('categories.result_services_total'),
+          values: [
+            {
+              title: graphs.t('categories.all_services'),
+              value: reduced ? parseFloat(footprint.result_services_all) -
+               parseFloat(footprint.result_takeaction_servicesall_reduction) :
+                parseFloat(footprint.result_services_all),
+            },
+            {
+              title: graphs.t('categories.reduction'),
+              value: reduced ? parseFloat(footprint.result_takeaction_servicesall_reduction) : 0,
+            },
+          ],
+        },
+      ];
+      graphs.bar_chart.drawData(stacked);
+    }
   }
 
   /*
