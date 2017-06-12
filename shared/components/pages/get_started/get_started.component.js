@@ -212,7 +212,7 @@ class GetStartedComponent extends Panel {
     const get_started = this;
     const new_location = {
       input_location_mode: get_started.display_location_mode,
-      input_location: event.target.value,
+      input_location: get_started.display_location_mode === 1 ? event.target.value : event.target.value.replace(/,/g, ' '),
     };
 
     get_started.setState({
@@ -227,7 +227,13 @@ class GetStartedComponent extends Panel {
     // debounce location suggestions by 500ms.
     get_started.$set_location_suggestions = setTimeout(() => {
       CalculatorApi.getAutoComplete(new_location)
-        .then((locations) => {
+        .then((l) => {
+          const locations = l;
+          if (new_location.input_location_mode === 2) {
+            locations.suggestions.forEach((s, i) => {
+              locations.suggestions[i] = s.replace(/,.*,/, ',');
+            });
+          }
           get_started.setState({
             locations,
             show_location_suggestions: true,
