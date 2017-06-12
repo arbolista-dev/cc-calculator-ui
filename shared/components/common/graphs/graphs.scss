@@ -138,8 +138,12 @@
 
 .d3-value-arc {
   text {
-    fill: black;
+    fill: #333;
     cursor:pointer;
+    &:hover {
+      fill: #555;
+      text-decoration: underline;
+    }
   }
   path {
     stroke: white;
