@@ -35,7 +35,7 @@ const ACTIONS = {
 
     if (!api_data.failed) {
       const updated = state.set('data', state.get('data').merge(api_data))
-                         .set('reset', false);
+                           .set('reset', false);
 
       return loop(
         updated,

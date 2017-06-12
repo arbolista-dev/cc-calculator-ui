@@ -8,7 +8,7 @@ import { setLocation } from 'api/user.api';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './get_started.rt.html';
 
-const DEFAULT_LOCATION = { input_location_mode: 5, input_income: 1, input_size: 0 };
+const DEFAULT_LOCATION = { input_location_mode: 5, input_income: 1, input_size: 3 };
 
 class GetStartedComponent extends Panel {
 
@@ -186,7 +186,7 @@ class GetStartedComponent extends Panel {
       input_location_mode = 1;
     }
 
-    get_started.updateDefaults({ input_location: zipcode, input_location_mode });
+    get_started.updateDefaults({ input_location: zipcode, input_location_mode, input_size: 3 });
 
 
     if (get_started.user_authenticated) {
@@ -273,10 +273,9 @@ class GetStartedComponent extends Panel {
       outer_width: get_started.slider_width,
       handle_r: 14,
       tick_labels: {
-        0: get_started.t('get_started.average_household_size'),
         1: '1',
         2: '2',
-        3: '3',
+        3: get_started.t('get_started.average_household_size'),
         4: '4',
         5: '5+',
       },
@@ -289,7 +288,7 @@ class GetStartedComponent extends Panel {
     });
 
     get_started.size_slider.drawData({
-      abs_min: 0,
+      abs_min: 1,
       abs_max: 5,
       current_value: get_started.input_size,
     });
