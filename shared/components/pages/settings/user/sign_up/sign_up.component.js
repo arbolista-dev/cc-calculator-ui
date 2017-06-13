@@ -30,8 +30,8 @@ class SignUpComponent extends Panel {
       answers: '',
       city: '',
       location: {
-        state:'',
-        country:''
+        state: '',
+        country: '',
       },
       public: true,
     };

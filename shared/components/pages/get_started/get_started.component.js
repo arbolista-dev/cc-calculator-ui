@@ -4,7 +4,6 @@ import React from 'react';
 import Panel from 'shared/lib/base_classes/panel';
 import SnapSlider from 'd3-object-charts/src/slider/snap_slider';
 import CalculatorApi from 'api/calculator.api';
-import { setLocation } from 'api/user.api';
 import footprintContainer, { footprintPropTypes } from 'shared/containers/footprint.container';
 import template from './get_started.rt.html';
 
@@ -19,7 +18,7 @@ class GetStartedComponent extends Panel {
     get_started.state = {
       locations: {},
       input_location_zipcode: get_started.userApiValue('input_location'),
-      input_location:'',
+      input_location: '',
       input_location_mode: parseInt(get_started.input_location_mode, 10),
       input_location_changed: false,
       input_location_edited: false,
@@ -70,24 +69,23 @@ class GetStartedComponent extends Panel {
 
   get input_location_display() {
     const get_started = this;
-    const display_location = get_started.props.ui.get('display_location');
-
     if (get_started.country_mode) {
       return get_started.t('get_started.United States');
-    } else if(get_started.state.input_location || get_started.state.input_location_edited){
-      return get_started.state.input_location ;
-    } 
-    switch(get_started.state.input_location_mode){
+    } else if (get_started.state.input_location || get_started.state.input_location_edited) {
+      return get_started.state.input_location;
+    }
+    switch (get_started.state.input_location_mode) {
       case 1:
         return get_started.state.input_location_zipcode;
       case 2:
-        return get_started.props.profile.getIn(["data","city"])
+        return get_started.props.profile.getIn(['data', 'city']);
       case 3:
-        return get_started.props.profile.getIn(["data","county"])
+        return get_started.props.profile.getIn(['data', 'county']);
       case 4:
-        return get_started.props.profile.getIn(["data","state"])
-    } 
-    return "";
+        return get_started.props.profile.getIn(['data', 'state']);
+      default:
+        return '';
+    }
   }
 
   get default_location() {
@@ -183,11 +181,11 @@ class GetStartedComponent extends Panel {
     const get_started = this;
     const zipcode = event.target.dataset.zipcode;
     const suggestion = event.target.dataset.suggestion;
-            
+
     const index = get_started.state.locations.data.findIndex(l => l === zipcode);
     const location_data = get_started.state.locations.selected_location[index];
-    let input_location="";
-    switch(get_started.state.input_location_mode){
+    let input_location;
+    switch (get_started.state.input_location_mode) {
       case 1:
         input_location = zipcode;
         break;
@@ -200,6 +198,8 @@ class GetStartedComponent extends Panel {
       case 4:
         input_location = location_data.state;
         break;
+      default:
+        input_location = '';
     }
     get_started.setState({
       display_location: suggestion,
@@ -223,14 +223,13 @@ class GetStartedComponent extends Panel {
       input_location_mode = 1;
     }
 
-    get_started.updateDefaults({ 
-      input_location:zipcode,
-      input_location_mode, 
-      input_size: 3 
+    get_started.updateDefaults({
+      input_location: zipcode,
+      input_location_mode,
+      input_size: 3,
     });
 
     if (get_started.user_authenticated) {
-    
       get_started.setUserLocation(location_data);
     }
   }
@@ -241,9 +240,9 @@ class GetStartedComponent extends Panel {
     const user_location = location;
 
     user_location.country = 'us';
-    get_started.props.setLocation({userLocation:user_location, token, user_id:this.user_id} );
+    get_started.props.setLocation({ userLocation: user_location, token, user_id: this.user_id });
     get_started.setState({
-      input_location_edited:false
+      input_location_edited: false,
     });
   }
 
@@ -259,7 +258,7 @@ class GetStartedComponent extends Panel {
     get_started.setState({
       input_location: event.target.value,
       show_location_suggestions: true,
-      input_location_edited:true
+      input_location_edited: true,
     });
 
     if (get_started.$set_location_suggestions) {

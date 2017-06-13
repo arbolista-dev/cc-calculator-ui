@@ -15,28 +15,27 @@ import { pushAlert } from '../ui/ui.actions';
 */
 
 const ACTIONS = {
-  [setLocation]: (state,payload) => loop(
+  [setLocation]: (state, payload) => loop(
       state,
       Effects.promise(() => UserAPI.setLocation(payload.userLocation, payload.token)
-        .then(()=>  UserAPI.showProfile(payload.user_id, payload.token))
+        .then(() => UserAPI.showProfile(payload.user_id, payload.token))
         .then(profileRetrieved)
-        .catch(apiError)
-      )
-    )
-  ,
+        .catch(apiError),
+      ),
+    ),
   [retrieveProfile]: (current_profile, payload) => loop(
-    current_profile.set("loading",true),
+    current_profile.set('loading', true),
     Effects.promise(() => UserAPI.showProfile(payload.user_id, payload.token)
       .then(profileRetrieved)
-      .catch(apiError)
-    )
+      .catch(apiError),
+    ),
   ),
 
   [profileRetrieved]: (state, api_data) => {
     if (api_data.success) {
       const data = state.set('data', fromJS(api_data.data))
                         .set('loading', false);
-      return loop(data,Effects.none());
+      return loop(data, Effects.none());
     }
     const err = JSON.parse(api_data.error);
     const alert = {
@@ -49,8 +48,8 @@ const ACTIONS = {
     };
 
     return loop(
-      state.set ("load_error", true)
-           .set("loading", false ),
+      state.set('load_error', true)
+           .set('loading', false),
       Effects.constant(pushAlert(alert)),
     );
   },
@@ -63,6 +62,6 @@ const ACTIONS = {
 
 };
 
-const REDUCER = createReducer(ACTIONS, fromJS({load_error:false,loading:false,data:{}}));
+const REDUCER = createReducer(ACTIONS, fromJS({ load_error: false, loading: false, data: {} }));
 
 export default REDUCER;

@@ -5,7 +5,7 @@ import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average
 import { ensureFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateActionStatus } from 'shared/reducers/user_footprint/user_footprint.actions';
 import { updateUI, pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
 import { sendEmailConfirmation } from 'shared/reducers/auth/auth.actions';
-import { retrieveProfile, setLocation} from 'shared/reducers/profile/profile.actions';
+import { retrieveProfile, setLocation } from 'shared/reducers/profile/profile.actions';
 
 
 const mapStateToProps = state => ({
@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setLocation:(payload) => {
+  setLocation: (payload) => {
     setLocation.assignTo(dispatch);
     setLocation(payload);
   },
