@@ -72,6 +72,24 @@
                   onClick="{this.setLocation.bind(this)}">{suggestion}</div>
               </div>
             </div>
+             <div className="form-group">
+                <label for="inputState" className="control-label">
+                  {this.t('sign_up.state')}
+                </label>
+                <input type="text" className="form-control" id="inputState"
+                value="{this.state.location.state}"
+                readonly={true}
+                placeholder="{this.t('sign_up.state')}"/>
+            </div>
+            <div className="form-group">
+                <label for="inputCountry" className="control-label">
+                  {this.t('sign_up.county')}
+                </label>
+                <input type="text" className="form-control" id="inputCounty"
+                value="{this.state.location.county}"
+                readonly={true}
+                placeholder="{this.t('sign_up.county')}"/>
+            </div>
             <div className="checkbox">
               <label>
                 <input type="checkbox"

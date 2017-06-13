@@ -29,7 +29,10 @@ class SignUpComponent extends Panel {
       password: '',
       answers: '',
       city: '',
-      location: {},
+      location: {
+        state:'',
+        country:''
+      },
       public: true,
     };
   }
@@ -47,7 +50,7 @@ class SignUpComponent extends Panel {
   }
 
   get input_location_display() {
-    return this.state.input_location;
+    return this.state.location.city;
   }
 
   paramValid(param) {

@@ -2,8 +2,8 @@ import { fromJS } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
-import { showProfile } from 'api/user.api';
-import { retrieveProfile, profileRetrieved, apiError } from './profile.actions';
+import * as UserAPI from 'api/user.api';
+import { retrieveProfile, profileRetrieved, apiError, setLocation } from './profile.actions';
 import { pushAlert } from '../ui/ui.actions';
 
 /*
@@ -15,20 +15,28 @@ import { pushAlert } from '../ui/ui.actions';
 */
 
 const ACTIONS = {
-
+  [setLocation]: (state,payload) => loop(
+      state,
+      Effects.promise(() => UserAPI.setLocation(payload.userLocation, payload.token)
+        .then(()=>  UserAPI.showProfile(payload.user_id, payload.token))
+        .then(profileRetrieved)
+        .catch(apiError)
+      )
+    )
+  ,
   [retrieveProfile]: (current_profile, payload) => loop(
-    fromJS({ loading: true }),
-    Effects.promise(() => showProfile(payload.user_id, payload.token)
+    current_profile.set("loading",true),
+    Effects.promise(() => UserAPI.showProfile(payload.user_id, payload.token)
       .then(profileRetrieved)
-      .catch(apiError),
-    ),
+      .catch(apiError)
+    )
   ),
 
   [profileRetrieved]: (state, api_data) => {
     if (api_data.success) {
       const data = state.set('data', fromJS(api_data.data))
                         .set('loading', false);
-      return fromJS(data);
+      return loop(data,Effects.none());
     }
     const err = JSON.parse(api_data.error);
     const alert = {
@@ -41,7 +49,8 @@ const ACTIONS = {
     };
 
     return loop(
-      fromJS({ load_error: true, loading: false }),
+      state.set ("load_error", true)
+           .set("loading", false ),
       Effects.constant(pushAlert(alert)),
     );
   },
@@ -54,6 +63,6 @@ const ACTIONS = {
 
 };
 
-const REDUCER = createReducer(ACTIONS, {});
+const REDUCER = createReducer(ACTIONS, fromJS({load_error:false,loading:false,data:{}}));
 
 export default REDUCER;
