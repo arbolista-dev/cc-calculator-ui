@@ -71,7 +71,7 @@ export default class StateManager {
     const ui_state = {
       external_offset: {},
       alerts: {
-        sign_up: [],
+        signup: [],
         login: [],
         forgot_password: [],
         leaders: [],

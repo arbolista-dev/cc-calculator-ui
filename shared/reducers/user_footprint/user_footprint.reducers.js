@@ -3,7 +3,6 @@ import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
 import CalculatorApi from 'api/calculator.api';
-import { updateAnswers, updateUserGoals } from 'api/user.api';
 import { updateCalculatorGoal, updateCalculatorAnswers } from 'api/competition.api';
 import { setLocalStorageItem, getLocalStorageItem, tokenIsValid } from 'shared/lib/utils/utils';
 import { ensureFootprintComputed, footprintRetrieved, userFootprintError, parseFootprintResult, parseTakeactionResult, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateRemoteUserAnswers, updateActionStatus, updateRemoteUserActions } from './user_footprint.actions';
@@ -164,18 +163,12 @@ const ACTIONS = {
     ),
 
   [updateRemoteUserAnswers]: (state) => {
-    // const auth_status = getLocalStorageItem('auth');
+    let auth = getLocalStorageItem('auth');
+    if (getLocalStorageItem('competition_auth')) auth = getLocalStorageItem('competition_auth');
 
-    // if ({}.hasOwnProperty.call(auth_status, 'token')) {
-    //   if (tokenIsValid(auth_status.token)) {
-    //     updateAnswers(state.get('data').toJS(), auth_status.token);
-    //   }
-    // }
-
-    const competition_auth_status = getLocalStorageItem('competition_auth');
-    if ({}.hasOwnProperty.call(competition_auth_status, 'token')) {
-      if (tokenIsValid(competition_auth_status.token)) {
-        updateCalculatorAnswers(state.get('data').toJS(), competition_auth_status.token);
+    if ({}.hasOwnProperty.call(auth, 'token')) {
+      if (tokenIsValid(auth.token)) {
+        updateCalculatorAnswers(state.get('data').toJS(), auth.token);
       }
     }
     return fromJS(state);
@@ -243,17 +236,11 @@ const ACTIONS = {
   },
 
   [updateRemoteUserActions]: (state, updated_action) => {
-    const auth_status = getLocalStorageItem('auth');
+    let auth = getLocalStorageItem('auth');
+    if (getLocalStorageItem('competition_auth')) auth = getLocalStorageItem('competition_auth');
 
-    if ({}.hasOwnProperty.call(auth_status, 'token')) {
-      if (tokenIsValid(auth_status.token)) {
-        updateUserGoals(updated_action, auth_status.token);
-      }
-    }
-
-    const competition_auth_status = getLocalStorageItem('competition_auth');
-    if ({}.hasOwnProperty.call(competition_auth_status, 'token')) {
-      if (tokenIsValid(competition_auth_status.token)) {
+    if ({}.hasOwnProperty.call(auth, 'token')) {
+      if (tokenIsValid(auth.token)) {
         let status;
         if (updated_action.status === 'pledged' || updated_action.status === 'completed' || updated_action.status === 'not_relevant' || updated_action.status === 'already_done') {
           status = updated_action.status;
@@ -261,7 +248,7 @@ const ACTIONS = {
           status = '';
         }
         let body = {
-          calculator_key: updated_action.key,
+          calculatorKey: updated_action.key,
           status,
         };
 
@@ -274,7 +261,7 @@ const ACTIONS = {
           body = Object.assign(body, { savings });
         }
 
-        updateCalculatorGoal(body, competition_auth_status.token);
+        updateCalculatorGoal(body, auth.token);
       }
     }
     return fromJS(state);

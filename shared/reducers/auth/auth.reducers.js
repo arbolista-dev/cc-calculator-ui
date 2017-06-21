@@ -4,12 +4,12 @@ import { fromJS } from 'immutable';
 import { loop, Effects } from 'redux-loop';
 import { createReducer } from 'redux-act';
 
-import { addUser, loginUser, loginUserFacebook, logoutUser, forgotPassword, needActivate, sendConfirmation, changePassword } from 'api/user.api';
+import { addUser, loginUser, loginUserFacebook, logoutUser, forgotPassword, changePassword } from 'api/competition.api';
 import { setLocalStorageItem, getLocalStorageItem, tokenIsValid } from 'shared/lib/utils/utils';
 import { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut,
   requestNewPassword, newPasswordRequested, authError, processActivation, verifyActivation,
   activationError, sendEmailConfirmation, resetPassword, resetPasswordSuccess, resetPasswordError, storeCompetitionSession } from './auth.actions';
-import { updatedFootprintComputed } from '../user_footprint/user_footprint.actions';
+import { updatedFootprintComputed, updateRemoteUserAnswers } from '../user_footprint/user_footprint.actions';
 import { averageFootprintResetRequested } from '../average_footprint/average_footprint.actions';
 import { pushAlert } from '../ui/ui.actions';
 
@@ -56,129 +56,64 @@ const ACTIONS = {
     ),
 
   [loggedIn]: (state, api_response) => {
-    if (api_response.success) {
-      const auth = {
-        token: api_response.data.token,
-        name: api_response.data.name,
-        user_id: api_response.data.user_id,
-      };
-      const remote_answers = JSON.parse(api_response.data.answers);
+    console.log('loggedIn res', api_response);
+    const auth = {
+      token: api_response.token,
+      user_id: api_response.userId,
+    };
 
-      setLocalStorageItem('auth', auth);
+    setLocalStorageItem('auth', auth);
 
-      const updated = state.setIn(['data', 'token'], auth.token)
-                         .setIn(['data', 'name'], auth.name)
-                         .setIn(['data', 'user_id'], auth.user_id)
-                         .set('loading', false)
-                         .set('received', true)
-                         .set('success', true);
+    const updated = state.setIn(['data', 'token'], auth.token)
+                       .setIn(['data', 'user_id'], auth.user_id)
+                       .set('loading', false)
+                       .set('received', true)
+                       .set('success', true);
 
-      const alert = {
-        id: 'shared',
-        data: [{
-          needs_i18n: true,
-          type: 'success',
-          message: 'success.login',
-        }],
-      };
+    const alert = {
+      id: 'shared',
+      data: [{
+        needs_i18n: true,
+        type: 'success',
+        message: 'success.login',
+      }],
+    };
 
-      if (Object.keys(remote_answers).length !== 0) {
-        return loop(
-          fromJS(updated),
-          Effects.batch([
-            Effects.constant(pushAlert(alert)),
-            Effects.constant(updatedFootprintComputed(remote_answers)),
-            // Effects.constant(verifyActivation()),
-          ]),
-        );
-      }
+    if ({}.hasOwnProperty.call(api_response, 'calculatorAnswers') && Object.keys(api_response.calculatorAnswers).length > 0) {
+      const remote_answers = JSON.parse(api_response.calculatorAnswers);
       return loop(
         fromJS(updated),
         Effects.batch([
           Effects.constant(pushAlert(alert)),
+          Effects.constant(updatedFootprintComputed(remote_answers)),
           // Effects.constant(verifyActivation()),
         ]),
       );
     }
+    return loop(
+      fromJS(updated),
+      Effects.batch([
+        Effects.constant(pushAlert(alert)),
+        Effects.constant(updateRemoteUserAnswers()),
+      ]),
+    );
+  },
 
-    const err = JSON.parse(api_response.error);
-
-    const updated = state.set('loading', false)
-                       .set('received', true)
-                       .set('success', false);
-
+  [signedUp]: (state) => {
     const alert = {
-      id: 'login',
+      id: 'shared',
       data: [{
         needs_i18n: true,
-        type: 'danger',
-        message: `errors.${Object.keys(err)[0]}.${Object.values(err)[0]}`,
+        type: 'success',
+        message: 'success.sign_up',
       }],
     };
 
     return loop(
-      fromJS(updated),
-      Effects.constant(pushAlert(alert)),
-    );
-  },
-
-  [signedUp]: (state, api_response) => {
-    let updated;
-    let alert;
-
-    if (api_response.success) {
-      const auth = {
-        token: api_response.data.token,
-        name: api_response.data.name,
-        user_id: api_response.data.user_id,
-      };
-
-      setLocalStorageItem('auth', auth);
-
-      updated = state.setIn(['data', 'token'], auth.token)
-                     .setIn(['data', 'name'], auth.name)
-                     .setIn(['data', 'user_id'], auth.user_id)
-                     .set('loading', false)
-                     .set('received', true)
-                     .set('success', true);
-
-      alert = {
-        id: 'shared',
-        data: [{
-          needs_i18n: true,
-          type: 'success',
-          message: 'success.sign_up',
-        }],
-      };
-    } else {
-      let err;
-      alert = {
-        id: 'sign_up',
-        data: [],
-      };
-
-      try {
-        err = JSON.parse(api_response.error);
-        alert.data.push({
-          needs_i18n: true,
-          type: 'danger',
-          message: `errors.${Object.keys(err)[0]}.${Object.values(err)[0]}`,
-        });
-      } catch (error) {
-        alert.data.push({
-          needs_i18n: true,
-          type: 'danger',
-          message: 'errors.email.non-unique',
-        });
-      }
-
-      updated = state.set('loading', false)
-                     .set('received', true)
-                     .set('success', false);
-    }
-
-    return loop(
-     fromJS(updated),
+     state.set('loading', false)
+          .set('received', true)
+          .set('success', true)
+          .set('signed_up', true),
      Effects.constant(pushAlert(alert)),
     );
   },
@@ -194,7 +129,6 @@ const ACTIONS = {
     if (api_response.success) {
       localStorage.removeItem('auth');
       const updated = state.deleteIn(['data', 'token'])
-                           .deleteIn(['data', 'name'])
                            .deleteIn(['data', 'user_id'])
                            .set('loading', false)
                            .delete('received')
@@ -254,7 +188,37 @@ const ACTIONS = {
     );
   },
 
-  [authError]: state => state.set('success', false),
+  [authError]: (state, api_response) => {
+    console.log('authError res', api_response);
+
+    let errorCode;
+    const ok = api_response.body !== null;
+
+    if (api_response.body) {
+      if (api_response.body.code) {
+        errorCode = api_response.body.code;
+      } else errorCode = `${api_response.op}Failed.fail`;
+    } else if (api_response.status === 404) errorCode = `${api_response.op}Failed.non-existent`;
+    else errorCode = `${api_response.op}Failed.fail`;
+
+    const alert = {
+      id: api_response.op,
+      data: [{
+        needs_i18n: true,
+        type: 'danger',
+        message: `errors.${errorCode}`,
+      }],
+    };
+
+    if (ok && api_response.body.field) alert.data[0].message = `${alert.data[0].message}.${api_response.body.field}`;
+
+    return loop(
+      state.set('loading', false)
+           .set('received', true)
+           .set('success', false),
+      Effects.constant(pushAlert(alert)),
+    );
+  },
 
   [sendEmailConfirmation]: (state) => {
     const auth_status = getLocalStorageItem('auth');
