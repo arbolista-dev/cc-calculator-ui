@@ -166,9 +166,7 @@ const ACTIONS = {
           .catch(authError)),
     ),
 
-  [newPasswordRequested]: (state, api_response) => {
-    const updated = state.set('loading', false)
-                       .set('received', true);
+  [newPasswordRequested]: (state) => {
     const alert = {
       id: 'forgot_password',
       data: [{
@@ -186,7 +184,6 @@ const ACTIONS = {
   },
 
   [authError]: (state, api_response) => {
-
     let errorCode;
     const ok = api_response.body !== null;
 

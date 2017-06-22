@@ -60,9 +60,10 @@ function forgotPassword(body) {
   return new Promise((fnResolve, fnReject) => {
     superagent.post(`${BASE}/users/reset/req`)
       .set('Content-Type', 'application/json')
+      .set('X-Client-Type', 'calculator')
       .send(body)
       .end((err, res) => {
-        if (err || !res.ok) fnReject({ status: res.status, body: res.body });
+        if (err || !res.ok) fnReject({ status: res.status, body: res.body, op: 'forgot_password' });
         fnResolve(res.body);
       });
   });

@@ -4810,6 +4810,10 @@
             "password": "Wrong password entered. Please try again.",
             "non-existent": "User with this email address not registered. Please sign up."
         },
+        "forgot_passwordFailed": {
+            "fail": "Failed to request password reset link. Please try again.",
+            "non-existent": "User with this email address not registered. Please try again or sign up."
+        },
         "session": {
             "expired": "Please log in again. Your login session has expired.",
             "non-existent": "Please log in again."
