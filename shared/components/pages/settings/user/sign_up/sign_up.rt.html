@@ -88,6 +88,9 @@
                 checked="{this.state.termsAccepted}"/> {this.t('sign_up.terms')}
               </label>
             </div>
+            <div className="read-terms">
+              <a href="http://coolclimate.berkeley.edu/files2/CoolClimate-terms-of-use.pdf" target="_blank">{this.t('sign_up.read_terms')}</a>
+            </div>
             <div className="cc-component__auth-submit">
                 <button className="btn btn-default"
                 onClick="{this.submitSignup.bind(this)}">

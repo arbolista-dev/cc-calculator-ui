@@ -10,7 +10,9 @@
         "input_location": "City",
         "public": "Yes, make my profile page public.",
         "terms": "Yes, I accept the terms of use.",
+        "read_terms": "Read terms of use",
         "termsAccepted": "You need to accept the terms of use to sign up.",
+        "termsNotAccepted": "You haven't accepted the terms of use. Please click the following link to accept them.",
         "enter_location": "Enter your location",
         "submit": "Sign up"
     },
@@ -4839,6 +4841,7 @@
         "login": "You're now logged in!",
         "forgot_password": "Please check your emails and reset your password.",
         "logout": "You've been logged out!",
-        "answers_reset": "Your answers got reset!"
+        "answers_reset": "Your answers got reset!",
+        "termsAcceptedNow": "You have accepted the terms of use."
     }
 }

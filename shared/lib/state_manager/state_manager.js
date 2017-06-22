@@ -77,6 +77,7 @@ export default class StateManager {
         leaders: [],
         shared: [],
         activation: [],
+        acceptTerms: [],
       },
       take_action: {
         category_filter: 'all',
