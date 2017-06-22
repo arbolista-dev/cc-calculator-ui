@@ -22,7 +22,26 @@ const acceptTerms = createAction('Accept Terms of Use.');
 const acceptTermsSuccess = createAction('Successfully accepted Terms of Use.');
 const acceptTermsError = createAction('Error accepting Terms of Use.');
 
-export { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut,
-  requestNewPassword, newPasswordRequested, authError, processActivation,
-  verifyActivation, activationError, sendEmailConfirmation,
-  resetPassword, resetPasswordSuccess, resetPasswordError, storeCompetitionSession, acceptTerms, acceptTermsSuccess, acceptTermsError };
+export {
+  signup,
+  login,
+  loginFacebook,
+  loggedIn,
+  signedUp,
+  logout,
+  loggedOut,
+  requestNewPassword,
+  newPasswordRequested,
+  authError,
+  processActivation,
+  verifyActivation,
+  activationError,
+  sendEmailConfirmation,
+  resetPassword,
+  resetPasswordSuccess,
+  resetPasswordError,
+  storeCompetitionSession,
+  acceptTerms,
+  acceptTermsSuccess,
+  acceptTermsError,
+};

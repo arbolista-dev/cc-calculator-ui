@@ -5,6 +5,7 @@ import { ensureDefaults, averageFootprintUpdated } from 'shared/reducers/average
 import { ensureFootprintComputed, userFootprintUpdated, userFootprintReset, updatedFootprintComputed, updateTakeactionResult, updateActionStatus } from 'shared/reducers/user_footprint/user_footprint.actions';
 import { updateUI, pushAlert, resetAlerts } from 'shared/reducers/ui/ui.actions';
 import { sendEmailConfirmation, storeCompetitionSession, acceptTerms } from 'shared/reducers/auth/auth.actions';
+import { retrieveProfile } from 'shared/reducers/profile/profile.actions';
 
 const mapStateToProps = state => ({
   location: state.location,

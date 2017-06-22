@@ -11,7 +11,7 @@ import { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut,
   activationError, sendEmailConfirmation, resetPassword, resetPasswordSuccess, resetPasswordError, storeCompetitionSession, acceptTerms, acceptTermsSuccess, acceptTermsError } from './auth.actions';
 import { updatedFootprintComputed, updateRemoteUserAnswers } from '../user_footprint/user_footprint.actions';
 import { averageFootprintResetRequested } from '../average_footprint/average_footprint.actions';
-import { pushAlert, resetAlerts } from '../ui/ui.actions';
+import { pushAlert } from '../ui/ui.actions';
 
 /* {
     auth: {
@@ -134,7 +134,7 @@ const ACTIONS = {
         .catch(authError)),
   ),
 
-  [loggedOut]: (state, api_response) => {
+  [loggedOut]: (state) => {
     localStorage.removeItem('auth');
     const updated = state.deleteIn(['data', 'token'])
                          .deleteIn(['data', 'user_id'])

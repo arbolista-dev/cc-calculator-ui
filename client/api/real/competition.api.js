@@ -1,9 +1,9 @@
 /* eslint-env browser*/
-/* global Promise */
+/* global Promise API_BASE_URL*/
 
 import superagent from 'superagent';
 
-const BASE = COMPETITION_BASE_URL;
+const BASE = API_BASE_URL;
 
 function addUser(body) {
   return new Promise((fnResolve, fnReject) => {
@@ -152,6 +152,28 @@ function showProfile(userId, jwt) {
   });
 }
 
+function needActivate(jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.get(`${BASE}/users/confirm/status`)
+      .set('Authorization', jwt)
+      .end((err, res) => {
+        if (err || !res.ok) fnReject({ status: res.status, body: res.body });
+        fnResolve(res.body);
+      });
+  });
+}
+
+function sendConfirmation(jwt) {
+  return new Promise((fnResolve, fnReject) => {
+    superagent.post(`${BASE}/users/confirm/req`)
+      .set('Authorization', jwt)
+      .end((err, res) => {
+        if (err || !res.ok) fnReject({ status: res.status, body: res.body });
+        fnResolve(res.body);
+      });
+  });
+}
+
 function uploadImage(image, jwt) {
   return new Promise((fnResolve, fnReject) => {
     superagent.post(`${BASE}/attachments/user`)
@@ -177,4 +199,6 @@ export { addUser,
   updateCalculatorGoal,
   updateCalculatorAnswers,
   uploadImage,
+  needActivate,
+  sendConfirmation,
 };
