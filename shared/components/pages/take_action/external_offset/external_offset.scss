@@ -1,69 +1,69 @@
 #external_offset {
 
-  .external-offset__title {
-    width: 170px;
-    margin: 0 auto;
-    text-align: center;
-    .cc-component__byline {
-      text-transform: uppercase;
-    }
-  }
-
-  .external-offset__impact {
-    height: 100px;
-    clear: both;
-
-    .external-offset__footprint,
-    .external-offset__price {
-      float: left;
-      width: 45%;
-      display: inline-block;
-      h5 {
-        color: #696969;
-        font-size: 3em;
-      }
-      p {
-        font-size: 0.9em;
-        color: #999;
-      }
-    }
-
-    .external-offset__footprint {
-      text-align: right;
-      padding-right: 5%;
-    }
-
-    .external-offset__price {
-      padding-left: 5%;
-    }
-
-    .external-offset__equals {
-      float: left;
-      display: inline-block;
+    .external-offset__title {
+      width: 170px;
+      margin: 0 auto;
       text-align: center;
-      font-size: 3em;
-      color: #339900;
-      font-weight: bold;
+      .cc-component__byline {
+        text-transform: uppercase;
+      }
     }
-  }
 
-  .external-offset__description {
-    width: 80%;
-    text-align: center;
-    margin: 20px auto 20px;
-  }
+    .external-offset__impact {
+      height: 100px;
+      clear: both;
 
-  .external-offset__call-to-action {
-    text-align: center;
-    margin-bottom: 35px;
+      .external-offset__footprint,
+      .external-offset__price {
+        float: left;
+        width: 45%;
+        display: inline-block;
+        h5 {
+          color: #696969;
+          font-size: 3em;
+        }
+        p {
+          font-size: 0.9em;
+          color: #999;
+        }
+      }
 
-    .btn {
-      width: 100%;
-      font-weight: bold;
-      font-size: 1.2em;
-      padding: 12px 12px;
-      text-transform: uppercase;
+      .external-offset__footprint {
+        text-align: right;
+        padding-right: 5%;
+      }
+
+      .external-offset__price {
+        padding-left: 5%;
+      }
+
+      .external-offset__equals {
+        float: left;
+        display: inline-block;
+        text-align: center;
+        font-size: 3em;
+        color: #339900;
+        font-weight: bold;
+      }
     }
-  }
 
-}
+    .external-offset__description {
+      width: 80%;
+      text-align: center;
+      margin: 20px auto 20px;
+    }
+
+    .external-offset__call-to-action {
+      text-align: center;
+      margin-bottom: 35px;
+
+      .btn {
+        width: 100%;
+        font-weight: bold;
+        font-size: 1.2em;
+        padding: 12px 12px;
+        text-transform: uppercase;
+      }
+    }
+
+  }

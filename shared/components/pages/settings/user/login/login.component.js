@@ -9,7 +9,6 @@ import { validateParameter } from 'shared/lib/utils/utils';
 import authContainer, { authPropTypes } from 'shared/containers/auth.container';
 import template from './login.rt.html';
 
-const appId = APP_ID;
 class LoginComponent extends Panel {
 
   constructor(props, context) {
@@ -31,15 +30,16 @@ class LoginComponent extends Panel {
   }
   facebookLogin() {
     const login = this;
-    return (<
-            FacebookLogin appId={appId}
-      autoLoad={false}
-      fields="name,email,picture"
-      cssClass="cc-component__login-facebook"
-      callback={login.responseFacebook}
-      textButton={login.t('login.facebook')}
-      icon="fa-facebook"
-    />
+    return (
+      <FacebookLogin
+        appId={APP_ID}
+        autoLoad={false}
+        fields="name,email,picture"
+        cssClass="cc-component__login-facebook"
+        callback={login.responseFacebook}
+        textButton={login.t('login.facebook')}
+        icon="fa-facebook"
+      />
     );
   }
 

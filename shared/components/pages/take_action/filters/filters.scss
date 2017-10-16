@@ -1,0 +1,15 @@
+.action__filters {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  label {
+    font-weight: normal;
+  }
+  .action__filters__choices {
+    display:flex;
+    flex: 1;
+    align-content: flex-start;
+    flex-direction: column;
+  }
+}
