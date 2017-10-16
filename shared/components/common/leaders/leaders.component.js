@@ -7,7 +7,7 @@ import footprintContainer, { footprintPropTypes } from 'shared/containers/footpr
 import template from './leaders.rt.html';
 import loader from './loader.rt.html';
 
-const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [0, 'Average'], [3, '3'], [4, '4'], [5, '5+']];
+const HOUSEHOLD_SIZES = [[1, '1'], [2, '2'], [3, '3 (Avg)'], [4, '4'], [5, '5+']];
 
 class LeadersComponent extends Panel {
 

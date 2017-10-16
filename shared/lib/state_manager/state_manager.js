@@ -15,7 +15,7 @@ import uiReducers from 'shared/reducers/ui/ui.reducers';
 import profileReducers from 'shared/reducers/profile/profile.reducers';
 import { getLocalStorageItem } from '../utils/utils';
 
-const DEFAULT_LOCATION = { input_location_mode: 5, input_income: 1, input_size: 0 };
+const DEFAULT_LOCATION = { input_location_mode: 5, input_income: 1, input_size: 3 };
 const CATEGORY_COLORS = {
   result_transport_total: '#0D7A3E',
   result_housing_total: '#45813C',

@@ -9,7 +9,7 @@ import { setLocalStorageItem, getLocalStorageItem, tokenIsValid } from 'shared/l
 import { signup, login, loginFacebook, loggedIn, signedUp, logout, loggedOut,
   requestNewPassword, newPasswordRequested, authError, processActivation, verifyActivation,
   activationError, sendEmailConfirmation, resetPassword, resetPasswordSuccess, resetPasswordError } from './auth.actions';
-import { updatedFootprintComputed } from '../user_footprint/user_footprint.actions';
+import { updatedFootprintComputed, updateRemoteUserAnswers } from '../user_footprint/user_footprint.actions';
 import { averageFootprintResetRequested } from '../average_footprint/average_footprint.actions';
 import { pushAlert } from '../ui/ui.actions';
 
@@ -78,6 +78,9 @@ const ACTIONS = {
         }],
       };
 
+      // existing users with household size == 0 -> update to 3
+      if (parseInt(remote_answers.input_size, 10) === 0) remote_answers.input_size = 3;
+
       if (Object.keys(remote_answers).length !== 0) {
         return loop(
           fromJS(updated),
@@ -119,9 +122,6 @@ const ACTIONS = {
   },
 
   [signedUp]: (state, api_response) => {
-    let updated;
-    let alert;
-
     if (api_response.success) {
       const auth = {
         token: api_response.data.token,
@@ -131,14 +131,14 @@ const ACTIONS = {
 
       setLocalStorageItem('auth', auth);
 
-      updated = state.setIn(['data', 'token'], auth.token)
+      const updated = state.setIn(['data', 'token'], auth.token)
                      .setIn(['data', 'name'], auth.name)
                      .setIn(['data', 'user_id'], auth.user_id)
                      .set('loading', false)
                      .set('received', true)
                      .set('success', true);
 
-      alert = {
+      const alert = {
         id: 'shared',
         data: [{
           needs_i18n: true,
@@ -146,36 +146,44 @@ const ACTIONS = {
           message: 'success.sign_up',
         }],
       };
-    } else {
-      let err;
-      alert = {
-        id: 'sign_up',
-        data: [],
-      };
 
-      try {
-        err = JSON.parse(api_response.error);
-        alert.data.push({
-          needs_i18n: true,
-          type: 'danger',
-          message: `errors.${Object.keys(err)[0]}.${Object.values(err)[0]}`,
-        });
-      } catch (error) {
-        alert.data.push({
-          needs_i18n: true,
-          type: 'danger',
-          message: 'errors.email.non-unique',
-        });
-      }
-
-      updated = state.set('loading', false)
-                     .set('received', true)
-                     .set('success', false);
+      return loop(
+        fromJS(updated),
+        Effects.batch([
+          Effects.constant(pushAlert(alert)),
+          Effects.constant(updateRemoteUserAnswers()),
+        ]),
+      );
     }
 
+    let err;
+    const alert = {
+      id: 'sign_up',
+      data: [],
+    };
+
+    try {
+      err = JSON.parse(api_response.error);
+      alert.data.push({
+        needs_i18n: true,
+        type: 'danger',
+        message: `errors.${Object.keys(err)[0]}.${Object.values(err)[0]}`,
+      });
+    } catch (error) {
+      alert.data.push({
+        needs_i18n: true,
+        type: 'danger',
+        message: 'errors.email.non-unique',
+      });
+    }
+
+    const updated = state.set('loading', false)
+                   .set('received', true)
+                   .set('success', false);
+
     return loop(
-     fromJS(updated),
-     Effects.constant(pushAlert(alert)),
+      fromJS(updated),
+      Effects.constant(pushAlert(alert)),
     );
   },
 

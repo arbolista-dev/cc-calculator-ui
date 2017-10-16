@@ -21,8 +21,11 @@ class LogoutComponent extends Translatable {
   submitLogout(event) {
     event.preventDefault();
     this.props.resetAlerts();
-    const response = window.FB.getLoginStatus(res => res);
-    (response && response.status === 'connected') ? window.FB.logout() : this.props.logout();
+    if (window.FB) {
+      const response = window.FB.getLoginStatus(res => res);
+      if (response && response.status === 'connected') window.FB.logout();
+    }
+    this.props.logout();
   }
 
   componentDidMount() {

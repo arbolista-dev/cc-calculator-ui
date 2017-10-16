@@ -8,6 +8,7 @@ const mapStateToProps = state => ({
   auth: state.auth,
   ui: state.ui,
   location: state.location,
+  user_footprint: state.user_footprint,
 });
 
 const mapDispatchToProps = dispatch => ({
