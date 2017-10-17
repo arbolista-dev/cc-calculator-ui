@@ -6,8 +6,10 @@ import { argv } from 'yargs';
 import webpack from 'webpack';
 
 process.env.NODE_ENV = argv.env || 'development';
-if (process.env.NODE_ENV === 'development') {
+if (process.env.BUILD_ENV === 'development') {
   process.env.APP_ID = '748881798637990';
+} else if (process.env.BUILD_ENV === 'staging') {
+  process.env.APP_ID = '727303084145021';
 } else {
   process.env.APP_ID = '651280398386350';
 }
