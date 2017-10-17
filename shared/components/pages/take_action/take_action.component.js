@@ -164,7 +164,9 @@ class TakeActionComponent extends Panel {
 
     // status
     if (filters.get('status') === 'not_pledged') {
-      actions = actions.filter(key => !this.actions_profile.get('pledged', Map()).has(key));
+      actions = actions.filter(key => parseInt(this.userApiValue(`input_takeaction_${key}`), 10) !== 1);
+    } else if (filters.get('status') === 'pledged') {
+      actions = actions.filter(key => parseInt(this.userApiValue(`input_takeaction_${key}`), 10) === 1);
     } else if (filters.get('status')) {
       actions = actions.filter(key => this.actions_profile.get(filters.get('status'), Map()).has(key));
     }

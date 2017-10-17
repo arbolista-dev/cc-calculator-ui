@@ -159,9 +159,12 @@ const ACTIONS = {
       state,
       Effects.promise(() => CalculatorApi.computeTakeactionResults(state.get('data').toJS())
           .then(parseTakeactionResult)
-          .catch(userFootprintError)),
+          .catch((err) => {
+            console.error(err);
+            userFootprintError();
+          }),
     ),
-
+  ),
   [updateRemoteUserAnswers]: (state) => {
     const auth_status = getLocalStorageItem('auth');
 
