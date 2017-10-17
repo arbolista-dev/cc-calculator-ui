@@ -6,7 +6,11 @@ import { argv } from 'yargs';
 import webpack from 'webpack';
 
 process.env.NODE_ENV = argv.env || 'development';
-process.env.APP_ID = '651280398386350';
+if (process.env.NODE_ENV === 'development') {
+  process.env.APP_ID = '748881798637990';
+} else {
+  process.env.APP_ID = '651280398386350';
+}
 
 if (argv.local_api) {
   process.env.API_BASE_URL = 'http://localhost:8082';

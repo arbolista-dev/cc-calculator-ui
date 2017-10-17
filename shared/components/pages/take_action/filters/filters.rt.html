@@ -1,0 +1,109 @@
+<div className="action__filters" rt-class="{hidden: !this.props.visible}">
+  <div>
+    <h5>{this.t('Category')}</h5>
+    <div className="action__filters__choices">
+      <label>
+        <input
+          onChange="{this.setFilters.bind(this, 'category', undefined)}"
+          checked="{!this.props.filters.get('category')}"
+          name="category"
+          value=""
+          type="radio"
+        />{this.t('All')}
+      </label>
+      <label>
+        <input
+          onChange="{this.setFilters.bind(this, 'category', 'transportation')}"
+          checked="{this.props.filters.get('category') === 'transportation'}"
+          type="radio"
+          name="category"
+          value="transportation"
+        />{this.t('Transportation')}
+      </label>
+      <label>
+        <input
+          onChange="{this.setFilters.bind(this, 'category', 'housing')}"
+          checked="{this.props.filters.get('category') === 'housing'}"
+          type="radio"
+          name="category"
+          value="housing"
+        />{this.t('Housing')}
+      </label>
+      <label>
+        <input
+        onChange="{this.setFilters.bind(this, 'category', 'food')}"
+        checked="{this.props.filters.get('category') === 'food'}"
+        type="radio"
+        name="category"
+        value="food"
+      />{this.t('Food')}
+      </label>
+    </div>
+  </div>
+  <div>
+    <h5>{this.t('Status')}</h5>
+    <div className="action__filters__choices">
+      <label>
+        <input
+        onChange="{this.setFilters.bind(this, 'status', undefined)}"
+        checked="{!this.props.filters.get('status')}"
+        type="radio"
+      />{this.t('All')}
+      </label>
+      <label>
+        <input
+          onChange="{this.setFilters.bind(this, 'status', 'pledged')}"
+          checked="{this.props.filters.get('status') === 'pledged'}"
+          type="radio"
+        />{this.t('Pledged')}
+      </label>
+      <label>
+        <input
+        onChange="{this.setFilters.bind(this, 'status', 'not_pledged')}"
+        checked="{this.props.filters.get('status') === 'not_pledged'}"
+        type="radio"
+      />{this.t('Not Pledged')}
+      </label>
+      <label>
+        <input
+          onChange="{this.setFilters.bind(this, 'status', 'completed')}"
+          checked="{this.props.filters.get('status') === 'completed'}"
+          type="radio"
+        />{this.t('Completed')}
+      </label>
+      <label>
+        <input
+          onChange="{this.setFilters.bind(this, 'status', 'already_done')}"
+          checked="{this.props.filters.get('status') === 'already_done'}"
+          type="radio"
+        />{this.t('Already Done')}
+      </label>
+    </div>
+  </div>
+  <div>
+    <h5>{this.t('Relevance')}</h5>
+    <div className="action__filters__choices">
+      <label>
+        <input
+          onChange="{this.setFilters.bind(this, 'relevance', undefined)}"
+          checked="{!this.props.filters.get('relevance')}"
+          type="radio"
+        />{this.t('All')}
+      </label>
+      <label>
+        <input
+          onChange="{this.setFilters.bind(this, 'relevance', 'relevant')}"
+          checked="{this.props.filters.get('relevance') === 'relevant'}"
+          type="radio"
+        />{this.t('Relevant')}
+      </label>
+      <label>
+        <input
+          onChange="{this.setFilters.bind(this, 'relevance', 'not_relevant')}"
+          checked="{this.props.filters.get('relevance') === 'not_relevant'}"
+          type="radio"
+        />{this.t('Not Irrelevant')}
+      </label>
+    </div>
+  </div>
+</div>
