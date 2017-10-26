@@ -181,12 +181,20 @@ class TakeActionComponent extends Panel {
     return this.sortActions(actions);
   }
 
+  get sort_by() {
+    return this.props.ui.getIn(['take_action', 'sort_by']);
+  }
+
+  get sort_reverse() {
+    return this.props.ui.getIn(['take_action', 'sort_reverse']);
+  }
+
   sortActions(actions_to_sort) {
-    const sort_by = this.props.ui.getIn(['take_action', 'sort_by']);
+    const { sort_by } = this;
 
     if (!sort_by) return actions_to_sort;
 
-    const sort_reverse = this.props.ui.getIn(['take_action', 'sort_reverse']);
+    const { sort_reverse } = this;
     if (sort_by === 'title') {
       actions_to_sort.sort((a, b) => {
         const aLabel = this.t(`actions.${this.actionCategory(a)}.${a}.label`);

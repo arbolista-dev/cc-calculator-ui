@@ -7,46 +7,21 @@
       <td>{this.tons_saved}</td>
       <td>{this.dollars_saved}</td>
       <td>{this.upfront_cost}</td>
-      <td>
-        <button className="btn btn-default"
-          onClick="{this.toggleActionPledge.bind(this)}">
-          <span className="action__pledge-button-text">Pledge</span>
-          <i className="fa" rt-class="{'fa-check-square-o': !this.taken, 'fa-check-square': this.taken}"></i>
-        </button>
-      </td>
-    </tr>
-    <tr rt-class="{hidden: !this.state.detailed || !this.taken}">
-      <td colspan="6">
-        <div className="pledged-options">
-          <label>
-            <input
-              type="checkbox"
-              checked="{this.already_done}"
-              onChange="{this.toggleActionDone.bind(this)}"
+      <td class="action__status-column">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="action__status-text">{this.status_text}</span>
+            <i
+              class="fa"
+              rt-class="{'fa-square-o': this.no_status, 'fa-check-square-o': this.pledged, 'fa-check-square': this.completed, 'fa-ban': this.not_relevant}"
             />
-            {this.t('I was already doing this.')}
-          </label>
-          <!-- <label>
-            <input
-              type="checkbox"
-              checked="{this.completed}"
-              onChange="{this.toggleActionComplete.bind(this)}"
-            />
-            {this.t('I have completed this action.')}
-          </label> -->
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+            <li><a onClick="{this.setStatus.bind(this, 'pledged')}" class="dropdown-item" href="#">{this.t('I pledge to do this')}</a></li>
+            <li><a onClick="{this.setStatus.bind(this, 'completed')}" class="dropdown-item" href="#">{this.t("I've already done this")}</a></li>
+            <li><a onClick="{this.setStatus.bind(this, 'not_relevant')}" class="dropdown-item" href="#">{this.t('This is not relevant to me')}</a></li>
+          </ul>
         </div>
-      </td>
-    </tr>
-    <tr rt-class="{hidden: !this.state.detailed || this.taken}">
-      <td colspan="6">
-        <label>
-          <input
-            type="checkbox"
-            checked="{this.not_relevant}"
-            onChange="{this.toggleRelevance.bind(this)}"
-          />
-          {this.t('This is not relevant to my lifestyle')}
-        </label>
       </td>
     </tr>
     <tr rt-class="{hidden: !this.state.detailed}" rt-if="this.vehicles_loaded">

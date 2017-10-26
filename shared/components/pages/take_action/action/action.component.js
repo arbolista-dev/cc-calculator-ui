@@ -56,30 +56,6 @@ class ActionComponent extends Translatable {
     return this.t(`actions.${this.state.category}.${this.state.key}.rebates`, { returnObjects: true });
   }
 
-  get taken() {
-    return parseInt(this.userApiValue(this.api_key), 10) === 1;
-  }
-
-  get pledged() {
-    const pledgedActions = this.props.user_footprint.getIn(['actions', 'pledged']);
-    return pledgedActions.has(this.state.key) && this.taken;
-  }
-
-  get already_done() {
-    const doneActions = this.props.user_footprint.getIn(['actions', 'already_done'], Map());
-    return doneActions.has(this.state.key);
-  }
-
-  get completed() {
-    const completedActions = this.props.user_footprint.getIn(['actions', 'completed'], Map());
-    return completedActions.has(this.state.key);
-  }
-
-  get not_relevant() {
-    const notRelevant = this.props.user_footprint.getIn(['actions', 'not_relevant'], Map());
-    return notRelevant.includes(this.state.key);
-  }
-
   get is_shown_detailed() {
     return this.state.detailed;
   }
@@ -97,7 +73,7 @@ class ActionComponent extends Translatable {
   }
 
   get tons_saved() {
-    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_pounds', this.state.key]) * 100) / 100);
+    return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_pounds', this.state.key]) * 10) / 10);
   }
 
   get dollars_saved() {
@@ -108,53 +84,60 @@ class ActionComponent extends Translatable {
     return this.numberWithCommas(Math.round(this.props.user_footprint.getIn(['result_takeaction_net10yr', this.state.key])));
   }
 
-  toggleActionPledge() {
-    const action = this;
-    const update = {};
-    const action_status = {};
-    if (action.taken) {
-      update[action.api_key] = 0;
-      action_status[action.api_key] = 'unpledged';
-    } else {
-      update[action.api_key] = 1;
-      action_status[action.api_key] = 'pledged';
-    }
-    action.setState(update);
-    action.updateTakeaction(update);
-    action.updateActionStatus(action_status);
+  /**
+   * Status
+   */
+
+  get taken() {
+    return parseInt(this.userApiValue(this.api_key), 10) === 1;
   }
 
-  toggleActionComplete() {
-    const action = this;
-    const action_status = {};
-    if (action.completed) {
-      action_status[action.api_key] = 'uncompleted';
-    } else {
-      action_status[action.api_key] = 'completed';
-    }
-    action.updateActionStatus(action_status);
+  get pledged() {
+    const pledgedActions = this.props.user_footprint.getIn(['actions', 'pledged']);
+    return pledgedActions.has(this.state.key);
   }
 
-  toggleActionDone() {
-    const action = this;
-    const action_status = {};
-    if (action.already_done) {
-      action_status[action.api_key] = 'not_already_done';
-    } else {
-      action_status[action.api_key] = 'already_done';
-    }
-    action.updateActionStatus(action_status);
+  get completed() {
+    const completedActions = this.props.user_footprint.getIn(['actions', 'completed'], Map());
+    return completedActions.has(this.state.key);
   }
 
-  toggleRelevance() {
-    const action = this;
-    const action_status = {};
-    if (this.not_relevant) {
-      action_status[this.api_key] = 'relevant';
-    } else {
-      action_status[this.api_key] = 'not_relevant';
+  get not_relevant() {
+    const notRelevant = this.props.user_footprint.getIn(['actions', 'not_relevant'], Map());
+    return notRelevant.includes(this.state.key);
+  }
+
+  get no_status() {
+    return !this.pledged && !this.completed && !this.not_relevant;
+  }
+
+  get status_text() {
+    if (this.completed) {
+      return this.t('Complete');
+    } else if (this.pledged) {
+      return this.t('Pledged');
+    } else if (this.not_relevant) {
+      return this.t('Not Relevant');
     }
-    action.updateActionStatus(action_status);
+    return this.t('Select');
+  }
+
+  setStatus(value, e) {
+    e.preventDefault();
+    this.updateActionStatus({
+      [this.api_key]: value,
+    });
+    let api_status;
+    if (value === 'not_relevant' || !value) {
+      api_status = 0;
+    } else {
+      api_status = 1;
+    }
+    if (api_status !== this.state[this.api_key]) {
+      const update = { [this.api_key]: api_status };
+      this.setState(update);
+      this.updateTakeaction(update);
+    }
   }
 
   updateActionStatus(params) {

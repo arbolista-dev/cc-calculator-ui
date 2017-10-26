@@ -177,62 +177,29 @@ const ACTIONS = {
   },
 
   [updateActionStatus]: (state, params) => {
-    let actions;
-    let updated;
+    let actions = state.get('actions');
 
-    if (params.status === 'pledged' || params.status === 'completed' || params.status === 'already_done') {
-      const action_update = {
-        [params.key]: params.details,
-      };
-
-      actions = state.getIn(['actions', params.status])
-                     .merge(action_update);
-
-      updated = state.setIn(['actions', params.status], actions);
-
-      if (state.getIn(['actions', 'not_relevant']).includes(params.key)) {
-        const filtered = state.getIn(['actions', 'not_relevant']).filterNot(key => key === params.key);
-        updated = state.setIn(['actions', 'not_relevant'], filtered);
-      }
-      if (params.status === 'completed' && state.getIn(['actions', 'pledged']).has(params.key)) {
-        const cleared = updated.get('actions').deleteIn(['pledged', params.key]);
-        updated = updated.set('actions', cleared);
-      }
-    } else if (params.status === 'unpledged' || params.status === 'not_relevant' || params.status === 'uncompleted' || params.status === 'relevant' || params.status === 'not_already_done') {
-      actions = state.get('actions');
-      updated = state;
-
-      if (params.status === 'uncompleted' || actions.hasIn(['completed', params.key])) {
-        const cleared = actions.deleteIn(['completed', params.key]);
-        updated = state.set('actions', cleared);
-      } else {
-        if (actions.hasIn(['pledged', params.key])) {
-          const cleared = actions.deleteIn(['pledged', params.key]);
-          updated = state.set('actions', cleared);
-        }
-
-        if (actions.hasIn(['already_done', params.key])) {
-          const cleared = actions.deleteIn(['already_done', params.key]);
-          updated = state.set('actions', cleared);
-        }
-
-        if (params.status === 'not_relevant') {
-          const not_relevant = actions.get('not_relevant');
-          const pushed = not_relevant.push(params.key);
-          updated = state.setIn(['actions', 'not_relevant'], pushed);
-        }
-
-        if (params.status === 'relevant' && actions.get('not_relevant').includes(params.key)) {
-          const filtered = actions.get('not_relevant').filterNot(key => key === params.key);
-          updated = state.setIn(['actions', 'not_relevant'], filtered);
-        }
-      }
+    if (params.status === 'not_relevant') {
+      actions = actions
+        .deleteIn(['pledged', params.key])
+        .deleteIn(['completed', params.key])
+        .set('not_relevant', actions.get('not_relevant').push(params.key));
+    } else if (params.status === 'pledged') {
+      actions = actions
+        .setIn(['pledged', params.key], params.details)
+        .deleteIn(['completed', params.key])
+        .set('not_relevant', actions.get('not_relevant').filter(key => key !== params.key));
+    } else if (params.status === 'completed') {
+      actions = actions
+        .deleteIn(['pledged', params.key])
+        .setIn(['completed', params.key], params.details)
+        .set('not_relevant', actions.get('not_relevant').filter(key => key !== params.key));
     }
 
-    setLocalStorageItem('actions', updated.get('actions').toJS());
+    setLocalStorageItem('actions', actions.toJS());
 
     return loop(
-      fromJS(updated),
+      state.set('actions', actions),
       Effects.constant(updateRemoteUserActions(params)),
     );
   },

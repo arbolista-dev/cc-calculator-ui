@@ -42,11 +42,43 @@
       <thead>
         <tr>
           <th></th>
-          <th className="take_action__sortable-header" onClick="{this.sort.bind(this, 'title')}">{this.t('Name')}</th>
-          <th className="take_action__sortable-header" onClick="{this.sort.bind(this, 'tons_saved')}">{this.t('take_action.tons_saved')}</th>
-          <th className="take_action__sortable-header" onClick="{this.sort.bind(this, 'dollars_saved')}">{this.t('take_action.dollars_saved')}</th>
-          <th className="take_action__sortable-header" onClick="{this.sort.bind(this, 'upfront_cost')}">{this.t('take_action.upfront_cost')}</th>
-          <th>{this.t('take_action.status')}</th>
+          <th className="take_action__list-header take_action__sortable-header" onClick="{this.sort.bind(this, 'title')}">
+            <div rt-class="{'take_action__sortable-header__no-sort': this.sort_by !== 'title'}">
+              <span>{this.t('Name')}</span>
+              <i
+                rt-if="this.sort_by === 'title'"
+                rt-class="{fa: true, 'fa-arrow-down': !this.sort_reverse, 'fa-arrow-up': this.sort_reverse}"
+              />
+            </div>
+          </th>
+          <th className="take_action__list-header take_action__sortable-header" onClick="{this.sort.bind(this, 'tons_saved')}">
+            <div rt-class="{'take_action__sortable-header__no-sort': this.sort_by !== 'tons_saved'}">
+                <span>{this.t('take_action.tons_saved')}</span>
+                <i
+                  rt-if="this.sort_by === 'tons_saved'"
+                  rt-class="{fa: true, 'fa-arrow-down': this.sort_reverse, 'fa-arrow-up': !this.sort_reverse}"
+                />
+            </div>
+          </th>
+          <th className="take_action__list-header take_action__sortable-header" onClick="{this.sort.bind(this, 'dollars_saved')}">
+            <div rt-class="{'take_action__sortable-header__no-sort': this.sort_by !== 'dollars_saved'}">
+                <span>{this.t('take_action.dollars_saved')}</span>
+                <i
+                  rt-if="this.sort_by === 'dollars_saved'"
+                  rt-class="{fa: true, 'fa-arrow-down': this.sort_reverse, 'fa-arrow-up': !this.sort_reverse}"
+                />
+            </div>
+          </th>
+          <th className="take_action__list-header take_action__sortable-header" onClick="{this.sort.bind(this, 'upfront_cost')}">
+            <div rt-class="{'take_action__sortable-header__no-sort': this.sort_by !== 'upfront_cost'}">
+                <span>{this.t('take_action.upfront_cost')}</span>
+                <i
+                  rt-if="this.sort_by === 'upfront_cost'"
+                  rt-class="{fa: true, 'fa-arrow-down': this.sort_reverse, 'fa-arrow-up': !this.sort_reverse}"
+                />
+            </div>
+          </th>
+          <th class="take_action__list-header">{this.t('take_action.status')}</th>
         </tr>
       </thead>
       <Action
