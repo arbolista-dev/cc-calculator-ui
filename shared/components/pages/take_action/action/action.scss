@@ -94,6 +94,9 @@
     padding: 3px;
     width: 50%;
   }
+  .dropdown .btn, .dropdown a {
+    font-size:12px;
+  }
 }
 
 .action__detail-row {
@@ -122,6 +125,10 @@
   margin-right: 3px;
 }
 
+.action__status-text {
+  margin-right:3px;
+}
+
 @media (max-width: 400px) {
   .action {
     .action__title {
@@ -129,8 +136,11 @@
         width: 70%;
       }
     }
+    > td {
+      font-size:11px;
+    }
   }
-  .action__pledge-button-text {
+  .action__status-text {
     display:none;
   }
 }
@@ -141,6 +151,11 @@
         width: 72%;
       }
     }
+  }
+}
+@media (min-width: 400px) {
+  .action__status-column {
+    width:125px;
   }
 }
 @media (min-width: 550px) and  (max-width: 700px) {

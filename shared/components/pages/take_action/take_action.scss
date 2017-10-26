@@ -71,6 +71,21 @@
   text-align:center;
 }
 
+.take_action__list-header {
+  @media (max-width: 400px) {
+    font-size:11px;
+  }
+}
+
 .take_action__sortable-header {
   cursor: pointer;
+  > div {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .take_action__sortable-header__no-sort {
+    // this is sort of a placeholder for the filter arrow.
+    margin-right: 10px;
+  }
 }

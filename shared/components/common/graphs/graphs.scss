@@ -63,6 +63,14 @@
   color:#4AAA48;
 }
 
+#overview_bar_chart {
+  @media (max-width: 400px) {
+    .series text {
+      font-size:8px !important;
+    }
+  }
+}
+
 #graphs_summary {
   tbody > tr > td {
     font-weight: bold;
