@@ -64,7 +64,7 @@ const ACTIONS = {
                        .set('reset', false);
 
     return loop(
-      fromJS(updated),
+      updated,
       Effects.constant(footprintRetrieved(merged_data.toJS())),
     );
   },
@@ -73,6 +73,6 @@ const ACTIONS = {
 
 };
 
-const REDUCER = createReducer(ACTIONS, {});
+const REDUCER = createReducer(ACTIONS, fromJS({}));
 
 export default REDUCER;
