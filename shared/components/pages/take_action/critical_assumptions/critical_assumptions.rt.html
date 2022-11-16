@@ -1,0 +1,27 @@
+<table className="action__critical-assumptions action__assumptions" rt-class="{hidden: !this.props.show}">
+  <tbody>
+    <tr rt-repeat="block in this.assumptions_content" key="{blockIndex}">
+      <td>
+        <p className="text-right">
+          <span rt-if="!block.text_url">{block.description}</span>
+          <a rt-if="block.text_url" href="{block.text_url}">{block.description}</a>
+        </p>
+      </td>
+      <td>
+        <p rt-if="block.input" className="text-left">
+          <span>{block.prefix} </span>
+          <input type="text" id="{block.input.id}"
+          value="{this.setInputState(block.input.id)}"
+          size="{block.input.size}"
+          maxlength="{block.input.maxlength}"
+          onChange="{this.updateActionInput.bind(this)}">
+          <span> {block.suffix}</span>
+        </p>
+        <p rt-if="block.show" id="{block.show}" className="text-left">
+          <span>{block.prefix} </span>
+          {this.displayStateValue(block)}
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>

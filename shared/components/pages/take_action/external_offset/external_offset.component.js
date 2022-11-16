@@ -1,36 +1,36 @@
-/* global module*/
+/*global module*/
 
 import React from 'react';
 import Translatable from 'shared/lib/base_classes/translatable';
-import template from './external_offset.rt.html';
+import template from './external_offset.rt.html'
 
 class ExternalOffsetComponent extends Translatable {
 
-  constructor(props, context) {
+  constructor(props, context){
     super(props, context);
-    const external_offset = this;
-    external_offset.state = {};
+    let external_offset = this;
+    external_offset.state = {}
   }
 
-  render() {
+  render(){
     return template.call(this);
   }
 
   get offset_title() {
-    return this.props.ui.getIn(['external_offset', 'cta', 'title']);
+    return this.props.ui.getIn(['external_offset', 'cta', 'title'])
   }
 
   get show_equation() {
-    return this.props.ui.getIn(['external_offset', 'cta', 'show_equation']);
+    return this.props.ui.getIn(['external_offset', 'cta', 'show_equation'])
   }
 
   get display_total_footprint() {
-    return Math.round(this.props.totalUserFootprint);
+    return Math.round(this.props.totalUserFootprint)
   }
 
   get display_monthly_offset() {
-    const external_offset = this;
-    const price_per_ton = external_offset.props.ui.getIn(['external_offset', 'cta', 'carbon_price_per_ton']);
+    let external_offset = this,
+        price_per_ton = external_offset.props.ui.getIn(['external_offset', 'cta', 'carbon_price_per_ton']);
     return Math.round((external_offset.props.totalUserFootprint * price_per_ton) / 12);
   }
 
@@ -50,7 +50,7 @@ class ExternalOffsetComponent extends Translatable {
 ExternalOffsetComponent.NAME = 'ExternalOffset';
 ExternalOffsetComponent.propTypes = {
   ui: React.PropTypes.object.isRequired,
-  totalUserFootprint: React.PropTypes.string.isRequired,
-};
+  totalUserFootprint: React.PropTypes.string.isRequired
+}
 
 module.exports = ExternalOffsetComponent;

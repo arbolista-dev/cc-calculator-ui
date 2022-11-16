@@ -7,98 +7,29 @@
   .cc-component__nav {
     margin-top: 20px;
   }
-
-  .action-detailing {
-    text-align: center;
-    div {
-      width: 70%;
-      margin: 0 auto 15px;
-    }
-  }
-
-  .filter-sort {
-    margin-top: 20px;
-    text-align: center;
-    .list-group-item {
-      display: inline-block;
-      width: 24%;
-      padding: 7px 9px;
-      vertical-align: top;
-      text-align: left;
-      border-radius: 0;
-      .shifted {
-        margin-left: -18px;
-        .fa {
-          padding-right: 4px;
-        }
-      }
-
-      label {
-        width: 100%;
-        padding: 5px 3px;
-        margin-bottom: 0;
-        &:hover {
-          cursor: pointer;
-          background-color: #eee;
-        }
-        &:after {
-          display: block;
-          position: absolute;
-          top: 15px;
-          left: auto;
-          right: 15px;
-          bottom: auto;
-          font: normal normal normal 14px/1 FontAwesome;
-          content: "\f067";
-          text-rendering: auto;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-      }
-      &.sort-by {
-        .form-control {
-          margin-top: 7px;
-        }
-      }
-    }
-    ul {
-      list-style-type: none;
-      padding-left: 7px;
-      .btn {
-        display: block;
-        width: 100%;
-        text-align: left;
-        border: 0;
-      }
-    }
-  }
-
-  .cc-component__form {
-    .carousel-control {
-      color: #000;
-      &.right,
-      &.left {
-        background-image:none !important;
-        filter:none !important;
-      }
-    }
-    .alert {
-      width: 60%;
-      margin: 10px auto;
-    }
-  }
 }
 
 #take_action_savings {
-  top:90px;
-  width: initial;
-  h3 { margin-top:7px; margin-bottom:0px; font-size: 24px; }
-  display:inline-block;
-  cursor: default;
+  bottom:5px;
+  h3 { margin-top:7px; margin-bottom:0px; }
+  .mobile {
+    display:none;
+  }
+  .desktop {
+    display:inline-block;
+  }
 }
 
 #action_category_btn_group_container {
   text-align:center;
+}
+
+#action_critical_assumptions {
+  text-align: center;
+  padding-bottom: 15px;
+  .btn {
+    color: #000;
+  }
 }
 
 #action_category_btn_group {
@@ -110,56 +41,51 @@
   }
 }
 
-@media (max-width: 500px) {
-  #take_action {
-    .filter-sort {
-      .list-group-item {
-        display: inline-block;
-        width: 50% !important;
-        margin: 0 auto;
-      }
-    }
+.action__list-table {
+  td {
+    vertical-align: middle !important;
+  }
+}
 
-    .carousel {
-      .carousel-control {
-        width: 8%;
-        &.left {
-          text-align: left;
-        }
-        &.right {
-          text-align: right;
-        }
-      }
+@media (max-width: 600px) {
+  #action_category_btn_group {
+    a {
+      font-size:0.8em;
+      width:95px;
     }
   }
 }
 
-@media (max-width: 550px) {
-  #take_action {
-    .filter-sort {
-      .list-group-item {
-        select {
-          font-size: 0.9em;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  #take_action {
-    .filter-sort {
-      .list-group-item {
-        width: 33%;
-      }
-    }
-  }
-}
-
-@media (max-width: 480px) {
+@media (max-width: 400px) {
   #take_action_savings {
-    h3 {
-      font-size: 18px;
+    .mobile {
+      display:inline-block;
     }
+    .desktop {
+      display:none;
+    }
+  }
+}
+
+.take_action__filter-toggle {
+  text-align:center;
+}
+
+.take_action__list-header {
+  @media (max-width: 400px) {
+    font-size:11px;
+  }
+}
+
+.take_action__sortable-header {
+  cursor: pointer;
+  > div {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .take_action__sortable-header__no-sort {
+    // this is sort of a placeholder for the filter arrow.
+    margin-right: 10px;
   }
 }
